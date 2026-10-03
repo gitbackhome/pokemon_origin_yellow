@@ -285,6 +285,19 @@ static const u16 sPlayerAvatarGfxIds[][GENDER_COUNT] =
     [PLAYER_AVATAR_STATE_VSSEEKER]   = {PLAYER_AVATAR_GFX_MALE_VSSEEKER,   PLAYER_AVATAR_GFX_FEMALE_VSSEEKER},
 };
 
+static const u16 sAshPlayerAvatarGfxIds[] =
+{
+    [PLAYER_AVATAR_STATE_NORMAL]     = OBJ_EVENT_GFX_ASH_NORMAL_HNS,
+    [PLAYER_AVATAR_STATE_MACH_BIKE]  = OBJ_EVENT_GFX_ASH_MACH_BIKE_HNS,
+    [PLAYER_AVATAR_STATE_ACRO_BIKE]  = OBJ_EVENT_GFX_ASH_ACRO_BIKE_HNS,
+    [PLAYER_AVATAR_STATE_SURFING]    = OBJ_EVENT_GFX_ASH_SURFING_HNS,
+    [PLAYER_AVATAR_STATE_UNDERWATER] = OBJ_EVENT_GFX_ASH_UNDERWATER_HNS,
+    [PLAYER_AVATAR_STATE_FIELD_MOVE] = OBJ_EVENT_GFX_ASH_FIELD_MOVE_HNS,
+    [PLAYER_AVATAR_STATE_FISHING]    = OBJ_EVENT_GFX_ASH_FISHING_HNS,
+    [PLAYER_AVATAR_STATE_WATERING]   = OBJ_EVENT_GFX_ASH_WATERING_HNS,
+    [PLAYER_AVATAR_STATE_VSSEEKER]   = OBJ_EVENT_GFX_ASH_FIELD_MOVE_HNS,
+};
+
 static const u8 sFRLGAvatarGfxIds[GENDER_COUNT] =
 {
     [MALE]   = OBJ_EVENT_GFX_RED,
@@ -1629,6 +1642,8 @@ u16 GetRSAvatarGraphicsIdByGender(enum Gender gender)
 
 u16 GetPlayerAvatarGraphicsIdByStateId(u8 state)
 {
+    if (IS_HNS && (gSaveBlock2Ptr->specialSaveWarpFlags & SAVE_FLAG_PLAYER_CHARACTER_ASH))
+        return sAshPlayerAvatarGfxIds[state];
     return GetPlayerAvatarGraphicsIdByStateIdAndGender(state, gPlayerAvatar.gender);
 }
 
@@ -1736,6 +1751,15 @@ static u8 GetPlayerAvatarStateTransitionByGraphicsId(u16 graphicsId, u8 gender)
 {
     u8 i;
 
+    if (IS_HNS && (gSaveBlock2Ptr->specialSaveWarpFlags & SAVE_FLAG_PLAYER_CHARACTER_ASH))
+    {
+        for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[MALE]); i++)
+        {
+            if (sAshPlayerAvatarGfxIds[i] == graphicsId)
+                return sPlayerAvatarGfxToStateFlag[MALE][i].playerFlag;
+        }
+    }
+
     for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[0]); i++)
     {
         if (sPlayerAvatarGfxToStateFlag[gender][i].graphicsId == graphicsId)
@@ -1752,7 +1776,11 @@ u16 GetPlayerAvatarGraphicsIdByCurrentState(void)
     for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[0]); i++)
     {
         if (sPlayerAvatarGfxToStateFlag[gPlayerAvatar.gender][i].playerFlag & flags)
+        {
+            if (IS_HNS && (gSaveBlock2Ptr->specialSaveWarpFlags & SAVE_FLAG_PLAYER_CHARACTER_ASH))
+                return sAshPlayerAvatarGfxIds[i];
             return sPlayerAvatarGfxToStateFlag[gPlayerAvatar.gender][i].graphicsId;
+        }
     }
     return 0;
 }
@@ -1780,7 +1808,10 @@ void InitPlayerAvatar(s16 x, s16 y, enum Direction direction, enum Gender gender
 
     playerObjEventTemplate.localId = LOCALID_PLAYER;
     playerObjEventTemplate.kind = OBJ_KIND_NORMAL;
-    playerObjEventTemplate.graphicsId = GetPlayerAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, gender);
+    if (IS_HNS && (gSaveBlock2Ptr->specialSaveWarpFlags & SAVE_FLAG_PLAYER_CHARACTER_ASH))
+        playerObjEventTemplate.graphicsId = sAshPlayerAvatarGfxIds[PLAYER_AVATAR_STATE_NORMAL];
+    else
+        playerObjEventTemplate.graphicsId = GetPlayerAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, gender);
     playerObjEventTemplate.x = x - MAP_OFFSET;
     playerObjEventTemplate.y = y - MAP_OFFSET;
     playerObjEventTemplate.elevation = ELEVATION_TRANSITION;

@@ -1899,7 +1899,7 @@ static enum TrainerPicID PlayerGetTrainerBackPicId(void)
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         trainerPicId = LinkPlayerGetTrainerPicId(GetMultiplayerId());
     else
-        trainerPicId = gSaveBlock2Ptr->playerGender == FEMALE ? TRAINER_BACK_PIC_PLAYER_FEMALE : TRAINER_BACK_PIC_PLAYER_MALE;
+        trainerPicId = GetPlayerTrainerBackPicId();
 
     return trainerPicId;
 }
@@ -1915,7 +1915,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
 
     if (IsMultibattleTest())
     {
-        trainerPicId = TRAINER_BACK_PIC_PLAYER_MALE;
+        trainerPicId = GetPlayerTrainerBackPicId();
         if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
             xPos = 32;
         else
@@ -1953,7 +1953,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
     // Use front pic table for any tag battles unless your partner is Steven or a custom partner.
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
     {
-        trainerPicId = PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender);
+        trainerPicId = GetPlayerTrainerFrontPicId();
         isFrontPic = TRUE;
     }
     else // Use back pic in all the other usual circumstances.

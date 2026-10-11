@@ -200,7 +200,8 @@ BlackthornGym_EventScript_Lola::
 BlackthornGym_EventScript_Clair::
 	lock
 	faceplayer
-	goto_if_set FLAG_IS_CHAMPION, BlackthornGym_EventScript_ClairAfterLeague
+	@ Johto title, not FLAG_IS_CHAMPION: Hoenn's Hall of Fame sets that one too.
+	goto_if_set FLAG_IS_JOHTO_CHAMPION, BlackthornGym_EventScript_ClairAfterLeague
 	goto_if_ge VAR_BLACKTHORN_CITY_STATE, 4, BlackthornGym_EventScript_Clair_Defeated
 	goto_if_eq VAR_BLACKTHORN_CITY_STATE, 2, BlackthornGym_EventScript_ClairDuringChallenge
 	msgbox BlackthornGym_Text_ClairIntroText, MSGBOX_DEFAULT
@@ -538,7 +539,11 @@ BlackthornGym_EventScript_GymGuy::
 	end
 
 BlackthornGym_EventScript_GymGuy2::
-	goto_if_set FLAG_BADGE08_GET, BlackthornGym_EventScript_GymGuy3
+	@ Johto badge 8 (Clair, handed over in the Dragon's Den); Kanto sets
+	@ FLAG_BADGE08_GET too.
+	setvar VAR_0x8004, 7
+	special CheckJohtoBadge
+	goto_if_eq VAR_RESULT, TRUE, BlackthornGym_EventScript_GymGuy3
 	msgbox BlackthornGym_Text_GuideGotoDragonsDen, MSGBOX_DEFAULT
 	release
 	end
@@ -611,7 +616,9 @@ BlackthornGym_Text_GuideWinText:
 
 BlackthornGym_EventScript_Statue::
 	lock
-	goto_if_set FLAG_BADGE08_GET, BlackthornGym_EventScript_Statue2
+	setvar VAR_0x8004, 7
+	special CheckJohtoBadge
+	goto_if_eq VAR_RESULT, TRUE, BlackthornGym_EventScript_Statue2
 	msgbox BlackthornGym_Text_GymStatue, MSGBOX_DEFAULT
 	closemessage
 	release

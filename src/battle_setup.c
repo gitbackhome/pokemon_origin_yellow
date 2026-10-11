@@ -1408,14 +1408,28 @@ static void TryUpdateGymLeaderRematchFromTrainer(void)
 u16 TrainerIdToFlagId(u16 trainerId)
 {
 #if IS_HNS
+    u16 flagId;
+
     if (trainerId > FRLG_TRAINER_OFFSET && trainerId <= FRLG_TRAINERS_END)
         return FRLG_TRAINER_FLAGS_START + (trainerId - (FRLG_TRAINER_OFFSET + 1));
 
     if (trainerId >= HNS_REMATCH_TIERS_START && trainerId <= HNS_REMATCH_TIERS_END)
         return HNS_REMATCH_TIER_FLAGS_START + (trainerId - HNS_REMATCH_TIERS_START);
-#endif
 
+    // The Hoenn trainers sit at ids 619-1477, so their plain flag ids run up
+    // to 0xAC5 and cross the daily flags (0x910-0x91A) and the engine flags
+    // (0x960-0x97F). Without this, beating Kayley set FLAG_START_NUZLOCKE and
+    // the daily reset made Lao, Cyndy & co. battle again every day. Those
+    // trainers get their own slots in the Origin Jade block instead.
+    flagId = TRAINER_FLAGS_START + trainerId;
+    if (flagId >= DAILY_FLAGS_START && flagId <= DAILY_FLAGS_END)
+        return OJ_TRAINER_FLAGS_DAILY + (flagId - DAILY_FLAGS_START);
+    if (flagId >= ENGINE_FLAGS_START && flagId <= ENGINE_FLAGS_END)
+        return OJ_TRAINER_FLAGS_ENGINE + (flagId - ENGINE_FLAGS_START);
+    return flagId;
+#else
     return TRAINER_FLAGS_START + trainerId;
+#endif
 }
 
 static u16 GetTrainerAFlag(void)

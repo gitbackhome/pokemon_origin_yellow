@@ -2,6 +2,7 @@ SafariZone_EventScript_OutOfBallsMidBattle::
 #if IS_FRLG
 	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 3
 #elif IS_HNS
+	goto_if_set FLAG_IN_KANTO_SAFARI_ZONE, SafariZone_EventScript_ExitKantoMidBattle
 	setvar VAR_SAFARI_ZONE_STATE, 1
 #else
 	setvar VAR_SAFARI_ZONE_STATE, 1
@@ -10,22 +11,30 @@ SafariZone_EventScript_OutOfBallsMidBattle::
 #if IS_FRLG
 	setwarp MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 4, 1
 #elif IS_HNS
-	goto_if_set FLAG_IN_KANTO_SAFARI_ZONE, SafariZone_EventScript_ExitKantoMidBattle
 	setwarp MAP_SAFARI_ZONE_GATE_SAFARI_ZONE_ENTRANCE_HNS, 9, 3
 #else
 	setwarp MAP_ROUTE121_SAFARI_ZONE_ENTRANCE, 2, 5
 #endif
 	end
 
+@ Origin Jade: Kanto's Safari Zone is the FRLG one, entered from
+@ FuchsiaCity_SafariZone_Entrance_Frlg (which sets FLAG_IN_KANTO_SAFARI_ZONE).
+@ HnS sent the player to its own Fuchsia entrance instead - a map of the HnS
+@ Kanto that Origin Jade does not use, so the player ended up in the wrong
+@ Kanto. Leave the same way FRLG does, and leave VAR_SAFARI_ZONE_STATE alone:
+@ that one belongs to the Johto and Hoenn safari gates.
 SafariZone_EventScript_ExitKantoMidBattle::
 	clearflag FLAG_IN_KANTO_SAFARI_ZONE
-	setwarp MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE_HNS, 5, 6
+	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 3
+	special ExitSafariMode
+	setwarp MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 4, 1
 	end
 
 SafariZone_EventScript_Exit::
 #if IS_FRLG
 	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 1
 #elif IS_HNS
+	goto_if_set FLAG_IN_KANTO_SAFARI_ZONE, SafariZone_EventScript_ExitKanto
 	setvar VAR_SAFARI_ZONE_STATE, 1
 #else
 	setvar VAR_SAFARI_ZONE_STATE, 1
@@ -34,7 +43,6 @@ SafariZone_EventScript_Exit::
 #if IS_FRLG
 	warp MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 4, 1
 #elif IS_HNS
-	goto_if_set FLAG_IN_KANTO_SAFARI_ZONE, SafariZone_EventScript_ExitKanto
 	warp MAP_SAFARI_ZONE_GATE_SAFARI_ZONE_ENTRANCE_HNS, 9, 3
 #else
 	warp MAP_ROUTE121_SAFARI_ZONE_ENTRANCE, 2, 5
@@ -42,9 +50,12 @@ SafariZone_EventScript_Exit::
 	waitstate
 	end
 
+@ See SafariZone_EventScript_ExitKantoMidBattle.
 SafariZone_EventScript_ExitKanto::
 	clearflag FLAG_IN_KANTO_SAFARI_ZONE
-	warp MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE_HNS, 5, 6
+	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 1
+	special ExitSafariMode
+	warp MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 4, 1
 	waitstate
 	end
 

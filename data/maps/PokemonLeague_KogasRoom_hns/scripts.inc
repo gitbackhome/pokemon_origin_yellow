@@ -13,7 +13,8 @@ PokemonLeague_KogasRoom_EventScript_Koga::
 	lock
 	faceplayer
 	goto_if_ge VAR_LEAGUE_STATE, 3, PokemonLeague_KogasRoom_EventScript_KogaDefeated
-	goto_if_set FLAG_IS_CHAMPION, PokemonLeague_KogasRoom_EventScript_KogaRematch
+	@ Johto title, not FLAG_IS_CHAMPION: Hoenn's Hall of Fame sets that one too.
+	goto_if_set FLAG_IS_JOHTO_CHAMPION, PokemonLeague_KogasRoom_EventScript_KogaRematch
 	msgbox PokemonLeague_KogasRoom_Text_Before, MSGBOX_DEFAULT
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5

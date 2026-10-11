@@ -8,7 +8,10 @@ PokemonLeague_HallOfFame_OnFrame_Hns::
 
 PokemonLeague_HallOfFame_EventScript_Cutscene::
 	lock
-	goto_if_set FLAG_IS_CHAMPION, PokemonLeague_HallOfFame_EventScript_CutsceneKantoChamp
+	@ First Johto title or a repeat visit? Decided by FLAG_IS_JOHTO_CHAMPION:
+	@ FLAG_IS_CHAMPION is also set by Hoenn's Hall of Fame, and a player who
+	@ finished Hoenn first would never receive the Johto title here.
+	goto_if_set FLAG_IS_JOHTO_CHAMPION, PokemonLeague_HallOfFame_EventScript_CutsceneKantoChamp
 	applymovement LOCALID_HALLOFFAME_LANCE, PokemonLeague_HallOfFame_Movement_LanceEnter
 	applymovement OBJ_EVENT_ID_PLAYER, PokemonLeague_HallOfFame_Movement_PlayerEnter
 	waitmovement OBJ_EVENT_ID_PLAYER
@@ -60,8 +63,8 @@ PokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags::
 	clearflag FLAG_HIDE_AZALEA_TOWN_TAILED_SLOWPOKES
 	clearflag FLAG_HIDE_LEAGUE_BLACKBELT
 	setflag FLAG_IS_CHAMPION
-	@ Origin Jade: FLAG_IS_CHAMPION setzt schon die Kanto-Liga. Johto
-	@ braucht ein eigenes Flag, um den eigenen Abschluss zu erkennen.
+	@ Origin Jade: FLAG_IS_CHAMPION is shared with Hoenn's Hall of Fame,
+	@ so Johto needs its own flag to recognise its own title.
 	setflag FLAG_IS_JOHTO_CHAMPION
 	setflag FLAG_HIDE_BATTLEFRONTIER_ENGINEER
 	setvar VAR_LEAGUE_STATE, 1

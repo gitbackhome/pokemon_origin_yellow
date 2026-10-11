@@ -77,7 +77,10 @@ CianwoodCity_EventScript_ChucksWife::
 	checkitem ITEM_HM_FLY
 	goto_if_eq VAR_RESULT, TRUE, CianwoodCity_EventScript_ChucksWifeAlreadyHasFly
 	msgbox CianwoodCity_Text_ChucksWifeEasierToFly, MSGBOX_DEFAULT
-	goto_if_set FLAG_BADGE05_GET, CianwoodCity_EventScript_ChucksWifeGiveFly
+	@ Johto badge 5 (Chuck); Kanto sets FLAG_BADGE05_GET too.
+	setvar VAR_0x8004, 4
+	special CheckJohtoBadge
+	goto_if_eq VAR_RESULT, TRUE, CianwoodCity_EventScript_ChucksWifeGiveFly
 	msgbox CianwoodCity_Text_ChucksWifeBeatChuck, MSGBOX_DEFAULT
 	closemessage
 	release

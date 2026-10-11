@@ -56,7 +56,12 @@
 // ---------------------------------------------------------------------
 // Kanto (OJ_FLAGS_KANTO + 0 bis + 95)
 // ---------------------------------------------------------------------
-// noch keine Eintraege
+// Item balls on Mt. Moon B3F (a map Origin Jade added). They were copied
+// from B2F together with FLAG_HIDE_MT_MOON_B2F_ANTIDOTE, so picking up any
+// one of the four balls removed all of them.
+#define FLAG_HIDE_MT_MOON_B3F_ITEM_BALL_1                    (OJ_FLAGS_KANTO + 0)
+#define FLAG_HIDE_MT_MOON_B3F_ITEM_BALL_2                    (OJ_FLAGS_KANTO + 1)
+#define FLAG_HIDE_MT_MOON_B3F_ITEM_BALL_3                    (OJ_FLAGS_KANTO + 2)
 
 // ---------------------------------------------------------------------
 // Johto (OJ_FLAGS_JOHTO + 0 bis + 159)
@@ -140,6 +145,17 @@
 // lag auf FLAG_SINJOH_UNLOCK_MIGRATED
 #undef  FLAG_HIDE_ROUTE_128_STEVEN
 #define FLAG_HIDE_ROUTE_128_STEVEN                           (OJ_FLAGS_HOENN + 16)
+
+// Trainer flags of the Hoenn trainers whose plain flag id
+// (TRAINER_FLAGS_START + trainerId) would land on the daily flags
+// (11 slots) or on the engine flags (32 slots). TrainerIdToFlagId in
+// src/battle_setup.c redirects them here.
+#define OJ_TRAINER_FLAGS_DAILY                               (OJ_FLAGS_HOENN + 17)
+#define OJ_TRAINER_FLAGS_ENGINE                              (OJ_TRAINER_FLAGS_DAILY + NUM_DAILY_FLAGS)
+#define OJ_TRAINER_FLAGS_HOENN_END                           (OJ_TRAINER_FLAGS_ENGINE + NUM_ENGINE_FLAGS - 1)
+// Rydel's Mach/Acro Bike in Mauville. Emerald uses FLAG_RECEIVED_BIKE for
+// it, which Goldenrod's bike shop already sets for the Johto bicycle.
+#define FLAG_RECEIVED_HOENN_BIKE                             (OJ_TRAINER_FLAGS_HOENN_END + 1)
 
 // ---------------------------------------------------------------------
 // Regionsuebergreifend (OJ_FLAGS_GLOBAL + 0 bis + 63)

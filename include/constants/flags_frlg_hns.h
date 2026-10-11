@@ -1275,8 +1275,11 @@
 #define FLAG_HIDDEN_ITEM_VERMILION_CITY_MAX_ETHER                        (FRLG_FLAGS_START+0x26C)
 #undef  FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_FULL_RESTORE
 #define FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_FULL_RESTORE                    (FRLG_FLAGS_START+0x26D)
-#undef  FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL
-#define FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL                      (FRLG_FLAGS_START+0x26E)
+// Emerald and FRLG both call their hidden Ultra Ball on Victory Road 1F
+// FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL. Redefining that name here
+// pulled Hoenn's item onto this Kanto slot, so picking up one of them hid
+// the other. Kanto gets its own name; Hoenn keeps flags_hoenn_de.h's slot.
+#define FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL_FRLG                 (FRLG_FLAGS_START+0x26E)
 #undef  FLAG_HIDDEN_ITEM_VIRIDIAN_CITY_GYM_MACHO_BRACE
 #define FLAG_HIDDEN_ITEM_VIRIDIAN_CITY_GYM_MACHO_BRACE                   (FRLG_FLAGS_START+0x26F)
 #undef  FLAG_HIDDEN_ITEM_VIRIDIAN_FOREST_ANTIDOTE

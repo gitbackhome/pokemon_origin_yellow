@@ -344,7 +344,15 @@ PlayersHouse_1F_EventScript_TryRegisterMom::
 	end
 
 PlayersHouse_1F_EventScript_CheckGiveAmuletCoin::
+#if IS_HNS
+	@ Norman's badge is Hoenn badge 5. FLAG_BADGE05_GET belongs to the
+	@ Kanto/Johto badges and is long set by the time the player reaches Hoenn.
+	setvar VAR_0x8004, 4
+	special CheckHoennBadge
+	goto_if_eq VAR_RESULT, TRUE, PlayersHouse_1F_EventScript_TryGiveAmuletCoin
+#else
 	goto_if_set FLAG_BADGE05_GET, PlayersHouse_1F_EventScript_TryGiveAmuletCoin
+#endif
 	goto PlayersHouse_1F_EventScript_MomHealsParty
 
 PlayersHouse_1F_EventScript_TryGiveAmuletCoin::

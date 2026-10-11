@@ -294,8 +294,6 @@ OlivineCity_Gym_EventScript_JasmineVictory::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox OlivineCity_Gym_Text_JasmineBadgeSpeech, MSGBOX_DEFAULT
-	setvar VAR_0x8004, 5
-	special SetJohtoBadge
 	setflag FLAG_BADGE06_GET
 	@ Jasmine: Johto-Orden 6. Die Flag oben teilt sich Johto mit Kanto und
 	@ ist nach der Kanto-Liga laengst gesetzt - gezaehlt wird in VAR_JOHTO_BADGES.

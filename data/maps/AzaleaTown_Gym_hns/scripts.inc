@@ -481,7 +481,10 @@ AzaleaTown_Gym_EventScript_Trigger_11::
 AzaleaTown_Gym_EventScript_GymGuy::
 	lock
 	faceplayer
-	goto_if_set FLAG_BADGE02_GET, AzaleaTown_Gym_EventScript_GymGuy2
+	@ Johto badge 2 (Bugsy); Kanto sets FLAG_BADGE02_GET too.
+	setvar VAR_0x8004, 1
+	special CheckJohtoBadge
+	goto_if_eq VAR_RESULT, TRUE, AzaleaTown_Gym_EventScript_GymGuy2
 	msgbox AzaleaTown_Gym_Text_GymGuide, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -532,8 +535,6 @@ AzaleaTown_Gym_EventScript_Bugsy::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox AzaleaTown_Gym_Text_HiveBadgeSpeech, MSGBOX_DEFAULT
-	setvar VAR_0x8004, 1
-	special SetJohtoBadge
 	setflag FLAG_BADGE02_GET
 	@ Bugsy: Johto-Orden 2. Die Flag oben teilt sich Johto mit Kanto und
 	@ ist nach der Kanto-Liga laengst gesetzt - gezaehlt wird in VAR_JOHTO_BADGES.

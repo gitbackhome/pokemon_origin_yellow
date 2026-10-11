@@ -26,7 +26,10 @@ GoldenrodCity_Gym_EventScript_Samantha::
 GoldenrodCity_Gym_EventScript_Gym_Guy::
 	lock
 	faceplayer
-	goto_if_set FLAG_BADGE03_GET, GoldenrodCity_Gym_EventScript_Gym_Guy_After
+	@ Johto badge 3 (Whitney); Kanto sets FLAG_BADGE03_GET too.
+	setvar VAR_0x8004, 2
+	special CheckJohtoBadge
+	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_Gym_EventScript_Gym_Guy_After
 	msgbox GoldenrodCity_Gym_Text_GymGuide, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -69,8 +72,6 @@ GoldenrodCity_Gym_EventScript_WhitneyBadge::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox GoldenrodCity_Gym_Text_WhitneyPlainBadge, MSGBOX_DEFAULT
-	setvar VAR_0x8004, 2
-	special SetJohtoBadge
 	setflag FLAG_BADGE03_GET
 	@ Whitney: Johto-Orden 3. Die Flag oben teilt sich Johto mit Kanto und
 	@ ist nach der Kanto-Liga laengst gesetzt - gezaehlt wird in VAR_JOHTO_BADGES.

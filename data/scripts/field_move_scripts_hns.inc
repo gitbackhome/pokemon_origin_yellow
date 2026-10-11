@@ -584,7 +584,11 @@ EventScript_EndSurface::
 @HnS
 EventScript_Whirlpool::
 	lockall
-	goto_if_unset FLAG_BADGE07_GET, EventScript_CantWhirlpool
+	@ Whirlpools only exist in Johto (Route 41). They open with Johto badge 7
+	@ (Pryce); FLAG_BADGE07_GET is set by Kanto already.
+	setvar VAR_0x8004, 6
+	special CheckJohtoBadge
+	goto_if_eq VAR_RESULT, FALSE, EventScript_CantWhirlpool
 	@checkpartymove MOVE_WHIRLPOOL @checkpartymove doesn't work for the 8th hm i guess.
 	@goto_if_eq VAR_RESULT, FALSE, EventScript_CantWhirlpool
 	playse SE_M_WATERFALL

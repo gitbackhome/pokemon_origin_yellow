@@ -55,7 +55,8 @@ PokemonLeague_WillsRoom_EventScript_Will::
 	lock
 	faceplayer
 	goto_if_ge VAR_LEAGUE_STATE, 2, PokemonLeague_WillsRoom_EventScript_WillDefeated
-	goto_if_set FLAG_IS_CHAMPION, PokemonLeague_WillsRoom_EventScript_WillRematch
+	@ Johto title, not FLAG_IS_CHAMPION: Hoenn's Hall of Fame sets that one too.
+	goto_if_set FLAG_IS_JOHTO_CHAMPION, PokemonLeague_WillsRoom_EventScript_WillRematch
 	msgbox PokemonLeague_WillsRoom_Text_Before, MSGBOX_DEFAULT
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5

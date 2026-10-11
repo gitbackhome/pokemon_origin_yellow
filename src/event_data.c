@@ -261,6 +261,11 @@ STATIC_ASSERT(HNS_REMATCH_TIER_FLAGS_END < SPECIAL_FLAGS_START, sRematchTierFlag
 // bleibt, liegen die Bits in bestehenden Spielstaenden weiter am selben Platz.
 STATIC_ASSERT((FRLG_TRAINER_FLAGS_START & 7) == ((0x500 + FRLG_TRAINER_OFFSET + 1) & 7), sFrlgTrainerFlagsBitAligned);
 STATIC_ASSERT((HNS_REMATCH_TIER_FLAGS_START & 7) == ((0x500 + HNS_REMATCH_TIERS_START) & 7), sRematchTierFlagsBitAligned);
+
+// The trainer flags moved off the daily and engine flags (TrainerIdToFlagId)
+// must stay inside the Hoenn section of the Origin Jade block.
+STATIC_ASSERT(OJ_TRAINER_FLAGS_HOENN_END < OJ_FLAGS_HOENN + OJ_FLAGS_HOENN_SIZE, sOjTrainerFlagsFitHoennSection);
+STATIC_ASSERT(FLAG_RECEIVED_HOENN_BIKE < OJ_FLAGS_HOENN + OJ_FLAGS_HOENN_SIZE, sOjHoennFlagsFitHoennSection);
 #endif
 
 u8 *GetFlagPointer(u16 id)

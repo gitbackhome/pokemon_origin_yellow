@@ -44,8 +44,6 @@ EcruteakCity_Gym_EventScript_Morty::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox MortyText_FogBadgeSpeech, MSGBOX_DEFAULT
-	setvar VAR_0x8004, 3
-	special SetJohtoBadge
 	setflag FLAG_BADGE04_GET
 	@ Morty: Johto-Orden 4. Die Flag oben teilt sich Johto mit Kanto und
 	@ ist nach der Kanto-Liga laengst gesetzt - gezaehlt wird in VAR_JOHTO_BADGES.

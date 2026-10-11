@@ -6,10 +6,25 @@ BlackthornCity_hns_MapScripts::
 	.byte 0
 
 BlackthornCity_OnLoad::
-	goto_if_unset FLAG_BADGE05_GET, BlackThornCity_EventScript_MoveGymBoy
-	goto_if_unset FLAG_BADGE06_GET, BlackThornCity_EventScript_MoveGymBoy
-	goto_if_unset FLAG_BADGE07_GET, BlackThornCity_EventScript_MoveGymBoy
+	@ The boy blocks the gym until Johto badges 5-7 (Chuck, Jasmine, Pryce).
+	@ FLAG_BADGE05-07_GET are set by Kanto already, so the gym was open from
+	@ the first visit.
+	call BlackthornCity_EventScript_CheckJohtoBadges5To7
+	goto_if_eq VAR_RESULT, FALSE, BlackThornCity_EventScript_MoveGymBoy
 	end
+
+@ VAR_RESULT = TRUE if the player holds Johto badges 5, 6 and 7.
+BlackthornCity_EventScript_CheckJohtoBadges5To7::
+	setvar VAR_0x8004, 4
+	special CheckJohtoBadge
+	goto_if_eq VAR_RESULT, FALSE, BlackthornCity_EventScript_CheckJohtoBadges5To7End
+	setvar VAR_0x8004, 5
+	special CheckJohtoBadge
+	goto_if_eq VAR_RESULT, FALSE, BlackthornCity_EventScript_CheckJohtoBadges5To7End
+	setvar VAR_0x8004, 6
+	special CheckJohtoBadge
+BlackthornCity_EventScript_CheckJohtoBadges5To7End::
+	return
 
 BlackThornCity_EventScript_MoveGymBoy::
 	setobjectxyperm LOCALID_BLACKTHORN_BOY, 24, 27
@@ -101,9 +116,8 @@ BlackThornCity_Trigger_Sage::
 BlackthornCity_EventScript_GymBoy::
 	lock
 	faceplayer
-	goto_if_unset FLAG_BADGE05_GET, BlackThornCity_EventScript_GymBoyNotReady
-	goto_if_unset FLAG_BADGE06_GET, BlackThornCity_EventScript_GymBoyNotReady
-	goto_if_unset FLAG_BADGE07_GET, BlackThornCity_EventScript_GymBoyNotReady
+	call BlackthornCity_EventScript_CheckJohtoBadges5To7
+	goto_if_eq VAR_RESULT, FALSE, BlackThornCity_EventScript_GymBoyNotReady
 	goto_if_eq VAR_BLACKTHORN_CITY_STATE, 1, BlackThornCity_EventScript_GymBoyBefore
 	msgbox BlackthornCity_Text_ClairIsBeaten, MSGBOX_DEFAULT
 	closemessage

@@ -10,7 +10,18 @@ IndigoPlateau_PokemonCenter_1F_OnTransition::
 	@ stood at (4,2), i.e. right in front of the door. Since our Dex runs in
 	@ national mode from the start (patch 0049), that applied immediately -
 	@ the league was blocked.
+	@ Origin Jade (D-010): once the league has changed Kanto's Elite Four is
+	@ gone. The plateau door then leads into Johto's center, but a whiteout
+	@ can still bring the player back in here when this was the last heal
+	@ point. The guard then blocks the Elite Four door again, the way FRLG
+	@ closed its league.
+	call PokemonLeague_EventScript_CheckLeagueChanged
+	call_if_eq VAR_RESULT, TRUE, IndigoPlateau_PokemonCenter_1F_EventScript_BlockDoor
 	end
+
+IndigoPlateau_PokemonCenter_1F_EventScript_BlockDoor::
+	setobjectxyperm LOCALID_LEAGUE_DOOR_GUARD, 4, 2
+	return
 
 IndigoPlateau_PokemonCenter_1F_EventScript_DoorGuard::
 	lock
@@ -19,7 +30,16 @@ IndigoPlateau_PokemonCenter_1F_EventScript_DoorGuard::
 	@ begun' - then Lorelei is on the Sevii Islands. For us the Dex runs in
 	@ national mode from the start (patch 0049), and the islands are
 	@ retired. The check would have blocked the league for good.
+	@ Origin Jade (D-010): after the league change FRLG's own "closed" line
+	@ fits - Lorelei is gone, the league as it was is over.
+	call PokemonLeague_EventScript_CheckLeagueChanged
+	goto_if_eq VAR_RESULT, TRUE, IndigoPlateau_PokemonCenter_1F_EventScript_LeagueClosed
 	msgbox IndigoPlateau_PokemonCenter_1F_Text_FaceEliteFourGoodLuck
+	release
+	end
+
+IndigoPlateau_PokemonCenter_1F_EventScript_LeagueClosed::
+	msgbox IndigoPlateau_PokemonCenter_1F_Text_LoreleiIsAbsentClosedForTimeBeing
 	release
 	end
 

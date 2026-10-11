@@ -9,28 +9,18 @@ MtSilver_1F_MoltresRoom_OnResume::
 
 MtSilver_1F_MoltresRoom_OnTransition: 
 	callnative SetTimeBasedEncounters
-	end
-
-
-MtSilver_1F_MoltresRoom_EventScript_Moltres::
-	lock
-	faceplayer
-	playmoncry SPECIES_MOLTRES, CRY_MODE_ENCOUNTER
-	msgbox SeafoamIslands_B1F_Text_ArticunoBattle
-	delay 40
-	waitmoncry
-	seteventmon SPECIES_MOLTRES, 50
-	special BattleSetup_StartLegendaryBattle
-	waitstate
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, MtSilver_1F_MoltresRoom_EventScript_MoltresRan
-	fadescreenswapbuffers FADE_TO_BLACK
-	removeobject LOCALID_MTSILVER_MOLTRES
+	@ Origin Jade (D-022): this Moltres never appears (see below).
 	setflag FLAG_HIDE_MOLTRES
-	fadescreenswapbuffers FADE_FROM_BLACK
-	release
 	end
 
-MtSilver_1F_MoltresRoom_EventScript_MoltresRan::
-	release
+
+@ Origin Jade (decision 2026-10-11, D-022): HnS put a second Moltres
+@ here (level 50, FLAG_HIDE_MOLTRES). Origin Jade already has one in Kanto
+@ (VictoryRoad_4F_Frlg, level 40, FLAG_HIDE_MOLTRES_KANTO), so the player
+@ could have caught it twice. The object stays in map.json only so that a
+@ save made in this room before the change still finds its template; it
+@ never spawns (ON_TRANSITION above), and a restored one just goes away.
+MtSilver_1F_MoltresRoom_EventScript_Moltres::
+	setflag FLAG_HIDE_MOLTRES
+	removeobject LOCALID_MTSILVER_MOLTRES
 	end

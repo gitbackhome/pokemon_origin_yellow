@@ -54,8 +54,8 @@
       "x": 11,
       "y": 6,
       "elevation": 0,
-      "dest_map": "MAP_INDIGO_PLATEAU_POKEMON_CENTER_1F",
-      "dest_warp_id": "0"
+      "dest_map": "MAP_DYNAMIC",
+      "dest_warp_id": "WARP_ID_DYNAMIC"
     }
   ],
   "coord_events": [],

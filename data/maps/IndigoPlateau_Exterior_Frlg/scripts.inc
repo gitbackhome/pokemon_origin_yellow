@@ -1,12 +1,36 @@
 IndigoPlateau_Exterior_Frlg_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, IndigoPlateau_Exterior_OnTransition
+	map_script MAP_SCRIPT_ON_RESUME, IndigoPlateau_Exterior_OnResume
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, IndigoPlateau_Exterior_OnFrame
 	.byte 0
 
 IndigoPlateau_Exterior_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_INDIGO_PLATEAU_EXTERIOR
+	call IndigoPlateau_Exterior_EventScript_SetDoorWarp
 	call_if_eq VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR, 1, IndigoPlateau_Exterior_EventScript_PlayCreditsMusic
 	end
+
+IndigoPlateau_Exterior_OnResume::
+	call IndigoPlateau_Exterior_EventScript_SetDoorWarp
+	end
+
+@ Origin Jade (decision 2026-10-11, D-010): once the league has changed
+@ (PokemonLeague_EventScript_CheckLeagueChanged) Kanto's league is gone and
+@ the door leads into Johto's league center instead of Kanto's. Fly keeps
+@ landing here, and the stairs keep leading down to Kanto's Route 23 and
+@ Victory Road (Moltres). The door warp is MAP_DYNAMIC; the target is set on
+@ map load and again on resume, which also covers continuing a save made here.
+@ Johto's center leaves through its own door onto IndigoPlateau_hns, which
+@ uses the same layout.
+IndigoPlateau_Exterior_EventScript_SetDoorWarp::
+	call PokemonLeague_EventScript_CheckLeagueChanged
+	goto_if_eq VAR_RESULT, TRUE, IndigoPlateau_Exterior_EventScript_DoorToJohtoLeague
+	setdynamicwarp MAP_INDIGO_PLATEAU_POKEMON_CENTER_1F, 0
+	return
+
+IndigoPlateau_Exterior_EventScript_DoorToJohtoLeague:
+	setdynamicwarp MAP_INDIGO_PLATEAU_POKEMON_CENTER_HNS, 0
+	return
 
 IndigoPlateau_Exterior_EventScript_PlayCreditsMusic::
 	playbgm MUS_CREDITS, 0

@@ -1291,8 +1291,9 @@ SootopolisCity_EventScript_Wallace::
 
 SootopolisCity_EventScript_GiveWaterfall::
 #if IS_HNS
-	@ HnS: Die Erlaubnis fuer Kaskade erteilt allein Juan mit dem
-	@ Schauerorden (siehe SootopolisCity_Gym_1F). Wassili uebergibt nichts mehr.
+	@ HnS: the license for Waterfall is granted only by Juan with the Rain
+	@ Badge (see SootopolisCity_Gym_1F). Wallace no longer hands out
+	@ anything.
 	msgbox Text_HnsWallaceNoWaterfallHandover, MSGBOX_DEFAULT
 #else
 	msgbox SootopolisCity_Text_ThankYouForHelpAcceptThis, MSGBOX_DEFAULT
@@ -2107,8 +2108,8 @@ SootopolisCity_Text_DazzledByMentor:
 #endif
 
 #if IS_HNS
-@ Nicht mehr angesprungen, seit die Erlaubnis am Schauerorden haengt.
-@ Bleibt stehen, damit nichts geloescht wird.
+@ No longer jumped to since the license depends on the Rain Badge.
+@ Kept so nothing gets deleted.
 Text_HnsWaterfallLicense:
 #if GERMAN
 	.string "{PLAYER} erhält die Lizenz für\n"

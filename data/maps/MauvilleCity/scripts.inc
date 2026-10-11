@@ -419,7 +419,7 @@ MauvilleCity_EventScript_Wattson::
 	goto_if_set FLAG_GOT_BASEMENT_KEY_FROM_WATTSON, MauvilleCity_EventScript_BegunNewMauville
 	msgbox MauvilleCity_Text_WattsonNeedFavorTakeKey, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: eigener Schluessel, siehe include/constants/items.h
+	@ HnS: a key of its own, see include/constants/items.h
 	giveitem ITEM_NEW_MAUVILLE_KEY
 #else
 	giveitem ITEM_BASEMENT_KEY

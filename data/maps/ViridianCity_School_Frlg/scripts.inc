@@ -55,8 +55,8 @@ ViridianCity_School_EventScript_ChooseBlackboardTopic::
 	waitmessage
 	multichoicegrid 7, 1, MULTI_STATUS_INFO, 3, FALSE
 	switch VAR_RESULT
-	@ Kanto-Merge: Die Eintraege der Liste lauten GIF, PAR, SLF - die
-	@ Verzweigung ging von der FRLG-Reihenfolge SLF, GIF, PAR aus.
+	@ Kanto merge: the list entries read GIF, PAR, SLF (poison, paralysis,
+	@ sleep) - the branch assumed the FRLG order SLF, GIF, PAR.
 	case 0, ViridianCity_School_EventScript_ReadPoison
 	case 1, ViridianCity_School_EventScript_ReadParalysis
 	case 2, ViridianCity_School_EventScript_ReadSleep

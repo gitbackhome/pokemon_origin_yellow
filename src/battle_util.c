@@ -5728,19 +5728,21 @@ enum Obedience GetAttackerObedienceForAction(void)
         return OBEYS;
     if (B_OBEDIENCE_MECHANICS < GEN_8 && !IsOtherTrainer(gBattleMons[gBattlerAttacker].otId, gBattleMons[gBattlerAttacker].otName))
         return OBEYS;
-    // Origin Jade: Die Grenze haengt an der Anzahl der Orden, nicht an
-    // bestimmten Ordensflags. Koga und Sabrina sind in beliebiger Reihenfolge
-    // machbar, ein Bezug auf einzelne Flags waere dort mehrdeutig.
+    // Origin Jade: the limit depends on the number of badges, not on
+    // specific badge flags. Koga and Sabrina can be beaten in any order, so
+    // referring to individual flags would be ambiguous there.
     //
-    // Der achte Orden hebt die Grenze nicht mehr auf, sondern setzt sie auf 50.
-    // Kanto endet bei Level 52, in Johto folgen eigene Grenzen.
-    // GetCurrentBadgeCount zaehlt nur die acht Kanto-Orden; die Johto-Orden
-    // liegen auf FLAG_BADGE09 bis 16 und fliessen noch nicht ein.
+    // The eighth badge no longer lifts the limit but sets it to 50.
+    // Kanto ends at level 52; Johto is meant to follow with limits of its
+    // own. GetCurrentBadgeCount counts the badge flags FLAG_BADGE01-16 (NUM_BADGES
+    // is 16 under HnS); in Origin Jade only FLAG_BADGE01-08 get set (by the
+    // Kanto gyms, and again by the Johto gyms), so the count stops at 8 and
+    // the Johto badges (VAR_JOHTO_BADGES) are not included yet.
     //
-    // Die Arenaleiter sagen dieselben Werte an: Orania nennt 25, wer den
-    // sechsten Orden vergibt nennt 40, Vertania nennt 50.
+    // The gym leaders announce the same values: Vermilion says 25, whoever
+    // hands out the sixth badge says 40, Viridian says 50.
     {
-        // Ohne Orden 10, danach je Orden fuenf mehr.
+        // No badges: 10, then five more per badge.
         static const u8 sObedienceLevelByBadges[NUM_BADGES_CAPPED + 1] =
         {
             10, 15, 20, 25, 30, 35, 40, 45, 50

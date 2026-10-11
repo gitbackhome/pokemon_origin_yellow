@@ -204,17 +204,17 @@ Route101_Movement_Unused2:
 	step_end
 
 #if IS_HNS
-@ Kurz vor dem Nordausgang nach Rosaltstadt meldet sich Troy und erklaert
-@ die Hoenner Lizenzpflicht - der Spieler soll wissen, warum er trotz
-@ 16 Orden nicht einfach lossurfen kann. Vier Triggerfelder decken den
-@ gesamten Korridor ab, der Ausgang ist damit nicht zu umgehen.
+@ Shortly before the north exit to Oldale Town, Steven calls and explains
+@ Hoenn's license requirement - the player should know why they cannot
+@ simply surf off despite 16 badges. Four trigger tiles cover the whole
+@ corridor, so the exit cannot be bypassed.
 Route101_EventScript_TroyLicenseCall::
 	lockall
 	setvar VAR_HOENN_ARRIVAL_STATE, 5
 	pokenavcall Route101_Text_TroyLicenseCall
-	@ waitmessage wartet bereits, bis der Anruf komplett abgebaut ist
-	@ (Task_HidePokenavMessageWhenDone). Ein zusaetzliches delay sperrt
-	@ die Steuerung danach nur unnoetig weiter.
+	@ waitmessage already waits until the call has been fully torn down
+	@ (Task_HidePokenavMessageWhenDone). An extra delay would only keep the
+	@ controls locked for no reason afterwards.
 	waitmessage
 	releaseall
 	end
@@ -246,8 +246,8 @@ Route101_Text_TroyLicenseCall:
 
 Route101_EventScript_Youngster::
 #if IS_HNS
-	@ HnS: Der Spieler kommt als Fremder aus Johto/Kanto - der Hinweis auf das
-	@ naechstgelegene Pokémon-Center passt nicht mehr zu einem Champion.
+	@ HnS: the player arrives as a stranger from Johto/Kanto - the hint
+	@ about the nearest Pokemon Center no longer suits a champion.
 	msgbox Route101_Text_HoennStrangerWarning, MSGBOX_NPC
 	end
 #endif

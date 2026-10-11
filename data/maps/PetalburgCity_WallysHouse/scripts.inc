@@ -20,8 +20,8 @@ PetalburgCity_WallysHouse_EventScript_GiveHMSurf::
 	lockall
 	msgbox PetalburgCity_WallysHouse_Text_PleaseExcuseUs, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: Statt der VM (die der Spieler laengst besitzt) wird die
-	@ Hoenn-Lizenz erteilt - siehe src/hoenn_licenses.c.
+	@ HnS: instead of the HM (which the player has long owned) the Hoenn
+	@ license is granted - see src/hoenn_licenses.c.
 	setvar VAR_0x8004, LIC_SURF
 	special SetHoennLicense
 	playfanfare MUS_OBTAIN_ITEM

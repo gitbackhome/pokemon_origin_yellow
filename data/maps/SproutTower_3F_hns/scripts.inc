@@ -107,10 +107,10 @@ SproutTower_3F_EventScript_SageLi::
 	msgbox SproutTower_Text_SageLi_Seen, MSGBOX_DEFAULT
 	closemessage
 	trainerbattle_no_intro TRAINER_LI_HNS, SproutTower_Text_SageLi_Beaten
-	@ Origin Jade: Wer aus Kanto kommt, hat die VM laengst. Statt sie ein
-	@ zweites Mal zu ueberreichen, erkennt Li es an und gibt etwas anderes
-	@ mit - die Szene soll sich lohnen, auch wenn ihre Belohnung schon im
-	@ Beutel liegt.
+	@ Origin Jade: a player coming from Kanto has long had the HM. Instead
+	@ of handing it over a second time, Elder Li acknowledges that and gives
+	@ something else - the scene should be worth it even though its reward
+	@ is already in the bag.
 	checkitem ITEM_HM_FLASH
 	goto_if_eq VAR_RESULT, TRUE, SproutTower_3F_EventScript_SageLi_HasFlash
 	msgbox SproutTower_Text_SageLi_TakeFlash, MSGBOX_DEFAULT

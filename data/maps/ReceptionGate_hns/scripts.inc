@@ -145,9 +145,10 @@ VictoryRoadGate_Text_RightBlackBelt:
 #endif
 
 @ ============================================================================
-@ Kanto-Merge (test/kanto-start): Torlogik fuer den Vierwege-Knoten.
-@ Der Spieler kommt aus Kanto (Osten). Norden = Liga, Sueden = Johto,
-@ Westen = Silberberg. Johto und Silberberg oeffnen erst nach den Top 4.
+@ Kanto merge (test/kanto-start): gate logic for the four-way junction.
+@ The player comes from Kanto (east). North = league, south = Johto,
+@ west = Mt. Silver. Johto opens after the (Kanto) Elite Four, Mt. Silver
+@ only after the Johto league (see ReceptionGate_EventScript_BlockMtSilver).
 @ ============================================================================
 
 ReceptionGate_EventScript_BlockJohto::
@@ -169,10 +170,10 @@ ReceptionGate_EventScript_PassJohto::
 
 ReceptionGate_EventScript_BlockMtSilver::
 	lock
-	@ Origin Jade: Nicht FLAG_SYS_GAME_CLEAR - das setzt schon Kantos
-	@ Ruhmeshalle, der Silberberg waere damit ab Ankunft in Johto offen und
-	@ Rot mit Level 77 bis 93 vor dem ersten Johto-Orden erreichbar. Er
-	@ oeffnet erst mit dem Sieg ueber Johtos Liga.
+	@ Origin Jade: not FLAG_SYS_GAME_CLEAR - Kanto's Hall of Fame already
+	@ sets that, so Mt. Silver would be open from the arrival in Johto on
+	@ and Red at levels 77 to 93 reachable before the first Johto badge. It
+	@ only opens with the win over Johto's league.
 	goto_if_set FLAG_IS_JOHTO_CHAMPION, ReceptionGate_EventScript_PassMtSilver
 	msgbox ReceptionGate_Text_MtSilverClosed, MSGBOX_DEFAULT
 	closemessage

@@ -5,11 +5,11 @@ Route27_hns_MapScripts::
 
 Route27_OnTransition:
 	callnative SetTimeBasedEncounters
-	@ Origin Jade: Der dicke Mann am Wegrand ist entfernt, mit ihm die Szene
-	@ Route27_EventScript_FirstSteps. Sie enthielt aber einen Flagblock, der
-	@ Silber und Marys Vater an der Liga versteckt, die Wachen am Torhaus
-	@ einblendet und die TM Sandsturm wieder vergibt. Der laeuft jetzt hier,
-	@ einmalig ueber VAR_ROUTE27_STATE.
+	@ Origin Jade: the fat man at the roadside was removed, and with him the
+	@ scene Route27_EventScript_FirstSteps. That scene, however, contained a
+	@ flag block that hides Silver and Mary's father at the league, shows
+	@ the guards at the gatehouse and makes TM Sandstorm available again.
+	@ That block now runs here, once, via VAR_ROUTE27_STATE.
 	goto_if_ne VAR_ROUTE27_STATE, 0, Route27_OnTransitionDone
 	setflag FLAG_HIDE_VICTORY_ROAD_SILVER
 	setflag FLAG_HIDE_INDIGO_PLATEAU_SILVER

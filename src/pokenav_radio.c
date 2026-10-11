@@ -503,8 +503,8 @@ static void GenerateOPTSegment(struct Pokenav_Radio *radio)
         radio->lines[n++] = radio->lineBuffers[buf++];
 
         // "sweet and adorably cute."
-        // Deutsch: Adverb- und Adjektivzeile sind eigenstaendige Saetze
-        // (dt. Kristall), daher zwei getrennte Zeilen ohne Bindeglied.
+        // German: the adverb and adjective lines are sentences of their own
+        // (German Crystal), hence two separate lines without a connector.
         dst = radio->lineBuffers[buf];
         StringCopy(dst, sRadioText_OPT_Adverbs[Random() % ARRAY_COUNT(sRadioText_OPT_Adverbs)]);
         radio->lines[n++] = radio->lineBuffers[buf++];

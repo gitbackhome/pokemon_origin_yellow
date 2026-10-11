@@ -25,9 +25,9 @@ MrPokemonHouse_EventScript_GiveEgg::
 	msgbox MrPokemonHouse_Text_Intro4, MSGBOX_DEFAULT
 	msgbox MrPokemonHouse_Text_Intro5, MSGBOX_DEFAULT
 	closemessage
-	@ Uebergang nach Johto: Prof. Eich tritt hier nicht mehr auf. Er hat den
-	@ Spieler selbst hergeschickt und sitzt in Alabastia; und einen Pokedex
-	@ braucht ein Champion von Kanto nicht mehr ueberreicht zu bekommen.
+	@ Transition to Johto: Prof. Oak no longer appears here. He sent the
+	@ player here himself and is in Pallet Town; and a Kanto champion does
+	@ not need to be handed a Pokedex anymore.
 	setflag FLAG_DELIVERED_EGG
 	turnobject OBJ_EVENT_ID_PLAYER DIR_NORTH
 	fadedefaultbgm

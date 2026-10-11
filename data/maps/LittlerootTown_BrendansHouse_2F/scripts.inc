@@ -244,9 +244,9 @@ LittlerootTown_BrendansHouse_2F_EventScript_PC::
 	end
 
 LittlerootTown_BrendansHouse_2F_EventScript_CheckPlayersPC::
-	@ Origin Jade: Das Wurzelheim-Zimmer nutzt das BrendansMaysHouse-Tileset.
-	@ PC_LOCATION_PLAYER_HOUSE_HNS zeichnete die Johto-Hauskachel in dieses
-	@ fremde Tileset - der PC wirkte "verpixelt" (Discord-Report).
+	@ Origin Jade: the Littleroot Town bedroom uses the BrendansMaysHouse
+	@ tileset. PC_LOCATION_PLAYER_HOUSE_HNS drew the Johto house tile into
+	@ this unrelated tileset - the PC looked "garbled" (Discord report).
 	setvar VAR_0x8004, PC_LOCATION_BRENDANS_HOUSE
 	special DoPCTurnOnEffect
 	playse SE_PC_ON
@@ -257,9 +257,9 @@ LittlerootTown_BrendansHouse_2F_EventScript_CheckPlayersPC::
 	end
 
 LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC::
-	@ Origin Jade: Das Wurzelheim-Zimmer nutzt das BrendansMaysHouse-Tileset.
-	@ PC_LOCATION_PLAYER_HOUSE_HNS zeichnete die Johto-Hauskachel in dieses
-	@ fremde Tileset - der PC wirkte "verpixelt" (Discord-Report).
+	@ Origin Jade: the Littleroot Town bedroom uses the BrendansMaysHouse
+	@ tileset. PC_LOCATION_PLAYER_HOUSE_HNS drew the Johto house tile into
+	@ this unrelated tileset - the PC looked "garbled" (Discord report).
 	setvar VAR_0x8004, PC_LOCATION_BRENDANS_HOUSE
 	playse SE_PC_OFF
 	special DoPCTurnOffEffect

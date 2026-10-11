@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Fuellt Johtos Trainerteams auf, stufenweise nach den Levelkorridoren.
+"""Fills up Johto's trainer teams, stage by stage along the level corridors.
 
-Regeln, wie mit Marc abgestimmt:
-  - Bosse (Leiter, Top Vier, Champion, Rocket-Admins, Silber) auf sechs.
-  - Routentrainer mit weniger als drei auf drei.
-  - Neuzugaenge kommen aus dem Wildbestand der Karte, auf der der Trainer
-    steht, und teilen sich einen Typ mit dem vorhandenen Team.
-  - Kein Attackenblock: ohne Angabe nimmt die Engine die Lernsatzattacken
-    zum jeweiligen Level. Das ist verlaesslicher als handgesetzte Listen.
+Rules as agreed with Marc:
+  - Bosses (leaders, Elite Four, champion, Rocket admins, Silver) to six.
+  - Route trainers with fewer than three to three.
+  - Newcomers come from the wild pool of the map the trainer stands on
+    and share a type with the existing team.
+  - No move block: without one the engine uses the learnset moves for
+    the respective level. That is more reliable than hand-made lists.
 """
 import collections
 import glob
@@ -21,13 +21,13 @@ PARTY = os.path.join(REPO, 'src/data/trainers_hns.party')
 
 BOSS_CLASSES = {'Leader Hns', 'Leader Kanto Hns', 'Elite Four Hns', 'Champion Hns',
                 'Rocket Admin Hns', 'Rival Hns'}
-# Klassen, die am Wasser stehen - fuer sie zaehlt der Wasserbestand.
+# Classes that stand by the water - for them the water pool counts.
 WATER_CLASSES = {'Fisherman Hns', 'Swimmer M Hns', 'Swimmer F Hns', 'Sailor Hns'}
 
-# Klassen mit klarer Erwartung an den Typ. Ein Kaefersammler bekommt Kaefer,
-# kein Iksbat, auch wenn sein Spinarak zufaellig ebenfalls Gift ist. Nur die
-# Klassen, bei denen die Erwartung eindeutig ist - fuer alle anderen bleibt es
-# beim Typbezug zum vorhandenen Team.
+# Classes with a clear type expectation. A Bug Catcher gets bugs, not a
+# Crobat, even if his Spinarak happens to be Poison too. Only the classes
+# whose expectation is unambiguous - all others just share a type with
+# the existing team.
 CLASS_TYPES = {
     'Bug Catcher Hns':   {'BUG'},
     'Bird Keeper Hns':   {'FLYING'},
@@ -58,6 +58,7 @@ CLASS_TYPES = {
 
 
 def species_types():
+    """Species name -> set of its types, read from the species_info families."""
     types = {}
     for f in glob.glob(os.path.join(REPO, 'src/data/pokemon/species_info/*families.h')):
         t = open(f, encoding='utf-8', errors='replace').read()
@@ -69,7 +70,7 @@ def species_types():
 
 
 def johto_stages():
-    """Mapsection -> Korridorboden, als Stufenkennung."""
+    """Map section -> (corridor floor, ceiling); the floor identifies the stage."""
     s = open(os.path.join(REPO, 'include/config/johto_scaling.h'), encoding='utf-8').read()
     out = {}
     for m in re.finditer(r'\{\s*(MAPSEC_\w+),\s*(\d+),\s*(\d+)\s*\}', s):
@@ -78,7 +79,7 @@ def johto_stages():
 
 
 def map_info():
-    """Kartenverzeichnis -> (Mapsec, Karten-ID)."""
+    """Map directory -> (mapsec, map ID)."""
     out = {}
     for p in glob.glob(os.path.join(REPO, 'data/maps/*/map.json')):
         j = json.load(open(p, encoding='utf-8'))
@@ -87,7 +88,7 @@ def map_info():
 
 
 def wild_pools():
-    """Karten-ID -> {'land': [...], 'water': [...]}"""
+    """Map ID -> {'land': Counter, 'water': Counter} of wild species."""
     d = json.load(open(os.path.join(REPO, 'src/data/wild_encounters.json')))
     g = [x for x in d['wild_encounter_groups'] if x['label'] == 'gWildMonHeaders'][0]
     out = collections.defaultdict(lambda: collections.defaultdict(collections.Counter))
@@ -104,6 +105,7 @@ def wild_pools():
 
 
 def parse_party():
+    """Splits trainers_hns.party into (trainer name or None, text block) pairs."""
     txt = open(PARTY, encoding='utf-8', errors='replace').read()
     blocks = re.split(r'(?m)^(?==== )', txt)
     parsed = []
@@ -117,7 +119,7 @@ def parse_party():
 
 
 def trainer_maps():
-    """Trainer -> Kartenverzeichnisse, auf denen er referenziert wird."""
+    """Trainer -> map directories whose scripts reference it."""
     out = collections.defaultdict(set)
     for f in glob.glob(os.path.join(REPO, 'data/maps/*/scripts.inc')):
         d = os.path.basename(os.path.dirname(f))
@@ -127,6 +129,7 @@ def trainer_maps():
 
 
 def main(stage_floor):
+    """Fills up the teams of all Johto trainers whose corridor floor is stage_floor."""
     types = species_types()
     stages = johto_stages()
     minfo = map_info()
@@ -134,7 +137,7 @@ def main(stage_floor):
     tmaps = trainer_maps()
     parsed = parse_party()
 
-    # Klassenweiter Rueckfall: welche Arten nutzen andere Trainer derselben Klasse?
+    # Class-wide fallback: which species do other trainers of the same class use?
     by_class = collections.defaultdict(collections.Counter)
     for name, b in parsed:
         if not name:
@@ -156,7 +159,7 @@ def main(stage_floor):
         if not dirs:
             out.append(b)
             continue
-        # Stufe des Trainers: der niedrigste Korridorboden seiner Karten
+        # The trainer's stage: the lowest corridor floor of their maps
         floors = {stages[minfo[d][0]][0] for d in dirs}
         if stage_floor not in floors:
             out.append(b)
@@ -195,11 +198,10 @@ def main(stage_floor):
             return (-shared, -pool[sp])
 
         cands = [sp for sp in pool if sp not in have]
-        # Klassenerwartung geht vor allem anderen. Gibt der Wildbestand der
-        # Karte nichts Passendes her, wird lieber ein Pokemon des Trainers
-        # verdoppelt, als die Klasse zu brechen - der Wildbestand ist nur eine
-        # Grundorientierung, damit keine Endgame-Arten bei frueh sichtbaren
-        # Trainern auftauchen.
+        # The class expectation comes before everything else. If the map's
+        # wild pool has nothing suitable, a Pokemon of the trainer is rather
+        # doubled than breaking the class - the wild pool is only a rough
+        # guide so no endgame species show up with trainers seen early on.
         if want:
             strict = [sp for sp in cands if types.get(sp, set()) & want]
             if not strict:
@@ -207,15 +209,15 @@ def main(stage_floor):
             if strict:
                 cands = strict
         cands.sort(key=rank)
-        # Gleichrangige durchrotieren, sonst bekommt jeder Youngster auf einer
-        # Route dasselbe Pokemon. Der Versatz haengt am Trainernamen, ist also
-        # stabil und nicht zufaellig.
+        # Rotate equally ranked candidates, otherwise every Youngster on a
+        # route gets the same Pokemon. The offset depends on the trainer's
+        # name, so it is stable and not random.
         if len(cands) > 2:
             top = [sp for sp in cands if rank(sp)[0] == rank(cands[0])[0]]
             rest = [sp for sp in cands if sp not in top]
             off = sum(ord(ch) for ch in name) % len(top)
             cands = top[off:] + top[:off] + rest
-        # Ohne Wildbestand (Arenen, Gebaeude): Arten derselben Trainerklasse
+        # Without a wild pool (gyms, buildings): species of the same trainer class
         if not cands:
             cands = [sp for sp, _ in by_class[cls].most_common()
                      if sp.upper().replace("'", '').replace('-', '').replace('.', '') not in have
@@ -234,7 +236,7 @@ def main(stage_floor):
             seg = [pretty, f'Level: {lo}']
             if iv:
                 seg.append(iv)
-            mons.insert(len(mons) - 1, seg)   # vor dem bisherigen Ass einfuegen
+            mons.insert(len(mons) - 1, seg)   # insert before the previous ace
             added[name] += 1
         n = len(mons)
         for i, seg in enumerate(mons):

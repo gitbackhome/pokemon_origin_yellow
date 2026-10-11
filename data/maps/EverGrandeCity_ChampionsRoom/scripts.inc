@@ -38,7 +38,7 @@ EverGrandeCity_ChampionsRoom_Movement_PlayerApproachWallace:
 	step_end
 
 EverGrandeCity_ChampionsRoom_EventScript_Wallace::
-	@ Origin Jade: Ab dem Ligasieg treten die Top Vier mit Rueckkampfteams an.
+	@ Origin Jade: after the league has been won the Elite Four use their rematch teams.
 	goto_if_set FLAG_IS_HOENN_CHAMPION, EverGrandeCity_ChampionsRoom_EventScript_Rematch
 	playbgm MUS_ENCOUNTER_CHAMPION, FALSE
 	msgbox EverGrandeCity_ChampionsRoom_Text_IntroSpeech, MSGBOX_DEFAULT
@@ -66,8 +66,8 @@ EverGrandeCity_ChampionsRoom_EventScript_Defeated::
 	addobject LOCALID_CHAMPIONS_ROOM_RIVAL
 	call EverGrandeCity_ChampionsRoom_EventScript_RivalApproachPlayer
 #if IS_HNS
-	@ HnS-Kanon: Die Rivalin ist immer Maike, unabhaengig vom Geschlecht
-	@ der Spielfigur. Brix bleibt als eigenstaendige Figur frei.
+	@ HnS canon: the rival is always May, regardless of the player
+	@ character's gender. Brendan stays free as a character of his own.
 	goto EverGrandeCity_ChampionsRoom_EventScript_MayAdvice
 #else
 	checkplayergender
@@ -146,10 +146,10 @@ EverGrandeCity_ChampionsRoom_EventScript_BirchArrivesExitForHoF::
 	waitmovement 0
 	setflag FLAG_HIDE_PETALBURG_GYM_GREETER
 #if IS_HNS
-	@ HnS: Abschluss der Hoenn-Liga. FLAG_IS_HOENN_CHAMPION wird von der
-	@ Trainerkarte gelesen (GetHnSTrainerStars), war aber bisher von keinem
-	@ Skript gesetzt. Die fuenf FLAG_REGISTERED_*-Flags tragen die Top Vier
-	@ in die PokeCom-Kontaktliste ein - auch sie setzte bisher niemand.
+	@ HnS: completion of the Hoenn league. FLAG_IS_HOENN_CHAMPION is read by
+	@ the trainer card (GetHnSTrainerStars) but was not set by any script so
+	@ far. The five FLAG_REGISTERED_* flags add the Elite Four to the
+	@ PokeNav contact list - nobody set those either.
 	setflag FLAG_IS_HOENN_CHAMPION
 	setflag FLAG_REGISTERED_SIDNEY
 	setflag FLAG_REGISTERED_PHOEBE

@@ -683,8 +683,8 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, u8 metati
         return EventScript_UseSurf;
 
 #if IS_HNS
-    // Surfer waere moeglich, nur die Hoenn-Lizenz fehlt: kurz erklaeren,
-    // statt den Spieler wortlos vor dem Wasser stehen zu lassen.
+    // Surf would be possible, only the Hoenn license is missing: explain it
+    // briefly instead of leaving the player standing silently at the water.
     if (HoennLicensesApply() && !HasHoennLicense(LIC_SURF)
      && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE)
         return EventScript_NoSurfLicense;
@@ -714,7 +714,7 @@ static bool32 TrySetupDiveDownScript(void)
     }
 
 #if IS_HNS
-    // Tauchen waere moeglich, nur die Erlaubnis bzw. Befugnis fehlt.
+    // Dive would be possible, only the license or permit is missing.
     if (((HoennLicensesApply() && !HasHoennLicense(LIC_DIVE))
       || (JohtoPermitsApply() && !HasJohtoPermit(PERM_DIVE)))
      && TrySetDiveWarp() == 2)
@@ -1351,9 +1351,9 @@ static bool32 TrySetUpWalkIntoSignpostScript(struct MapPosition *position, u32 m
 {
     const u8 *script;
 
-    // Kanto-Merge: FRLG oeffnet Schilder schon beim Dagegenlaufen. Das stoert
-    // beim Durchqueren, deshalb hier abgeschaltet - Schilder reagieren wie in
-    // Emerald/HnS nur noch auf A.
+    // Kanto merge: FRLG opens signs just by walking into them. That gets in
+    // the way when passing through, so it is switched off here - as in
+    // Emerald/HnS, signs only react to A.
 #if IS_HNS
     return FALSE;
 #endif

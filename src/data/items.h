@@ -9625,8 +9625,9 @@ const struct ItemInfo gItemsInfo[] =
     {
         .name = ITEM_NAME("Metallmantel"),
         .pluralName = ITEM_PLURAL_NAME("Metallmäntel"),
-        // Preis aus der HnS-Preiskorrektur (2.0.2). Die I_PRICE-Staffel unten
-        // stand vorher hier; Entwicklungsitems sollen in HnS teuer bleiben.
+        // Price from the HnS price correction (2.0.2). The I_PRICE ladder
+        // below used to be here; evolution items are meant to stay
+        // expensive in HnS.
         //#if I_PRICE >= GEN_9
         //    .price = 3000,
         //#elif I_PRICE >= GEN_7
@@ -14168,7 +14169,7 @@ const struct ItemInfo gItemsInfo[] =
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
     },
 
-    // Der Strudel belegt unter HnS die VM08, Taucher rueckt auf die VM09.
+    // Under HnS, Whirlpool takes HM08 and Dive moves up to HM09.
     [ITEM_HM_DIVE] =
     {
         .name = ITEM_NAME("VM09"),
@@ -14957,9 +14958,10 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Kelleröffner"),
         .price = 0,
 #if IS_HNS
-        // HnS: Dieses Item wird nur noch im Funkturm Dukatia vergeben und
-        // oeffnet die Tuer in der Dukatia-Passage. Neu-Malvenfroh haengt an
-        // ITEM_NEW_MAUVILLE_KEY. Beschreibung nach HGSS, gekuerzt (Stil A).
+        // HnS: this item is now only given out in the Goldenrod Radio Tower
+        // and opens the door in the Goldenrod Underground. New Mauville
+        // depends on ITEM_NEW_MAUVILLE_KEY. Description after HGSS,
+        // shortened (style A).
         .description = COMPOUND_STRING(
             "Schlüssel für eine\n"
             "Tür in der Dukatia-\n"
@@ -15215,7 +15217,7 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Türöffner"),
         .price = 0,
 #if IS_HNS
-        // HnS: Der Tueroeffner gehoert hier zum Funkturm Dukatia.
+        // HnS: here the Card Key belongs to the Goldenrod Radio Tower.
         .description = COMPOUND_STRING(
             "Schlüsselkarte für\n"
             "eine Tür im\n"

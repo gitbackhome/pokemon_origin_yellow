@@ -235,10 +235,10 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 #include "data/trainers_frlg.h"
 #elif IS_HNS
 #include "data/trainers_hns.h"
-// Kanto-Merge: FRLG-Trainer, IDs um FRLG_TRAINER_OFFSET verschoben.
+// Kanto merge: FRLG trainers, IDs shifted by FRLG_TRAINER_OFFSET.
 #include "data/trainers_frlg.h"
-// Hoenn-Trainer liegen dahinter: ihre Kennungen sind in opponents.h um
-// TRAINERS_COUNT_HNS verschoben, damit sich beide Saetze nicht ueberlappen.
+// The Hoenn trainers come after them: their IDs are shifted by
+// TRAINERS_COUNT_HNS in opponents.h so the two sets do not overlap.
 #include "data/trainers.h"
 #else
 #include "data/trainers.h"

@@ -73,12 +73,12 @@ GoldenrodCity_Gym_EventScript_WhitneyBadge::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox GoldenrodCity_Gym_Text_WhitneyPlainBadge, MSGBOX_DEFAULT
 	setflag FLAG_BADGE03_GET
-	@ Whitney: Johto-Orden 3. Die Flag oben teilt sich Johto mit Kanto und
-	@ ist nach der Kanto-Liga laengst gesetzt - gezaehlt wird in VAR_JOHTO_BADGES.
+	@ Whitney: Johto badge 3. The flag above is shared by Johto and Kanto and
+	@ is set long before, after the Kanto league - the count lives in VAR_JOHTO_BADGES.
 	setvar VAR_0x8004, 2
 	special SetJohtoBadge
-	@ Der Orden ist zugleich die Befugnis fuer Staerke - siehe
-	@ src/johto_permits.c. Die Ordensflags teilt sich Johto mit Kanto.
+	@ The badge also grants the permit for Strength - see
+	@ src/johto_permits.c. Johto shares the badge flags with Kanto.
 	setvar VAR_0x8004, PERM_STRENGTH
 	special SetJohtoPermit
 	setflag FLAG_DEFEATED_GOLDENROD_CITY_GYM

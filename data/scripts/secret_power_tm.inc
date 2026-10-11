@@ -78,8 +78,8 @@ Route111_EventScript_SecretPowerMan::
 	lock
 	faceplayer
 #if IS_HNS
-	@ Origin Jade: Der Champion traegt TM43 laengst bei sich (Johto) -
-	@ keine Doppelvergabe; er weist nur noch auf die Nutzung hin.
+	@ Origin Jade: the champion has long carried TM43 (Johto) - no second
+	@ handover; he only points out how to use it.
 	checkitem ITEM_TM_SECRET_POWER
 	goto_if_eq VAR_RESULT, TRUE, Route111_EventScript_AlreadyHasSecretPower
 #endif

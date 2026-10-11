@@ -5,8 +5,8 @@ RustboroCity_CuttersHouse_EventScript_Cutter::
 	lock
 	faceplayer
 #if IS_HNS
-	@ HnS: Die Lizenz fuer Zerschneider gibt es bei der Arenaleiterin.
-	@ Hier bleibt nur das Lob stehen - keine Uebergabe, keine Erklaerung.
+	@ HnS: the license for Cut comes from the gym leader. Only the praise
+	@ stays here - no handover, no explanation.
 	msgbox RustboroCity_CuttersHouse_Text_YouCanPutThisHMToGoodUse, MSGBOX_DEFAULT
 	release
 	end
@@ -14,8 +14,8 @@ RustboroCity_CuttersHouse_EventScript_Cutter::
 	goto_if_set FLAG_RECEIVED_HM_CUT, RustboroCity_CuttersHouse_EventScript_ExplainCut
 	msgbox RustboroCity_CuttersHouse_Text_YouCanPutThisHMToGoodUse, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: Statt der VM (die der Spieler laengst besitzt) wird die
-	@ Hoenn-Lizenz erteilt - siehe src/hoenn_licenses.c.
+	@ HnS: instead of the HM (which the player has long owned) the Hoenn
+	@ license is granted - see src/hoenn_licenses.c.
 	setvar VAR_0x8004, LIC_CUT
 	special SetHoennLicense
 	playfanfare MUS_OBTAIN_ITEM

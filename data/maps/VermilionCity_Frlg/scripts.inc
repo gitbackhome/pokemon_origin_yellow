@@ -69,10 +69,9 @@ VermilionCity_EventScript_CheckHasAuroraTicket::
 	end
 
 VermilionCity_EventScript_CheckSeagallopPresent::
-	@ Kanto-Merge: Die Seegallope fuhr zu den stillgelegten Sevii-Inseln.
-	@ Stattdessen dasselbe Faehrmenue wie in Olivia - die Liste
-	@ MULTI_VERMILION_HARBOR gab es bereits, sie haing nur an der
-	@ stillgelegten HnS-Karte.
+	@ Kanto merge: the Seagallop went to the retired Sevii Islands. Instead,
+	@ the same ferry menu as in Olivine - the list MULTI_VERMILION_HARBOR
+	@ already existed, it was just tied to the retired HnS map.
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	message VermilionCity_Text_WhereSail
 	multichoicegrid 1, 0, MULTI_VERMILION_HARBOR, 2, FALSE
@@ -93,7 +92,7 @@ VermilionCity_EventScript_CancelSail::
 	release
 	end
 
-@ Ziele, die ein Ticket verlangen. Ohne bleibt der Matrose freundlich.
+@ Destinations that require a ticket. Without one the sailor stays friendly.
 VermilionCity_EventScript_ChoseSouthernIsland::
 	goto_if_unset FLAG_ENABLE_SHIP_SOUTHERN_ISLAND, VermilionCity_EventScript_NoTicket
 	checkitem ITEM_EON_TICKET
@@ -136,7 +135,7 @@ VermilionCity_EventScript_ChoseBattleFrontier::
 	release
 	end
 
-@ Nach Johto. Erst moeglich, wenn der Spieler dort gewesen ist.
+@ To Johto. Only possible once the player has been there.
 VermilionCity_EventScript_ChoseOlivine::
 	goto_if_unset FLAG_VISITED_JOHTO, VermilionCity_EventScript_NoTicket
 	closemessage

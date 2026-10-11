@@ -743,8 +743,8 @@ BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier_hns:
 	.string "to find the delightful creature!$"
 #endif
 
-@ Eigener Text: der Faraway-Island-Matrose sprach von Kapitaen Brack und
-@ von Seegrasulb City, das Schiff faehrt hier aber nach Oliviana City.
+@ Our own text: the Faraway Island sailor talked about Mr. Briney and
+@ Lilycove City, but the ship here goes to Olivine City.
 BattleFrontier_OutsideWest_Text_SailorReturn_hns:
 #if GERMAN
 	.string "Die See ist ruhig heute.\p"

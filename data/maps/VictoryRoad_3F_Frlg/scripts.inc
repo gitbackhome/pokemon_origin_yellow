@@ -282,10 +282,10 @@ VictoryRoad_3F_Text_TyraNotEnoughMons::
 #endif
 
 @ ============================================================================
-@ Kanto-Merge: Lavados sitzt in FRLG auf dem Wipfelberg, also auf den
-@ stillgelegten Sevii-Inseln. In Rot/Blau stand es auf der Siegesstrasse -
-@ dorthin kommt es zurueck, damit alle drei Voegel in Kanto erreichbar sind.
-@ Zapdos steht im Kraftwerk, Arktos auf den Seeschauminseln.
+@ Kanto merge: in FRLG Moltres sits on Mt. Ember, i.e. on the retired
+@ Sevii Islands. In Red/Blue it was on Victory Road - it returns there so
+@ all three birds can be reached in Kanto. Zapdos is in the Power Plant,
+@ Articuno on the Seafoam Islands.
 @ ============================================================================
 
 VictoryRoad_3F_EventScript_Moltres::

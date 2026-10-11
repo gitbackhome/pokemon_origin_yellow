@@ -40,7 +40,7 @@ Route119_EventScript_RivalEncounter::
 	lockall
 	addobject LOCALID_ROUTE119_RIVAL_ON_BIKE
 #if IS_HNS
-	@ HnS: Die Rivalin ist immer Maike - immer ihr Begegnungsthema.
+	@ HnS: the rival is always May - so always her encounter topic.
 	call Route119_EventScript_PlayMayMusic
 #else
 	checkplayergender
@@ -59,8 +59,8 @@ Route119_EventScript_RivalEncounter::
 	addobject LOCALID_ROUTE119_RIVAL
 	delay 30
 #if IS_HNS
-	@ HnS-Kanon: Die Rivalin ist immer Maike, unabhaengig vom Geschlecht
-	@ der Spielfigur. Brix bleibt als eigenstaendige Figur frei.
+	@ HnS canon: the rival is always May, regardless of the player
+	@ character's gender. Brendan stays free as a character of his own.
 	goto Route119_EventScript_BattleMay
 #else
 	checkplayergender
@@ -81,8 +81,8 @@ Route119_EventScript_PlayBrendanMusic::
 Route119_EventScript_BattleMay::
 	msgbox Route119_Text_MayIntro, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: VAR_STARTER_MON traegt hier den Johto-Starter. Maikes Starterlinie
-	@ steht seit Route 103 fest (Flemmli), deshalb immer das Treecko-Set.
+	@ HnS: VAR_STARTER_MON holds the Johto starter here. May's starter line
+	@ has been fixed since Route 103 (Torchic), so always use the Treecko set.
 	goto Route119_EventScript_BattleMayTreecko
 #else
 	switch VAR_STARTER_MON
@@ -146,8 +146,8 @@ Route119_EventScript_DefeatedBrendan::
 
 Route119_EventScript_GiveFlyHM::
 #if IS_HNS
-	@ HnS: Fliegen stammt aus Johto und braucht in Hoenn keine Erlaubnis.
-	@ Die VM wird hier deshalb gar nicht mehr uebergeben.
+	@ HnS: Fly comes from Johto and needs no license in Hoenn. The HM is
+	@ therefore not handed out here at all anymore.
 	setflag FLAG_RECEIVED_HM_FLY
 	return
 #else

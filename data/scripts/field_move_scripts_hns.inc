@@ -1,7 +1,7 @@
-@ HnS: In Hoenn braucht jede Feldattacke eine Erlaubnis (src/hoenn_licenses.c),
-@ in Johto eine Befugnis (src/johto_permits.c). Vor dem Aufruf den Index in
-@ VAR_0x8004 legen; Ergebnis FALSE heisst "hier nicht erlaubt". Ausserhalb
-@ beider Regionen immer TRUE.
+@ HnS: in Hoenn every field move needs a license (src/hoenn_licenses.c),
+@ in Johto a permit (src/johto_permits.c). Put the index into VAR_0x8004
+@ before the call; a result of FALSE means "not allowed here". Always TRUE
+@ outside of both regions.
 EventScript_NoDiveLicense::
 	lockall
 	playse SE_SELECT
@@ -10,7 +10,7 @@ EventScript_NoDiveLicense::
 	end
 
 EventScript_NeedHoennLicense::
-	@ Das Wort kommt aus der Region: Erlaubnis in Hoenn, Befugnis in Johto.
+	@ The term depends on the region: "Erlaubnis" (license) in Hoenn, "Befugnis" (permit) in Johto.
 	special BufferFieldPermissionTerm
 	msgbox Text_NeedHoennLicense, MSGBOX_DEFAULT
 	releaseall
@@ -32,7 +32,7 @@ EventScript_CutTree::
 	setvar VAR_0x8004, LIC_CUT
 	special CheckFieldPermission
 	goto_if_eq VAR_RESULT, FALSE, EventScript_NeedHoennLicense
-	@ HnS: die VM im Beutel genuegt, das Pokemon muss Zerschneider nicht koennen.
+	@ HnS: the HM in the bag is enough, the Pokemon does not need to know Cut.
 	checkfieldmove FIELD_MOVE_CUT, TRUE
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckTreeCantCut
 	bufferpartymonnick STR_VAR_1, VAR_RESULT
@@ -116,7 +116,7 @@ EventScript_RockSmash::
 	setvar VAR_0x8004, LIC_ROCK_SMASH
 	special CheckFieldPermission
 	goto_if_eq VAR_RESULT, FALSE, EventScript_NeedHoennLicense
-	@ HnS: die VM im Beutel genuegt, das Pokemon muss Zertruemmerer nicht koennen.
+	@ HnS: the HM in the bag is enough, the Pokemon does not need to know Rock Smash.
 	checkfieldmove FIELD_MOVE_ROCK_SMASH, TRUE
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantSmashRock
 	bufferpartymonnick STR_VAR_1, VAR_RESULT
@@ -400,7 +400,7 @@ EventScript_StrengthBoulder::
 	setvar VAR_0x8004, LIC_STRENGTH
 	special CheckFieldPermission
 	goto_if_eq VAR_RESULT, FALSE, EventScript_NeedHoennLicense
-	@ HnS: Staerke haengt an der Hoenn-Erlaubnis, nicht am Johto-Orden.
+	@ HnS: Strength depends on the Hoenn license, not on the Johto badge.
 	checkitem ITEM_HM_STRENGTH
 	goto_if_eq VAR_RESULT, FALSE, EventScript_CantStrength
 	goto_if_set FLAG_SYS_USE_STRENGTH, EventScript_CheckActivatedBoulder
@@ -484,7 +484,8 @@ Text_StrengthActivated:
 
 EventScript_UseWaterfall::
 	lockall
-	@ HnS: Kaskade haengt an der Hoenn-Erlaubnis, nicht am Johto-Orden.
+	@ HnS: Waterfall depends on the Hoenn license, not on the Johto badge
+	@ (checked by IsFieldMoveUnlocked in field_control_avatar.c).
 	checkfieldmove FIELD_MOVE_WATERFALL
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantWaterfall
 	bufferpartymonnick STR_VAR_1, VAR_RESULT

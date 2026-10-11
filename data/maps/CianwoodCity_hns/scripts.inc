@@ -38,7 +38,7 @@ CianwoodCity_EventScript_Flytrigger::
 	waitmovement LOCALID_CIANWOOD_CHUCKSWIFE
 	applymovement LOCALID_CIANWOOD_CHUCKSWIFE, CianwoodCity_Movement_ChucksWife
 	waitmovement 0
-	@ Origin Jade: Wer aus Kanto kommt, hat Fliegen laengst.
+	@ Origin Jade: a player coming from Kanto has had Fly for a long time.
 	checkitem ITEM_HM_FLY
 	goto_if_eq VAR_RESULT, TRUE, CianwoodCity_EventScript_FlytriggerHasFly
 	msgbox CianwoodCity_Text_ChucksWifeGiveHM, MSGBOX_DEFAULT

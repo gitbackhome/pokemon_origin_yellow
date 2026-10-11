@@ -6207,11 +6207,11 @@ static void Cmd_hitanimation(void)
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
-// Origin Jade: Preisgeld nach dem tatsaechlich bekaempften Level. Die
-// Party-Datei liefert nur das ROM-Level (Hoenn-Korridore 13-58), gekaempft
-// wird aber gegen das skalierte Team (~70). Zum Auszahlungszeitpunkt steht
-// das skalierte Team in gEnemyParty - dort lesen wir das Level des letzten
-// Mons des jeweiligen Gegners. Johto/Superbosse: RAM == ROM, unveraendert.
+// Origin Jade: prize money based on the level actually fought. The party
+// file only provides the ROM level (Hoenn corridors 13-58), but the
+// battle is fought against the scaled team (~70). At payout time the
+// scaled team is in gEnemyParty - we read the level of the given
+// opponent's last mon from there. Johto/super bosses: RAM == ROM, unchanged.
 static u32 GetLastMonLevelFromEnemyParty(u16 trainerId)
 {
     s32 i, first = 0, last = PARTY_SIZE - 1;
@@ -7952,7 +7952,7 @@ static u32 ChangeStatBuffs(enum BattlerId battler, s8 statValue, enum Stat statI
             }
             else
             {
-                // Deutsch: Verbphrase gehoert komplett in B_BUFF2 (Smaragd-Struktur)
+                // German: the whole verb phrase goes into B_BUFF2 (German Emerald structure)
                 PREPARE_STRING_BUFFER(gBattleTextBuff2, STRINGID_STATFELL);
             }
 
@@ -7989,7 +7989,7 @@ static u32 ChangeStatBuffs(enum BattlerId battler, s8 statValue, enum Stat statI
         }
         else
         {
-            // Deutsch: Verbphrase gehoert komplett in B_BUFF2 (Smaragd-Struktur)
+            // German: the whole verb phrase goes into B_BUFF2 (German Emerald structure)
             PREPARE_STRING_BUFFER(gBattleTextBuff2, STRINGID_STATROSE);
         }
 
@@ -12020,8 +12020,8 @@ void ApplyExperienceMultipliers(s32 *expAmount, u8 expGetterMonId, u8 faintedBat
     if (CheckBagHasItem(ITEM_EXP_CHARM, 1)) //is also for other exp boosting Powers if/when implemented
         *expAmount = (*expAmount * 150) / 100;
 
-    // Globale Erfahrungs-Daempfung (siehe config/hoenn_scaling.h):
-    // 1-30 zuegig, 31-60 mittel, ab 61 zaeher - pro Empfaenger-Level.
+    // Global experience damping (see config/hoenn_scaling.h):
+    // 1-30 fast, 31-60 medium, 61+ slower - per level of the receiving mon.
 #if EXP_DAMP_ENABLED == TRUE
     {
         u8 expGetterLvl = GetMonData(&gPlayerParty[expGetterMonId], MON_DATA_LEVEL);

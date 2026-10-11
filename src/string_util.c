@@ -489,24 +489,23 @@ static const u8 *ExpandPlaceholder_RivalName(void)
 #endif
 
 #if IS_HNS
-    // HnS-Kanon: In Hoenn ist die Rivalin immer Maike (Birks Tochter) -
-    // unabhaengig vom Geschlecht der Spielfigur. In Johto und Kanto meint
-    // derselbe Platzhalter dagegen den dort benannten Rivalen (Silber),
-    // der beim Spielstart im Speicher landet. Ohne diese Weiche gaebe
-    // {RIVAL} auch in Prof. Birks Labor "Silber" aus.
+    // HnS canon: in Hoenn the rival is always May (Birch's daughter) -
+    // regardless of the player character's gender. In Johto and Kanto the
+    // same placeholder means the rival named there (Silver), who is stored
+    // in the save at the start of the game. Without this switch {RIVAL}
+    // would print "Silber" in Prof. Birch's lab as well.
     if (IsHoennMapsec(gMapHeader.regionMapSectionId))
         return gText_ExpandedPlaceholder_May;
 
-    // Kanto-Merge: In Kanto meint {RIVAL} Blau, in Johto Silber. Beide haben
-    // einen eigenen Namensspeicher, damit eine spaetere Rueckreise nach Kanto
-    // nicht ploetzlich Silbers Namen in Blaus Dialogen zeigt.
+    // Kanto merge: in Kanto {RIVAL} means Blue, in Johto Silver. Each has
+    // its own name storage so a later return trip to Kanto does not
+    // suddenly show Silver's name in Blue's dialogue.
     if (gMapHeader.regionMapSectionId >= KANTO_MAPSEC_START
      && gMapHeader.regionMapSectionId <= KANTO_MAPSEC_END)
     {
-        // Der Name muss innerhalb des Feldes enden. Ein Spielstand aus der
-        // Zeit vor diesem Feld enthaelt dort Zufallsdaten; ohne
-        // Abschlusszeichen liest der Textausgeber darueber hinaus und das
-        // Spiel stuerzt ab.
+        // The name has to end within the field. A save from before this
+        // field existed holds random data there; without a terminator the
+        // text printer reads beyond it and the game crashes.
         {
             u32 i;
 
@@ -571,16 +570,16 @@ static const u8 *ExpandPlaceholder_Region(void)
 {
     if (IS_HNS)
     {
-        // Origin Jade: {REGION} richtet sich nach dem Standort des Spielers.
-        // Wandkarten in Pokémon-Centern, Häusern usw. nennen damit immer die
-        // Region, in der der Spieler gerade steht.
+        // Origin Jade: {REGION} follows the player's location. Wall maps in
+        // Pokemon Centers, houses etc. therefore always name the region the
+        // player is currently in.
         //
-        // Vorher haengte die Weiche an FLAG_VISITED_KANTO (HnS-Kanon: Start in
-        // Johto, Kanto kommt spaeter dazu). In Origin Jade ist Kanto die
-        // Startregion, das Flag also die ganze Kanto-Haelfte ueber ungesetzt -
-        // jede Wandkarte in Kanto sprach von "Johto" (Befund Indigo Plateau).
-        // Nach dem Uebertritt haette sie "Johto & Kanto" gesagt, obwohl der
-        // Platzhalter den aktuellen Standort benennen soll.
+        // Before, the switch depended on FLAG_VISITED_KANTO (HnS canon:
+        // start in Johto, Kanto is added later). In Origin Jade Kanto is the
+        // starting region, so the flag stays unset for the whole Kanto half
+        // - every wall map in Kanto talked about "Johto" (finding at Indigo
+        // Plateau). After crossing over it would have said "Johto & Kanto",
+        // although the placeholder is meant to name the current location.
         switch (GetCurrentRegion())
         {
         case REGION_HOENN:

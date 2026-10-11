@@ -338,9 +338,9 @@ struct ChallengeSettings
     u8 tx_Features_FrontierBans:1;
     u8 tx_Difficulty_EscapeRopeDig:1;
     u8 tx_Features_ShinyChance:4;
-    // Origin Jade: Taktrate der Fake-Uhr. 0 ist der bisherige Wert, damit
-    // bestehende Spielstaende ihr Verhalten behalten. Ans Ende des Structs
-    // angehaengt, es belegt die vier freien Bits des letzten Bytes.
+    // Origin Jade: clock rate of the fake RTC. 0 is the previous value, so
+    // existing save files keep their behavior. Appended to the end of the
+    // struct; it uses the four free bits of the last byte.
     u8 tx_Features_RtcSpeed:2;
 };
 
@@ -363,29 +363,29 @@ struct SaveBlock3
     struct ChallengeSettings challengeSettings;
     u16 registeredItemHold;
 #if IS_HNS
-    // Origin Jade: Nuzlocke-Erstbegegnungs-Bits fuer Hoenn (LUT-IDs 0x80+).
-    // Ans Struct-Ende angehaengt = save-vertraeglich; das Budget sichert
-    // der STATIC_ASSERT in src/save.c.
+    // Origin Jade: Nuzlocke first-encounter bits for Hoenn (LUT IDs 0x80+).
+    // Appended to the end of the struct = save compatible; the size budget
+    // is guarded by the STATIC_ASSERT in src/save.c.
     u8 nuzlockeEncounterFlagsHoenn[16];
-    // Kanto-Merge: FRLG-Vars liegen hier, weil SaveBlock1 voll ist.
+    // Kanto merge: the FRLG vars live here because SaveBlock1 is full.
     u16 varsFrlg[FRLG_VARS_COUNT];
     u8 flagsFrlg[FRLG_NUM_FLAG_BYTES];
     u8 flagsFrlgTrainers[FRLG_TRAINER_FLAG_BYTES];
 #endif
-    // Kanto-Merge: Zwei Rivalen, einer je Region. rivalNameKanto haelt Blau
-    // aus FRLG, gSaveBlock2Ptr->rivalName bleibt Silber aus Johto. So zeigt
-    // eine spaetere Rueckreise nach Kanto nicht Silbers Namen in Blaus
-    // Dialogen.
+    // Kanto merge: two rivals, one per region. rivalNameKanto holds Blue
+    // from FRLG, gSaveBlock2Ptr->rivalName stays Silver from Johto. That
+    // way a later return trip to Kanto does not show Silver's name in
+    // Blue's dialogue.
     u8 rivalNameKanto[PLAYER_NAME_LENGTH + 1];
 #if IS_HNS
-    // HnS 2.0.1: Trainerflags der Rueckkampfstufen von Irwin, Derek und
-    // Beverly (IDs HNS_REMATCH_TIERS_START..END, siehe opponents_hns.h).
-    // Ans Struct-Ende angehaengt = save-vertraeglich.
+    // HnS 2.0.1: trainer flags of the rematch tiers of Irwin, Derek and
+    // Beverly (IDs HNS_REMATCH_TIERS_START..END, see opponents_hns.h).
+    // Appended to the end of the struct = save compatible.
     u8 flagsHnsRematchTiers[HNS_REMATCH_TIER_FLAG_BYTES];
-    // Origin Jade: Reservierungsblock fuer eigene Flags und Vars
+    // Origin Jade: reserved block for its own flags and vars
     // (constants/flags_origin_jade.h, constants/vars_origin_jade.h).
-    // Liegt hier und nicht in SaveBlock1 - dort sind weniger als acht
-    // Byte frei. Umgeleitet wird in GetFlagPointer/GetVarPointer.
+    // Lives here and not in SaveBlock1 - less than eight bytes are free
+    // there. Redirected in GetFlagPointer/GetVarPointer.
     u8 flagsOj[OJ_NUM_FLAG_BYTES];
     u16 varsOj[OJ_VARS_COUNT];
 #endif
@@ -1310,10 +1310,10 @@ struct SaveBlock1
 #endif //FREE_LINK_BATTLE_RECORDS
     /*0x31A8*/ u8 giftRibbons[GIFT_RIBBONS_COUNT];
 #if IS_HNS
-    // GameCube-Anbindung (Colosseum, XD, Pokémon Box) - in einem Rom-Hack
-    // nicht erreichbar, die Felder werden ausser im ROM-Header von nichts
-    // gelesen. Die 41 Bytes schaffen Platz fuer die erweiterte
-    // Rueckkampftabelle (siehe MAX_REMATCH_ENTRIES).
+    // GameCube link (Colosseum, XD, Pokemon Box) - unreachable in a ROM
+    // hack; apart from the ROM header nothing reads these fields. The 41
+    // bytes make room for the extended rematch table (see
+    // MAX_REMATCH_ENTRIES).
 #else
     /*0x31B3*/ struct ExternalEventData externalEventData;
     /*0x31C7*/ struct ExternalEventFlags externalEventFlags;

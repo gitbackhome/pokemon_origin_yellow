@@ -2029,8 +2029,8 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
         u32 monIndices[monsCount];
         DoTrainerPartyPool(trainer, monIndices, monsCount, battleTypeFlags);
 
-        // Levelscaling (Hoenn/Johto): hoechstes Originallevel des Teams
-        // als Referenz, damit die Teamstruktur beim Skalieren erhalten bleibt.
+        // Level scaling (Hoenn/Johto): the team's highest original level
+        // is the reference, so the team structure survives the scaling.
         u8 scalingPartyMaxLvl = 0;
         for (i = 0; i < monsCount; i++)
         {

@@ -41,7 +41,7 @@ OlivineCity_EventScript_SailorA::
 	lock
 	faceplayer
 	goto_if_set FLAG_RECEIVED_HM_STRENGTH, OlivineCity_EventScript_SailorA2
-	@ Origin Jade: Wer aus Kanto kommt, hat Staerke laengst.
+	@ Origin Jade: a player coming from Kanto has had Strength for a long time.
 	checkitem ITEM_HM_STRENGTH
 	goto_if_eq VAR_RESULT, TRUE, OlivineCity_EventScript_SailorHasStrength
 	msgbox OlivineCity_Text_CafeSailorStrength, MSGBOX_DEFAULT

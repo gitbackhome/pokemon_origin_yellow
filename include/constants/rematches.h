@@ -92,10 +92,10 @@ enum {
     REMATCH_GLACIA,
     REMATCH_DRAKE,
     REMATCH_WALLACE,
-    // HnS: Die Namen ROSE..KAREN sind oben bereits von den Johto-Telefon-
-    // trainern belegt. Die gleichnamigen Hoenn-Trainer bekommen deshalb
-    // eigene Plaetze am Tabellenende. JERRY..KIRA_AND_DAN stehen dagegen
-    // an ihren Originalindizes 28-63, die unter HnS leer waren.
+    // HnS: the names ROSE..KAREN are already taken above by the Johto phone
+    // trainers. The Hoenn trainers of the same name therefore get slots of
+    // their own at the end of the table. JERRY..KIRA_AND_DAN, on the other
+    // hand, stay at their original indices 28-63, which were empty in HnS.
     REMATCH_ROSE_HOENN,
     REMATCH_ANDRES_HOENN,
     REMATCH_DUSTY_HOENN,

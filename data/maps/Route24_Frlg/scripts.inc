@@ -292,10 +292,11 @@ Route24_Text_CalePostBattle::
 	.string "I did my best. I have no regrets!$"
 #endif
 
-@ Nugget-Rocket. Szene liegt im noerdlichen Teil, der von Route 25 uebernommen wurde. Der Rocket steht auf
-@ (19,27), die drei Spuren liegen links von ihm auf Zeile 27. Kampf und
-@ Texte kommen weiter aus Route24_Frlg/scripts.inc; BattleRocket setzt
-@ VAR_MAP_SCENE_ROUTE24 auf 1 und entschaerft damit auch diese Trigger.
+@ Nugget Bridge Rocket. The scene sits in the northern part taken over from
+@ Route 25. The Rocket stands at (19,27), the three trigger lanes are to
+@ his left on row 27. Battle and texts still come from
+@ Route24_Frlg/scripts.inc; BattleRocket sets VAR_MAP_SCENE_ROUTE24 to 1
+@ and thereby also defuses these triggers.
 Route24_EventScript_RocketTriggerLeft::
 	lockall
 	setvar VAR_TEMP_1, 2

@@ -3,9 +3,9 @@ MtMoon_B2F_Frlg_MapScripts::
 	.byte 0
 
 MtMoon_B2F_OnTransition::
-	@ Kanto-Merge: Jedes Fossil haengt an seinem eigenen Flag, damit man
-	@ beide mitnehmen kann. Vorher liess FLAG_GOT_FOSSIL_FROM_MT_MOON nach
-	@ der ersten Wahl beide verschwinden.
+	@ Kanto merge: each fossil has its own flag so both can be taken.
+	@ Before, FLAG_GOT_FOSSIL_FROM_MT_MOON made both disappear after the
+	@ first choice.
 	call_if_unset FLAG_GOT_DOME_FOSSIL, MtMoon_B2F_EventScript_ShowDomeFossil
 	call_if_unset FLAG_GOT_HELIX_FOSSIL, MtMoon_B2F_EventScript_ShowHelixFossil
 	end
@@ -67,13 +67,12 @@ MtMoon_B2F_EventScript_MiguelGoPickFossil::
 MtMoon_B2F_EventScript_DomeFossil::
 	lock
 	faceplayer
-	@ Kanto-Merge: keine Wahl mehr noetig, beide Fossilien sind frei.
+	@ Kanto merge: no choice needed anymore, both fossils are free.
 	removeobject LOCALID_DOME_FOSSIL
 	giveitem_msg MtMoon_B2F_Text_ObtainedDomeFossil, ITEM_DOME_FOSSIL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	closemessage
-	@ Kanto-Merge: Beide Fossilien bleiben liegen. Fuer 'alle 185 fangbar'
-	@ braucht es beide Entwicklungslinien - der Rivale nimmt das andere
-	@ deshalb nicht mehr mit.
+	@ Kanto merge: both fossils stay. 'All 185 catchable' needs both
+	@ evolution lines - so the rival no longer takes the other one.
 	setflag FLAG_GOT_DOME_FOSSIL
 	release
 	end
@@ -88,7 +87,7 @@ MtMoon_B2F_Movement_MiguelToHelixFossil::
 MtMoon_B2F_EventScript_HelixFossil::
 	lock
 	faceplayer
-	@ Kanto-Merge: keine Wahl mehr noetig, beide Fossilien sind frei.
+	@ Kanto merge: no choice needed anymore, both fossils are free.
 	removeobject LOCALID_HELIX_FOSSIL
 	giveitem_msg MtMoon_B2F_Text_ObtainedHelixFossil, ITEM_HELIX_FOSSIL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	closemessage
@@ -155,7 +154,7 @@ MtMoon_B2F_Text_WellEachTakeAFossil::
 	.string "No being greedy!$"
 #endif
 
-@ Kanto-Merge: seit beide Fossilien liegenbleiben ungenutzt.
+@ Kanto merge: unused since both fossils stay.
 MtMoon_B2F_Text_ThenThisFossilIsMine::
 #if GERMAN
 	.string "O.K., dann gehört das hier mir!$"
@@ -313,7 +312,7 @@ MtMoon_B2F_Text_ObtainedDomeFossil::
 	.string "Obtained the DOME FOSSIL!$"
 #endif
 
-@ Kanto-Merge: Beim erneuten Ansprechen, solange noch ein Fossil liegt.
+@ Kanto merge: when talked to again while a fossil is still there.
 MtMoon_B2F_Text_MiguelTakeThemBoth::
 #if GERMAN
 	.string "Wie gesagt, du kannst sie nehmen.\p"

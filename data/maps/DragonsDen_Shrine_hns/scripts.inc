@@ -321,12 +321,12 @@ DragonsDen_Shrine_EventScript_ClairEnter::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox DragonsDen_Shrine_Text_RisingBadgeExplanation, MSGBOX_DEFAULT
 	setflag FLAG_BADGE08_GET
-	@ Clair: Johto-Orden 8. Die Flag oben teilt sich Johto mit Kanto und
-	@ ist nach der Kanto-Liga laengst gesetzt - gezaehlt wird in VAR_JOHTO_BADGES.
+	@ Clair: Johto badge 8. The flag above is shared by Johto and Kanto and
+	@ is set long before, after the Kanto league - the count lives in VAR_JOHTO_BADGES.
 	setvar VAR_0x8004, 7
 	special SetJohtoBadge
-	@ Der Orden ist zugleich die Befugnis fuer Kaskade - siehe
-	@ src/johto_permits.c. Die Ordensflags teilt sich Johto mit Kanto.
+	@ The badge also grants the permit for Waterfall - see
+	@ src/johto_permits.c. Johto shares the badge flags with Kanto.
 	setvar VAR_0x8004, PERM_WATERFALL
 	special SetJohtoPermit
 	addvar VAR_NUM_BADGES, 1

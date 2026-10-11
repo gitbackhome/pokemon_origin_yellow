@@ -25,8 +25,8 @@ static void CreateHealthboxSprite(enum BattlerId battler);
 static void ClearBattleBgCntBaseBlocks(void);
 static void CreateCaughtMonSprite(void);
 
-// Kanto-Merge: In Vertania fuehrt der alte Mann das Fangen vor, in Hoenn
-// weiterhin Heiko. Die Weichenstellung haengt am Tutorial, nicht am Build.
+// Kanto merge: in Viridian the old man demonstrates catching, in Hoenn it
+// is still Wally. The switch depends on the tutorial, not on the build.
 #define CATCH_TUTORIAL_TRAINER_PIC_BACK ((IS_FRLG || gIsOldManTutorialBattle) ? TRAINER_PIC_BACK_OLD_MAN : TRAINER_PIC_BACK_WALLY)
 
 void ReshowBattleScreenDummy(void)

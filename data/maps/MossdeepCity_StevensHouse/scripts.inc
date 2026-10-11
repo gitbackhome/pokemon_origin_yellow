@@ -36,10 +36,10 @@ MossdeepCity_StevensHouse_EventScript_StevenGivesDive::
 	waitmovement 0
 	applymovement LOCALID_STEVENS_HOUSE_STEVEN, MossdeepCity_StevensHouse_Movement_StevenApproachPlayer
 	waitmovement 0
-	@ Taucher gibt es in Johto/Kanto nicht - die VM kommt also von Troy,
-	@ genau wie im Original. Die Erlaubnis, sie ausserhalb des Kampfes
-	@ einzusetzen, erteilen Ben und Svenja mit dem Mentalorden; das muss
-	@ Troy dem Spieler an dieser Stelle nicht mehr erklaeren.
+	@ Dive does not exist in Johto/Kanto - so the HM comes from Steven,
+	@ just like in the original. The license to use it outside of battle is
+	@ granted by Tate and Liza with the Mind Badge; Steven no longer needs
+	@ to explain that to the player at this point.
 	msgbox MossdeepCity_StevensHouse_Text_YouveEarnedHMDive, MSGBOX_DEFAULT
 	giveitem ITEM_HM_DIVE
 	setflag FLAG_RECEIVED_HM_DIVE
@@ -294,8 +294,8 @@ MossdeepCity_StevensHouse_Text_CollectionOfRareRocks:
 #endif
 
 #if IS_HNS
-@ Nicht mehr angesprungen, seit die Erlaubnis am Mentalorden haengt.
-@ Bleibt stehen, damit nichts geloescht wird.
+@ No longer jumped to since the license depends on the Mind Badge.
+@ Kept so nothing gets deleted.
 Text_HnsDiveLicense:
 #if GERMAN
 	.string "{PLAYER} erhält die Lizenz für\n"
@@ -305,9 +305,9 @@ Text_HnsDiveLicense:
 	.string "DIVE!$"
 #endif
 
-@ Nicht mehr angesprungen - die Uebergabe laeuft wieder ueber den
-@ Ursprungstext MossdeepCity_StevensHouse_Text_YouveEarnedHMDive.
-@ Bleibt stehen, damit nichts geloescht wird.
+@ No longer jumped to - the handover uses the original text
+@ MossdeepCity_StevensHouse_Text_YouveEarnedHMDive again.
+@ Kept so nothing gets deleted.
 Text_HnsStevenGiveDive:
 #if GERMAN
 	.string "Troy: {PLAYER}?\p"

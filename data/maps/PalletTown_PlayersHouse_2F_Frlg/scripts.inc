@@ -21,10 +21,10 @@ PalletTown_PlayersHouse_2F_FirstWarpIn::
 	end
 
 @ ============================================================================
-@ Kanto-Merge: Die Wanduhr. In HnS haengt sie im Obergeschoss in Neuborkia,
-@ wo der Spieler bei uns nicht mehr wohnt; gestellt wird sie jetzt hier.
-@ Aufbau wie dort: die Uhr haengt an der Treppe, zwei Triggerfelder davor,
-@ der Spieler laeuft hin und stellt sie.
+@ Kanto merge: the wall clock. In HnS it hangs upstairs in New Bark Town,
+@ where the player no longer lives in our game; it is set here now.
+@ Same setup as there: the clock hangs by the stairs, two trigger tiles
+@ in front of it, the player walks over and sets it.
 @ ============================================================================
 PalletTown_PlayersHouse_2F_Script_ClockSetupTrigger1::
 	lock
@@ -57,20 +57,20 @@ PalletTown_PlayersHouse_2F_Script_ClockSetupCommon::
 	releaseall
 	end
 
-@ Von (10,3) aus: nach rechts vor die Treppe, dann hoch zur Uhr.
+@ From (10,3): right to the stairs, then up to the clock.
 PalletTown_PlayersHouse_2F_Movement_PlayerWalkToClock1:
 	walk_right
 	walk_up
 	delay_8
 	step_end
 
-@ Von (11,3) aus steht der Spieler schon richtig.
+@ From (11,3) the player is already in the right place.
 PalletTown_PlayersHouse_2F_Movement_PlayerWalkToClock2:
 	walk_up
 	delay_8
 	step_end
 
-@ Ansprechbar, solange die Uhr haengt - stellt sie erneut.
+@ Interactable while the clock hangs - sets it again.
 PalletTown_PlayersHouse_2F_EventScript_WallClock::
 	lockall
 	msgbox PlayersHouse_2F_Text_ClockChange, MSGBOX_DEFAULT

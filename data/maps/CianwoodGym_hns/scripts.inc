@@ -69,8 +69,8 @@ CianwoodGym_EventScript_ChuckVictory::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox CianwoodGym_Text_ChuckBadgeSpeech, MSGBOX_DEFAULT
 	setflag FLAG_BADGE05_GET
-	@ Chuck: Johto-Orden 5. Die Flag oben teilt sich Johto mit Kanto und
-	@ ist nach der Kanto-Liga laengst gesetzt - gezaehlt wird in VAR_JOHTO_BADGES.
+	@ Chuck: Johto badge 5. The flag above is shared by Johto and Kanto and
+	@ is set long before, after the Kanto league - the count lives in VAR_JOHTO_BADGES.
 	setvar VAR_0x8004, 4
 	special SetJohtoBadge
 	setflag FLAG_DEFEATED_CIANWOOD_GYM

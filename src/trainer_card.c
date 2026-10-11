@@ -92,7 +92,7 @@ struct TrainerCardData
     u16 frontTilemap[600];
     u16 backTilemap[600];
     u16 bgTilemap[600];
-    u8 badgeTiles[0x80 * (NUM_BADGES + 8)]; // + Hoenn-Reihe (Rueckseite)
+    u8 badgeTiles[0x80 * (NUM_BADGES + 8)]; // + Hoenn row (back side)
     u8 stickerTiles[0x200];
     u8 cardTiles[0x2300];
     u16 cardTilemapBuffer[0x1000];
@@ -619,7 +619,7 @@ static bool8 LoadCardGfx(void)
         if (sData->cardType == CARD_TYPE_HNS)
         {
             DecompressDataWithHeaderWram(sHnsTrainerCardBadgesCombined_Gfx, sData->badgeTiles);
-            // Hoenn-Symbole dahinter (Tiles 192+64 ff.) fuer die dritte Reihe
+            // Hoenn symbols after them (tiles 192+64 on) for the third row
             DecompressDataWithHeaderWram(sHoennTrainerCardBadges_Gfx, sData->badgeTiles + 0x80 * 16);
         }
         else
@@ -741,10 +741,10 @@ u32 CountPlayerTrainerStars(void)
 }
 
 #if IS_HNS
-// Marcs Pass-Staffel: Johto-Champion -> Bronze, Kanto-Champion ->
-// Kupfer, Hoenn-Champion -> Silber, Rot besiegt -> Gold.
-// (Ausbaustufe notiert: Pokedex komplett -> Diamant, braucht eine
-// fuenfte Kartenpalette.)
+// Marc's card tiers: Johto champion -> bronze, Kanto champion -> copper,
+// Hoenn champion -> silver, Red beaten -> gold.
+// (Planned extension: Pokedex complete -> diamond, needs a fifth card
+// palette.)
 static u8 GetHnSTrainerStars(struct TrainerCard *trainerCard)
 {
     u8 stars = 0;
@@ -1060,8 +1060,8 @@ static bool8 PrintAllOnCardBack(void)
         break;
     case 2:
 #if IS_HNS
-        // HnS-Rueckseite (Marcs Layout): Ruhmeshalle, Kanto-Reihe,
-        // Hoenn-Reihe (ab Birk), Team - Link-Statzeilen entfallen.
+        // HnS back side (Marc's layout): Hall of Fame, Kanto row, Hoenn row
+        // (from Birch on), team - the link stat lines are dropped.
         if (sData->cardType == CARD_TYPE_HNS)
         {
             PrintRegionLabelsOnBack();
@@ -1328,25 +1328,25 @@ static void BufferHofDebutTime(void)
 }
 
 #if IS_HNS
+// Prints the region labels below the badge rows on the HnS card's back side.
 static void PrintRegionLabelsOnBack(void)
 {
-    // Die Kartenlinien liegen auf Bildschirm-y 55, 71, 87, 103, 119; die Baender
-    // dazwischen sind je 16 px = genau zwei Kachelzeilen. Jedes Element bekommt
-    // ein eigenes Band, nichts ueberlappt:
-    // Aus Marcs Markierung ausgemessen. Die Kartenlinien liegen auf
-    // Bildschirm-y 55, 71, 87, 103, 119; jede Ordenreihe fuellt das Band
-    // darueber, das Label sitzt unmittelbar unter der Linie:
-    //   56- 71  Kanto-Ordenreihe   (Kachelzeile  7/8)
-    //   73- 81  Label "Kanto"      (Fenster-y 61)
-    //   88-103  Hoenn-Ordenreihe   (Kachelzeile 11/12)
-    //  105-113  Label "Hoenn"      (Fenster-y 93) - Teamsymbole beginnen bei 117
-    // Umrechnung: Bildschirm-y = Fenster-y + 8 (Fensterursprung), die Glyphen
-    // der Kleinschrift setzen nochmals 4 px tiefer auf -- Glyphenoberkante ist
-    // also Fenster-y + 12.
-    // Waagerecht: Fenster-x 17 = Bildschirm-x 25, sieben Pixel links der
-    // Ordenkante (Kachel 4 = 32).
-    // Kanto-Merge: Das Johto-Label erscheint erst, wenn der Spieler Johto
-    // betreten hat - vorher steht dort eine leere Ordensreihe.
+    // The card lines sit at screen y 55, 71, 87, 103, 119; the bands
+    // between them are 16 px each = exactly two tile rows. Every element
+    // gets a band of its own, nothing overlaps:
+    // Measured from Marc's markup. Each badge row fills the band above a
+    // line, the label sits directly below the line:
+    //   56- 71  first badge row    (tile row  7/8)
+    //   73- 81  label of that row  (window y 61)
+    //   88-103  Hoenn badge row    (tile row 11/12)
+    //  105-113  label "Hoenn"      (window y 93) - team icons start at 117
+    // Conversion: screen y = window y + 8 (window origin); the small font's
+    // glyphs sit another 4 px lower -- so the glyph top is at window y + 12.
+    // Horizontal: window x 17 = screen x 25, seven pixels left of the badge
+    // edge (tile 4 = 32).
+    // Kanto merge: the first row now shows Johto (see DrawExtraBadgesOnBack).
+    // Its label only appears once the player has entered Johto - until then
+    // the row is an empty badge row.
     if (FlagGet(FLAG_VISITED_JOHTO))
         AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_SMALL, 17, 61, sTrainerCardTextColors, TEXT_SKIP_DRAW, sText_RegionLabelJohto);
     if (FlagGet(FLAG_RECEIVED_PASS_BINDER))
@@ -1707,9 +1707,9 @@ static void DrawStarsAndBadgesOnCard(void)
     static const u8 yOffsets[] = {7, 7};
 
     s16 i, x, y;
-    // Kanto-Merge: Vorderseite zeigt jetzt die Kanto-Orden. Ihre Symbole
-    // liegen in der zweiten Haelfte von combined_badges (Kachel 192+32) und
-    // gehoeren zur FRLG-Palette 6.
+    // Kanto merge: the front side now shows the Kanto badges. Their symbols
+    // sit in the second half of combined_badges (tile 192+32) and use the
+    // FRLG palette 6.
     u16 tileNum = IS_HNS ? 192 + 32 : 192;
     u8 palNum = IS_HNS ? 6 : 3;
 
@@ -1739,11 +1739,11 @@ static void DrawStarsAndBadgesOnCard(void)
 #if IS_HNS
 static void DrawExtraBadgesOnBack(void)
 {
-    // Kanto-Reihe auf Kachelzeile 7/8, Hoenn-Reihe auf 11/12; beide beginnen
-    // bei Kachel 4 (Bildschirm-x 32). Siehe PrintRegionLabelsOnBack.
-    // Kanto-Merge: erste Reihe zeigt Johto (Symbole in der ersten Haelfte von
-    // combined_badges, Palette 3), gespeist aus VAR_JOHTO_BADGES. Die
-    // Vanilla-Flags FLAG_BADGE01-08 gehoeren jetzt Kanto und stehen vorne.
+    // First row on tile row 7/8, Hoenn row on 11/12; both start at tile 4
+    // (screen x 32). See PrintRegionLabelsOnBack.
+    // Kanto merge: the first row shows Johto (symbols in the first half of
+    // combined_badges, palette 3), fed from VAR_JOHTO_BADGES. The vanilla
+    // flags FLAG_BADGE01-08 now belong to Kanto and are shown on the front.
     u8 i, x = 4;
     u8 palNum = 3;
     u16 tileNum = 192;
@@ -1758,7 +1758,7 @@ static void DrawExtraBadgesOnBack(void)
             FillBgTilemapBufferRect(3, tileNum + 17, x + 1, 8, 1, 1, palNum);
         }
     }
-    // Hoenn-Ordenreihe (erscheint erst nach Birks Uebergabe)
+    // Hoenn badge row (only appears after Birch's handover)
     if (FlagGet(FLAG_RECEIVED_PASS_BINDER))
     {
         x = 4;

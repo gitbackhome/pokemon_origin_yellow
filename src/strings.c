@@ -2224,9 +2224,9 @@ const u8 gText_Treasures[] = _("TREASURES");
 #endif
 #endif
 #if IS_HNS
-// Origin Jade: Vor der Begegnung mit Bill (Sea Cottage) heisst der PC
-// "Jemandes PC"; das Kennenlernen setzt FLAG_SYS_PC_LANETTE, danach
-// traegt er Bills Namen (statt Lanettes).
+// Origin Jade: before meeting Bill (Sea Cottage) the PC is called
+// "Jemandes PC"; meeting him sets FLAG_SYS_PC_LANETTE, after which it
+// carries Bill's name (instead of Lanette's).
 #if GERMAN
 const u8 gText_SomeonesPC[] = _("Jemandes PC");
 const u8 gText_LanettesPC[] = _("Bills PC");

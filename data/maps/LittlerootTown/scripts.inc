@@ -398,8 +398,8 @@ LittlerootTown_EventScript_BirchsLabSign::
 LittlerootTown_EventScript_BrendansHouseSign::
 	lockall
 #if IS_HNS
-	@ HnS: Die Haeuser sind fest vergeben - links Arenaleiter Norman,
-	@ rechts Prof. Birk. Die Junge/Maedchen-Wahl spielt keine Rolle mehr.
+	@ HnS: the houses have fixed owners - on the left gym leader Norman, on
+	@ the right Prof. Birch. The boy/girl choice no longer matters.
 	msgbox LittlerootTown_Text_NormansHouse, MSGBOX_DEFAULT
 	releaseall
 	end
@@ -1170,14 +1170,15 @@ LittlerootTown_Text_BirchSomethingToShowYouAtLab:
 #endif
 
 
-@ HnS: Einstieg in die Erweiterung. Im Original faengt hier die Mutter
-@ den Spieler ab und uebergibt die Laufschuhe - beides entfaellt
-@ (Mutter in Johto, Laufschuhe vorhanden). Stattdessen kommt Prof.
-@ Birk dem fremden Champion aus Johto und Kanto beim ersten Verlassen
-@ von Wurzelheim kurz nach. Einmalig ueber VAR_HOENN_ARRIVAL_STATE.
-@ Der Ortsausgang ist zwei Kacheln breit. Links (x=10) stellt sich Birk
-@ direkt unter den Spieler. Rechts (x=11) waere er nur schraeg davor, also
-@ geht er eine Kachel weiter bis neben den Spieler und dreht sich zu ihm.
+@ HnS: entry into the expansion. In the original, Mom catches the player
+@ here and hands over the Running Shoes - both are dropped (Mom does not
+@ live in Hoenn, the Running Shoes are already owned). Instead Prof. Birch
+@ briefly follows the unknown champion from Johto and Kanto the first time
+@ they leave Littleroot Town. Once only, via VAR_HOENN_ARRIVAL_STATE.
+@ The town exit is two tiles wide. On the left (x=10) Birch stands right
+@ below the player. On the right (x=11) he would only be diagonally in
+@ front, so he walks one more tile to stand beside the player and turns
+@ to face them.
 LittlerootTown_EventScript_HoennSendOffRight::
 	lockall
 	setvar VAR_0x8008, 1
@@ -1245,7 +1246,7 @@ LittlerootTown_Movement_HoennSendOffApproach:
 	walk_up
 	step_end
 
-@ Rechte Spur: eine Kachel weiter bis (10,1), also neben den Spieler, Blick nach rechts.
+@ Right lane: one more tile to (10,1), i.e. beside the player, facing right.
 LittlerootTown_Movement_HoennSendOffApproachRight:
 	walk_up
 	walk_up

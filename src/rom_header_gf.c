@@ -148,8 +148,8 @@ __attribute__((section(".text.header_gf"))) USED static const struct GFRomHeader
     .frontierStatusOffset = offsetof(struct SaveBlock2, frontier.challengeStatus),
     .frontierStatusOffset2 = offsetof(struct SaveBlock2, frontier.challengeStatus),
 #if IS_HNS
-    // Felder entfallen unter HnS (siehe struct SaveBlock1) - der Header
-    // meldet dann keinen Ablageort.
+    // These fields do not exist under HnS (see struct SaveBlock1) - the
+    // header then reports no storage location.
     .externalEventFlagsOffset = 0,
     .externalEventDataOffset = 0,
 #else

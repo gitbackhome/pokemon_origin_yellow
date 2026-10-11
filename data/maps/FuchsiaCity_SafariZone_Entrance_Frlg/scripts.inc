@@ -132,8 +132,8 @@ FuchsiaCity_SafariZone_Entrance_EventScript_TryEnterSafariZone::
 	call_if_eq VAR_TEMP_2, 1, FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneRight
 	call_if_eq VAR_TEMP_2, 2, FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneLeft
 	special EnterSafariMode
-	@ Kennzeichnet die Kanto-Safari-Zone. Ohne das Flag fuehrt der Ausstieg in
-	@ data/scripts/safari_zone.inc in die Johto-Zone.
+	@ Marks the Kanto Safari Zone. Without the flag the exit in
+	@ data/scripts/safari_zone.inc leads into the Johto zone.
 	setflag FLAG_IN_KANTO_SAFARI_ZONE
 	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 2
 	warp MAP_SAFARI_ZONE_CENTER, 255, 26, 30

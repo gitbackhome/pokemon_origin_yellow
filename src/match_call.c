@@ -214,10 +214,10 @@ static const struct HnsMatchCallTrainerInfo sHnsMatchCallTrainers[] =
     HNS_MC_ENTRY2(Charles,  TRAINER_CHARLES_HNS),
 };
 
-// Liefert den Anruf-Eintrag zu einer Trainer-ID oder NULL, wenn es keinen gibt.
-// Wird als Gueltigkeitspruefung benutzt: nur wer hier steht, hat ueberhaupt
-// Anruftexte. Ohne diese Pruefung erzeugten leere Rematch-Tabellenplaetze
-// (trainerIds[0] == TRAINER_NONE) Anrufe ohne Namen und ohne Text.
+// Returns the call entry for a trainer ID, or NULL if there is none.
+// Used as a validity check: only trainers listed here have call texts at
+// all. Without this check, empty rematch table slots
+// (trainerIds[0] == TRAINER_NONE) produced calls with no name and no text.
 static const struct HnsMatchCallTrainerInfo *HnsGetMatchCallEntry(u32 trainerId)
 {
     u32 i;
@@ -1208,7 +1208,7 @@ bool32 HnsUpdateRouteStepCounter(void)
                 continue;
             if (!HasTrainerBeenFought(gRematchTable[i].trainerIds[0]))
                 continue;
-            // Leere Tabellenplaetze und Trainer ohne Anruftexte ueberspringen.
+            // Skip empty table slots and trainers without call texts.
             if (HnsGetMatchCallEntry(gRematchTable[i].trainerIds[0]) == NULL)
                 continue;
 
@@ -1353,10 +1353,10 @@ static bool32 SelectMatchCallTrainer(void)
         return FALSE;
 
 #if IS_HNS
-    // Ein registriertes Flag allein genuegt nicht: der Anrufer braucht auch einen
-    // Eintrag in sHnsMatchCallTrainers, sonst gaebe es weder Namen noch Text.
-    // Faengt zugleich den Fall ab, dass GetActiveMatchCallTrainerId() mit seinem
-    // Sentinel REMATCH_TABLE_ENTRIES eine gueltige Trainer-ID vortaeuscht.
+    // A registered flag alone is not enough: the caller also needs an
+    // entry in sHnsMatchCallTrainers, otherwise there would be neither a
+    // name nor a text. This also catches GetActiveMatchCallTrainerId()
+    // faking a valid trainer ID with its sentinel REMATCH_TABLE_ENTRIES.
     if (HnsGetMatchCallEntry(sMatchCallState.trainerId) == NULL)
         return FALSE;
 
@@ -1853,9 +1853,9 @@ bool32 SelectMatchCallMessage(int trainerId, u8 *str)
 
     if (text == NULL && GetTrainerMatchCallIdOrNone(trainerId) >= 0)
     {
-        // Hoenn-Trainer stehen nicht in sHnsMatchCallTrainers, wohl aber in
-        // der (sonst ungenutzten) Emerald-Tabelle - deren deutsche Texte
-        // werden hier weiterverwendet.
+        // Hoenn trainers are not in sHnsMatchCallTrainers but they are in
+        // the (otherwise unused) Emerald table - its German texts are
+        // reused here.
         return SelectMatchCallMessage_Vanilla(trainerId, str);
     }
 
@@ -1864,8 +1864,8 @@ bool32 SelectMatchCallMessage(int trainerId, u8 *str)
         u16 lastBeatenId = GetLastBeatenRematchTrainerId(trainerId);
         const struct TrainerMon *party = GetTrainerPartyFromId(lastBeatenId);
         u32 partySize = GetTrainerPartySizeFromId(lastBeatenId);
-        // partySize == 0 waere sonst eine Division durch null und ein Lesezugriff
-        // hinter das Teamende.
+        // Otherwise partySize == 0 would mean a division by zero and a read
+        // past the end of the party.
         if (party != NULL && partySize != 0)
             StringCopy(gStringVar3, GetSpeciesName(party[Random() % partySize].species));
         else
@@ -1883,8 +1883,8 @@ bool32 SelectMatchCallMessage(int trainerId, u8 *str)
 #endif
 }
 
-// Original-Emerald-Logik. Unter HnS nur noch als Rueckfall fuer Trainer
-// ohne Eintrag in sHnsMatchCallTrainers.
+// Original Emerald logic. Under HnS it is only kept as a fallback for
+// trainers without an entry in sHnsMatchCallTrainers.
 static bool32 SelectMatchCallMessage_Vanilla(int trainerId, u8 *str)
 {
     u32 matchCallId;
@@ -1925,8 +1925,8 @@ static bool32 SelectMatchCallMessage_Vanilla(int trainerId, u8 *str)
     return newRematchRequest;
 }
 
-// Wie GetTrainerMatchCallId, liefert aber -1 statt 0, wenn der Trainer
-// gar nicht in der Emerald-Tabelle steht.
+// Like GetTrainerMatchCallId, but returns -1 instead of 0 if the trainer
+// is not in the Emerald table at all.
 static int GetTrainerMatchCallIdOrNone(int trainerId)
 {
     u32 i;
@@ -1943,8 +1943,8 @@ static int GetTrainerMatchCallIdOrNone(int trainerId)
 static int GetTrainerMatchCallId(int trainerId)
 {
     int i = 0;
-    // Die Schleife lief im Original ohne Obergrenze und lief bei unbekannten
-    // Trainer-IDs aus der Tabelle heraus.
+    // In the original the loop had no upper bound and ran past the end of
+    // the table for unknown trainer IDs.
     while (i < (int)ARRAY_COUNT(sMatchCallTrainers))
     {
         if (sMatchCallTrainers[i].trainerId == trainerId)
@@ -2255,7 +2255,7 @@ static int GetNumOwnedBadges(void)
     return i;
 }
 
-// Unter HnS ebenfalls in Gebrauch: Rueckfall fuer Hoenn-Trainer.
+// Also used under HnS: fallback for Hoenn trainers.
 // Whether or not a trainer calling the player from a different route should request a battle
 static bool32 ShouldTrainerRequestBattle(int matchCallId)
 {

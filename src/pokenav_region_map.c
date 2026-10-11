@@ -37,7 +37,7 @@ struct Pokenav_RegionMapGfx
     bool32 (*isTaskActiveCB)(void);
     u32 loopTaskId;
     u16 infoWindowId;
-    u8 infoWindowRegion;   // Region, fuer die das Infofenster gesetzt wurde
+    u8 infoWindowRegion;   // region the info window was set up for
     struct Sprite *cityZoomTextSprites[3];
     u8 ALIGNED(2) tilemapBuffer[BG_SCREEN_SIZE];
     u8 cityZoomPics[NUM_CITY_MAPS][200];
@@ -553,10 +553,10 @@ static void LoadPokenavRegionMapGfx(struct Pokenav_RegionMapGfx *state)
     BgDmaFill(1, PIXEL_FILL(1), 0x41, 1);
     CpuFill16(0x1040, state->tilemapBuffer, 0x800);
     SetBgTilemapBuffer(1, state->tilemapBuffer);
-    // Die linke Fensterposition gilt nur fuer die Johto/Kanto-Karte. Auf der
-    // Hoennkarte verdeckt sie Faustauhaven - dort steht das Fenster wie im
-    // Original-Smaragd rechts. Beim Regionswechsel zieht es mit, siehe
-    // TryMoveMapSecInfoWindow().
+    // The left window position only applies to the Johto/Kanto map. On the
+    // Hoenn map it would cover Dewford - there the window stays on the
+    // right as in the original Emerald. It moves along on a region change,
+    // see TryMoveMapSecInfoWindow().
     state->infoWindowRegion = GetCurrentViewedRegionMapType();
     state->infoWindowId = AddWindow(GetMapSecInfoWindowTemplate(state->infoWindowRegion));
     LoadUserWindowBorderGfx_(state->infoWindowId, 0x42, BG_PLTT_ID(4));
@@ -582,14 +582,15 @@ static bool32 TryFreeTempTileDataBuffers(void)
 
 static const struct WindowTemplate *GetMapSecInfoWindowTemplate(u32 region)
 {
-    // Kanto-Merge: Das rechte Infofenster gehoert zur breiten JK-Karte.
+    // Kanto merge: sMapSecInfoWindowTemplate_Right (despite its name placed
+    // at the left edge, tilemapLeft = 1) belongs to the wide JK map.
     if (FlagGet(FLAG_VISITED_JOHTO) && region != REGION_MAP_HOENN)
         return &sMapSecInfoWindowTemplate_Right;
     return &sMapSecInfoWindowTemplate;
 }
 
-// Nach einem Kartenwechsel (SELECT bzw. Kartenrand) sitzt das Infofenster
-// sonst weiter auf der alten Seite und verdeckt dort Ortsnamen.
+// Moves the info window after a map change (SELECT or the map edge);
+// otherwise it would stay on the old side and cover location names there.
 static void TryMoveMapSecInfoWindow(struct Pokenav_RegionMapGfx *state)
 {
     u32 region = GetCurrentViewedRegionMapType();
@@ -597,17 +598,17 @@ static void TryMoveMapSecInfoWindow(struct Pokenav_RegionMapGfx *state)
     if (region == state->infoWindowRegion)
         return;
 
-    // Der Rahmen (DrawTextBorderOuter) liegt eine Kachel ausserhalb des
-    // Fensters - deshalb eine Kachel groesser loeschen, sonst bleibt beim
-    // Wechsel die alte Box stehen.
+    // The frame (DrawTextBorderOuter) lies one tile outside the window -
+    // so clear one tile more, otherwise the old box remains after the
+    // switch.
     {
         u32 left = GetWindowAttribute(state->infoWindowId, WINDOW_TILEMAP_LEFT);
         u32 top  = GetWindowAttribute(state->infoWindowId, WINDOW_TILEMAP_TOP);
         ClearWindowTilemap(state->infoWindowId);
-        // 0x1041 ist die deckende Fuellkachel des Fensterinneren - an der
-        // alten Stelle bliebe damit ein weisser Balken stehen. 0x1040 ist
-        // die durchsichtige Kachel, mit der der Tilemap-Puffer initialisiert
-        // wird (siehe LoadPokenavRegionMapGfx).
+        // 0x1041 is the opaque fill tile of the window interior - it would
+        // leave a white bar at the old position. 0x1040 is the transparent
+        // tile the tilemap buffer is initialized with (see
+        // LoadPokenavRegionMapGfx).
         FillBgTilemapBufferRect(1, 0x1040, left - 1, top - 1, 14, 15, 17);
     }
     RemoveWindow(state->infoWindowId);
@@ -641,7 +642,7 @@ static void UpdateMapSecInfoWindow(struct Pokenav_RegionMapGfx *state)
         FillWindowPixelBuffer(state->infoWindowId, PIXEL_FILL(1));
         PutWindowRectTilemap(state->infoWindowId, 0, 0, 12, 2);
         AddTextPrinterParameterized(state->infoWindowId, FONT_NARROW, regionMap->mapSecName, 0, 1, TEXT_SKIP_DRAW, NULL);
-        // Feste 17 waere falsch, sobald das Fenster links steht.
+        // A fixed 17 would be wrong as soon as the window sits on the left.
         FillBgTilemapBufferRect(1, 0x1041, GetWindowAttribute(state->infoWindowId, WINDOW_TILEMAP_LEFT), 6, 12, 11, 17);
         CopyWindowToVram(state->infoWindowId, COPYWIN_FULL);
         SetCityZoomTextInvisibility(TRUE);

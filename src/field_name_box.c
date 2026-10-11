@@ -41,7 +41,7 @@ void TrySpawnNamebox(u32 tileNum)
 
     StringExpandPlaceholders(strbuf, gSpeakerName);
 
-    // Ein leerer Name ergaebe eine leere Namensbox -- dann lieber gar keine.
+    // An empty name would give an empty name box -- better none at all then.
     if (strbuf[0] == EOS)
     {
         Free(strbuf);

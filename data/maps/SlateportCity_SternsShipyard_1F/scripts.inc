@@ -3,10 +3,10 @@ SlateportCity_SternsShipyard_1F_MapScripts::
 
 SlateportCity_SternsShipyard_1F_EventScript_Dock::
 	lockall
-	@ Origin Jade: Devon-Kette hat Vorrang. Der Spieler ist als
-	@ Johto/Kanto-Champion ab Ankunft game-clear - der alte Kurzschluss
-	@ auf die Faehre liess FLAG_DOCK_REJECTED_DEVON_GOODS nie setzen,
-	@ die Uebergabe an Kapt. Brigg war unerreichbar (Sackgasse).
+	@ Origin Jade: the Devon chain takes priority. As the Johto/Kanto
+	@ champion the player counts as game-clear from the arrival on - the old
+	@ shortcut to the ferry meant FLAG_DOCK_REJECTED_DEVON_GOODS was never
+	@ set, and the handover to Captain Stern was unreachable (dead end).
 	goto_if_set FLAG_DELIVERED_DEVON_GOODS, SlateportCity_SternsShipyard_1F_EventScript_DockAfterDelivery
 	checkitem ITEM_DEVON_PARTS
 	goto_if_eq VAR_RESULT, FALSE, SlateportCity_SternsShipyard_1F_EventScript_DockAfterDelivery
@@ -26,8 +26,8 @@ SlateportCity_SternsShipyard_1F_EventScript_Dock::
 SlateportCity_SternsShipyard_1F_EventScript_DockAfterDelivery::
 	goto_if_set FLAG_IS_HOENN_CHAMPION, SlateportCity_SternsShipyard_1F_EventScript_FerryReady
 #if IS_HNS
-	@ HnS: FLAG_BADGE07_GET gehoert zu den Johto/Kanto-Orden und ist
-	@ hier laengst gesetzt - stattdessen den Hoenn-Orden pruefen.
+	@ HnS: FLAG_BADGE07_GET belongs to the Johto/Kanto badges and is set
+	@ long before here - check the Hoenn badge instead.
 	setvar VAR_0x8004, 6
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, SlateportCity_SternsShipyard_1F_EventScript_BrineyJoined

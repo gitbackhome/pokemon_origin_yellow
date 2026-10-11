@@ -7,9 +7,9 @@ OldaleTown_OnTransition:
 	setflag FLAG_VISITED_OLDALE_TOWN
 	call_if_unset FLAG_ADVENTURE_STARTED, OldaleTown_EventScript_BlockWestEntrance
 #if IS_HNS
-	@ HnS: Die Supermarkt-Fuehrung entfaellt - der Spieler kommt als Champion
-	@ nach Hoenn und braucht keine Anfaengererklaerung. Der Angestellte wird
-	@ ueber sein Hide-Flag dauerhaft ausgeblendet.
+	@ HnS: the Poke Mart tour is dropped - the player comes to Hoenn as a
+	@ champion and needs no beginner's explanation. The clerk is hidden for
+	@ good via his hide flag.
 	setflag FLAG_HIDE_OLDALE_TOWN_MART_EMPLOYEE
 #else
 	call_if_unset FLAG_RECEIVED_POTION_OLDALE, OldaleTown_EventScript_MoveMartEmployee
@@ -44,7 +44,7 @@ OldaleTown_EventScript_MartEmployee::
 	lock
 	faceplayer
 #if IS_HNS
-	@ Nur noch Rueckfallebene, falls das Objekt doch einmal sichtbar ist.
+	@ Only a fallback in case the object is visible after all.
 	release
 	end
 #endif
@@ -267,8 +267,8 @@ OldaleTown_EventScript_RivalTrigger3::
 
 OldaleTown_EventScript_ShowRivalMessage::
 #if IS_HNS
-	@ HnS-Kanon: Die Rivalin ist immer Maike, unabhaengig vom Geschlecht
-	@ der Spielfigur. Brix bleibt als eigenstaendige Figur frei.
+	@ HnS canon: the rival is always May, regardless of the player
+	@ character's gender. Brendan stays free as a character of his own.
 	goto OldaleTown_EventScript_ShowMayMessage
 #else
 	checkplayergender

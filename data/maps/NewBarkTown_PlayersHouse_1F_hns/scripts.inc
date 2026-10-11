@@ -17,8 +17,8 @@ NewBarkTown_PlayersHouse_1F_SetMomStandingAtTable::
 	clearflag FLAG_MOM_VISITED
 	return
 
-@ Kanto-Merge: Das Haus gehoert nicht dem Spieler. Hier wohnt eine Frau mit
-@ ihrem Sohn; der ist unterwegs und taucht spaeter im Spiel auf.
+@ Kanto merge: the house does not belong to the player. A woman lives here
+@ with her son; he is away and shows up later in the game.
 NewBarkTown_PlayersHouse_1F_EventScript_Mom::
 	lock
 	faceplayer

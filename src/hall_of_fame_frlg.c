@@ -699,8 +699,8 @@ static void Task_Hof_HandleExit(u8 taskId)
 
 static void SetWarpsToRollCredits(void)
 {
-    // Kanto-Merge: Die Szene am Plateau bleibt, nur der Abspann an ihrem Ende
-    // entfaellt - siehe IndigoPlateau_Exterior_EventScript_Credits.
+    // Kanto merge: the scene at the plateau stays, only the credits at its
+    // end are dropped - see IndigoPlateau_Exterior_EventScript_Credits.
     VarSet(VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR, 1);
     FlagSet(FLAG_HIDE_MAP_NAME_POPUP);
     gDisableMapMusicChangeOnMapLoad = MUSIC_DISABLE_KEEP;

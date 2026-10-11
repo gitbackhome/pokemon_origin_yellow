@@ -281,8 +281,8 @@ const struct Tileset gTileset_Lab_Frlg =
     .callback = NULL,
 };
 
-// Kanto-Merge: Fassung mit FRLG-Attributen fuer die FRLG-Karten.
-// Gleiche Tiles/Paletten/Metatiles, nur andere Attributtabelle.
+// Kanto merge: version with FRLG attributes for the FRLG maps.
+// Same tiles/palettes/metatiles, just a different attribute table.
 const struct Tileset gTileset_Lab_Frlg_V4 =
 {
     .isCompressed = TRUE,

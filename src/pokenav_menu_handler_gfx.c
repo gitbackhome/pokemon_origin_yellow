@@ -1311,9 +1311,9 @@ static void PrintCurrentOptionDescription(void)
     int menuItem = GetCurrentMenuItemId();
     const u8 *desc;
 #if IS_HNS
-    // Origin Jade: Beschreibung folgt der Karte, die sich hinter dem Eintrag
-    // oeffnet. FLAG_VISITED_KANTO wird erst auf Route 27 gesetzt, in Kanto las
-    // sich der Eintrag deshalb die ganze Zeit als "Karte von Johto".
+    // Origin Jade: the description follows the map that opens behind the
+    // entry. FLAG_VISITED_KANTO is only set on Route 27, so in Kanto the
+    // entry read "Karte von Johto" the whole time.
     if (menuItem == POKENAV_MENUITEM_MAP)
     {
         switch (GetRegionMapType(gMapHeader.regionMapSectionId))

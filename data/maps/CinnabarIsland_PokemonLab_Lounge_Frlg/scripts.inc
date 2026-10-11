@@ -43,10 +43,10 @@ CinnabarIsland_PokemonLab_Lounge_EventScript_Norma::
 	lock
 	faceplayer
 	setvar VAR_0x8008, INGAME_TRADE_TANGELA
-	@ Kanto-Merge: GetInGameTradeSpeciesInfo liest gSpecialVar_0x8005, nicht
-	@ 0x8004. Norma zeigte deshalb den Tausch, der zuletzt in 0x8005 stand -
-	@ Cliftons Lektroball fuer Raichu. Der gemeinsame Baustein
-	@ EventScript_GetInGameTradeSpeciesInfo macht es richtig.
+	@ Kanto merge: GetInGameTradeSpeciesInfo reads gSpecialVar_0x8005, not
+	@ 0x8004. Norma therefore showed whatever trade was last in 0x8005 -
+	@ Clifton's Electrode for Raichu. The shared building block
+	@ EventScript_GetInGameTradeSpeciesInfo does it right.
 	copyvar VAR_0x8005, VAR_0x8008
 	specialvar VAR_RESULT, GetInGameTradeSpeciesInfo
 	copyvar VAR_0x8009, VAR_RESULT

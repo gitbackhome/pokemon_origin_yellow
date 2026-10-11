@@ -29,14 +29,14 @@ PetalburgCity_OnFrame:
 	map_script_2 VAR_PETALBURG_CITY_STATE, 4, PetalburgCity_EventScript_WalkToWallyHouse
 	.2byte 0
 
-@ HnS: Heiko steht vor der geschlossenen Arena (15,10). Ansprechen
-@ startet das Fang-Ereignis: Er erkennt den Champion, hat von seinem
-@ Vater ein Pokemon bekommen und bittet um Begleitung ins hohe Gras.
-@ Heiko blockiert die Tuerspur direkt (15,9). Nach dem Dialog stellt
-@ ein warpsilent auf die freie Kachel (15,10) - bewusst KEINE
-@ Tuerkachel, sonst spielt die Austrittsanimation der Arena - die
-@ feste Startpose her; das Tutorial (OnFrame, Zustand 2) laeuft mit
-@ angepassten Laufwegen (Spieler fuehrt, Heiko folgt).
+@ HnS: Wally stands in front of the closed gym (15,10). Talking to him
+@ starts the catching event: he recognizes the champion, has received a
+@ Pokemon from his father and asks to be accompanied into the tall grass.
+@ Wally blocks the door lane directly (15,9). After the dialogue a
+@ warpsilent onto the free tile (15,10) - deliberately NOT a door tile,
+@ otherwise the gym's exit animation would play - sets up the fixed
+@ starting pose; the tutorial (OnFrame, state 2) runs with adjusted walking
+@ paths (player leads, Wally follows).
 PetalburgCity_EventScript_WallyGymClosed::
 	lock
 	faceplayer
@@ -89,17 +89,16 @@ PetalburgCity_EventScript_WallyTutorial::
 	msgbox Route102_Text_WallyIDidIt, MSGBOX_DEFAULT
 	applymovement LOCALID_PETALBURG_WALLY, Common_Movement_WalkInPlaceFasterLeft, MAP_PETALBURG_CITY
 	waitmovement LOCALID_PETALBURG_WALLY, MAP_PETALBURG_CITY
-	@ HnS: kein Rueckweg in die geschlossene Arena. Alle Zustaende
-	@ werden VOR dem Rueckwarp gesetzt (Zustand 3 + Hide-Flag), Heiko
-	@ verschwindet ueber den Map-Reload, der Spieler steht wieder vor
-	@ der Arena. So kann das Ereignis weder haengen bleiben noch
-	@ erneut ausloesen.
+	@ HnS: no way back into the closed gym. All states are set BEFORE the
+	@ warp back (state 3 + hide flag), Wally disappears through the map
+	@ reload, and the player stands in front of the gym again. That way the
+	@ event can neither get stuck nor trigger again.
 	msgbox PetalburgCity_Text_WallyThanksGoesHome, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_PETALBURG_CITY_STATE, 3
 	setflag FLAG_HIDE_PETALBURG_CITY_WALLY
-	@ Wie im Vanilla-Zweig (dort in PetalburgCity_Gym gesetzt): Heikos Mutter
-	@ ist ab jetzt im Haus, nicht mehr zusaetzlich auf der Strasse.
+	@ As in the vanilla branch (set in PetalburgCity_Gym there): Wally's
+	@ mother is in the house from now on, no longer also on the street.
 	setflag FLAG_HIDE_PETALBURG_CITY_WALLYS_MOM
 	clearflag FLAG_HIDE_MAP_NAME_POPUP
 	fadedefaultbgm
@@ -161,7 +160,7 @@ PetalburgCity_EventScript_Boy::
 
 PetalburgCity_EventScript_WallysMom::
 #if IS_HNS
-	@ Ab Zustand 3 ist das Fang-Ereignis vorbei und Heiko unterwegs.
+	@ From state 3 on the catching event is over and Wally is on his way.
 	goto_if_ge VAR_PETALBURG_CITY_STATE, 3, PetalburgCity_EventScript_WallysMomGone
 	msgbox PetalburgCity_Text_WallysMomWaiting, MSGBOX_NPC
 	end

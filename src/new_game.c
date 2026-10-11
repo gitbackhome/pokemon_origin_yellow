@@ -191,7 +191,7 @@ static void WarpToTruck(void)
     if (IS_FRLG)
         SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
     else if (IS_HNS)
-        // Kanto-Merge (test/kanto-start): Spielstart in Alabastia statt Neuborkia.
+        // Kanto merge (test/kanto-start): the game starts in Pallet Town instead of New Bark Town.
         SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
     else
         SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
@@ -277,8 +277,8 @@ void NewGameInitData(void)
     RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
 #elif IS_HNS
     RunScriptImmediately(EventScript_ResetAllMapFlagsHnS);
-    // Kanto-Merge: Kanto liefert jetzt die Startwelt, also muessen auch die
-    // FRLG-Startflags gesetzt werden (Eich versteckt, Rivale versteckt ...).
+    // Kanto merge: Kanto now provides the starting world, so the FRLG start
+    // flags have to be set too (Oak hidden, rival hidden ...).
     RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
 #else
     RunScriptImmediately(EventScript_ResetAllMapFlags);
@@ -309,8 +309,8 @@ void NewGameInitData(void)
         FlagSet(FLAG_EVEN_FASTER_JOY);
 
 #if IS_HNS
-    // Kanto-Merge: Beide Rivalen bekommen einen Vorgabenamen. Der Spieler
-    // benennt sie jeweils in ihrer Region selbst.
+    // Kanto merge: both rivals get a default name. The player names each
+    // of them in their own region.
     StringCopy(gSaveBlock2Ptr->rivalName, gText_ExpandedPlaceholder_Silver);
     StringCopy(gSaveBlock3Ptr->rivalNameKanto, gText_ExpandedPlaceholder_Green);
     InitMomSavings();

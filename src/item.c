@@ -205,7 +205,7 @@ u8 *CopyItemNameHandlePlural(enum Item itemId, u8 *dst, u32 quantity)
     }
     else
     {
-        // Deutsch: ohne hinterlegten Plural den Singular verwenden (kein engl. "s")
+        // German: without a stored plural use the singular (no English "s")
         return StringCopy(dst, GetItemName(itemId));
     }
 }
@@ -880,23 +880,24 @@ u8 GetItemImportance(enum Item itemId)
     return gItemsInfo[SanitizeItemId(itemId)].importance;
 }
 
-// HnS-Special: TRUE, wenn eine Uebergabe verpuffen wuerde -- der Gegenstand
-// liegt schon im Beutel UND laesst sich nicht stapeln. Gegenstand in
-// VAR_0x8000 (den giveitem ohnehin belegt), Ergebnis in VAR_RESULT.
-//
-// Wichtig: GetItemImportance() liest die Spielerwahl "TMs wiederverw." aus dem
-// Herausforderungsmenue mit (challengeSettings.tx_Mode_InfiniteTMs). Steht sie
-// auf AN, sind TMs unverbrauchbar und eine zweite Kopie nutzlos; steht sie auf
-// AUS, sind TMs Verbrauchsgueter und die zweite Kopie ist erwuenscht. Die
-// Entscheidung faellt deshalb hier zur Laufzeit und nicht im Skript.
-// Kanto-Merge: TRUE, wenn TMs unverbrauchbar sind (Herausforderungsmenue,
-// "TMs wiederverw."). Damit koennen Skripte ihre Texte anpassen, statt
-// pauschal "nur einmal verwendbar" zu behaupten.
+// Kanto merge: TRUE if TMs are not consumed (challenge menu, "TMs
+// wiederverw."). Lets scripts adapt their texts instead of always
+// claiming "can only be used once".
 void CheckTMsReusable(void)
 {
     gSpecialVar_Result = (gSaveBlock3Ptr->challengeSettings.tx_Mode_InfiniteTMs == 1);
 }
 
+// HnS special: TRUE if a handover would be wasted -- the item is already
+// in the bag AND cannot be stacked. Item in VAR_0x8000 (which giveitem
+// uses anyway), result in VAR_RESULT.
+//
+// Important: GetItemImportance() takes the player's "TMs wiederverw."
+// choice from the challenge menu into account
+// (challengeSettings.tx_Mode_InfiniteTMs). If it is ON, TMs are not
+// consumed and a second copy is useless; if it is OFF, TMs are
+// consumables and the second copy is wanted. That is why the decision is
+// made here at runtime and not in the script.
 void CheckItemHandoverPointless(void)
 {
     enum Item itemId = gSpecialVar_0x8000;

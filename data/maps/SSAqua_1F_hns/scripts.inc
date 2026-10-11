@@ -37,12 +37,12 @@ SSAqua_1F_EventScript_DoorSailorArrived::
 
 SSAqua_1F_EventScript_LeaveBoat::
 	fadescreenswapbuffers FADE_TO_BLACK
-	@ Kanto-Merge: Der Block darunter setzt Kanto auf Anfang - er loescht die
-	@ Orden FLAG_BADGE09_GET bis 16, FLAG_IS_KANTO_CHAMPION, setzt
-	@ VAR_NUM_BADGES hart auf 8 und rund sechzig weitere Flags zurueck. In HnS
-	@ ist das der Auftakt zu Kanto. Bei uns liegt Kanto davor, ein Spieler auf
-	@ diesem Schiff hat es also laengst hinter sich. Wer den Kanto-Titel
-	@ bereits hat, ueberspringt den Block.
+	@ Kanto merge: the block below resets Kanto to the start - it clears the
+	@ badges FLAG_BADGE09_GET to 16 and FLAG_IS_KANTO_CHAMPION, hard-sets
+	@ VAR_NUM_BADGES to 8 and resets about sixty more flags. In HnS this is
+	@ the prelude to Kanto. In our game Kanto comes first, so a player on
+	@ this ship has long finished it. Anyone who already holds the Kanto
+	@ title skips the block.
 	goto_if_set FLAG_IS_KANTO_CHAMPION, SSAqua_1F_EventScript_LeaveBoatAfterKanto
 
 	@Kanto FLAGHEAP
@@ -162,7 +162,7 @@ SSAqua_1F_EventScript_LeaveBoat::
 	@end flagheap
 SSAqua_1F_EventScript_LeaveBoatAfterKanto::
 	setvar VAR_SSAQUA_STATE, 7
-	@ Kanto-Merge: HnS-Hafen stillgelegt - Ankunft an FRLGs Steg.
+	@ Kanto merge: HnS port retired - arrival at FRLG's pier.
 	warp MAP_VERMILION_CITY, 23, 33
 	waitstate
 	release

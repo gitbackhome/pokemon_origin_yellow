@@ -24,17 +24,18 @@ PalletTown_PlayersHouse_1F_Text_MomGoSeeOak:
 #endif
 
 @ ============================================================================
-@ Kanto-Merge: Startgespraech am Treppenfuss. Faengt Rivalennamen, PokeCom
-@ und Turbotreter in einer Szene ab; die alte Sperre an der Haustuer
-@ entfaellt dadurch. Wortlaut der Uebergaben von der HnS-Mutter.
+@ Kanto merge: intro conversation at the foot of the stairs. Covers the
+@ rival's name, the PokeGear and the Running Shoes in one scene; the old
+@ block at the front door is no longer needed. The handover wording comes
+@ from the HnS Mom.
 @ ============================================================================
 
 PalletTown_PlayersHouse_1F_EventScript_Intro::
 	lockall
 	delay 20
-	@ Kanto-Merge: Der Spieler geht selbst zur Mutter hinueber. Der Ablauf
-	@ haengt an der Kartenskript-Tabelle und startet direkt nach dem Warp,
-	@ nicht erst beim Betreten einer bestimmten Kachel.
+	@ Kanto merge: the player walks over to Mom on their own. The sequence
+	@ hangs on the map script table and starts right after the warp, not
+	@ only when a particular tile is stepped on.
 	applymovement OBJ_EVENT_ID_PLAYER, PalletTown_PlayersHouse_1F_Movement_ToMom
 	waitmovement 0
 	applymovement LOCALID_PLAYERS_HOUSE_1F_MOM, Common_Movement_FacePlayer
@@ -53,8 +54,8 @@ PalletTown_PlayersHouse_1F_EventScript_Intro::
 	setflag FLAG_RECEIVED_POKENAV
 	setflag FLAG_ADDED_MATCH_CALL_TO_POKENAV
 	setflag FLAG_REGISTER_RIVAL_POKENAV
-	@ Kanto-Merge: Mama traegt sich gleich mit ein - sie sagt im naechsten
-	@ Satz ohnehin, dass Nummern im Speicher stehen.
+	@ Kanto merge: Mom registers herself right away - in her next sentence
+	@ she says anyway that numbers are stored in it.
 	setflag FLAG_ENABLE_MOM_MATCH_CALL
 	msgbox PalletTown_PlayersHouse_1F_Text_ExplainPokeGear, MSGBOX_DEFAULT
 	closemessage
@@ -74,7 +75,7 @@ PalletTown_PlayersHouse_1F_EventScript_Intro::
 	applymovement LOCALID_PLAYERS_HOUSE_1F_MOM, Common_Movement_FaceOriginalDirection
 	waitmovement 0
 	setvar VAR_PALLET_HOUSE_INTRO, 1
-	@ Anruf der Mutter vorbereiten - sie probiert das Geraet gleich aus.
+	@ Prepare Mom's call - she tries out the device right away.
 	setvar VAR_HNS_MOM_CALL_STEPS, 0
 	setflag FLAG_HNS_MOM_CALL_PENDING
 	releaseall
@@ -158,9 +159,9 @@ PalletTown_PlayersHouse_1F_EventScript_MomHeal::
 	end
 
 @ ============================================================================
-@ Kanto-Merge: Sparschwein der Mutter. Lag in HnS bei der Mutter in
-@ Neuborkia; dort wohnt der Spieler bei uns nicht mehr. Die Specials und
-@ die Kaeufe ueber ShouldDoMomCall sind unveraendert, nur der Ort wechselt.
+@ Kanto merge: Mom's savings. In HnS this was with Mom in New Bark Town;
+@ in our game the player no longer lives there. The specials and the
+@ purchases via ShouldDoMomCall are unchanged, only the place changes.
 @ ============================================================================
 PalletTown_PlayersHouse_1F_EventScript_MomSavingsMenu::
 	special Special_MomEnsureInitialized
@@ -450,11 +451,11 @@ PalletTown_PlayersHouse_1F_Text_OopsWrongSide::
 	.string "Oops, wrong side…$"
 #endif
 
-@ Kanto-Merge: Turbotreter kommen von der Mutter statt vom Eich-Assistenten
-@ in Marmoria. Der Assistent dort prueft ebenfalls FLAG_SYS_B_DASH und
-@ ueberspringt sich damit selbst.
-@ Kanto-Merge: Wortlaut und Ablauf 1:1 von der HnS-Mutter in Neuborkia
-@ uebernommen (NewBarkTown_PlayersHouse_1F_EventScript_MomsIntro).
+@ Kanto merge: the Running Shoes come from Mom instead of Oak's aide in
+@ Pewter City. The aide there also checks FLAG_SYS_B_DASH and thereby
+@ skips himself.
+@ Kanto merge: wording and sequence taken 1:1 from the HnS Mom in New Bark
+@ Town (NewBarkTown_PlayersHouse_1F_EventScript_MomsIntro).
 PalletTown_PlayersHouse_1F_EventScript_MomGivePokeGear::
 	playfanfare MUS_OBTAIN_ITEM
 	message PalletTown_PlayersHouse_1F_Text_ObtainedPokeGear
@@ -467,7 +468,7 @@ PalletTown_PlayersHouse_1F_EventScript_MomGivePokeGear::
 	msgbox PalletTown_PlayersHouse_1F_Text_ExplainPokeGear, MSGBOX_DEFAULT
 	closemessage
 	delay 30
-	@ Anruf der Mutter vorbereiten - sie probiert das Geraet gleich aus.
+	@ Prepare Mom's call - she tries out the device right away.
 	setvar VAR_HNS_MOM_CALL_STEPS, 0
 	setflag FLAG_HNS_MOM_CALL_PENDING
 	goto PalletTown_PlayersHouse_1F_EventScript_MomGiveRunningShoes
@@ -569,9 +570,9 @@ PalletTown_PlayersHouse_1F_Text_MomRivalNameConfirm:
 	.string "inseparable since you were toddlers.$"
 #endif
 
-@ Kanto-Merge: Die Mutter vergibt Rivalennamen und Turbotreter. Beides ist
-@ Voraussetzung fuer den weiteren Ablauf, deshalb haelt sie den Spieler
-@ zurueck, bis das Gespraech gelaufen ist. Der Trigger liegt vor der Tuer.
+@ Kanto merge: Mom handles the rival's name and the Running Shoes. Both
+@ are required for what follows, so she holds the player back until the
+@ conversation has happened. The trigger is in front of the door.
 PalletTown_PlayersHouse_1F_EventScript_BlockExit::
 	lock
 	goto_if_set FLAG_SYS_B_DASH, PalletTown_PlayersHouse_1F_EventScript_ExitAllowed

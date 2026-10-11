@@ -2170,18 +2170,18 @@
 	callstd STD_OBTAIN_ITEM
 	.endm
 
-	@ HnS: giveitem fuer Uebergaben, die es in Johto/Kanto UND in Hoenn gibt.
-	@ Liegt der Gegenstand schon im Beutel, verfaellt die Uebergabe mit einem
-	@ Hinweis; wer ihn in Johto/Kanto verpasst hat, bekommt ihn hier trotzdem.
-	@ Ob eine zweite Kopie nutzlos ist, entscheidet CheckItemHandoverPointless
-	@ zur Laufzeit: Schluesselitems und VMs sind immer unstapelbar, TMs nur dann,
-	@ wenn der Spieler im Herausforderungsmenue "TMs wiederverw." eingeschaltet
-	@ hat. Steht die Option auf AUS, sind TMs Verbrauchsgueter und die zweite
-	@ Uebergabe findet statt.
-	@ Der Gegenstand wird ueber VAR_0x8000 uebergeben -- die belegt giveitem
-	@ ohnehin selbst, es geht also keine Skriptvariable zusaetzlich verloren.
-	@ VAR_RESULT bleibt beim Ueberspringen TRUE, damit ein nachfolgendes
-	@ "goto_if_eq VAR_RESULT, FALSE, ...BagIsFull" nicht faelschlich anspringt.
+	@ HnS: giveitem for handovers that exist in Johto/Kanto AND in Hoenn.
+	@ If the item is already in the bag, the handover lapses with a notice;
+	@ a player who missed it in Johto/Kanto still gets it here.
+	@ Whether a second copy is useless is decided at runtime by
+	@ CheckItemHandoverPointless: key items and HMs never stack, TMs only
+	@ when the player has switched on "TMs wiederverw." (reusable TMs) in the
+	@ challenge menu. If that option is OFF, TMs are consumables and the
+	@ second handover takes place.
+	@ The item is passed in VAR_0x8000 -- giveitem uses it anyway, so no
+	@ additional script variable is lost.
+	@ VAR_RESULT stays TRUE when skipping, so a following
+	@ "goto_if_eq VAR_RESULT, FALSE, ...BagIsFull" does not jump by mistake.
 	.macro giveitem_unless_owned item:req, amount=1
 #if IS_HNS
 	setvar VAR_0x8000, \item
@@ -2935,10 +2935,10 @@ HnsItemDone_\@:
 	.endm
 
 	@ Adds the specified item to the bag, then prints a message with fanfare. See description of msgreceiveditem.
-	@ Origin Jade: FRLG-Kanto vergibt Arenaleiter-TMs und NPC-Geschenke ueber
-	@ dieses Makro statt ueber Std_ObtainItem. Damit der Item-Randomizer auch
-	@ hier greift, laeuft der Gegenstand vorher durch ObtainItemRandomize
-	@ (VMs, Schluesselitems und Quest-Items bleiben dort unangetastet).
+	@ Origin Jade: FRLG Kanto hands out gym leader TMs and NPC gifts via
+	@ this macro instead of Std_ObtainItem. So that the item randomizer
+	@ applies here too, the item first goes through ObtainItemRandomize
+	@ (HMs, key items and quest items are left untouched there).
 	.macro giveitem_msg msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
 	setorcopyvar VAR_0x8000, \item
 #if RANDOMIZER_AVAILABLE

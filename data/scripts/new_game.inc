@@ -454,9 +454,9 @@ EventScript_ResetAllMapFlagsHnS::
 
 	additem ITEM_EXP_SHARE
 	additem ITEM_GB_PLAYER
-	@ Origin Jade: Der EP-Teiler ist von Anfang an eingeschaltet, das
-	@ Levelband der Regionen ist darauf geeicht. Wer ihn nicht mag, schaltet
-	@ ihn im Beutel ab.
+	@ Origin Jade: the Exp. Share is switched on from the start; the
+	@ regions' level bands are tuned for it. Anyone who does not like it
+	@ can switch it off in the bag.
 	setflag FLAG_EXP_SHARE_ENABLED
 	setrespawn HEAL_LOCATION_NEW_BARK_TOWN_HNS
 
@@ -466,15 +466,15 @@ EventScript_ResetAllMapFlagsHnS::
 
 #if IS_FRLG || IS_HNS
 EventScript_ResetAllMapFlagsFrlg::
-	@ Kanto-Merge: Sarah sitzt zu Beginn bei uns im Haus, nicht bei sich.
+	@ Kanto merge: at the start Daisy sits in our house, not in her own.
 	setflag FLAG_HIDE_RIVALS_HOUSE_DAISY
 	setflag FLAG_HIDE_OAK_IN_HIS_LAB
 	setflag FLAG_HIDE_OAK_IN_PALLET_TOWN
 	setflag FLAG_HIDE_BILL_HUMAN_SEA_COTTAGE
 	setflag FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY
-	@ Kanto-Merge: Die Wache am Torhaus haelt in HnS den Weg nach Kanto zu,
-	@ solange der Spieler aus Johto kommt. Bei uns beginnt die Reise in
-	@ Kanto - sie steht dort von Anfang an nicht.
+	@ Kanto merge: in HnS the guard at the gatehouse blocks the way to Kanto
+	@ while the player comes from Johto. In our game the journey starts in
+	@ Kanto - so the guard is not there from the start.
 	setflag FLAG_INDIGOJUNCTION_HIDE_KANTO_GUARD
 	setflag FLAG_HIDE_POKEHOUSE_FUJI
 	setflag FLAG_HIDE_LIFT_KEY
@@ -524,20 +524,21 @@ EventScript_ResetAllMapFlagsFrlg::
 	setflag FLAG_HIDE_FAME_CHECKER_LT_SURGE_JOURNAL
 	setflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
 	setvar VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500
-	@ Kanto-Merge: Das Haus in Neuborkia gehoert nicht mehr dem Spieler. Der
-	@ HnS-Spielstart, der dort haengt, wird uebersprungen: VAR_NEWBARK_TOWN_STATE
-	@ steht sonst auf 0 und loest im Obergeschoss die Wanduhr-Szene samt
-	@ Startfenster aus, im Erdgeschoss die Szene mit PokeCom und Turbotretern.
+	@ Kanto merge: the house in New Bark Town no longer belongs to the
+	@ player. The HnS game start tied to it is skipped: otherwise
+	@ VAR_NEWBARK_TOWN_STATE would be 0 and trigger the wall clock scene with
+	@ the start window upstairs, and the PokeGear and Running Shoes scene
+	@ downstairs.
 	setvar VAR_NEWBARK_TOWN_STATE, 5
 	setflag FLAG_MOM_VISITED
-	@ Kanto-Merge: Aufseher Baoba ruft auf Route 27 an und meldet, die
-	@ Safari-Zone sei vergroessert worden. In HnS kennt der Spieler ihn zu dem
-	@ Zeitpunkt laengst; bei uns betritt er Johto gerade erst. Der Anruf wird
-	@ stillgelegt, die Erweiterung kommt ueber Baobas eigene Questlinie.
+	@ Kanto merge: Warden Baoba calls on Route 27 to report that the Safari
+	@ Zone has been expanded. In HnS the player has long known him by then;
+	@ in our game the player is only just entering Johto. The call is
+	@ retired, the expansion comes through Baoba's own quest line.
 	setvar VAR_ROUTE27_BAOBA_CALL, 1
-	@ Kanto-Merge: Der Polizist in Linds Labor gehoert zur Diebstahlsepisode und
-	@ wird erst in Mr. Pokemons Haus eingeblendet. Ohne dieses Flag steht er von
-	@ Anfang an im Labor.
+	@ Kanto merge: the policeman in Elm's lab belongs to the theft episode
+	@ and is only shown from Mr. Pokemon's house on. Without this flag he
+	@ stands in the lab from the start.
 	setflag FLAG_HIDE_LAB_POLICEMAN
 	end
 #endif

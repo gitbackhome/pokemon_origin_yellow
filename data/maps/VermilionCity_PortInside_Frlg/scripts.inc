@@ -6,9 +6,9 @@ VermilionPortFrlg_OnFrame::
 	map_script_2 VAR_MAP_SCENE_VERMILION_CITY, 1, VermilionPortFrlg_EventScript_SSAnneDeparts
 	.2byte 0
 
-@ Phase 2: Der Spieler verlaesst die S.S. Anne mit der VM01. Das Schiff laeuft
-@ aus, der Hafen bleibt vorerst leer. Die frueher hier zustaendige Szene auf
-@ SSAnne_Exterior entfaellt, das FRLG-Aussendeck wird nicht mehr betreten.
+@ Phase 2: the player leaves the S.S. Anne with HM01. The ship sets sail,
+@ the port stays empty for now. The scene on SSAnne_Exterior that used to
+@ handle this is dropped; the FRLG outer deck is no longer entered.
 VermilionPortFrlg_EventScript_SSAnneDeparts::
 	lockall
 	delay 30
@@ -22,7 +22,7 @@ VermilionPortFrlg_EventScript_SSAnneDeparts::
 	releaseall
 	end
 
-@ Phase 1: Solange die S.S. Anne im Hafen liegt, fuehrt der Matrose an Bord.
+@ Phase 1: while the S.S. Anne is in port, the sailor leads on board.
 VermilionPortFrlg_EventScript_BoardSSAnne::
 	msgbox VermilionPortFrlg_Text_AllAboardSSAnne, MSGBOX_DEFAULT
 	call VermilionPortFrlg_EventScript_EnterShip
@@ -31,7 +31,7 @@ VermilionPortFrlg_EventScript_BoardSSAnne::
 	release
 	end
 
-@ Phase 3: Anne ausgelaufen, Aqua noch nicht da.
+@ Phase 3: the Anne has left, the Aqua is not there yet.
 VermilionPortFrlg_EventScript_NoShipInPort::
 	msgbox VermilionPortFrlg_Text_NoShipInPort, MSGBOX_DEFAULT
 	closemessage
@@ -96,11 +96,11 @@ VermilionPortFrlg_Text_SuperNerd:
 VermilionPortFrlg_EventScript_Sailor::
 	lock
 	faceplayer
-	@ Phase 1: S.S. Anne liegt im Hafen, Fahrschein noetig.
+	@ Phase 1: the S.S. Anne is in port, ticket required.
 	goto_if_unset FLAG_HIDE_SS_ANNE, VermilionPortFrlg_EventScript_SSAnnePresent
-	@ Phase 3: Anne ausgelaufen, Aqua noch nicht eingelaufen.
+	@ Phase 3: the Anne has left, the Aqua has not arrived yet.
 	goto_if_set FLAG_HIDE_VERMILION_SS_AQUA, VermilionPortFrlg_EventScript_NoShipInPort
-	@ Phase 4: ab hier die bestehende S.S.-Aqua-Logik.
+	@ Phase 4: from here on the existing S.S. Aqua logic.
 	goto_if_unset FLAG_RETURNED_MACHINE_PART, VermilionPortFrlg_EventScript_SailorCantSail
 	goto_if_ge VAR_SSAQUA_STATE, 7, VermilionPortFrlg_EventScript_Sailor_AfterKanto
 	msgbox VermilionPortFrlg_Text_AskBoard, MSGBOX_YESNO

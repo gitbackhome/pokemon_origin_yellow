@@ -89,8 +89,8 @@ MauvilleCity_Gym_EventScript_WattsonDefeated::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox MauvilleCity_Gym_Text_ExplainDynamoBadgeTakeThis, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: Der Dynamo-Orden ist zugleich die Erlaubnis fuer Zertruemmerer -
-	@ das steht im Ordentext, eine eigene Uebergabe braucht es nicht.
+	@ HnS: the Dynamo Badge also grants the license for Rock Smash - the badge
+	@ text says so, no separate handover is needed.
 	setvar VAR_0x8004, LIC_ROCK_SMASH
 	special SetHoennLicense
 #endif
@@ -115,8 +115,8 @@ MauvilleCity_Gym_EventScript_WattsonDefeated::
 	closemessage
 	delay 30
 	setflag FLAG_ENABLE_WATTSON_MATCH_CALL
-	@ HnS: Normans Anruf kommt ganz zum Schluss - vorher lief er mitten
-	@ in die Szene der Arenaleiterin hinein und die Textbox war noch offen.
+	@ HnS: Norman's call comes at the very end - before, it ran right into
+	@ the gym leader's scene while the text box was still open.
 	call_if_eq VAR_PETALBURG_GYM_STATE, 6, Common_EventScript_ReadyPetalburgGymForBattle
 	release
 	end
@@ -247,8 +247,8 @@ MauvilleCity_Gym_EventScript_GymGuidePostVictory::
 MauvilleCity_Gym_EventScript_LeftGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE03_GET gehoert zu den Johto/Kanto-Orden und ist
-	@ hier laengst gesetzt - stattdessen den Hoenn-Orden pruefen.
+	@ HnS: FLAG_BADGE03_GET belongs to the Johto/Kanto badges and is set
+	@ long before here - check the Hoenn badge instead.
 	setvar VAR_0x8004, 2
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_Gym_EventScript_GymStatueCertified
@@ -261,8 +261,8 @@ MauvilleCity_Gym_EventScript_LeftGymStatue::
 MauvilleCity_Gym_EventScript_RightGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE03_GET gehoert zu den Johto/Kanto-Orden und ist
-	@ hier laengst gesetzt - stattdessen den Hoenn-Orden pruefen.
+	@ HnS: FLAG_BADGE03_GET belongs to the Johto/Kanto badges and is set
+	@ long before here - check the Hoenn badge instead.
 	setvar VAR_0x8004, 2
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_Gym_EventScript_GymStatueCertified

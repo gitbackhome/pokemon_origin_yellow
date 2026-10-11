@@ -635,13 +635,13 @@
 
 
 
-// Telefon-Rueckkampfstufen fuer Irwin, Derek und Beverly (HnS 2.0.1, Commit
-// 313d4290e8). Upstream haengt sie bei 619-630 an - bei uns sind das die
-// Hoenn-Trainer (TRAINER_SAWYER_1 = 619). Im HnS/Hoenn-Block sind nur noch
-// 330, 1478 und 1479 frei, deshalb liegen sie hinter dem FRLG-Block. Ihre
-// Trainerflags (TRAINER_FLAGS_START + id) laegen in SYS_FLAGS und werden in
-// GetFlagPointer nach SaveBlock3 (flagsHnsRematchTiers) umgeleitet - so
-// bleiben alle bestehenden Flag- und Trainer-IDs unveraendert.
+// Phone rematch tiers for Irwin, Derek and Beverly (HnS 2.0.1, commit
+// 313d4290e8). Upstream appends them at 619-630 - in our build those are
+// the Hoenn trainers (TRAINER_SAWYER_1 = 619). Only 330, 1478 and 1479 are
+// still free in the HnS/Hoenn block, so they sit behind the FRLG block.
+// Their trainer flags (TRAINER_FLAGS_START + id) would lie in SYS_FLAGS
+// and are redirected into SaveBlock3 (flagsHnsRematchTiers) by
+// GetFlagPointer - so all existing flag and trainer IDs stay unchanged.
 #define HNS_REMATCH_TIERS_START               2324  // = FRLG_TRAINERS_END + 1
 #define TRAINER_IRWIN_2_HNS                   (HNS_REMATCH_TIERS_START + 0)
 #define TRAINER_IRWIN_3_HNS                   (HNS_REMATCH_TIERS_START + 1)
@@ -655,10 +655,11 @@
 #define TRAINER_BEVERLY_3_HNS                 (HNS_REMATCH_TIERS_START + 9)
 #define TRAINER_BEVERLY_4_HNS                 (HNS_REMATCH_TIERS_START + 10)
 #define TRAINER_BEVERLY_5_HNS                 (HNS_REMATCH_TIERS_START + 11)
-// Post-OBC-Rueckkampfteams der Arenaleiter, Top Vier, Siegfried, Blau und Rot
-// (HnS 2.0.5). Upstream haengt sie auf 631 bis 652 an - bei uns sind das
-// Hoenn-Trainer, 631 ist TRAINER_ED und 652 TRAINER_ARCHIE. Sie liegen
-// deshalb im selben umgeleiteten Bereich wie die Telefon-Rueckkampfstufen.
+// Post-OBC rematch teams of the gym leaders, Elite Four, Lance, Blue and
+// Red (HnS 2.0.5). Upstream appends them at 631 to 652 - in our build
+// those are Hoenn trainers, 631 is TRAINER_ED and 652 is TRAINER_ARCHIE.
+// They therefore sit in the same redirected range as the phone rematch
+// tiers.
 #define TRAINER_FALKNER_POSTOBC_HNS           (HNS_REMATCH_TIERS_START + 12)
 #define TRAINER_BUGSY_POSTOBC_HNS             (HNS_REMATCH_TIERS_START + 13)
 #define TRAINER_WHITNEY_POSTOBC_HNS           (HNS_REMATCH_TIERS_START + 14)
@@ -684,11 +685,11 @@
 #define HNS_REMATCH_TIERS_END                 (HNS_REMATCH_TIERS_START + 33)
 #define HNS_REMATCH_TIERS_COUNT               (HNS_REMATCH_TIERS_END - HNS_REMATCH_TIERS_START + 1)
 
-// Flags dieser IDs (siehe GetFlagPointer). 0x500 + id ergaebe 0xE14-0xE1F
-// und laege damit im Hoenn-Flagblock (0xB72-0xF53) - gleiche Falle wie beim
-// FRLG-Block, siehe opponents_frlg_hns.h. Eigenes Fenster direkt hinter dem
-// FRLG-Trainerfenster; der Rest mod 8 (0xE14 -> 4) bleibt erhalten, damit
-// bestehende Spielstaende ihre Bits behalten.
+// Flags of these IDs (see GetFlagPointer). 0x500 + id would give
+// 0xE14-0xE1F and thus lie inside the Hoenn flag block (0xB72-0xF53) -
+// the same trap as with the FRLG block, see opponents_frlg_hns.h. A window
+// of its own directly behind the FRLG trainer window; the remainder mod 8
+// (0xE14 -> 4) is kept so existing save files keep their bits.
 #define HNS_REMATCH_TIER_FLAGS_BASE           0x3680
 #define HNS_REMATCH_TIER_FLAGS_START          (HNS_REMATCH_TIER_FLAGS_BASE + ((0x500 + HNS_REMATCH_TIERS_START) & 7))
 #define HNS_REMATCH_TIER_FLAGS_END            (HNS_REMATCH_TIER_FLAGS_START + HNS_REMATCH_TIERS_COUNT - 1)
@@ -696,10 +697,10 @@
 
 // 618 is TRAINER_TANYA_HNS, relocated out of the TRAINER_FRONTIER_BRAIN slot (330).
 
-// Top-Vier-Rueckkaempfe (Origin Jade). Nur EINE Steigerungsstufe je Mitglied:
-// MAX_TRAINERS_COUNT_HNS laesst vor dem Trainerflag-Ueberlauf nur 7 freie
-// Slots - vier Stufen je Mitglied (20 IDs) braeuchten eine save-brechende
-// Flag-Verschiebung. Die Levelskalierung traegt die Schwierigkeit ohnehin.
+// Elite Four rematches (Origin Jade). Only ONE extra tier per member:
+// MAX_TRAINERS_COUNT_HNS leaves only 7 free slots before the trainer flags
+// overflow - four tiers per member (20 IDs) would need a save-breaking
+// flag shift. Level scaling carries the difficulty anyway.
 #define TRAINER_SIDNEY_2                         1473
 #define TRAINER_PHOEBE_2                         1474
 #define TRAINER_GLACIA_2                         1475

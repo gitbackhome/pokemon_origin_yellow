@@ -28,15 +28,15 @@ NewBarkTown_Text_ElmName:
 
 NewBarkTown_OnTransition::
 	call_if_unset FLAG_JOHTO_ARRIVAL_DONE, NewBarkTown_EventScript_JohtoArrivalSetup
-	@ Standort des Maedchens: solange der Spieler nicht bei Lind war, steht
-	@ sie im Ausgang nach Route 29, danach wieder in der Stadt. Haengt an
-	@ VAR_JOHTO_ARRIVAL_STATE und nicht an HnS' VAR_NEWBARK_TOWN_STATE - der
-	@ wird im Haus der Mutter gesetzt, das Origin Jade ueberspringt, und
-	@ steht je nach Spielstand auf irgendeinem Wert.
-	@ Nachtrag fuer Spielstaende, die den Laborbesuch schon hinter sich haben:
-	@ Lind stellt den Var erst seit Patch 0015 auf 1. Wer vorher bei ihm war,
-	@ saesse sonst dauerhaft in Neuborkia fest. Ab Laborzustand 3 hat das
-	@ Gespraech stattgefunden, dann ist der Weg frei.
+	@ The girl's position: as long as the player has not been to Elm, she
+	@ stands in the exit to Route 29, afterwards back in town. Depends on
+	@ VAR_JOHTO_ARRIVAL_STATE and not on HnS's VAR_NEWBARK_TOWN_STATE - that
+	@ one is set in Mom's house, which Origin Jade skips, and holds an
+	@ arbitrary value depending on the save.
+	@ Catch-up for saves that are already past the lab visit: Elm only sets
+	@ the var to 1 since patch 0015. A player who visited him earlier would
+	@ otherwise be stuck in New Bark Town for good. From lab state 3 on the
+	@ conversation has happened, so the way is open.
 	call_if_eq VAR_JOHTO_ARRIVAL_STATE, 0, NewBarkTown_EventScript_CheckElmAlreadySeen
 	call_if_eq VAR_JOHTO_ARRIVAL_STATE, 0, NewBarkTown_EventScript_LassBlocksExit
 	call_if_ne VAR_JOHTO_ARRIVAL_STATE, 0, NewBarkTown_EventScript_LassInTown
@@ -44,21 +44,21 @@ NewBarkTown_OnTransition::
 	goto_if_eq VAR_NEWBARK_TOWN_STATE, 4, NewBarkTown_Set_TalkToMom
 	end
 
-@ Origin Jade: HnS setzt seine Johto-Startwerte im Haus der Mutter, waehrend
-@ der Spieler dort seine Ausruestung bekommt. Wer als Champion aus Kanto
-@ kommt, laeuft durch diese Szene nie - und betrat Johto deshalb ohne diese
-@ Flags. Sichtbar wurde das am Polizisten, der von Anfang an im Labor stand,
-@ obwohl er erst zur Diebstahlszene gehoert.
+@ Origin Jade: HnS sets its Johto start values in Mom's house while the
+@ player gets their equipment there. A champion coming from Kanto never
+@ goes through this scene - and therefore entered Johto without these
+@ flags. It showed with the policeman, who stood in the lab from the start
+@ although he only belongs to the theft scene.
 NewBarkTown_EventScript_JohtoArrivalSetup::
 	setflag FLAG_JOHTO_ARRIVAL_DONE
-	@ Ortszustand: HnS setzt ihn im Haus der Mutter auf 2. Ohne ihn stimmen
-	@ die Zustaende der Neuborkia-NPCs nicht und niemand haelt den Spieler
-	@ auf, bevor er bei Lind war. Nur setzen, wenn er noch unberuehrt ist.
+	@ Town state: HnS sets it to 2 in Mom's house. Without it the states of
+	@ the New Bark Town NPCs do not match and nobody stops the player before
+	@ they have been to Elm. Only set it if it is still untouched.
 	call_if_eq VAR_NEWBARK_TOWN_STATE, 0, NewBarkTown_EventScript_SetArrivalState
 	setflag FLAG_HIDE_LAB_POLICEMAN
 	setflag FLAG_VISITED_NEWBARK_TOWN
-	@ Pokegear und Anrufliste: in Kanto laengst vorhanden, die Johto-Seite
-	@ haengt aber an diesen Flags.
+	@ PokeGear and call list: long present since Kanto, but the Johto side
+	@ depends on these flags.
 	setflag FLAG_SYS_POKENAV_GET
 	setflag FLAG_HAS_MATCH_CALL
 	setflag FLAG_RECEIVED_POKENAV
@@ -75,19 +75,19 @@ NewBarkTown_EventScript_ReleaseExit::
 	return
 
 NewBarkTown_EventScript_LassBlocksExit::
-	@ Neben dem Ausgang nach Route 29, die Absperrung machen die drei
-	@ Ausloeser bei 0,12 bis 0,14.
+	@ Next to the exit to Route 29; the three triggers at 0,12 to 0,14 do
+	@ the blocking.
 	setobjectxyperm LOCALID_LASS, 0, 11
 	return
 
 NewBarkTown_EventScript_LassInTown::
-	@ Ausgangsposition aus der Karte.
+	@ Starting position from the map.
 	setobjectxyperm LOCALID_LASS, 9, 16
 	return
 
-@ Absperrung des Ausgangs. Ausgeloest von den drei Feldern bei 0,12 bis 0,14,
-@ solange VAR_JOHTO_ARRIVAL_STATE auf 0 steht. Lind stellt ihn auf 1, sobald
-@ er sich im Pokegear eingetragen hat.
+@ Blocks the exit. Triggered by the three tiles at 0,12 to 0,14 as long as
+@ VAR_JOHTO_ARRIVAL_STATE is 0. Elm sets it to 1 as soon as he has
+@ registered himself in the PokeGear.
 NewBarkTown_EventScript_JohtoLeaveBlock::
 	lock
 	playse SE_PIN

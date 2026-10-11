@@ -2,8 +2,8 @@ Route10_Frlg_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, Route10_OnTransition
 	.byte 0
 
-@ Flugpunkt bereits beim Betreten der Route freischalten, nicht erst
-@ beim Betreten des Pokemon-Centers.
+@ Unlock the fly point as soon as the route is entered, not only when the
+@ Pokemon Center is entered.
 Route10_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_ROUTE10_POKEMON_CENTER_1F
 	end

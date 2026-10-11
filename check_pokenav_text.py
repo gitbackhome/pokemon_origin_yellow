@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-check_pokenav_text.py -- misst die Zeilenbreite aller PokeCom-Anruftexte.
+check_pokenav_text.py -- measures the line width of all PokeNav call texts.
 
-Die Anrufbox ist 28 Kacheln breit (224 px), der Text beginnt aber erst bei
-x = 32, weil links das Hoerersymbol sitzt. Nutzbar sind also 192 px statt
-der 208 px einer normalen Textbox -- rund zweieinhalb Zeichen weniger.
-Zeilen, die in msgbox passen, laufen in pokenavcall ueber.
+The call box is 28 tiles wide (224 px), but the text only starts at
+x = 32 because the handset icon sits on the left. So 192 px are usable
+instead of the 208 px of a normal text box -- about two and a half
+characters less. Lines that fit into msgbox overflow in pokenavcall.
 
-Gemessen wird mit gFontNormalLatinGlyphWidths aus src/fonts.c und der
-Zeichenzuordnung aus charmap.txt, also genau so, wie das Spiel rechnet.
+Measured with gFontNormalLatinGlyphWidths from src/fonts.c and the
+character mapping from charmap.txt, i.e. exactly the way the game computes.
 
-Aufruf im Repo-Wurzelverzeichnis:
+Usage from the repository root:
     python3 check_pokenav_text.py
     python3 check_pokenav_text.py --limit 192
 """
@@ -21,12 +21,13 @@ import os
 import re
 import sys
 
-WINDOW_PX = 224          # 28 Kacheln
-TEXT_START_X = 32        # Platz fuer das Hoerersymbol
+WINDOW_PX = 224          # 28 tiles
+TEXT_START_X = 32        # room for the handset icon
 DEFAULT_LIMIT = WINDOW_PX - TEXT_START_X
 
 
 def load_glyph_widths(path="src/fonts.c"):
+    """Glyph widths of the normal font, indexed by glyph id."""
     with open(path, encoding="utf-8", errors="replace") as fh:
         text = fh.read()
     start = text.index("gFontNormalLatinGlyphWidths[] = {")
@@ -35,7 +36,7 @@ def load_glyph_widths(path="src/fonts.c"):
 
 
 def load_charmap(path="charmap.txt"):
-    """Zeichen -> Glyphen-Id. Nur Eintraege der Form 'x' = NN."""
+    """Character -> glyph id. Only entries of the form 'x' = NN."""
     mapping = {}
     pattern = re.compile(r"^'(.+?)'\s*=\s*([0-9A-Fa-f]{2})\s*$")
     with open(path, encoding="utf-8", errors="replace") as fh:
@@ -47,15 +48,15 @@ def load_charmap(path="charmap.txt"):
 
 
 PLACEHOLDERS = {
-    # Platzhalter werden zur Laufzeit ersetzt. Angesetzt wird eine
-    # realistische Laenge, damit lange Namen nicht durchrutschen.
+    # Placeholders are replaced at runtime. A realistic length is assumed
+    # so that long names do not slip through.
     "PLAYER": 7, "RIVAL": 7, "STR_VAR_1": 10, "STR_VAR_2": 10,
     "STR_VAR_3": 10, "KUN": 0, "POKEMON": 7, "POKEBLOCK": 9,
 }
 
 
 def line_width(line, widths, charmap):
-    """Breite in Pixeln. Steuerzeichen werden uebersprungen."""
+    """Width in pixels. Control characters are skipped."""
     total = 0
     i = 0
     while i < len(line):
@@ -74,7 +75,7 @@ def line_width(line, widths, charmap):
         ch = line[i]
         gid = charmap.get(ch)
         if gid is None:
-            total += 6          # unbekanntes Zeichen: mittlere Breite
+            total += 6          # unknown character: average width
         elif gid < len(widths):
             total += widths[gid]
         i += 1
@@ -82,7 +83,7 @@ def line_width(line, widths, charmap):
 
 
 def collect_call_texts():
-    """Findet alle pokenavcall-Ziele und liefert (Datei, Label, Zeilen)."""
+    """Finds all pokenavcall targets and returns (file, label, lines)."""
     files = (glob.glob("data/maps/*/scripts.inc")
              + glob.glob("data/scripts/*.inc")
              + ["data/event_scripts.s"])
@@ -121,6 +122,7 @@ def collect_call_texts():
 
 
 def main():
+    """Prints every call text line that is wider than the limit."""
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT,
                     help="Zeilenbreite in Pixeln (Default: %d)" % DEFAULT_LIMIT)
@@ -140,7 +142,7 @@ def main():
     problems = 0
     for label in sorted(targets):
         for path, raw in targets[label]:
-            # Eine Textzeile endet an \n, \l, \p oder $
+            # A text line ends at \n, \l, \p or $
             for chunk in re.split(r"\\n|\\l|\\p", raw):
                 chunk = chunk.replace("$", "")
                 if not chunk:

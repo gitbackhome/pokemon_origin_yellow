@@ -14,8 +14,8 @@ Route5_Text_UndergroundPathSign::
 	.string "CERULEAN CITY - VERMILION CITY$"
 #endif
 
-@ Pension: Der Pensionsleiter draussen uebergibt das Ei. Die Annahme und
-@ Rueckgabe der Pokemon laeuft ueber die Leiterin im Gebaeude.
+@ Day Care: the Day Care Man outside hands over the egg. Taking in and
+@ returning the Pokemon is handled by the Day Care Lady in the building.
 Route5_EventScript_DaycareMan::
 	lock
 	faceplayer

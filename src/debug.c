@@ -1493,9 +1493,9 @@ static void DebugAction_Util_Fly(u8 taskId)
     SetMainCallback2(CB2_OpenFlyMap);
 }
 
-// Kanto-Merge: Der Warp-Dialog laeuft jetzt regionsweise. tRegionBase ist die
-// erste Kartengruppe der gewaehlten Region, tRegionLast die letzte; die
-// Eingabe zaehlt ab 0 innerhalb der Region.
+// Kanto merge: the warp dialog now works per region. tRegionBase is the
+// first map group of the chosen region, tRegionLast the last one; the
+// input counts from 0 within the region.
 #define REGION_JOHTO_FIRST_GROUP  0
 #define REGION_JOHTO_LAST_GROUP   30
 #define REGION_HOENN_FIRST_GROUP  31
@@ -1542,6 +1542,7 @@ static void DebugAction_Util_Warp_Warp(u8 taskId)
     gTasks[taskId].tWarp = 0;
 }
 
+// Opens the warp dialog restricted to the map groups first..last.
 static void DebugAction_Util_Warp_Region(u8 taskId, u32 first, u32 last)
 {
     DebugAction_Util_Warp_Warp(taskId);
@@ -1869,10 +1870,10 @@ static void DebugAction_Util_CheatStart(u8 taskId)
 }
 
 #if IS_HNS
-// Testwerkzeug: markiert Johto+Kanto als abgeschlossen (16 Orden,
-// Champion, alle Flugpunkte, S.S.-Aqua-Hoenn-Route frei) und stellt
-// ein levelgerechtes Champion-Team samt VM-Attacken - damit jeder
-// frische Spielstand direkt in Hoenn getestet werden kann.
+// Test tool: marks Johto+Kanto as finished (16 badges, champion, all fly
+// points, S.S. Aqua Hoenn route open) and provides a level-appropriate
+// champion team including HM moves - so every fresh save can be tested
+// directly in Hoenn.
 static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
 {
     static const u16 sJkVisitedFlags[] =
@@ -1892,7 +1893,7 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
         FLAG_VISITED_SAFFRON_CITY,   FLAG_VISITED_FUCHSIA_CITY,
         FLAG_VISITED_CINNABAR_ISLAND,
     };
-    // Testteam: nur zum Durchspielen gedacht, nicht auf Kampfbalance ausgelegt.
+    // Test team: only meant for playing through, not tuned for battle balance.
     static const u16 sTeamSpecies[] =
     {
         SPECIES_RAYQUAZA, SPECIES_KYOGRE, SPECIES_CHARIZARD,
@@ -1901,24 +1902,26 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
     u32 i;
     u16 f;
 
-    // 16 Orden (Johto 1-8, Kanto 9-16)
+    // 16 badges (FLAG_BADGE01-16; note: in Origin Jade the Johto badges live in VAR_JOHTO_BADGES)
     for (f = FLAG_BADGE01_GET; f <= FLAG_BADGE08_GET; f++)
         FlagSet(f);
     for (f = FLAG_BADGE09_GET; f <= FLAG_BADGE16_GET; f++)
         FlagSet(f);
-    // Champion + Systeme
+    // Champion + systems
     FlagSet(FLAG_SYS_GAME_CLEAR);
     FlagSet(FLAG_SYS_POKEDEX_GET);
-    // Ohne diese Flags fehlen die Startmenue-Eintraege: FLAG_SYS_POKEMON_GET
-    // setzt sonst erst die Starter-Uebergabe bei Prof. Lind, FLAG_SYS_POKENAV_GET
-    // der PokeCom zu Hause. FLAG_ADVENTURE_STARTED gibt die Ortsausgaenge frei,
-    // die Laufschuhe erspart das Schleichen.
+    // Without these flags the start menu entries are missing:
+    // FLAG_SYS_POKEMON_GET would otherwise only be set by the starter
+    // handover at Prof. Elm, FLAG_SYS_POKENAV_GET by the PokeGear at home.
+    // FLAG_ADVENTURE_STARTED opens the town exits, the running shoes save
+    // walking.
     FlagSet(FLAG_SYS_POKEMON_GET);
     FlagSet(FLAG_SYS_POKENAV_GET);
-    // PokeCom-Menue vollstaendig: ohne diese vier Flags fehlen im Geraet der
-    // Trainerruf (beide noetig), das Radio und der Zustands-Eintrag.
-    // Regulaer setzt sie das Spielerhaus in Neuborkia, der Funkturm Dukatia
-    // und Prof. Linds Labor - alles Stationen, die der Testsprung ueberspringt.
+    // Complete PokeGear menu: without these four flags the device lacks
+    // the trainer call (both needed), the radio and the condition entry.
+    // Normally they are set by the player's house in New Bark Town, the
+    // Goldenrod Radio Tower and Prof. Elm's lab - all stops the test jump
+    // skips.
     FlagSet(FLAG_HAS_MATCH_CALL);
     FlagSet(FLAG_ADDED_MATCH_CALL_TO_POKENAV);
     FlagSet(FLAG_ENABLE_RADIO);
@@ -1930,37 +1933,37 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
     FlagSet(FLAG_IS_CHAMPION);
     FlagSet(FLAG_IS_KANTO_CHAMPION);
     FlagSet(FLAG_RECEIVED_PASS_BINDER);
-    // Flugpunkte Johto+Kanto (Hoenn bleibt bewusst unbesucht)
+    // Fly points Johto+Kanto (Hoenn deliberately stays unvisited)
     for (i = 0; i < ARRAY_COUNT(sJkVisitedFlags); i++)
         FlagSet(sJkVisitedFlags[i]);
-    // S.S. Aqua: Kanto-Route abgeschlossen -> Hoenn-Option im Hafen
+    // S.S. Aqua: Kanto route finished -> Hoenn option at the port
     VarSet(VAR_SSAQUA_STATE, 7);
-    // Troys Ticketkette gilt als erledigt, das Hoennticket liegt im Beutel -
-    // sonst laesst der Matrose die Ueberfahrt nicht zu.
+    // Steven's (Troy's) ticket chain counts as done and the Hoenn Ticket is
+    // in the bag - otherwise the sailor refuses the crossing.
     VarSet(VAR_HOENN_TICKET_STATE, 3);
     FlagSet(FLAG_HIDE_SILPHCO_TROY);
     AddBagItem(ITEM_HOENN_TICKET, 1);
-    // Sonderbonbons in Beutelmenge - damit sich frisch gefangene Hoenn-Arten
-    // sofort auf Korridorniveau bringen lassen, ohne dafuer zu trainieren.
+    // A full bag stack of Rare Candies - so freshly caught Hoenn species can
+    // be brought up to corridor level right away without training.
     AddBagItem(ITEM_RARE_CANDY, MAX_BAG_ITEM_CAPACITY);
-    // Testteam auf Level 100
+    // Test team at level 100
     ZeroPlayerPartyMons();
     for (i = 0; i < ARRAY_COUNT(sTeamSpecies); i++)
         ScriptGiveMon(sTeamSpecies[i], MAX_LEVEL, ITEM_NONE);
     CalculatePlayerPartyCount();
     SetMoney(&gSaveBlock1Ptr->money, 200000);
-    // Alle belegten TMs und alle VMs je einmal in den Beutel.
-    // Achtung: Der Bereich ITEM_TM01..ITEM_TM100 ist unter HnS nur bis TM92
-    // belegt - die acht Nummern danach haben keinen Namen und landeten
-    // frueher als "-" im Beutel.
+    // One of every assigned TM and every HM into the bag.
+    // Careful: under HnS the range ITEM_TM01..ITEM_TM100 is only assigned
+    // up to TM92 - the eight numbers after that have no name and used to
+    // end up in the bag as "-".
     for (i = ITEM_TM01; i <= ITEM_TM_TRICK_ROOM; i++)
         AddBagItem(i, 1);
-    // Ueber den VM-Index statt ueber den ID-Bereich: ITEM_HM09 (Taucher)
-    // haengt am Ende der Item-Liste und liegt nicht hinter ITEM_HM08.
+    // Via the HM index instead of the ID range: ITEM_HM09 (Dive) is
+    // appended at the end of the item list and does not follow ITEM_HM08.
     for (i = NUM_TECHNICAL_MACHINES + 1; i <= NUM_ALL_MACHINES; i++)
         AddBagItem(GetTMHMItemId(i), 1);
-    // Pokedex Kanto + Johto vollstaendig (1-251). Hoenn bleibt bewusst offen,
-    // damit sich die Freischaltung bei der Ankunft pruefen laesst.
+    // Pokedex Kanto + Johto complete (1-251). Hoenn deliberately stays open
+    // so the unlock on arrival can be tested.
     for (i = 1; i <= NATIONAL_DEX_CELEBI; i++)
     {
         GetSetPokedexFlag(i, FLAG_SET_SEEN);
@@ -1968,7 +1971,7 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
     }
 
     PlaySE(SE_EXP_MAX);
-    // Direkt in den Hafen von Oliviana - von dort geht das Schiff nach Hoenn.
+    // Straight to the Olivine port - the ship to Hoenn leaves from there.
     Debug_DestroyMenu_Full_Script(taskId, Debug_EventScript_HnsWarpOlivinePort);
 }
 
@@ -1981,9 +1984,9 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
 #endif
 
 #if IS_HNS
-// Kanto-Merge: Testwerkzeug fuer den Kanto-Durchlauf. Gibt ein Team auf
-// Level 100 und alle TMs/VMs, laesst die Story aber unangetastet - anders
-// als der Hoenn-Test, der Johto und Kanto als abgeschlossen markiert.
+// Kanto merge: test tool for the Kanto run. Gives a level 100 team and all
+// TMs/HMs but leaves the story untouched - unlike the Hoenn test, which
+// marks Johto and Kanto as finished.
 static void DebugAction_Util_KantoTest(u8 taskId)
 {
     static const u16 sTeamSpecies[] =
@@ -2011,15 +2014,15 @@ static void DebugAction_Util_KantoTest(u8 taskId)
 #endif
 
 #if IS_HNS
-// Testwerkzeug fuer den Uebergang nach Johto: setzt den Spielstand auf das
-// Ende von Kanto - acht Orden, Champion, alle Flugpunkte der Region - und
-// springt in Prof. Eichs Labor. Dort wartet der GS-Ball; von da an laesst
-// sich die gesamte Kette bis zu Prof. Lind in Neuborkia durchspielen.
+// Test tool for the transition to Johto: sets the save to the end of
+// Kanto - eight badges, champion, all fly points of the region - and
+// jumps into Prof. Oak's lab. The GS Ball waits there; from then on the
+// whole chain up to Prof. Elm in New Bark Town can be played through.
 static void DebugAction_Util_JohtoTest(u8 taskId)
 {
-    // Flugpunkte. FLAG_VISITED_* steuert die Flugliste,
-    // FLAG_WORLD_MAP_* die Markierung auf der Regionskarte. Beide werden
-    // regulaer beim ersten Betreten gesetzt, was der Testsprung ueberspringt.
+    // Fly points. FLAG_VISITED_* controls the fly list, FLAG_WORLD_MAP_*
+    // the marker on the region map. Both are normally set on first entry,
+    // which the test jump skips.
     static const u16 sKantoWorldMapFlags[] =
     {
         FLAG_WORLD_MAP_PALLET_TOWN,      FLAG_WORLD_MAP_VIRIDIAN_CITY,
@@ -2040,13 +2043,13 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
         FLAG_VISITED_SAFFRON_CITY,   FLAG_VISITED_FUCHSIA_CITY,
         FLAG_VISITED_CINNABAR_ISLAND, FLAG_VISITED_INDIGO_PLATEAU,
     };
-    // Dasselbe Team wie im Kanto-Test.
+    // The same team as in the Kanto test.
     static const u16 sTeamSpecies[] =
     {
         SPECIES_CHARIZARD, SPECIES_GENGAR,    SPECIES_LAPRAS,
         SPECIES_ALAKAZAM,  SPECIES_SANDSLASH, SPECIES_ZAPDOS,
     };
-    // Alles, was der Spielanfang bis zur Uebergabe des Pokedex abhandelt.
+    // Everything the start of the game handles up to the Pokedex handover.
     static const u16 sEarlyGameFlags[] =
     {
         FLAG_ADVENTURE_STARTED,     FLAG_OPENED_START_MENU,
@@ -2062,15 +2065,14 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
         FLAG_HAS_MATCH_CALL,        FLAG_ADDED_MATCH_CALL_TO_POKENAV,
         FLAG_SYS_POKENAV_GET,
     };
-    // Alle Variablen, die in Kanto Szenen ausloesen, jeweils auf einen Wert
-    // hinter ihrem letzten Triggerwert. Ohne das laufen beim Testdurchgang
-    // ueberall Szenen an, die der Spieler laengst hinter sich haben muesste -
-    // der Rivale in Azuria, Rocket im Mondberg, die Silph-Szenen und so fort.
-    // Ermittelt aus allen map_script_2- und coord_event-Eintraegen der
-    // gebauten FRLG-Karten. VAR_TEMP_*, VAR_TRAIN und die
-    // Siegesstrassen-Felsbrocken sind bewusst ausgenommen: die ersten werden
-    // beim Kartenwechsel zurueckgesetzt, die anderen steuern Raetsel, die sich
-    // beim Betreten neu aufbauen.
+    // Every var that triggers scenes in Kanto, each set to a value past its
+    // last trigger value. Without this, scenes would start everywhere during
+    // the test run that the player should have long finished - the rival in
+    // Cerulean, Team Rocket in Mt. Moon, the Silph scenes and so on.
+    // Collected from all map_script_2 and coord_event entries of the built
+    // FRLG maps. VAR_TEMP_*, VAR_TRAIN and the Victory Road boulders are
+    // deliberately left out: the former are reset on map change, the others
+    // control puzzles that rebuild themselves on entry.
     static const struct { u16 var; u16 value; } sKantoSceneVars[] =
     {
         { VAR_MAP_SCENE_CERULEAN_CITY_RIVAL, 1 },
@@ -2108,28 +2110,28 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
     u32 i;
     u16 f;
 
-    // Kanto-Orden. In Origin Jade ist Kanto die erste Region und benutzt
-    // FLAG_BADGE01..08; die Bloecke 09-16 gehoeren Johto.
+    // Kanto badges. In Origin Jade Kanto is the first region and uses
+    // FLAG_BADGE01..08; Johto has its own badge mask (VAR_JOHTO_BADGES).
     for (f = FLAG_BADGE01_GET; f <= FLAG_BADGE08_GET; f++)
         FlagSet(f);
 
     FlagSet(FLAG_SYS_GAME_CLEAR);
-    // Nur der Kanto-Titel. FLAG_IS_CHAMPION ist in diesem Aufbau der
-    // Johto-Titel; die Top Vier dort entscheiden daran, ob sie einen
-    // Erstkampf oder eine Revanche fuehren.
+    // Only the Kanto title. The Johto title is FLAG_IS_JOHTO_CHAMPION; the
+    // Elite Four there use it to decide between a first battle and a
+    // rematch.
     FlagSet(FLAG_IS_KANTO_CHAMPION);
     for (i = 0; i < ARRAY_COUNT(sEarlyGameFlags); i++)
         FlagSet(sEarlyGameFlags[i]);
-    // Der HnS-Spielstart im Haus in Neuborkia bleibt still, wie im regulaeren
-    // Spielstand auch.
+    // The HnS game start in the New Bark Town house stays silent, as in a
+    // regular save.
     VarSet(VAR_NEWBARK_TOWN_STATE, 5);
     FlagSet(FLAG_MOM_VISITED);
     VarSet(VAR_PALLET_HOUSE_CLOCK, 1);
-    // Baobas Anruf auf Route 27 bleibt aus, wie im regulaeren Spielstand auch.
+    // Baoba's call on Route 27 does not happen, as in a regular save.
     VarSet(VAR_ROUTE27_BAOBA_CALL, 1);
-    // Der Polizist in Linds Labor gehoert zur Diebstahlsepisode.
+    // The policeman in Elm's lab belongs to the theft episode.
     FlagSet(FLAG_HIDE_LAB_POLICEMAN);
-    // Der National-Dex ist nach der Kanto-Liga freigeschaltet.
+    // The National Dex is unlocked after the Kanto league.
     EnableNationalPokedex();
 
     for (i = 0; i < ARRAY_COUNT(sKantoVisitedFlags); i++)
@@ -2139,11 +2141,11 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
     for (i = 0; i < ARRAY_COUNT(sKantoSceneVars); i++)
         VarSet(sKantoSceneVars[i].var, sKantoSceneVars[i].value);
 
-    // Eich hat den Spieler nach der Ruhmeshalle ins Labor bestellt. Damit
-    // greift beim Ansprechen sofort die GS-Ball-Uebergabe.
+    // Oak has asked the player to the lab after the Hall of Fame. Talking
+    // to him then starts the GS Ball handover right away.
     VarSet(VAR_JOHTO_HANDOVER, 1);
-    // Eich steht im Labor - regulaer raeumt das PalletTown_Frlg beim ersten
-    // Betreten weg, der Testsprung ueberspringt das.
+    // Oak stands in the lab - normally PalletTown_Frlg clears this on first
+    // entry, which the test jump skips.
     FlagClear(FLAG_HIDE_OAK_IN_HIS_LAB);
 
     ZeroPlayerPartyMons();
@@ -2152,14 +2154,14 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
     CalculatePlayerPartyCount();
     SetMoney(&gSaveBlock1Ptr->money, 100000);
 
-    // VM01 bis VM06: Zerschneider, Fliegen, Surfer, Staerke, Blitz,
-    // Zertruemmerer. Kaskade, Strudel und Taucher kommen erst spaeter.
+    // HM01 to HM06: Cut, Fly, Surf, Strength, Flash, Rock Smash.
+    // Waterfall, Whirlpool and Dive come later.
     for (i = ITEM_HM01; i <= ITEM_HM06; i++)
         AddBagItem(i, 1);
     AddBagItem(ITEM_RARE_CANDY, MAX_BAG_ITEM_CAPACITY);
 
-    // 185 Arten im Dex - ein Stand, wie ihn ein gruendlicher Kanto-Durchgang
-    // hinterlaesst, ohne den Dex vollstaendig zu machen.
+    // 185 species in the Dex - roughly what a thorough Kanto run leaves
+    // behind without completing the Dex.
     for (i = 1; i <= 185; i++)
     {
         GetSetPokedexFlag(i, FLAG_SET_SEEN);
@@ -2178,15 +2180,15 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
 #endif
 
 #if IS_HNS
-// Kanto-Merge: Reparatur fuer Spielstaende aus der Zeit vor der Verschiebung
-// der FRLG-Trainerflags. Damals lagen diese ab 0xAC7 und damit ueber den
-// SYS_FLAGS: Besiegte Trainer setzten dort Bits, die als Orden 09-16 und als
-// Systemzustaende gelesen wurden. Nach der Verschiebung stehen die alten
-// Werte an der falschen Stelle.
+// Kanto merge: repair for save files from before the FRLG trainer flags
+// were moved. Back then they started at 0xAC7 and thus overlapped the
+// SYS_FLAGS: defeated trainers set bits there that were read as badges
+// 09-16 and as system states. After the move the old values sit in the
+// wrong place.
 //
-// Geraeumt wird nur, was nachweislich Muell ist - die acht Ordensflags, die
-// in diesem Aufbau niemand mehr setzt. Alles andere bleibt unangetastet,
-// damit kein echter Fortschritt verloren geht.
+// Only what is provably garbage is cleared - the eight badge flags that
+// nothing sets anymore in this setup. Everything else stays untouched so
+// no real progress is lost.
 static void DebugAction_Util_KantoRepair(u8 taskId)
 {
     u32 flag;
@@ -2846,11 +2848,11 @@ static void DebugAction_FlagsVars_SetValue(u8 taskId)
 
 #undef tVarValue
 
-// Kanto-Merge: Der Dex laeuft im Nationalmodus, zeigt aber nur bis zur
-// hoechsten gesehenen Nummer. Zum Testen braucht es deshalb Stufen statt
-// eines Alles-Schalters - sonst springt die Anzeige sofort bis Gen 4.
-// Der Dex laeuft in der Obtainable-Reihenfolge, deshalb wird auch nach ihr
-// gefuellt - sonst passt der Fuellstand nicht zur Anzeige.
+// Kanto merge: the Dex runs in national mode but only shows up to the
+// highest seen number. Testing therefore needs steps instead of one
+// fill-everything switch - otherwise the display jumps straight to Gen 4.
+// The Dex runs in obtainable order, so it is filled in that order too -
+// otherwise the fill level would not match the display.
 static void DebugAction_FlagsVars_PokedexFlags_Range(u8 taskId, u32 lastObtainable)
 {
     u32 i;
@@ -2859,8 +2861,8 @@ static void DebugAction_FlagsVars_PokedexFlags_Range(u8 taskId, u32 lastObtainab
     {
         u32 nationalNum = ObtainableToNationalOrder(i);
 
-        // Abgeschaltete Arten auslassen - sonst zaehlt der Dex Eintraege
-        // mit, die es im Spiel nicht gibt.
+        // Skip disabled species - otherwise the Dex would count entries
+        // that do not exist in the game.
         if (!IsSpeciesEnabled(NationalPokedexNumToSpecies(nationalNum)))
             continue;
 
@@ -2872,6 +2874,7 @@ static void DebugAction_FlagsVars_PokedexFlags_Range(u8 taskId, u32 lastObtainab
     ScriptContext_Enable();
 }
 
+// Fills the Pokedex up to Mew / Celebi (see the range helper above).
 static void DebugAction_FlagsVars_PokedexFlags_Kanto(u8 taskId)
 {
     DebugAction_FlagsVars_PokedexFlags_Range(taskId, NationalToObtainableOrder(NATIONAL_DEX_MEW));
@@ -4235,10 +4238,10 @@ static void DebugAction_TimeMenu_ChangeWeekdays(u8 taskId)
 // Actions PCBag
 
 
-// Kanto-Merge: Die Fuell-Aktionen liefen stumpf von SPECIES_BULBASAUR
-// aufwaerts und landeten dabei auch auf Nummern, die in diesem Aufbau nicht
-// belegt sind - das gab Fehler im Lagersystem. Diese Hilfe springt zur
-// naechsten Art mit hinterlegtem Namen und faengt am Ende wieder von vorn an.
+// Kanto merge: the fill actions used to run blindly upwards from
+// SPECIES_BULBASAUR and also hit numbers that are unused in this setup -
+// which caused errors in the storage system. This helper jumps to the
+// next species that has a name and wraps around at the end.
 static u16 Debug_NextUsableSpecies(u16 species)
 {
     u32 tries;

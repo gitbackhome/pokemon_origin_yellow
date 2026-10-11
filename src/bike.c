@@ -1141,9 +1141,9 @@ static u8 AcroBike_GetJumpDirection(void)
     // No acro tricks (side jump / turn jump) in these builds.
     // The trick history is fed unmasked keys from MovePlayerAvatar, so masking
     // B in MovePlayerOnBike alone isn't enough to suppress the jumps.
-    // Origin Jade: In Hoenn bleiben die Acro-Tricks erhalten - die
-    // Gelaender-Huepfer (Route 119, Fahrradstrecken) sind dort Pflichtweg.
-    // Gesperrt wird nur in Kanto, Johto und den uebrigen Regionen.
+    // Origin Jade: Hoenn keeps the Acro Bike tricks - the rail hops
+    // (Route 119, cycling road sections) are mandatory paths there.
+    // They are only disabled in Kanto, Johto and the other regions.
     if ((IS_HNS || IS_FRLG) && GetCurrentRegion() != REGION_HOENN)
         return DIR_NONE;
 

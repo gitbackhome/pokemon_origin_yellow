@@ -3436,9 +3436,9 @@ static void SetBerryTreeGraphicsById(struct ObjectEvent *objectEvent, u8 berryId
     const struct ObjectEventGraphicsInfo *graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     struct Sprite *sprite = &gSprites[objectEvent->spriteId];
 #if IS_HNS
-    // In Hoenn stehen die vollstaendig gezeichneten Beerenbaeume samt ihrer
-    // Originalpaletten; in Johto/Kanto die HGSS-Fruchtsprites, deren Busch
-    // Teil des Tilesets ist.
+    // Hoenn shows the fully drawn berry trees with their original
+    // palettes; Johto/Kanto show the HGSS fruit sprites, whose bush is part
+    // of the tileset.
     if (IsHoennMapsec(gMapHeader.regionMapSectionId))
     {
         UpdateSpritePalette(&sObjectEventSpritePalettes[gBerryTreePaletteSlotTablePointers_Hoenn[berryId][berryStage]-2], sprite);

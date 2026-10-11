@@ -16,8 +16,8 @@ RustboroCity_Gym_EventScript_RoxanneDefeated::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox RustboroCity_Gym_Text_StoneBadgeInfoTakeThis, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: Der Steinorden ist zugleich die Erlaubnis fuer Zerschneider -
-	@ das steht im Ordentext, eine eigene Uebergabe braucht es nicht.
+	@ HnS: the Stone Badge also grants the license for Cut - the badge
+	@ text says so, no separate handover is needed.
 	setvar VAR_0x8004, LIC_CUT
 	special SetHoennLicense
 #endif
@@ -37,8 +37,8 @@ RustboroCity_Gym_EventScript_GiveRockTomb::
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM_ROCK_TOMB
 	msgbox RustboroCity_Gym_Text_ExplainRockTomb, MSGBOX_DEFAULT
-	@ HnS: Normans Anruf kommt ganz zum Schluss - vorher lief er mitten
-	@ in die Szene der Arenaleiterin hinein und die Textbox war noch offen.
+	@ HnS: Norman's call comes at the very end - before, it ran right into
+	@ the gym leader's scene while the text box was still open.
 	call_if_eq VAR_PETALBURG_GYM_STATE, 6, Common_EventScript_ReadyPetalburgGymForBattle
 	release
 	end
@@ -79,8 +79,8 @@ RustboroCity_Gym_EventScript_GymGuidePostVictory::
 RustboroCity_Gym_EventScript_LeftGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE01_GET gehoert zu den Johto/Kanto-Orden und ist
-	@ hier laengst gesetzt - stattdessen den Hoenn-Orden pruefen.
+	@ HnS: FLAG_BADGE01_GET belongs to the Johto/Kanto badges and is set
+	@ long before here - check the Hoenn badge instead.
 	setvar VAR_0x8004, 0
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, RustboroCity_Gym_EventScript_GymStatueCertified
@@ -93,8 +93,8 @@ RustboroCity_Gym_EventScript_LeftGymStatue::
 RustboroCity_Gym_EventScript_RightGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE01_GET gehoert zu den Johto/Kanto-Orden und ist
-	@ hier laengst gesetzt - stattdessen den Hoenn-Orden pruefen.
+	@ HnS: FLAG_BADGE01_GET belongs to the Johto/Kanto badges and is set
+	@ long before here - check the Hoenn badge instead.
 	setvar VAR_0x8004, 0
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, RustboroCity_Gym_EventScript_GymStatueCertified

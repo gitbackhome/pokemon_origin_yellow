@@ -71,10 +71,10 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom::
 	applymovement LOCALID_CHAMPIONS_ROOM_PROF_OAK, PokemonLeague_ChampionsRoom_Movement_OakEnter
 	waitmovement 0
 	delay 25
-	@ Kanto-Merge: GetStarterPokemon liest sStarterMon, das ueber IS_FRLG
-	@ zwischen Kanto und Hoenn waehlt - im HnS-Build kam Geckarbor heraus.
-	@ VAR_STARTER_MON haelt ohnehin die FRLG-Nummer, daraus laesst sich die
-	@ Art direkt bestimmen.
+	@ Kanto merge: GetStarterPokemon reads sStarterMon, which picks between
+	@ Kanto and Hoenn via IS_FRLG - in the HnS build it returned Treecko.
+	@ VAR_STARTER_MON holds the FRLG number anyway, so the species can be
+	@ determined from it directly.
 	call_if_eq VAR_STARTER_MON, 0, PokemonLeague_ChampionsRoom_EventScript_NameBulbasaur
 	call_if_eq VAR_STARTER_MON, 1, PokemonLeague_ChampionsRoom_EventScript_NameSquirtle
 	call_if_eq VAR_STARTER_MON, 2, PokemonLeague_ChampionsRoom_EventScript_NameCharmander

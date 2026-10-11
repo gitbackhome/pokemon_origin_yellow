@@ -23,8 +23,8 @@ PalletTown_RivalsHouse_EventScript_Daisy::
 	faceplayer
 	famechecker FAMECHECKER_DAISY, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_RivalsHouse_EventScript_GroomMon
-	@ Kanto-Merge: Die Stadtkarte entfaellt - das PokeCom der Mutter enthaelt
-	@ sie bereits. Daisy wuenscht stattdessen viel Glueck.
+	@ Kanto merge: the Town Map is dropped - Mom's PokeGear already contains
+	@ it. Instead, Daisy wishes the player good luck.
 	goto_if_eq RECEIVED_TOWN_MAP, TRUE, PalletTown_RivalsHouse_EventScript_PleaseGiveMonsRest
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, PalletTown_RivalsHouse_EventScript_PleaseGiveMonsRest
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 1, PalletTown_RivalsHouse_EventScript_DaisyGoodLuck
@@ -128,9 +128,9 @@ PalletTown_RivalsHouse_EventScript_PleaseGiveMonsRest::
 	release
 	end
 
-@ Kanto-Merge: Ersetzt die Stadtkarten-Uebergabe. Das Kartensymbol auf dem
-@ Tisch verschwindet trotzdem, damit der Raum nicht auf eine Uebergabe
-@ wartet, die nie kommt.
+@ Kanto merge: replaces the Town Map handover. The map icon on the table
+@ still disappears so the room does not wait for a handover that never
+@ comes.
 PalletTown_RivalsHouse_EventScript_DaisyGoodLuck::
 	msgbox PalletTown_RivalsHouse_Text_DaisyGoodLuck
 	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2

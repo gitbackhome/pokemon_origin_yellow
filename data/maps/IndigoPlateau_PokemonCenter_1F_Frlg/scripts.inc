@@ -5,20 +5,20 @@ IndigoPlateau_PokemonCenter_1F_Frlg_MapScripts::
 
 IndigoPlateau_PokemonCenter_1F_OnTransition::
 	setrespawn HEAL_LOCATION_INDIGO_PLATEAU
-	@ Kanto-Merge: zweite Haelfte derselben Sevii-Sperre wie in Patch 0089.
-	@ Bei aktivem Nationaldex und ohne FLAG_IS_CHAMPION stellte sich die
-	@ Waechterin auf (4,2) und damit direkt vor die Tuer. Da unser Dex seit
-	@ Patch 0049 von Anfang an im Nationalmodus laeuft, traf das sofort zu -
-	@ die Liga war zugestellt.
+	@ Kanto merge: second half of the same Sevii block as in patch 0089.
+	@ With the National Dex active and without FLAG_IS_CHAMPION the guard
+	@ stood at (4,2), i.e. right in front of the door. Since our Dex runs in
+	@ national mode from the start (patch 0049), that applied immediately -
+	@ the league was blocked.
 	end
 
 IndigoPlateau_PokemonCenter_1F_EventScript_DoorGuard::
 	lock
 	faceplayer
-	@ Kanto-Merge: In FRLG steht der Nationaldex fuer 'das Nachspiel hat
-	@ begonnen' - dann ist Lorelei auf den Sevii-Inseln. Bei uns laeuft der
-	@ Dex seit Patch 0049 von Anfang an im Nationalmodus, und die Inseln
-	@ sind stillgelegt. Die Abfrage haette die Liga dauerhaft gesperrt.
+	@ Kanto merge: in FRLG the National Dex stands for 'the postgame has
+	@ begun' - then Lorelei is on the Sevii Islands. For us the Dex runs in
+	@ national mode from the start (patch 0049), and the islands are
+	@ retired. The check would have blocked the league for good.
 	msgbox IndigoPlateau_PokemonCenter_1F_Text_FaceEliteFourGoodLuck
 	release
 	end

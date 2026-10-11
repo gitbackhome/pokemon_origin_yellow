@@ -216,7 +216,7 @@ VermilionCity_Gym_EventScript_DefeatedLtSurge::
 	setflag FLAG_DEFEATED_LT_SURGE
 	setflag FLAG_BADGE03_GET
 	set_gym_trainers_frlg 3
-	@ Ab drei Orden gehorchen getauschte Pokemon bis Level 25.
+	@ From three badges on, traded Pokemon obey up to level 25.
 	msgbox VermilionCity_Gym_Text_ObedienceLevel20
 	goto VermilionCity_Gym_EventScript_GiveTM34
 	end

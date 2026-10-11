@@ -45,12 +45,12 @@ EcruteakCity_Gym_EventScript_Morty::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox MortyText_FogBadgeSpeech, MSGBOX_DEFAULT
 	setflag FLAG_BADGE04_GET
-	@ Morty: Johto-Orden 4. Die Flag oben teilt sich Johto mit Kanto und
-	@ ist nach der Kanto-Liga laengst gesetzt - gezaehlt wird in VAR_JOHTO_BADGES.
+	@ Morty: Johto badge 4. The flag above is shared by Johto and Kanto and
+	@ is set long before, after the Kanto league - the count lives in VAR_JOHTO_BADGES.
 	setvar VAR_0x8004, 3
 	special SetJohtoBadge
-	@ Der Orden ist zugleich die Befugnis fuer Surfer - siehe
-	@ src/johto_permits.c. Die Ordensflags teilt sich Johto mit Kanto.
+	@ The badge also grants the permit for Surf - see
+	@ src/johto_permits.c. Johto shares the badge flags with Kanto.
 	setvar VAR_0x8004, PERM_SURF
 	special SetJohtoPermit
 	setflag FLAG_DEFEATED_ECRUTEAK_CITY_GYM

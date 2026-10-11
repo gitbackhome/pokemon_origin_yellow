@@ -1513,10 +1513,11 @@ static const enum NationalDexOrder sObtainableToNationalOrder[OBTAINABLE_DEX_COU
 #endif // P_PALDEAN_FORMS
     OBTAINABLE_TO_NATIONAL(CLODSIRE),
     // Other
-    // Origin Jade: Die Regis stehen oben in Hoenn-Reihenfolge hinter Metagross
-    // (Nationaldex 377-379), nicht wie in HnS 2.0.1 hier am Ende. Upstream
-    // (d403c9ed69) hat die obere Kopie entfernt, wir die untere - doppelt
-    // darf der Eintrag nicht sein, sonst verschiebt sich der Dex ab Latias.
+    // Origin Jade: the Regis are listed above in Hoenn order after
+    // Metagross (National Dex 377-379), not here at the end as in HnS
+    // 2.0.1. Upstream (d403c9ed69) removed the upper copy, we removed the
+    // lower one - the entry must not appear twice, otherwise the Dex shifts
+    // from Latias on.
     OBTAINABLE_TO_NATIONAL(ARCEUS),
     OBTAINABLE_TO_NATIONAL(TAPU_KOKO),
     OBTAINABLE_TO_NATIONAL(TAPU_LELE),
@@ -7886,8 +7887,8 @@ static void BufferStatRoseMessage(enum Stat statIdx)
 {
     gBattlerTarget = gBattlerInMenuId;
     StringCopy(gBattleTextBuff1, gStatNamesTable[sStatsToRaise[statIdx]]);
-    // Deutsch: gText_StatSharply enthaelt bereits die vollstaendige Verbphrase
-    // ("steigt stark!"), darf also nicht mit gText_StatRose kombiniert werden.
+    // German: gText_StatSharply already contains the full verb phrase
+    // ("steigt stark!"), so it must not be combined with gText_StatRose.
     if (B_X_ITEMS_BUFF >= GEN_7)
         StringCopy(gBattleTextBuff2, gText_StatSharply);
     else
@@ -8907,9 +8908,9 @@ u8 GetTrainerEncounterMusicId(u16 trainerOpponentId)
 {
     u32 sanitizedTrainerId;
 
-    // Origin Jade: Geheimbasis-Sonder-ID vor SanitizeTrainerId abfangen
-    // (Assert "invalid trainer: 65280", Spieltest-Report). Vanilla nutzt
-    // fuer Geheimbasen die maennliche Standard-Begegnungsmusik.
+    // Origin Jade: catch the secret base special ID before SanitizeTrainerId
+    // (assert "invalid trainer: 65280", playtest report). Vanilla uses the
+    // default male encounter music for secret bases.
     if (trainerOpponentId == TRAINER_SECRET_BASE)
         return TRAINER_ENCOUNTER_MUSIC_MALE;
 

@@ -7,8 +7,9 @@ PetalburgCity_Gym_MapScripts::
 
 PetalburgCity_Gym_OnLoad:
 #if IS_HNS
-	@ HnS: Wer die Arena selbst erreicht, braucht den Hinweisanruf nicht mehr -
-	@ sonst meldet sich Norman noch, wenn man laengst bei ihm steht.
+	@ HnS: a player who reaches the gym on their own no longer needs the hint
+	@ call - otherwise Norman would still call while the player is already
+	@ standing in front of him.
 	call PetalburgCity_Gym_EventScript_HnsCancelNormanCall
 #endif
 	goto_if_eq VAR_PETALBURG_GYM_STATE, 6, PetalburgCity_Gym_EventScript_OpenUnlockedDoors
@@ -53,11 +54,10 @@ PetalburgCity_Gym_EventScript_UnlockAllDoors::
 PetalburgCity_Gym_OnTransition:
 	call_if_eq VAR_PETALBURG_GYM_STATE, 1, PetalburgCity_Gym_EventScript_MoveWallyToEntrance
 #if IS_HNS
-	@ HnS: Kein Empfang am Eingang. Norman ist neu in der Stadt, die Arena
-	@ wird umgebaut - er bleibt an seinem Platz im hinteren Raum.
-	@ Ausdruecklich zurueckgesetzt, weil setobjectxyperm die Position im
-	@ Spielstand ablegt - so werden auch Saves geheilt, in denen er schon
-	@ vorn stand.
+	@ HnS: no reception at the entrance. Norman is new in town and the gym
+	@ is being renovated - he stays at his spot in the back room.
+	@ Reset explicitly because setobjectxyperm stores the position in the
+	@ save - this also heals saves in which he already stood at the front.
 	call PetalburgCity_Gym_EventScript_MoveNormanToBackRoom
 #else
 	call_if_lt VAR_PETALBURG_GYM_STATE, 6, PetalburgCity_Gym_EventScript_MoveNormanToEntrance
@@ -81,11 +81,11 @@ PetalburgCity_Gym_EventScript_MoveNormanToBackRoom::
 
 PetalburgCity_Gym_EventScript_CheckNormanForRematch::
 #if IS_HNS
-	@ Das war die eigentliche Ursache: Diese Pruefung laeuft ueber
-	@ call_if_set FLAG_SYS_GAME_CLEAR - und das Flag ist unter HnS von
-	@ Anfang an gesetzt (Johto-Champion). Sie hat Norman deshalb bei jedem
-	@ Betreten wieder nach vorn auf (4,107) gestellt und dabei den Rueckweg
-	@ aus OnTransition ueberschrieben. Unter HnS bleibt er immer hinten.
+	@ This was the actual cause: this check runs via
+	@ call_if_set FLAG_SYS_GAME_CLEAR - and under HnS that flag is set from
+	@ the start (Johto champion). So it moved Norman back to the front at
+	@ (4,107) on every entry and overwrote the way back from OnTransition.
+	@ Under HnS he always stays in the back.
 	return
 #endif
 	setorcopyvar VAR_TRAINER_BATTLE_OPPONENT_A, TRAINER_NORMAN_1
@@ -108,8 +108,8 @@ PetalburgCity_Gym_EventScript_TurnPlayerNorth::
 	end
 
 PetalburgCity_Gym_OnFrame:
-	@ HnS: Zustand 2 = Arena geschlossen (bis zum 4. Hoenn-Orden).
-	@ Wer hineinlaeuft, wird mit Hinweis wieder vor die Tuer gesetzt.
+	@ HnS: state 2 = gym closed (until the 4th Hoenn badge).
+	@ A player who walks in is put back outside the door with a hint.
 	map_script_2 VAR_PETALBURG_GYM_STATE, 2, PetalburgCity_Gym_EventScript_ClosedEject
 	map_script_2 VAR_PETALBURG_GYM_STATE, 1, PetalburgCity_Gym_EventScript_ReturnFromWallyTutorial
 	.2byte 0
@@ -146,8 +146,8 @@ PetalburgCity_Gym_EventScript_Norman::
 	faceplayer
 	switch VAR_PETALBURG_GYM_STATE
 #if IS_HNS
-	@ Solange umgebaut wird, gibt es keine gestaffelten Vorgespraeche:
-	@ Norman verweist bis Zustand 5 durchgehend auf die geschlossene Arena.
+	@ While the renovation is going on there are no staged pre-talks:
+	@ up to state 5 Norman always refers to the closed gym.
 	case 0, PetalburgCity_Gym_EventScript_NormanHnsClosed
 	case 1, PetalburgCity_Gym_EventScript_NormanHnsClosed
 	case 2, PetalburgCity_Gym_EventScript_NormanHnsClosed
@@ -187,16 +187,16 @@ PetalburgCity_Gym_EventScript_ClosedEject::
 
 PetalburgCity_Gym_EventScript_OpensWithBadges::
 #if IS_HNS
-	@ HnS: Diese Weiche laeuft aus einem ON_FRAME-Skript ohne Spielersperre.
-	@ Hier darf kein Anruf laufen - die Flag wird still gesetzt, damit
-	@ Common_EventScript_ReadyPetalburgGymForBattle den Anruf ueberspringt.
+	@ HnS: this branch runs from an ON_FRAME script without locking the
+	@ player. No call may run here - the flag is set silently so that
+	@ Common_EventScript_ReadyPetalburgGymForBattle skips the call.
 	setflag FLAG_ENABLE_NORMAN_MATCH_CALL
 #endif
-	@ Regulaer klettert VAR_PETALBURG_GYM_STATE ueber addvar von 2 auf 6 -
-	@ je ein Schritt nach Metarost, Faustauhaven, Malvenfroh und Rosaltstadt.
-	@ Wer die vier Orden auf anderem Weg hat, landete hier bisher auf 3: Arena
-	@ offen, aber Innentueren (>= 6) verriegelt und kein Kampf gegen Norman.
-	@ Deshalb direkt auf 6 und die Begruessung freischalten.
+	@ Normally VAR_PETALBURG_GYM_STATE climbs from 2 to 6 via addvar - one
+	@ step each after the gyms of Rustboro, Dewford, Mauville and Lavaridge.
+	@ A player who got the four badges another way used to end up at 3 here:
+	@ gym open, but the inner doors (>= 6) locked and no battle against
+	@ Norman. So set it straight to 6 and enable the greeting.
 	setvar VAR_PETALBURG_GYM_STATE, 6
 	call Common_EventScript_ReadyPetalburgGymForBattle
 	end
@@ -210,10 +210,10 @@ PetalburgCity_Gym_Text_GymIsClosed:
 	.string "closed at the moment.$"
 #endif
 
-@ HnS: Der Spieler kommt als Johto-Champion nach Hoenn. Norman ist hier
-@ nicht der Vater des Spielers, sondern ein regulaerer Arenaleiter mit
-@ Familie in Wurzelheim. Die Arena ist vorerst geschlossen und nicht
-@ die erste Arena von Hoenn (das ist Metarost City).
+@ HnS: the player comes to Hoenn as the Johto champion. Here Norman is not
+@ the player's father but a regular gym leader with a family in Littleroot
+@ Town. The gym is closed for now and is not Hoenn's first gym (that is
+@ Rustboro City).
 PetalburgCity_Gym_EventScript_NormanHnsClosed::
 	msgbox PetalburgCity_Gym_Text_NormanHnsClosed, MSGBOX_DEFAULT
 	release
@@ -513,11 +513,11 @@ PetalburgCity_Gym_EventScript_NormanBattle::
 	special DrawWholeMapView
 	call PetalburgCity_Gym_EventScript_GiveFacade
 #if IS_HNS
-	@ HnS: Der Balanceorden ist zugleich die Erlaubnis fuer Surfer - das steht
-	@ im Ordentext, eine eigene Uebergabe braucht es nicht (Muster 0121).
-	@ Die Vanilla-Uebergabe liegt in Heikos Haus hinter
-	@ VAR_PETALBURG_CITY_STATE == 4 - und den Wert setzt nur die Begleitszene
-	@ von Heikos Vater, die unter HnS nicht laeuft.
+	@ HnS: the Balance Badge also grants the license for Surf - the badge
+	@ text says so, no separate handover is needed (pattern 0121).
+	@ The vanilla handover sits in Wally's house behind
+	@ VAR_PETALBURG_CITY_STATE == 4 - and that value is only set by the
+	@ escort scene with Wally's father, which does not run under HnS.
 	setvar VAR_0x8004, LIC_SURF
 	special SetHoennLicense
 #endif
@@ -525,15 +525,15 @@ PetalburgCity_Gym_EventScript_NormanBattle::
 	msgbox PetalburgCity_Gym_Text_NormanAfterDefeat, MSGBOX_DEFAULT
 	closemessage
 #if IS_HNS
-	@ HnS: Die Begleitszene von Heikos Vater diente allein dazu, in seinem
-	@ Haus die VM Surfer zu uebergeben. Die Surflizenz kommt jetzt direkt
-	@ von Norman (siehe oben), die Szene entfaellt deshalb ersatzlos.
-	@ Zustand 5 ist der Endwert, den sonst die Uebergabe in Heikos Haus
-	@ setzt - so wartet spaeter nichts mehr auf Zustand 4.
+	@ HnS: the escort scene with Wally's father only served to hand over
+	@ HM Surf in his house. The Surf license now comes directly from Norman
+	@ (see above), so the scene is dropped without replacement.
+	@ State 5 is the final value the handover in Wally's house would
+	@ otherwise set - so later nothing waits for state 4 anymore.
 	setvar VAR_PETALBURG_CITY_STATE, 5
-	@ HnS: Die PokeCom-Eintragung liegt nicht hier, sondern bei der
-	@ Arenaoeffnung (Common_EventScript_ReadyPetalburgGymForBattle) - dort
-	@ ruft Norman den Spieler an und fordert ihn heraus.
+	@ HnS: the PokeNav registration is not here but at the gym opening
+	@ (Common_EventScript_ReadyPetalburgGymForBattle) - there Norman calls
+	@ the player and challenges them.
 	releaseall
 	end
 #endif
@@ -1265,8 +1265,8 @@ PetalburgCity_Gym_EventScript_GymGuidePostVictory::
 PetalburgCity_Gym_EventScript_LeftGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE05_GET gehoert zu den Johto/Kanto-Orden und ist
-	@ hier laengst gesetzt - stattdessen den Hoenn-Orden pruefen.
+	@ HnS: FLAG_BADGE05_GET belongs to the Johto/Kanto badges and is set
+	@ long before here - check the Hoenn badge instead.
 	setvar VAR_0x8004, 4
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, PetalburgCity_Gym_EventScript_GymStatueCertified
@@ -1279,8 +1279,8 @@ PetalburgCity_Gym_EventScript_LeftGymStatue::
 PetalburgCity_Gym_EventScript_RightGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE05_GET gehoert zu den Johto/Kanto-Orden und ist
-	@ hier laengst gesetzt - stattdessen den Hoenn-Orden pruefen.
+	@ HnS: FLAG_BADGE05_GET belongs to the Johto/Kanto badges and is set
+	@ long before here - check the Hoenn badge instead.
 	setvar VAR_0x8004, 4
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, PetalburgCity_Gym_EventScript_GymStatueCertified
@@ -1370,7 +1370,7 @@ PetalburgCity_Gym_Text_NormanPlayerGoWithWally:
 PetalburgCity_Gym_Text_IllLoanYouMyZigzagoon:
 #if GERMAN
 #if IS_HNS
-	@ Heiko tritt unter HnS mit Geradaks an (siehe LoadWallyZigzagoon).
+	@ Under HnS Wally uses Linoone (see LoadWallyZigzagoon).
 	.string "Heiko, hier, ich leihe dir mein Pokémon.\p"
 	.string "Heiko hat ein Geradaks erhalten.$"
 #else
@@ -2242,8 +2242,8 @@ PetalburgCity_Gym_Text_NormanRematchNeedTwoMons:
 #endif
 
 #if IS_HNS
-@ Nicht mehr angesprungen - der Registriertext liegt jetzt bei
-@ Common_Text_HnsRegisteredNorman. Bleibt stehen, damit nichts geloescht wird.
+@ No longer jumped to - the registration text now lives in
+@ Common_Text_HnsRegisteredNorman. Kept so nothing gets deleted.
 PetalburgCity_Gym_Text_HnsRegisteredNorman:
 #if GERMAN
 	.string "Normans Nummer wurde im PokéCom-\n"
@@ -2253,8 +2253,8 @@ PetalburgCity_Gym_Text_HnsRegisteredNorman:
 	.string "in the POKéNAV.$"
 #endif
 
-@ Nicht mehr angesprungen, seit die Erlaubnis am Balanceorden haengt.
-@ Bleibt stehen, damit nichts geloescht wird.
+@ No longer jumped to since the license depends on the Balance Badge.
+@ Kept so nothing gets deleted.
 PetalburgCity_Gym_Text_HnsSurfLicense:
 #if GERMAN
 	.string "Und hier ist die Surflizenz.\p"

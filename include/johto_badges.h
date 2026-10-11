@@ -3,16 +3,16 @@
 
 #include "global.h"
 
-// Johto-Ordensystem: eigene Bitmaske in VAR_JOHTO_BADGES, getrennt von
-// FLAG_BADGE01-08. Die teilen sich Kanto und Johto - Rocko setzt
-// FLAG_BADGE01_GET, Falkner ebenfalls. Nach der Kanto-Liga sind alle acht
-// gesetzt, eine Ordenabfrage in Johto geht deshalb immer durch.
-// Gleiche Bauart wie das Hoenn-Ordensystem.
+// Johto badge system: a bitmask of its own in VAR_JOHTO_BADGES, separate
+// from FLAG_BADGE01-08. Those are shared by Kanto and Johto - Brock sets
+// FLAG_BADGE01_GET, and so does Falkner. After the Kanto league all eight
+// are set, so a badge check in Johto would always pass.
+// Built the same way as the Hoenn badge system.
 
 u32 GetJohtoBadgeCount(void);
 bool32 HasJohtoBadge(u32 index);   // 0 = Falkner ... 7 = Clair
-void SetJohtoBadge(void);          // Special: Index in gSpecialVar_0x8004
-void CheckJohtoBadge(void);        // Special: Index rein, Ergebnis nach VAR_RESULT
-void CountJohtoBadges(void);       // Special: Anzahl nach VAR_RESULT
+void SetJohtoBadge(void);          // Special: index in gSpecialVar_0x8004
+void CheckJohtoBadge(void);        // Special: index in, result into VAR_RESULT
+void CountJohtoBadges(void);       // Special: count into VAR_RESULT
 
 #endif // GUARD_JOHTO_BADGES_H

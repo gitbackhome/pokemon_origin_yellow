@@ -196,7 +196,7 @@ u16 *GetVarPointer(u16 id)
         return NULL;
     else if (id >= FRLG_VARS_START && id <= FRLG_VARS_END)
         return &gSaveBlock3Ptr->varsFrlg[id - FRLG_VARS_START];
-    // Origin Jade: eigener Reservierungsblock, ebenfalls in SaveBlock3.
+    // Origin Jade: its own reserved block, also in SaveBlock3.
     else if (id >= OJ_VARS_START && id <= OJ_VARS_END)
         return &gSaveBlock3Ptr->varsOj[id - OJ_VARS_START];
     else if (id < SPECIAL_VARS_START)
@@ -240,25 +240,26 @@ u16 VarGetObjectEventGraphicsId(u8 id)
 }
 
 #if IS_HNS
-// Der FRLG-Block muss oberhalb des Hoenn-Blocks liegen und zugleich so tief,
-// dass jede Hidden-Item-Flag noch in das 13-Bit-Feld von struct BgEvent passt.
+// The FRLG block has to lie above the Hoenn block and at the same time low
+// enough that every hidden item flag still fits the 13-bit field of
+// struct BgEvent.
 STATIC_ASSERT(FRLG_FLAGS_START > HOENN_FLAGS_END, sFrlgFlagsAboveHoenn);
 STATIC_ASSERT((FRLG_FLAGS_END - FLAG_HIDDEN_ITEMS_START) < (1 << 13), sFrlgFlagsFitHiddenItemField);
 STATIC_ASSERT((FRLG_FLAGS_START & 7) == 0, sFrlgFlagsBitAligned);
 
-// Die beiden umgeleiteten Fenster muessen komplett ausserhalb des
-// Hoenn-Flagblocks liegen. Lagen sie darin, teilten sich Trainerflags und
-// Hoenn-Flags dasselbe Bit - genau der Fehler, durch den ein besiegter
-// Kaefersammler auf Route 3 Felizias Erstanruf ausgeloest hat.
+// Both redirected windows have to lie completely outside the Hoenn flag
+// block. If they were inside it, trainer flags and Hoenn flags would
+// share the same bit - exactly the bug through which a defeated Bug
+// Catcher on Route 3 triggered Roxanne's first call.
 STATIC_ASSERT(FRLG_TRAINER_FLAGS_START > HOENN_FLAGS_END, sFrlgTrainerFlagsAboveHoenn);
 STATIC_ASSERT(FRLG_TRAINER_FLAGS_START > FRLG_FLAGS_END, sFrlgTrainerFlagsAboveFrlgFlags);
 STATIC_ASSERT(FRLG_TRAINER_FLAGS_END < SPECIAL_FLAGS_START, sFrlgTrainerFlagsBelowSpecial);
 STATIC_ASSERT(HNS_REMATCH_TIER_FLAGS_START > FRLG_TRAINER_FLAGS_END, sRematchTierFlagsAboveFrlgTrainers);
 STATIC_ASSERT(HNS_REMATCH_TIER_FLAGS_END < SPECIAL_FLAGS_START, sRematchTierFlagsBelowSpecial);
 
-// Byte-Index und Bit-Index werden unterschiedlich berechnet ((id - START) / 8
-// gegen id & 7). Nur wenn der Rest mod 8 der alten Fensterbasis erhalten
-// bleibt, liegen die Bits in bestehenden Spielstaenden weiter am selben Platz.
+// The byte index and the bit index are computed differently ((id - START)
+// / 8 vs. id & 7). Only if the remainder mod 8 of the old window base is
+// kept do the bits in existing save files stay in the same place.
 STATIC_ASSERT((FRLG_TRAINER_FLAGS_START & 7) == ((0x500 + FRLG_TRAINER_OFFSET + 1) & 7), sFrlgTrainerFlagsBitAligned);
 STATIC_ASSERT((HNS_REMATCH_TIER_FLAGS_START & 7) == ((0x500 + HNS_REMATCH_TIERS_START) & 7), sRematchTierFlagsBitAligned);
 
@@ -274,14 +275,15 @@ u8 *GetFlagPointer(u16 id)
         return NULL;
     else if (id >= FRLG_FLAGS_START && id <= FRLG_FLAGS_END)
         return &gSaveBlock3Ptr->flagsFrlg[(id - FRLG_FLAGS_START) / 8];
-    // Kanto-Merge: Trainerflags der FRLG-Trainer. Ihre IDs liegen hinter den
-    // HnS/Hoenn-Trainern, TRAINER_FLAGS_START + id waere sonst in SYS_FLAGS.
+    // Kanto merge: trainer flags of the FRLG trainers. Their IDs lie after
+    // the HnS/Hoenn trainers, so TRAINER_FLAGS_START + id would be in
+    // SYS_FLAGS.
     else if (id >= FRLG_TRAINER_FLAGS_START && id <= FRLG_TRAINER_FLAGS_END)
         return &gSaveBlock3Ptr->flagsFrlgTrainers[(id - FRLG_TRAINER_FLAGS_START) / 8];
-    // HnS 2.0.1: Rueckkampfstufen Irwin/Derek/Beverly, gleiche Umleitung.
+    // HnS 2.0.1: rematch tiers of Irwin/Derek/Beverly, same redirection.
     else if (id >= HNS_REMATCH_TIER_FLAGS_START && id <= HNS_REMATCH_TIER_FLAGS_END)
         return &gSaveBlock3Ptr->flagsHnsRematchTiers[(id - HNS_REMATCH_TIER_FLAGS_START) / 8];
-    // Origin Jade: eigener Reservierungsblock, ebenfalls in SaveBlock3.
+    // Origin Jade: its own reserved block, also in SaveBlock3.
     else if (id >= OJ_FLAGS_START && id <= OJ_FLAGS_END)
         return &gSaveBlock3Ptr->flagsOj[(id - OJ_FLAGS_START) / 8];
     else if (id < SPECIAL_FLAGS_START)

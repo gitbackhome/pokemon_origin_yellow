@@ -477,8 +477,10 @@ PalletTown_ProfessorOaksLab_EventScript_EndRivalBattle::
 	fadedefaultbgm
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 4
 	setflag FLAG_BEAT_RIVAL_IN_OAKS_LAB
-	@ Kanto-Merge: Daisy gibt den PokeGear schon jetzt, nicht erst nach dem
-	@ Paket - sonst haette man das Telefon zu spaet fuer die Paketkette.
+	@ Kanto merge: Daisy's scene in her house is enabled right after the
+	@ rival battle, not only after the parcel. (She used to hand over the
+	@ PokeGear here; Mom now does that in the intro conversation, so Daisy
+	@ only wishes the player good luck.)
 	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 1
 	releaseall
 	end
@@ -570,8 +572,9 @@ PalletTown_ProfessorOaksLab_EventScript_RivalChoseStarter::
 PalletTown_ProfessorOaksLab_EventScript_ProfOak::
 	lock
 	faceplayer
-	@ Uebergang nach Johto: der GS-Ball geht der Dex-Bewertung vor, sonst
-	@ laeuft der frisch gekroente Champion in die Bewertung statt in den Auftrag.
+	@ Transition to Johto: the GS Ball takes priority over the Dex rating,
+	@ otherwise the freshly crowned champion would run into the rating
+	@ instead of the errand.
 	goto_if_eq VAR_JOHTO_HANDOVER, 1, PalletTown_ProfessorOaksLab_EventScript_GiveGsBall
 	goto_if_eq VAR_JOHTO_HANDOVER, 2, PalletTown_ProfessorOaksLab_EventScript_GsBallReminder
 	goto_if_set SHOWED_OAK_COMPLETE_DEX, PalletTown_ProfessorOaksLab_EventScript_OakJustShownCompleteDex
@@ -593,7 +596,7 @@ PalletTown_ProfessorOaksLab_EventScript_GiveGsBall::
 	goto_if_eq VAR_RESULT, FALSE, PalletTown_ProfessorOaksLab_EventScript_GsBallNoRoom
 	giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedGsBall, ITEM_GS_BALL
 	msgbox PalletTown_ProfessorOaksLab_Text_OakGsBallMission
-	@ Der Pokedex stammt von Eich, also ruestet auch er ihn fuer Johto auf.
+	@ The Pokedex comes from Oak, so he is the one who upgrades it for Johto.
 	msgbox PalletTown_ProfessorOaksLab_Text_OakJohtoDex
 	playfanfare MUS_OBTAIN_ITEM
 	message PalletTown_ProfessorOaksLab_Text_JohtoDexUpgrade
@@ -687,16 +690,16 @@ PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene::
 	waitfanfare
 	call EventScript_RestorePrevTextColor
 	setflag FLAG_SYS_POKEDEX_GET
-	@ Kanto-Merge: Ab hier laeuft die Reise. In HnS haengen beide Flags am
-	@ Ende des Prologs in Neuborkia, wenn Prof. Lind nach dem Botengang und
-	@ dem Diebstahl abschliesst. Die entsprechende Stelle in Kanto ist die
-	@ Uebergabe des Pokedex nach dem Paket fuer Eich: Starter, Botengang,
-	@ Rueckkehr, Abschluss - danach beginnt die eigentliche Reise.
+	@ Kanto merge: the journey starts here. In HnS both flags are set at
+	@ the end of the prologue in New Bark Town, when Prof. Elm wraps up
+	@ after the errand and the theft. The matching point in Kanto is the
+	@ Pokedex handover after Oak's Parcel: starter, errand, return, wrap-up
+	@ - after that the actual journey begins.
 	setflag FLAG_ADVENTURE_STARTED
 	setflag FLAG_START_NUZLOCKE
-	@ Kanto-Merge: Der Dex laeuft von Anfang an im Nationalmodus. Er zeigt
-	@ ohnehin nur bis zur hoechsten gesehenen Nummer, in Kanto also 1-151.
-	@ Damit braucht es keine getrennten Regionalmodi.
+	@ Kanto merge: the Dex runs in national mode from the start. It only
+	@ shows up to the highest seen number anyway, so 1-151 in Kanto.
+	@ No separate regional modes are needed that way.
 	special EnableNationalPokedex
 	special SetUnlockedPokedexFlags
 	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1
@@ -1214,7 +1217,7 @@ PalletTown_ProfessorOaksLab_EventScript_RivalTakesStarter::
 	waitmessage
 	playfanfare MUS_RG_OBTAIN_KEY_ITEM
 	waitfanfare
-	@ Kanto-Merge: Sarah geht nach Hause, sobald der Starter vergeben ist.
+	@ Kanto merge: Daisy goes home as soon as the starter has been handed out.
 	setflag FLAG_HIDE_PALLET_HOUSE_DAISY
 	clearflag FLAG_HIDE_RIVALS_HOUSE_DAISY
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3

@@ -2,40 +2,38 @@
 #define GUARD_CONSTANTS_FLAGS_ORIGIN_JADE_H
 
 // =====================================================================
-// Origin Jade - Reservierungsblock fuer Flags
+// Origin Jade - reserved flag block
 //
-// WOFUER
-// Alle Flags, die Origin Jade selbst anlegt, kommen ab jetzt aus diesem
-// Block. Nicht mehr hinten an flags_hns.h oder flags_hoenn_de.h
-// anhaengen - genau daraus sind die bisherigen Kollisionen entstanden
-// (Match Call gegen die Hoenn-Inhaltsflags, FRLG-Trainerflags gegen die
-// Ordensflags).
+// PURPOSE
+// Every flag Origin Jade adds itself comes from this block from now on.
+// Do not append to flags_hns.h or flags_hoenn_de.h anymore - that is
+// exactly how the previous collisions came about (Match Call vs. the
+// Hoenn content flags, FRLG trainer flags vs. the badge flags).
 //
-// WARUM AUSSERHALB VON SaveBlock1
-// SaveBlock1 ist voll: zwischen sizeof(struct SaveBlock1) und der
-// Sektorgrenze liegen weniger als acht Byte. Der Block wird deshalb wie
-// die FRLG-Flags nach SaveBlock3 umgeleitet (GetFlagPointer in
-// src/event_data.c). Die Nummern 0x2000-0x21FF liegen bewusst in einem
-// Loch zwischen den FRLG-Flags (0x1000-0x13FF) und den umgeleiteten
-// FRLG-Trainerflags (ab 0x3400).
+// WHY OUTSIDE OF SaveBlock1
+// SaveBlock1 is full: less than eight bytes remain between
+// sizeof(struct SaveBlock1) and the sector boundary. Like the FRLG flags,
+// the block is therefore redirected into SaveBlock3 (GetFlagPointer in
+// src/event_data.c). The numbers 0x2000-0x21FF deliberately sit in a gap
+// between the FRLG flags (0x1000-0x13FF) and the redirected FRLG trainer
+// flags (from 0x3400).
 //
-// AUFTEILUNG
-// Erst nach Region in der Reihenfolge Kanto, Johto, Hoenn, dann
-// regionsuebergreifend. Zwischen den Regionen stehen je 32 Reserveplaetze,
-// damit ein Nachtrag in Kanto nicht alles dahinter verschiebt. Innerhalb
-// einer Region frei nach Thema sortieren.
+// LAYOUT
+// First by region in the order Kanto, Johto, Hoenn, then cross-region.
+// Each region is followed by 32 spare slots so that an addition in Kanto
+// does not shift everything behind it. Within a region, sort freely by
+// topic.
 //
-// REGELN
-//  1. Neue Flags IMMER an das Ende des passenden Regionsabschnitts,
-//     nie in die Luecke dahinter - die ist der Puffer.
-//  2. Nummern nie wiederverwenden. Ein Flag, das wegfaellt, wird zu
-//     FLAG_OJ_UNUSED_* umbenannt und bleibt stehen.
-//  3. Nach jedem HnS-Merge tools/check_flags.py laufen lassen. Der
-//     Pruefer loest alle Flags und Vars numerisch auf und meldet
-//     Doppelbelegungen - der Compiler tut das nicht.
-//  4. Laeuft ein Abschnitt voll, wird OJ_FLAGS_COUNT erhoeht und der
-//     naechste Abschnitt nach hinten geschoben. Platz ist da: der
-//     Block darf bis 0x33FF wachsen.
+// RULES
+//  1. New flags ALWAYS go to the end of the matching region section,
+//     never into the gap behind it - that gap is the buffer.
+//  2. Never reuse numbers. A flag that is dropped gets renamed to
+//     FLAG_OJ_UNUSED_* and stays in place.
+//  3. Run tools/check_flags.py after every HnS merge. The checker
+//     resolves all flags and vars numerically and reports double
+//     assignments - the compiler does not.
+//  4. When a section runs full, raise OJ_FLAGS_COUNT and move the next
+//     section back. There is room: the block may grow up to 0x33FF.
 // =====================================================================
 
 #define OJ_FLAGS_START              0x2000
@@ -43,18 +41,18 @@
 #define OJ_FLAGS_END                (OJ_FLAGS_START + OJ_FLAGS_COUNT - 1)
 #define OJ_NUM_FLAG_BYTES           ((OJ_FLAGS_COUNT + 7) / 8)
 
-// Abschnittsanfaenge als Offset auf OJ_FLAGS_START.
-#define OJ_FLAGS_KANTO              (OJ_FLAGS_START + 0)    // 96 Plaetze
+// Section starts as offsets from OJ_FLAGS_START.
+#define OJ_FLAGS_KANTO              (OJ_FLAGS_START + 0)    // 96 slots
 #define OJ_FLAGS_KANTO_SIZE         96
-#define OJ_FLAGS_JOHTO              (OJ_FLAGS_START + 128)  // 160 Plaetze
+#define OJ_FLAGS_JOHTO              (OJ_FLAGS_START + 128)  // 160 slots
 #define OJ_FLAGS_JOHTO_SIZE         160
-#define OJ_FLAGS_HOENN              (OJ_FLAGS_START + 320)  // 96 Plaetze
+#define OJ_FLAGS_HOENN              (OJ_FLAGS_START + 320)  // 96 slots
 #define OJ_FLAGS_HOENN_SIZE         96
-#define OJ_FLAGS_GLOBAL             (OJ_FLAGS_START + 448)  // 64 Plaetze
+#define OJ_FLAGS_GLOBAL             (OJ_FLAGS_START + 448)  // 64 slots
 #define OJ_FLAGS_GLOBAL_SIZE        64
 
 // ---------------------------------------------------------------------
-// Kanto (OJ_FLAGS_KANTO + 0 bis + 95)
+// Kanto (OJ_FLAGS_KANTO + 0 to + 95)
 // ---------------------------------------------------------------------
 // Item balls on Mt. Moon B3F (a map Origin Jade added). They were copied
 // from B2F together with FLAG_HIDE_MT_MOON_B2F_ANTIDOTE, so picking up any
@@ -64,85 +62,85 @@
 #define FLAG_HIDE_MT_MOON_B3F_ITEM_BALL_3                    (OJ_FLAGS_KANTO + 2)
 
 // ---------------------------------------------------------------------
-// Johto (OJ_FLAGS_JOHTO + 0 bis + 159)
+// Johto (OJ_FLAGS_JOHTO + 0 to + 159)
 // ---------------------------------------------------------------------
-// Gegenstueck zu FLAG_IS_HOENN_CHAMPION: gesetzt, sobald Lance gefallen
-// ist. Ein eigenes Flag ist noetig, weil FLAG_SYS_GAME_CLEAR schon von
-// der Kanto-Liga gesetzt wird - Johto koennte daran nicht erkennen, ob
-// der Spieler auch hier Champion ist. Steuert Anruftexte und alles, was
-// nach der Johto-Liga anders laufen soll.
+// Counterpart to FLAG_IS_HOENN_CHAMPION: set once Lance has been beaten.
+// A flag of its own is needed because FLAG_SYS_GAME_CLEAR is already set
+// by the Kanto league - Johto could not tell from it whether the player
+// is champion here as well. Controls call texts and everything that
+// should behave differently after the Johto league.
 #define FLAG_IS_JOHTO_CHAMPION                       (OJ_FLAGS_JOHTO + 0)
-// Johto-Starter aus Linds Labor erhalten. Eigenes Flag, weil HnS dafuer
-// FLAG_SYS_POKEMON_GET benutzt - das ist aber "hat sein erstes Pokemon"
-// und in Origin Jade laengst von Eichs Labor gesetzt.
+// Received the Johto starter from Elm's lab. A flag of its own because
+// HnS uses FLAG_SYS_POKEMON_GET for it - but that means "has their first
+// Pokemon" and in Origin Jade was set long ago by Oak's lab.
 #define FLAG_RECEIVED_JOHTO_STARTER                  (OJ_FLAGS_JOHTO + 1)
-// Einmalige Nachruestung beim ersten Betreten von Neuborkia: HnS setzt
-// seine Johto-Startwerte im Haus der Mutter, das Origin Jade ueberspringt.
+// One-time catch-up on first entering New Bark Town: HnS sets its Johto
+// start values in Mom's house, which Origin Jade skips.
 #define FLAG_JOHTO_ARRIVAL_DONE                      (OJ_FLAGS_JOHTO + 2)
 
 // ---------------------------------------------------------------------
-// Hoenn (OJ_FLAGS_HOENN + 0 bis + 95)
+// Hoenn (OJ_FLAGS_HOENN + 0 to + 95)
 // ---------------------------------------------------------------------
-// Umgezogene Hoenn-Flags. Sie standen in flags_hns.h mit fest
-// eingetragenen Nummern, die im HnS-Block fuer erweiterte Inhalte liegen -
-// jede teilte sich ihre Adresse mit einem Johto-, Kanto- oder Sinjoh-Flag.
-// Praktisch hiess das zum Beispiel: wer in Kanto Route 4 betrat, blendete
-// in Hoenn Scott aus. Gefunden mit tools/check_flags.py.
+// Relocated Hoenn flags. They sat in flags_hns.h with hard-coded numbers
+// that lie in the HnS block for extended content - each one shared its
+// address with a Johto, Kanto or Sinjoh flag. In practice this meant, for
+// example: entering Route 4 in Kanto hid Scott in Hoenn. Found with
+// tools/check_flags.py.
 //
-// Die Hoenn-Seite zieht um, nicht die andere - so bleiben die HnS-Flags
-// auf ihren Nummern und kuenftige Upstream-Merges kollidieren nicht.
-// Der Umzug steht hier und nicht in flags_hoenn_de.h, weil dieser Header
-// zuletzt eingebunden wird und der Hoenn-Block in SaveBlock1 keinen Platz
-// mehr haette.
-// lag auf FLAG_ITEM_GOLDENROD_UNDERGROUND_COIN_CASE
+// The Hoenn side moves, not the other one - that way the HnS flags keep
+// their numbers and future upstream merges do not collide.
+// The relocation lives here and not in flags_hoenn_de.h because this
+// header is included last and the Hoenn block in SaveBlock1 would have
+// no room left.
+// shared its number with FLAG_ITEM_GOLDENROD_UNDERGROUND_COIN_CASE
 #undef  FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_UNKNOWN_0x380
 #define FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_UNKNOWN_0x380   (OJ_FLAGS_HOENN + 0)
-// lag auf FLAG_EXP_SHARE
+// shared its number with FLAG_EXP_SHARE
 #undef  FLAG_ARRIVED_AT_TERRA_CAVE_ENTRANCE
 #define FLAG_ARRIVED_AT_TERRA_CAVE_ENTRANCE                  (OJ_FLAGS_HOENN + 1)
-// lag auf FLAG_HIDE_MT_SILVER_2F_AZURE_FLUTE
+// shared its number with FLAG_HIDE_MT_SILVER_2F_AZURE_FLUTE
 #undef  FLAG_HIDE_MARINE_CAVE_KYOGRE
 #define FLAG_HIDE_MARINE_CAVE_KYOGRE                         (OJ_FLAGS_HOENN + 2)
-// lag auf FLAG_ROUTE50_ITEMBALL_1
+// shared its number with FLAG_ROUTE50_ITEMBALL_1
 #undef  FLAG_UNKNOWN_0x363
 #define FLAG_UNKNOWN_0x363                                   (OJ_FLAGS_HOENN + 3)
-// lag auf FLAG_SINJOHRUINS_ITEM_1
+// shared its number with FLAG_SINJOHRUINS_ITEM_1
 #undef  FLAG_HIDE_LILYCOVE_CONTEST_HALL_CONTEST_ATTENDANT_2
 #define FLAG_HIDE_LILYCOVE_CONTEST_HALL_CONTEST_ATTENDANT_2  (OJ_FLAGS_HOENN + 4)
-// lag auf FLAG_SINJOHRUINS_ITEM_2
+// shared its number with FLAG_SINJOHRUINS_ITEM_2
 #undef  FLAG_HIDE_PETALBURG_GYM_WALLYS_DAD
 #define FLAG_HIDE_PETALBURG_GYM_WALLYS_DAD                   (OJ_FLAGS_HOENN + 5)
-// lag auf FLAG_SINJOHRUINS_ITEM_3
+// shared its number with FLAG_SINJOHRUINS_ITEM_3
 #undef  FLAG_HIDE_FANCLUB_OLD_LADY
 #define FLAG_HIDE_FANCLUB_OLD_LADY                           (OJ_FLAGS_HOENN + 6)
-// lag auf FLAG_SINJOHRUINS_ITEM_4
+// shared its number with FLAG_SINJOHRUINS_ITEM_4
 #undef  FLAG_HIDE_FANCLUB_BOY
 #define FLAG_HIDE_FANCLUB_BOY                                (OJ_FLAGS_HOENN + 7)
-// lag auf FLAG_VISITED_ROUTE10
+// shared its number with FLAG_VISITED_ROUTE10
 #undef  FLAG_HIDE_SOUTHERN_ISLAND_UNCHOSEN_EON_DUO_MON
 #define FLAG_HIDE_SOUTHERN_ISLAND_UNCHOSEN_EON_DUO_MON       (OJ_FLAGS_HOENN + 8)
-// lag auf FLAG_VISITED_ROUTE4
+// shared its number with FLAG_VISITED_ROUTE4
 #undef  FLAG_HIDE_MAUVILLE_CITY_SCOTT
 #define FLAG_HIDE_MAUVILLE_CITY_SCOTT                        (OJ_FLAGS_HOENN + 9)
-// lag auf FLAG_HIDE_ROUTE49_TM_ROCK_CLIMB
+// shared its number with FLAG_HIDE_ROUTE49_TM_ROCK_CLIMB
 #undef  FLAG_HIDE_CHAMPIONS_ROOM_RIVAL
 #define FLAG_HIDE_CHAMPIONS_ROOM_RIVAL                       (OJ_FLAGS_HOENN + 10)
-// lag auf FLAG_COMPLETED_TAUROS_TRADE
+// shared its number with FLAG_COMPLETED_TAUROS_TRADE
 #undef  FLAG_HIDE_CHAMPIONS_ROOM_BIRCH
 #define FLAG_HIDE_CHAMPIONS_ROOM_BIRCH                       (OJ_FLAGS_HOENN + 11)
-// lag auf FLAG_HIDE_SLOWPOKE_WELL_TAILLESS_SLOWPOKES
+// shared its number with FLAG_HIDE_SLOWPOKE_WELL_TAILLESS_SLOWPOKES
 #undef  FLAG_HIDE_ROUTE_110_RIVAL_ON_BIKE
 #define FLAG_HIDE_ROUTE_110_RIVAL_ON_BIKE                    (OJ_FLAGS_HOENN + 12)
-// lag auf FLAG_ULAULA_MOVE_TUTOR_PAID
+// shared its number with FLAG_ULAULA_MOVE_TUTOR_PAID
 #undef  FLAG_HIDE_ROUTE_119_RIVAL_ON_BIKE
 #define FLAG_HIDE_ROUTE_119_RIVAL_ON_BIKE                    (OJ_FLAGS_HOENN + 13)
-// lag auf FLAG_USED_TELEPORTER
+// shared its number with FLAG_USED_TELEPORTER
 #undef  FLAG_HIDE_LILYCOVE_MOTEL_GAME_DESIGNERS
 #define FLAG_HIDE_LILYCOVE_MOTEL_GAME_DESIGNERS              (OJ_FLAGS_HOENN + 14)
-// lag auf FLAG_HIDE_MT_SILVER_PC_MEARA
+// shared its number with FLAG_HIDE_MT_SILVER_PC_MEARA
 #undef  FLAG_HIDE_METEOR_FALLS_TEAM_AQUA
 #define FLAG_HIDE_METEOR_FALLS_TEAM_AQUA                     (OJ_FLAGS_HOENN + 15)
-// lag auf FLAG_SINJOH_UNLOCK_MIGRATED
+// shared its number with FLAG_SINJOH_UNLOCK_MIGRATED
 #undef  FLAG_HIDE_ROUTE_128_STEVEN
 #define FLAG_HIDE_ROUTE_128_STEVEN                           (OJ_FLAGS_HOENN + 16)
 
@@ -158,8 +156,8 @@
 #define FLAG_RECEIVED_HOENN_BIKE                             (OJ_TRAINER_FLAGS_HOENN_END + 1)
 
 // ---------------------------------------------------------------------
-// Regionsuebergreifend (OJ_FLAGS_GLOBAL + 0 bis + 63)
+// Cross-region (OJ_FLAGS_GLOBAL + 0 to + 63)
 // ---------------------------------------------------------------------
-// noch keine Eintraege
+// no entries yet
 
 #endif // GUARD_CONSTANTS_FLAGS_ORIGIN_JADE_H

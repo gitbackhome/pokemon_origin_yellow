@@ -2226,10 +2226,10 @@ static void CreatePokedexList(u8 dexMode, u8 order)
         else
         {
             s16 r5, r10;
-            // Kanto-Merge: Die Liste folgt der Obtainable-Reihenfolge, damit
-            // Nachzuegler wie Epitaff hinter Rasaff stehen statt bei 979.
-            // Abgeschaltete Arten - in diesem Aufbau die 50 Regionalformen -
-            // werden uebersprungen, sonst bleiben leere Zeilen stehen.
+            // Kanto merge: the list follows the obtainable order so late
+            // additions like Ambipom come after Aipom instead of at 979.
+            // Disabled species - in this setup the 50 regional forms - are
+            // skipped, otherwise empty rows would remain.
             for (i = 0, r5 = 0, r10 = 0; i < temp_dexCount; i++)
             {
                 temp_dexNum = ObtainableToNationalOrder(i + 1);
@@ -4556,7 +4556,7 @@ u16 GetNationalPokedexCount(u8 caseID)
     {
         enum NationalDexOrder nationalNum = ObtainableToNationalOrder(i + 1);
 
-        // Kanto-Merge: Abgeschaltete Arten zaehlen nicht mit.
+        // Kanto merge: disabled species do not count.
         if (!IsSpeciesEnabled(NationalPokedexNumToSpecies(nationalNum)))
             continue;
 

@@ -509,11 +509,10 @@ RivalsHouse_1F_Text_DoYouHavePokemon:
 	.string "own POKéMON?$"
 #endif
 
-@ HnS: Dieses Haus gehoert der Familie von Prof. Birk. Tochter Maike
-@ ist mit ihren Pokemon unterwegs. Die Texte sind neutral an den
-@ fremden Champion aus Johto und Kanto gerichtet, nicht an einen
-@ zugezogenen Nachbarn. Die Vanilla-Scripts bleiben fuer die spaetere
-@ Hoenn-Story unangetastet.
+@ HnS: this house belongs to Prof. Birch's family. Daughter May is out
+@ with her Pokemon. The texts are addressed neutrally to the unknown
+@ champion from Johto and Kanto, not to a newly moved-in neighbor. The
+@ vanilla scripts stay untouched for the later Hoenn story.
 LittlerootTown_MaysHouse_1F_EventScript_BirksFrau::
 	msgbox LittlerootTown_MaysHouse_1F_Text_BirksFrau, MSGBOX_NPC
 	end

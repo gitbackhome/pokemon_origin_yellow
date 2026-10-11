@@ -13,12 +13,12 @@ SaffronCity_Dojo_EventScript_TriggerMasterBattleRight::
 	waitmovement 0
 	goto SaffronCity_Dojo_EventScript_MasterBattleFromTrigger
 
-@ Origin Jade: Der Karatemeister steht auf (6,5) und deckt mit seiner Sichtlinie
-@ nur Spalte 6 ab. Die Baelle liegen auf (5,3) und (7,3), erreichbar ueber die
-@ Spalten 5 und 7. Frueher haben die beiden Trigger ihn nur umgedreht und darauf
-@ gesetzt, dass die Sichtlinie danach greift; ging das schief, war der Trigger
-@ trotzdem verbraucht und er liess sich dauerhaft umgehen. Der Kampf startet
-@ jetzt direkt aus dem Trigger.
+@ Origin Jade: the Karate Master stands at (6,5) and his line of sight only
+@ covers column 6. The balls lie at (5,3) and (7,3), reachable via
+@ columns 5 and 7. The two triggers used to just turn him around and rely
+@ on the line of sight kicking in afterwards; if that failed, the trigger
+@ was used up anyway and he could be walked around for good. The battle
+@ now starts directly from the trigger.
 SaffronCity_Dojo_EventScript_MasterBattleFromTrigger::
 	msgbox SaffronCity_Dojo_Text_MasterKoichiIntro, MSGBOX_DEFAULT
 	closemessage
@@ -145,7 +145,7 @@ SaffronCity_Dojo_EventScript_Mike::
 
 SaffronCity_Dojo_EventScript_MasterKoichi::
 	trainerbattle_single TRAINER_BLACK_BELT_KOICHI, SaffronCity_Dojo_Text_MasterKoichiIntro, SaffronCity_Dojo_Text_MasterKoichiDefeat, SaffronCity_Dojo_EventScript_DefeatedMasterKoichi
-	@ Kanto-Merge: erst wenn beide Baelle genommen sind.
+	@ Kanto merge: only once both balls have been taken.
 	goto_if_unset FLAG_HIDE_DOJO_HITMONLEE_BALL, SaffronCity_Dojo_EventScript_MasterKoichiChoose
 	goto_if_set FLAG_HIDE_DOJO_HITMONCHAN_BALL, SaffronCity_Dojo_EventScript_MasterKoichiAlreadyGotHitmon
 SaffronCity_Dojo_EventScript_MasterKoichiChoose::
@@ -386,8 +386,8 @@ SaffronCity_Dojo_Text_FightingDojo::
 	.string "FIGHTING DOJO$"
 #endif
 
-@ Setzt den Flag des Balls, der gerade genommen wurde. VAR_TEMP_1 haelt die
-@ Art, die der jeweilige Ball-Skript gesetzt hat.
+@ Sets the flag of the ball that was just taken. VAR_TEMP_1 holds the
+@ species set by the respective ball script.
 SaffronCity_Dojo_EventScript_MarkBallTaken::
 	goto_if_eq VAR_TEMP_1, SPECIES_HITMONLEE, SaffronCity_Dojo_EventScript_MarkHitmonlee
 	setflag FLAG_HIDE_DOJO_HITMONCHAN_BALL

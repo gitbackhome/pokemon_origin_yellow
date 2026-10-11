@@ -59,16 +59,16 @@ CeruleanCity_EventScript_Rival::
 	call_if_eq VAR_TEMP_1, 0, CeruleanCity_EventScript_RivalStartExit
 	call_if_eq VAR_TEMP_1, 1, CeruleanCity_EventScript_RivalStartExit
 	call_if_eq VAR_TEMP_1, 2, CeruleanCity_EventScript_RivalStartExitRight
-	@ Kanto-Merge: Die Ruhmesdatei entfaellt - das PokeCom fuehrt die
-	@ Kontakte. Damit faellt auch das Umdrehen weg: der Rivale geht in einem
-	@ Zug, statt stehenzubleiben und noch einmal das Wort zu ergreifen.
+	@ Kanto merge: the Fame Checker is dropped - the PokeGear keeps the
+	@ contacts. That also removes the turning around: the rival leaves in
+	@ one go instead of stopping and speaking up once more.
 	setvar VAR_MAP_SCENE_CERULEAN_CITY_RIVAL, 1
 	setflag FLAG_GOT_FAME_CHECKER
 	applymovement LOCALID_CERULEAN_RIVAL, CeruleanCity_Movement_RivalExit
 	waitmovement 0
 	fadedefaultbgm
-	@ Kanto-Merge: removeobject wirkt nur bis zum naechsten Betreten der
-	@ Karte. Ohne den Flag stand der Rivale beim Wiederkommen erneut da.
+	@ Kanto merge: removeobject only lasts until the map is entered again.
+	@ Without the flag the rival stood there again on the next visit.
 	setflag FLAG_HIDE_CERULEAN_RIVAL
 	removeobject LOCALID_CERULEAN_RIVAL
 	releaseall
@@ -122,8 +122,8 @@ CeruleanCity_Movement_RivalEnter::
 	walk_down
 	step_end
 
-@ Kanto-Merge: Der Rivale lief weg, blieb stehen und kam wieder hoch -
-@ das war der Anlauf zur Ruhmesdatei. Die entfaellt, also geht er durch.
+@ Kanto merge: the rival ran off, stopped and came back up - that was the
+@ run-up to the Fame Checker. That is dropped, so he walks straight through.
 CeruleanCity_Movement_RivalStartExit::
 	walk_right
 	walk_down
@@ -135,8 +135,8 @@ CeruleanCity_Movement_RivalStartExit::
 	walk_down
 	step_end
 
-@ Kanto-Merge: Der Rivale lief weg, blieb stehen und kam wieder hoch -
-@ das war der Anlauf zur Ruhmesdatei. Die entfaellt, also geht er durch.
+@ Kanto merge: the rival ran off, stopped and came back up - that was the
+@ run-up to the Fame Checker. That is dropped, so he walks straight through.
 CeruleanCity_Movement_RivalStartExitRight::
 	walk_left
 	walk_down
@@ -230,11 +230,11 @@ CeruleanCity_EventScript_Policeman::
 	release
 	end
 
-@ Sperr-Trigger auf den vier Kacheln links des Polizisten (40-43, 20).
-@ Aktiv, solange der Wachdienst laeuft (bis Bill das Ticket gibt, wie
-@ BlockExits). Der Spieler wird einen Schritt nach oben zurueckgesetzt.
-@ Nach dem Ticket entschaerft der erste Kontakt alle vier Trigger fuer
-@ den Kartenbesuch (VAR_TEMP_0 wird beim Betreten der Karte genullt).
+@ Block trigger on the four tiles left of the policeman (40-43, 20).
+@ Active while the guard duty lasts (until Bill hands over the ticket, like
+@ BlockExits). The player is pushed back one step up.
+@ After the ticket, the first contact defuses all four triggers for the
+@ rest of the map visit (VAR_TEMP_0 is reset when entering the map).
 CeruleanCity_EventScript_PolicemanBlock::
 	lockall
 	goto_if_set FLAG_GOT_SS_TICKET, CeruleanCity_EventScript_PolicemanBlockOver

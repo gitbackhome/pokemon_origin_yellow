@@ -1,12 +1,12 @@
 #ifndef GUARD_CONSTANTS_JOHTO_PERMITS_H
 #define GUARD_CONSTANTS_JOHTO_PERMITS_H
 
-// VM-Befugnisse fuer Johto (Bitpositionen in VAR_JOHTO_PERMITS).
-// Als #define statt enum, damit die Skript-Assemblerdateien sie ebenfalls
-// verwenden koennen. Reihenfolge absichtlich identisch zu den Hoenn-Lizenzen
-// (constants/hoenn_licenses.h) - dadurch kommt CheckFieldPermission mit einem
-// einzigen Index fuer beide Regionen aus.
-// Fliegen und Blitz sind wie in Hoenn bewusst nicht gesperrt.
+// HM permits for Johto (bit positions in VAR_JOHTO_PERMITS).
+// #defines instead of an enum so the script assembly files can use them
+// too. The order is deliberately identical to the Hoenn licenses
+// (constants/hoenn_licenses.h) - that way CheckFieldPermission gets by
+// with a single index for both regions.
+// As in Hoenn, Fly and Flash are deliberately not locked.
 #define PERM_CUT         0
 #define PERM_ROCK_SMASH  1
 #define PERM_STRENGTH    2

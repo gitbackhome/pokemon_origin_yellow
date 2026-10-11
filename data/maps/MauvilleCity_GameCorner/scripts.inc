@@ -1032,7 +1032,7 @@ MauvilleCity_GameCorner_Text_NoRoomForCoins:
 	.string "Your COIN CASE can't fit those COINS...$"
 #endif
 
-@ Seit dem Sammelkauf-Umbau (Upstream) ohne Aufrufer - bleibt als toter Text stehen.
+@ No callers since the bulk purchase rework (upstream) - kept as dead text.
 MauvilleCity_GameCorner_Text_CoinCaseIsFull:
 
 MauvilleCity_GameCorner_Text_DontNeedCoinsThen:

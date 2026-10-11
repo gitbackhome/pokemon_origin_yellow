@@ -1149,7 +1149,7 @@ PewterCity_Text_RunningShoesLetterFromMom::
 	.string "From Mom$"
 #endif
 
-@ Kanto-Merge: Die Turbotreter kommen bereits von der Mutter in Alabastia.
+@ Kanto merge: the Running Shoes already come from Mom in Pallet Town.
 PewterCity_EventScript_AideAlreadyHasShoes::
 	setflag FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY
 	removeobject LOCALID_PEWTER_AIDE

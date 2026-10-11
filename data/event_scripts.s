@@ -889,8 +889,8 @@ gStdScripts_End::
 	.include "data/scripts/route23.inc"
 	.include "data/text/new_game_intro_frlg.inc"
 
-@ Sevii: Karten sind stillgelegt (game_version frlg_sevii_retired), die
-@ Skripte bleiben eingebunden - trainers_frlg.inc verweist auf ihre Texte.
+@ Sevii: the maps are retired (game_version frlg_sevii_retired), the
+@ scripts stay included - trainers_frlg.inc refers to their texts.
 	.include "data/maps/BirthIsland_Exterior_Frlg/scripts.inc"
 	.include "data/maps/BirthIsland_Harbor_Frlg/scripts.inc"
 	.include "data/maps/FiveIsland_Frlg/scripts.inc"
@@ -1149,7 +1149,7 @@ EventScript_MoveMrBrineyToRoute109::
 	end
 
 EverGrandeCity_HallOfFame_EventScript_ResetEliteFour::
-	@ Origin Jade: naechster Liga-Anlauf nutzt die Rueckkampfteams.
+	@ Origin Jade: the next league run uses the rematch teams.
 	special UpdateEliteFourRematch
 	clearflag FLAG_DEFEATED_ELITE_4_SIDNEY
 	clearflag FLAG_DEFEATED_ELITE_4_PHOEBE
@@ -1203,15 +1203,15 @@ Common_EventScript_ReadyPetalburgGymForBattle::
 	clearflag FLAG_HIDE_PETALBURG_GYM_GREETER
 	setflag FLAG_PETALBURG_MART_EXPANDED_ITEMS
 #if IS_HNS
-	@ HnS: Norman meldet sich genau dann, wenn seine Arena wieder oeffnet -
-	@ vorher hat er keinen Grund, den Spieler anzurufen. Alle vier Aufrufer
-	@ dieses Skripts sind Ordenuebergaben, der Spieler ist dort gesperrt.
-	@ Die Reparaturweiche PetalburgCity_Gym_EventScript_OpensWithBadges setzt
-	@ die Flag vorher selbst und ueberspringt den Anruf deshalb.
+	@ HnS: Norman calls exactly when his gym reopens - before that he has
+	@ no reason to call the player. All four callers of this script are
+	@ badge handovers, where the player is locked. The repair branch
+	@ PetalburgCity_Gym_EventScript_OpensWithBadges sets the flag itself
+	@ beforehand and therefore skips the call.
 	goto_if_set FLAG_ENABLE_NORMAN_MATCH_CALL, Common_EventScript_PetalburgGymAlreadyAnnounced
-	@ HnS: Der Anruf laeuft nicht mehr hier - er unterbrach sonst die Szene
-	@ der Arenaleiterin. Stattdessen wird er vorgemerkt und meldet sich nach
-	@ 50 Schritten unter freiem Himmel (ShouldDoNormanCall).
+	@ HnS: the call no longer happens here - it interrupted the gym
+	@ leader's scene. Instead it is queued and comes after 50 steps
+	@ outdoors (ShouldDoNormanCall).
 	setvar VAR_HNS_NORMAN_CALL_STEPS, 0
 	setflag FLAG_HNS_NORMAN_CALL_PENDING
 Common_EventScript_PetalburgGymAlreadyAnnounced::
@@ -1219,7 +1219,7 @@ Common_EventScript_PetalburgGymAlreadyAnnounced::
 	return
 
 #if IS_HNS
-@ HnS: Normans Anruf, ausgeloest ueber ShouldDoNormanCall nach 50 Schritten.
+@ HnS: Norman's call, triggered via ShouldDoNormanCall after 50 steps.
 Common_EventScript_HnsNormanCall::
 	lockall
 	clearflag FLAG_HNS_NORMAN_CALL_PENDING
@@ -1238,12 +1238,12 @@ Common_EventScript_HnsNormanCallDone::
 	releaseall
 	end
 
-@ Kanto-Merge: Anruf der Mutter nach ihrer PokeCom-Uebergabe.
+@ Kanto merge: Mom's call after her PokeGear handover.
 Common_EventScript_HnsMomCall::
 	lockall
 	clearflag FLAG_HNS_MOM_CALL_PENDING
 	setvar VAR_HNS_MOM_CALL_STEPS, 0
-	@ Ohne setspeaker bleibt der Name in der Anrufbox leer.
+	@ Without setspeaker the name in the call box stays empty.
 	setspeaker Common_Text_HnsMomName
 	pokenavcall Common_Text_HnsMomParcelCall
 	waitmessage
@@ -1356,9 +1356,9 @@ Common_EventScript_OutOfCenterPartyHeal::
 	fadescreenswapbuffers FADE_FROM_BLACK
 	return
 
-@ Origin Jade: Koga und Sabrina sind in beliebiger Reihenfolge machbar. Nur
-@ diejenige Arena, die tatsaechlich den sechsten Orden vergibt, sagt die
-@ naechste Gehorsamsgrenze an.
+@ Origin Jade: Koga and Sabrina can be beaten in any order. Only the gym
+@ that actually hands out the sixth badge announces the next obedience
+@ limit.
 Common_EventScript_ObedienceLevel40IfSixthBadge::
 	special GetPlayerBadgeCount
 	goto_if_ne VAR_RESULT, 6, Common_EventScript_ObedienceLevel40Done
@@ -1543,7 +1543,7 @@ Common_Text_PartyIsFull:
 	.string "mehr Pokémon mitnehmen.$"	
 
 #if IS_HNS
-@ HnS: Norman meldet sich, sobald der Umbau seiner Arena fertig ist.
+@ HnS: Norman calls as soon as the renovation of his gym is finished.
 Common_Text_HnsNormanGymOpen:
 #if GERMAN
 	.string "… … … … … … … … … … … Piep!\p"

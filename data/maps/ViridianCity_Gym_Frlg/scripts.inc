@@ -23,9 +23,9 @@ ViridianCity_Gym_EventScript_DefeatedGiovanni::
 	goto ViridianCity_Gym_EventScript_GiveRockSmash
 	end
 
-@ Origin Jade: Giovanni gibt die VM Zertruemmerer statt TM26. Sie ist damit
-@ vor dem Endgame erreichbar; FLAG_GOT_TM26_FROM_GIOVANNI bleibt als Merker,
-@ um bestehende Spielstaende nicht zu stoeren.
+@ Origin Jade: Giovanni gives HM Rock Smash instead of TM26. That makes it
+@ available before the endgame; FLAG_GOT_TM26_FROM_GIOVANNI stays as the
+@ marker so existing saves are not disturbed.
 ViridianCity_Gym_EventScript_GiveRockSmash::
 	msgbox ViridianCity_Gym_Text_ExplainEarthBadgeTakeThis
 	checkitemspace ITEM_HM_ROCK_SMASH

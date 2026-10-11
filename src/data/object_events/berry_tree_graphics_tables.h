@@ -896,8 +896,8 @@ const u8 *const gBerryTreePaletteSlotTablePointers[] = {
 
 
 #if IS_HNS
-// Hoenn-Varianten: gleiche Aufbauten, aber mit den vollstaendig gezeichneten
-// Beerenbaum-Bildern statt der HGSS-Fruchtsprites.
+// Hoenn variants: same structure, but with the fully drawn berry tree
+// pictures instead of the HGSS fruit sprites.
 static const struct SpriteFrameImage sPicTable_CheriBerryTree_Hoenn[] = {
     overworld_frame(gObjectEventPic_BerryTreeDirtPile_Hoenn, 2, 2, 0),
     overworld_frame(gObjectEventPic_BerryTreeSprout_Hoenn, 2, 2, 0),

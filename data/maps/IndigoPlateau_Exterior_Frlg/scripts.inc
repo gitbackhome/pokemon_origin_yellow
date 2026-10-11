@@ -52,12 +52,12 @@ IndigoPlateau_Exterior_EventScript_Credits::
 	waitdooranim
 	delay 160
 
-	@ Kanto-Merge: Eich dreht sich zum Spieler und bestellt ihn ins Labor -
-	@ das ist der Anschluss an die Reise nach Johto.
+	@ Kanto merge: Oak turns to the player and asks them to his lab - this
+	@ is the link to the journey to Johto.
 	applymovement LOCALID_CREDITS_PROF_OAK, Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox IndigoPlateau_Exterior_Text_OakComeToMyLab
-	@ Ab hier haelt Eich im Labor den GS-Ball fuer den Spieler bereit.
+	@ From here on Oak keeps the GS Ball ready for the player in his lab.
 	setvar VAR_JOHTO_HANDOVER, 1
 	closemessage
 	delay 20
@@ -87,10 +87,10 @@ IndigoPlateau_Exterior_EventScript_Credits::
 	setvar VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR, 0
 	removeobject LOCALID_CREDITS_RIVAL
 	removeobject LOCALID_CREDITS_PROF_OAK
-	@ Kanto-Merge: kein Abspann - Kanto ist das erste von drei Kapiteln.
-	@ In FRLG uebernimmt hier die Abspannrolle und setzt den Spieler danach
-	@ zu Hause ab. Ohne sie bleibt er ausserhalb des Bildes stehen, deshalb
-	@ warpen wir selbst nach Alabastia.
+	@ Kanto merge: no credits - Kanto is the first of three chapters.
+	@ In FRLG the credits roll takes over here and drops the player at home
+	@ afterwards. Without it the player is left standing off-screen, so we
+	@ warp to Pallet Town ourselves.
 	setrespawn HEAL_LOCATION_PALLET_TOWN
 	fadescreen FADE_TO_BLACK
 	warp MAP_PALLET_TOWN_PLAYERS_HOUSE_2F, 6, 6

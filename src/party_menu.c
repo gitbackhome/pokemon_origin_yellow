@@ -2968,10 +2968,10 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
                 }
             }
         }
-        // Kanto-Merge: Ohne Orden erscheint der Eintrag gar nicht erst. Vorher
-        // liess er sich anwaehlen, die Karte ging auf und nichts passierte.
-        // Die Zaehlung gegen maxFieldMoves stammt aus HnS 2.0.2 und verhindert,
-        // dass das erste Teammitglied mit vier VMs das Menue sprengt.
+        // Kanto merge: without the badge the entry does not appear at all.
+        // Before, it could be selected, the map opened and nothing happened.
+        // The count against maxFieldMoves comes from HnS 2.0.2 and keeps a
+        // first party member with four HMs from overflowing the menu.
         if (CheckBagHasItem(ITEM_HM02, 1) && IsFieldMoveUnlocked(FIELD_MOVE_FLY)
          && numFieldMoves < maxFieldMoves && !hasFlyAlready)
         {
@@ -3002,9 +3002,9 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
                 }
             }
         }
-        // Kanto-Merge: Dieselbe Bedingung wie im Zweig darueber. Hier fehlte
-        // sie bisher komplett, Fliegen erschien also ohne VM und ohne Orden,
-        // sobald nicht das erste Teammitglied gewaehlt war.
+        // Kanto merge: the same condition as in the branch above. It was
+        // missing here entirely, so Fly appeared without the HM and without
+        // the badge whenever a party member other than the first was chosen.
         if (numFieldMoves < maxFieldMoves && CheckBagHasItem(ITEM_HM02, 1)
          && IsFieldMoveUnlocked(FIELD_MOVE_FLY)
          && CanLearnTeachableMove(GetMonData(&mons[slotId], MON_DATA_SPECIES), MOVE_FLY))
@@ -7024,8 +7024,8 @@ void ItemUseCB_PokeBall(u8 taskId, TaskFunc task)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
     u16 currBall = GetMonData(mon, MON_DATA_POKEBALL);
-    // HnS 2.0.1: Item-ID -> Ball-ID, sonst landet z.B. der GS-Ball als
-    // ungueltige Ball-ID im Mon und das Spiel stuerzt ab.
+    // HnS 2.0.1: item ID -> ball ID, otherwise e.g. the GS Ball ends up as an
+    // invalid ball ID in the mon and the game crashes.
     u16 newBall = ItemIdToBallId(gSpecialVar_ItemId);
     static const u8 sText_MonBallWasChanged[] = _("{STR_VAR_1} wurde in {STR_VAR_2} gelegt.{PAUSE_UNTIL_PRESS}");
 

@@ -27,8 +27,8 @@ EWRAM_DATA u8 OneTypeChallengeCaptureBlocked = FALSE;
 static const u8 sNuzlockeLUT[] =
 {
 #if IS_HNS
-    // Kanto (Routen 1-25, Vertania-Wald, Mondberg, ...) liegt weiter unten
-    // ab 0xBC im Hoenn-Bitfeld - siehe Kommentar dort.
+    // Kanto (Routes 1-25, Viridian Forest, Mt. Moon, ...) sits further down
+    // from 0xBC in the Hoenn bit field - see the comment there.
     // Johto-Kanto Routes
     [MAPSEC_ROUTE_26]         = 0x19,
     [MAPSEC_ROUTE_27]         = 0x1A,
@@ -74,7 +74,7 @@ static const u8 sNuzlockeLUT[] =
     [MAPSEC_MT_MORTAR]        = 0x40,
     [MAPSEC_WHIRL_ISLANDS]    = 0x41,
     [MAPSEC_BURNED_TOWER]     = 0x42,
-    // Dungeons: Kanto (nur die HnS-eigene Siegesstrasse; FRLG-Dungeons unten ab 0xD5)
+    // Dungeons: Kanto (only the HnS Victory Road; FRLG dungeons below from 0xD5)
     [MAPSEC_VICTORY_ROAD_HNS] = 0x49,
     // Cities/Towns: Johto
     [MAPSEC_OLIVINE_CITY]     = 0x4B,
@@ -120,10 +120,10 @@ static const u8 sNuzlockeLUT[] =
     // Max bit index: 0x6F (112 bits). nuzlockeEncounterFlags[16] supports up to 0x7F (128 bits).
     // If you exceed 0x7F, grow nuzlockeEncounterFlags in include/global.h.
 
-    // Origin Jade: Hoenn- und FRLG-Kanto-Abschnitte (IDs 0x80+ -> zweites
-    // Bitfeld in SaveBlock3.nuzlockeEncounterFlagsHoenn). Werte = Emerald-
-    // LUT-IDs + 0x80; die FRLG-Kanto-Karten (Routen 1-25, Vertania-Wald,
-    // Mondberg, ...) liegen deshalb bei 0xBC-0xDF, nicht im alten Bitfeld.
+    // Origin Jade: Hoenn and FRLG Kanto sections (IDs 0x80+ -> second bit
+    // field in SaveBlock3.nuzlockeEncounterFlagsHoenn). Values = Emerald
+    // LUT IDs + 0x80; the FRLG Kanto maps (Routes 1-25, Viridian Forest,
+    // Mt. Moon, ...) therefore sit at 0xBC-0xDF, not in the old bit field.
     [MAPSEC_ROUTE_101] = 0x80,
     [MAPSEC_ROUTE_102] = 0x81,
     [MAPSEC_ROUTE_103] = 0x82,
@@ -173,7 +173,7 @@ static const u8 sNuzlockeLUT[] =
     [MAPSEC_FIERY_PATH] = 0xAE,
     [MAPSEC_JAGGED_PASS] = 0xAF,
     [MAPSEC_SKY_PILLAR] = 0xB0,
-    [MAPSEC_SAFARI_ZONE] = 0xB1, // Johto- und Hoenn-Safarizone teilen sich den MAPSEC
+    [MAPSEC_SAFARI_ZONE] = 0xB1, // the Johto and Hoenn Safari Zones share this MAPSEC
     [MAPSEC_SCORCHED_SLAB] = 0xB2,
     [MAPSEC_ISLAND_CAVE] = 0xB3,
     [MAPSEC_DESERT_RUINS] = 0xB4,
@@ -220,16 +220,16 @@ static const u8 sNuzlockeLUT[] =
     [MAPSEC_POKEMON_TOWER] = 0xDD,
     [MAPSEC_POKEMON_MANSION] = 0xDE,
     [MAPSEC_KANTO_SAFARI_ZONE] = 0xDF,
-    // 0xE0-0xE4: Sevii-Dungeons (Mt. Ember, Beerenwald, Eisfallhoehle, Lost
-    // Cave, Pattern Bush). Ihre MAPSECs sind im HnS-Build auf 0 kollabiert
-    // und wuerden als Initialisierer [0] nur den Sevii-Sammelindex
-    // ueberschreiben - deshalb hier nicht eingetragen. Werden die Sevii-
-    // Inseln eingebaut, bekommen sie diese IDs zurueck.
+    // 0xE0-0xE4: Sevii dungeons (Mt. Ember, Berry Forest, Icefall Cave, Lost
+    // Cave, Pattern Bush). Their MAPSECs collapse to 0 in the HnS build and
+    // as initializer [0] would only overwrite the Sevii catch-all index -
+    // so they are not listed here. If the Sevii Islands are added, they get
+    // these IDs back.
     [MAPSEC_BATTLE_FRONTIER] = 0xE5,
-    // Origin Jade: Abschnitte mit Wasser-/Angel- oder Dungeon-Encountern,
-    // die bisher fehlten und deshalb alle auf Bit 0 fielen - ein Fang in
-    // Graphitport verbrauchte z.B. zugleich Faustauhaven, Seegrasulb,
-    // Wuestenturm, Magma-Versteck und die S.S. Anne.
+    // Origin Jade: sections with water/fishing or dungeon encounters that
+    // were missing so far and therefore all fell on bit 0 - a catch in
+    // Slateport, for example, also used up Dewford, Lilycove, Mirage Tower,
+    // the Magma Hideout and the S.S. Anne.
     [MAPSEC_DEWFORD_TOWN] = 0xE6,
     [MAPSEC_EVER_GRANDE_CITY] = 0xE7,
     [MAPSEC_LILYCOVE_CITY] = 0xE8,
@@ -244,7 +244,7 @@ static const u8 sNuzlockeLUT[] =
     [MAPSEC_UNDERWATER_126] = 0xF1,
     [MAPSEC_S_S_ANNE] = 0xF2,
     [MAPSEC_SOUTHERN_ISLAND] = 0xF3,
-    // Naechste freie ID: 0xF4 (Obergrenze 0xFF = nuzlockeEncounterFlagsHoenn[16]).
+    // Next free ID: 0xF4 (upper limit 0xFF = nuzlockeEncounterFlagsHoenn[16]).
 
 #else
     // Hoenn Routes
@@ -407,11 +407,11 @@ bool8 IsNuzlockeNicknamingActive(void)
     return cs->tx_Nuzlocke_Nicknaming;
 }
 
-// Origin Jade: LUT-IDs < 0x80 liegen im alten Bitfeld (Johto/Kanto),
-// IDs ab 0x80 im neuen Hoenn-Bitfeld am SaveBlock3-Ende.
-// MAPSECs hinter dem letzten LUT-Eintrag (z.B. MAPSEC_NAVEL_ROCK, MAPSEC_NONE)
-// lasen bisher hinter dem Array - jetzt teilen sie sich Bit 0 mit allen
-// anderen nicht eingetragenen Abschnitten.
+// Origin Jade: LUT IDs < 0x80 live in the old bit field (Johto/Kanto),
+// IDs from 0x80 on in the new Hoenn bit field at the end of SaveBlock3.
+// MAPSECs past the last LUT entry (e.g. MAPSEC_NAVEL_ROCK, MAPSEC_NONE)
+// used to read past the array - now they share bit 0 with all other
+// unlisted sections.
 static u16 NuzlockeLutId(u16 mapsec)
 {
     if (mapsec >= ARRAY_COUNT(sNuzlockeLUT))
@@ -419,6 +419,8 @@ static u16 NuzlockeLutId(u16 mapsec)
     return sNuzlockeLUT[mapsec];
 }
 
+// Byte holding the first-encounter bit of a map section, in the old or in
+// the Hoenn bit field depending on its LUT ID.
 static u8 *NuzlockeFlagPtr(u16 mapsec)
 {
     u16 id = NuzlockeLutId(mapsec);

@@ -36,9 +36,10 @@ int GameClear(void)
 
     SetContinueGameWarpStatus();
 
-    // Kanto-Merge: Nach Kantos Liga wacht der Spieler zu Hause in Alabastia
-    // auf, nicht in Neuborkia. Sobald Johtos Liga geschlagen ist, gilt wieder
-    // Neuborkia - FLAG_VISITED_JOHTO unterscheidet die beiden Faelle.
+    // Kanto merge: after Kanto's league the player wakes up at home in
+    // Pallet Town, not in New Bark Town. Once the player has reached Johto,
+    // New Bark Town applies again - FLAG_VISITED_JOHTO tells the two cases
+    // apart.
     if (IS_HNS && FlagGet(FLAG_VISITED_JOHTO))
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_NEW_BARK_TOWN_HNS);
     else if (IS_HNS)
@@ -120,9 +121,10 @@ bool8 EnterHallOfFame(void)
         SetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME, (gSaveBlock2Ptr->playTimeHours << 16) | (gSaveBlock2Ptr->playTimeMinutes << 8) | gSaveBlock2Ptr->playTimeSeconds);
     }
     SetContinueGameWarpStatus();
-    // Kanto-Merge: Nach Kantos Liga wacht der Spieler zu Hause in Alabastia
-    // auf, nicht in Neuborkia. Sobald Johtos Liga geschlagen ist, gilt wieder
-    // Neuborkia - FLAG_VISITED_JOHTO unterscheidet die beiden Faelle.
+    // Kanto merge: after Kanto's league the player wakes up at home in
+    // Pallet Town, not in New Bark Town. Once the player has reached Johto,
+    // New Bark Town applies again - FLAG_VISITED_JOHTO tells the two cases
+    // apart.
     if (IS_HNS && FlagGet(FLAG_VISITED_JOHTO))
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_NEW_BARK_TOWN_HNS);
     else if (IS_HNS)

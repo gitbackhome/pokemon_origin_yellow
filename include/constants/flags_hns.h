@@ -860,11 +860,11 @@
 // Extended content flags (0x36A – 0x495)
 // 300 slots for new content.
 //
-// Die Registrierungsflags des Match Call lagen frueher direkt unter diesem Block
-// (ab 0x310) und kollidierten dort mit 90 Hoenn-Inhaltsflags derselben Adressen.
-// Sie stehen jetzt im vorher freien Fenster ab 0x496 (siehe
-// TRAINER_REGISTERED_FLAGS_START weiter unten); zwischen 0x36A und 0x495 bleibt
-// dieser Block unveraendert.
+// The match call registration flags used to sit right below this block
+// (from 0x310) and clashed there with 90 Hoenn content flags at the same
+// addresses. They now live in the previously free window from 0x496 (see
+// TRAINER_REGISTERED_FLAGS_START further down); between 0x36A and 0x495
+// this block is unchanged.
 //
 // Note MAX_REMATCH_ENTRIES is 100, so the saveblock reserves 10 more entries than
 // there is flag room for -- the reservation is NOT the safe limit here.
@@ -959,9 +959,9 @@
 #define FLAG_HIDE_SLOWPOKE_WELL_TAILLESS_SLOWPOKES                    (HNS_EXTENDED_CONTENT_START + 76)
 #define FLAG_ULAULA_MOVE_TUTOR_PAID                 (HNS_EXTENDED_CONTENT_START + 77) // paid the Ula'ula move tutor his 5 HEART SCALES
 #define FLAG_USED_TELEPORTER                    (HNS_EXTENDED_CONTENT_START + 78)
-// Kanto-Merge: Die Sinjoh-Sperre lag auf 78 und 79. Upstream 2.0.5 belegt 78
-// mit FLAG_USED_TELEPORTER; beide Flags sind deshalb auf 80 und 81 gerueckt.
-// Siehe SINJOH_CONTENT_AVAILABLE in include/config/general.h.
+// Kanto merge: the Sinjoh block used 78 and 79. Upstream 2.0.5 takes 78
+// for FLAG_USED_TELEPORTER, so both flags moved to 80 and 81.
+// See SINJOH_CONTENT_AVAILABLE in include/config/general.h.
 #define FLAG_UNUSED_EXTENDED_79                   (HNS_EXTENDED_CONTENT_START + 79)
 #define FLAG_HIDE_MT_SILVER_PC_MEARA               (HNS_EXTENDED_CONTENT_START + 80)
 #define FLAG_SINJOH_UNLOCK_MIGRATED                (HNS_EXTENDED_CONTENT_START + 81)
@@ -1186,25 +1186,27 @@
 #define FLAG_MELEMELE_HIDDEN_ITEM                   (HNS_EXTENDED_CONTENT_START + 299)
 #define HNS_EXTENDED_CONTENT_COUNT                  300
 #define HNS_EXTENDED_CONTENT_END                    (HNS_EXTENDED_CONTENT_START + HNS_EXTENDED_CONTENT_COUNT - 1)
-// 0x496 folgt der Match-Call-Registrierungsblock (siehe unten), 0x4F0–0x4FF frei
+// 0x496 is followed by the match call registration block (see below), 0x4F0-0x4FF free
 
-// Freie Einzelflags im Fenster 0x4F0-0x4FF (siehe Registrierungsblock unten)
+// Free single flags in the window 0x4F0-0x4FF (see registration block below)
 #define FLAG_HIDE_OLDALE_TOWN_MART_EMPLOYEE          0x4F0
 #define FLAG_ENABLE_PROF_BIRK_MATCH_CALL             0x4F1
 
 // Trainer registered (match call) flags — one per rematchable trainer
 //
-// ACHTUNG: Dieser Block darf NICHT auf 0x310 zurueckgesetzt werden. Die Adressen
-// 0x310-0x369 sind in diesem Header bereits vollstaendig durch 90 Hoenn-Inhalts-
-// flags belegt (FLAG_RECEIVED_*, FLAG_REGISTERED_STEVEN_POKENAV, die Trickhaus-
-// Schalter, die Regi-Raetsel und saemtliche FLAG_VISITED_*-Flugpunkte). Jede dort
-// gesetzte Hoenn-Fahne haette sonst zugleich einen PokeCom-Kontakt registriert --
-// bei den in der HnS-Rematch-Tabelle leeren Plaetzen fuehrte das zu Anrufen ohne
-// Namen und ohne Text.
+// WARNING: Do NOT move this block back to 0x310. Addresses 0x310-0x369 are
+// already fully used in this header by 90 Hoenn content flags
+// (FLAG_RECEIVED_*, FLAG_REGISTERED_STEVEN_POKENAV, the Trick House
+// switches, the Regi puzzles and all FLAG_VISITED_* fly points). Every Hoenn
+// flag set there would also have registered a PokeNav contact -- for the
+// slots that are empty in the HnS rematch table this produced calls with no
+// name and no text.
 //
-// Fenster: 0x496 + REMATCH_TABLE_ENTRIES (90) - 1 = 0x4EF.
-// Frei bleiben 0x4F0-0x4FF (16 Flags) bis TRAINER_FLAGS_START (0x500). Waechst die
-// Rematch-Tabelle ueber 106 Eintraege, muss der Block erneut umziehen.
+// Window: 0x496 + REMATCH_TABLE_ENTRIES (90) - 1 = 0x4EF.
+// 0x4F0-0x4FF (16 flags) stay free up to TRAINER_FLAGS_START (0x500). If the
+// rematch table grows beyond 106 entries, the block has to move again.
+// Origin Jade: that has happened -- flags_hoenn_de.h redefines
+// TRAINER_REGISTERED_FLAGS_START as HNS_REMATCH_FLAGS_START (118 entries).
 #define TRAINER_REGISTERED_FLAGS_START               0x496
 #define FLAG_REGISTERED_JOEY_HNS            (TRAINER_REGISTERED_FLAGS_START + REMATCH_ROSE)
 #define FLAG_REGISTERED_WADE_HNS            (TRAINER_REGISTERED_FLAGS_START + REMATCH_ANDRES)

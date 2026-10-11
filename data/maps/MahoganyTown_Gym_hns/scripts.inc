@@ -90,12 +90,12 @@ MahoganyTown_Gym_EventScript_PryceVictory::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox MahoganyTown_Gym_Text_GlacierBadgeSpeech, MSGBOX_DEFAULT
 	setflag FLAG_BADGE07_GET
-	@ Pryce: Johto-Orden 7. Die Flag oben teilt sich Johto mit Kanto und
-	@ ist nach der Kanto-Liga laengst gesetzt - gezaehlt wird in VAR_JOHTO_BADGES.
+	@ Pryce: Johto badge 7. The flag above is shared by Johto and Kanto and
+	@ is set long before, after the Kanto league - the count lives in VAR_JOHTO_BADGES.
 	setvar VAR_0x8004, 6
 	special SetJohtoBadge
-	@ Der Orden ist zugleich die Befugnis fuer Taucher - siehe
-	@ src/johto_permits.c. Die Ordensflags teilt sich Johto mit Kanto.
+	@ The badge also grants the permit for Dive - see
+	@ src/johto_permits.c. Johto shares the badge flags with Kanto.
 	setvar VAR_0x8004, PERM_DIVE
 	special SetJohtoPermit
 	setflag FLAG_DEFEATED_MAHOGANY_TOWN_GYM

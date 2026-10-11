@@ -1,13 +1,13 @@
 EventScript_SetDefeatedEliteFourFlagsVars::
-	@ Kanto-Merge: Den Titel setzt in HnS erst die zweite Ruhmeshalle. Bei uns
-	@ ist Kanto die erste Region, also gehoert er hierher. Ohne ihn zeigt die
-	@ Trainerkarte keinen Titel, und die Safari-Wache in Fuchsania sowie die
-	@ Eon-Ticket-Frau in Olivia erkennen den Champion nicht.
+	@ Kanto merge: in HnS only the second Hall of Fame sets the title. For
+	@ us Kanto is the first region, so it belongs here. Without it the
+	@ trainer card shows no title, and the Safari guard in Fuchsia as well
+	@ as the Eon Ticket woman in Olivine do not recognize the champion.
 	setflag FLAG_IS_KANTO_CHAMPION
-	@ Der Waechter vor der Hoehle von Azuria steht auf (7,11) und damit auf dem
-	@ einzigen Feld, ueber das man den Eingang auf (7,10) erreicht. Sein Flag
-	@ wird sonst nur in OneIsland_PokemonCenter_1F gesetzt, und die Sevii-Inseln
-	@ sind nicht im Build - die Hoehle waere also nie zu betreten.
+	@ The guard in front of Cerulean Cave stands at (7,11), i.e. on the only
+	@ tile from which the entrance at (7,10) can be reached. His flag is
+	@ otherwise only set in OneIsland_PokemonCenter_1F, and the Sevii Islands
+	@ are not in the build - so the cave could never be entered.
 	setflag FLAG_HIDE_CERULEAN_CAVE_GUARD
 	clearflag FLAG_HIDE_POSTGAME_GOSSIPERS
 	call EventScript_ResetEliteFour

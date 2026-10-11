@@ -88,12 +88,12 @@
 #define AUTO_LOWERCASE_KEYBOARD      GEN_3  // Starting in GEN_6, after entering the first uppercase character, the keyboard switches to lowercase letters.
 
 // Origin Jade
-// Einziger Schalter fuer die Sinjoh-Bonusinhalte. Bei FALSE bleiben Meara im
-// Silberberg-Pokemon-Center und die Azurfloete auf Silberberg 2F versteckt; ohne
-// beide gibt es keinen Weg in die Schleuse bei (43,9) in MtSilver_1F_WaterfallRoom
-// und damit keinen Zugang zu Snowswept Cavern, Neu-Sinjoh und den Sinjoh-Ruinen.
-// Auf TRUE gesetzt raeumen die OnTransition-Skripte der beiden Karten die Sperre
-// selbsttaetig ab, auch in bestehenden Spielstaenden.
+// Single switch for the Sinjoh bonus content. With FALSE, Meara in the
+// Mt. Silver Pokémon Center and the Azure Flute on Mt. Silver 2F stay hidden;
+// without both there is no way through the gate at (43,9) in
+// MtSilver_1F_WaterfallRoom, and so no access to Snowswept Cavern, New Sinjoh
+// and the Sinjoh Ruins. Set to TRUE, the OnTransition scripts of both maps lift
+// the block on their own, in existing save files as well.
 #define SINJOH_CONTENT_AVAILABLE     FALSE
 
 #endif // GUARD_CONFIG_GENERAL_H

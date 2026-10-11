@@ -29,7 +29,7 @@ gText_PlayerFoundOneItem::
 #endif
 
 #if IS_HNS
-@ HnS: Hinweis, wenn eine doppelte Uebergabe verfaellt (giveitem_unless_owned).
+@ HnS: notice when a duplicate handover lapses (giveitem_unless_owned).
 gText_HnsItemAlreadyOwned::
 #if GERMAN
 	.string "{PLAYER} hat {STR_VAR_2}\n"

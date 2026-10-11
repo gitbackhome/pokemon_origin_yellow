@@ -6,16 +6,16 @@ Route30_hns_MapScripts::
 
 Route30_OnTransition:
 	callnative SetTimeBasedEncounters
-	@ Origin Jade: Das Duell der beiden Jungen mit ihren Pokemon haengt an
-	@ FLAG_MOM_VISITED - gesetzt wird das in HnS im Haus der Mutter, wenn sie
-	@ den Spieler nach dem Diebstahl verabschiedet. Diese Szene gibt es bei
-	@ uns nicht, das Haus gehoert jemand anderem. Ohne das Flag stehen die
-	@ vier ewig auf der Route und Joey wird nie zum Trainer.
-	@ Nach dem Diebstahl (Laborzustand 5) wird beides nachgetragen.
-	@ Geprueft wird FLAG_HIDE_ROUTE_30_NPCS und nicht FLAG_MOM_VISITED: bei
-	@ einem neuen Spiel setzt new_game.inc FLAG_MOM_VISITED bereits mit, waehrend
-	@ FLAG_HIDE_ROUTE_30_NPCS gesetzt bleibt - Joey waere dann nie als Trainer
-	@ aufgetaucht.
+	@ Origin Jade: the duel of the two boys with their Pokemon depends on
+	@ FLAG_MOM_VISITED - HnS sets it in Mom's house when she sees the player
+	@ off after the theft. That scene does not exist for us, the house
+	@ belongs to someone else. Without the flag the four stand on the route
+	@ forever and Joey never becomes a trainer.
+	@ After the theft (lab state 5) both are caught up.
+	@ FLAG_HIDE_ROUTE_30_NPCS is checked instead of FLAG_MOM_VISITED: on a
+	@ new game new_game.inc already sets FLAG_MOM_VISITED, while
+	@ FLAG_HIDE_ROUTE_30_NPCS stays set - Joey would then never have shown
+	@ up as a trainer.
 	call_if_set FLAG_HIDE_ROUTE_30_NPCS, Route30_EventScript_SyncAfterTheft
 	end
 

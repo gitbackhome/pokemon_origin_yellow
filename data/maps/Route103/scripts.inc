@@ -20,14 +20,14 @@ Route103_EventScript_OpenAlteringCave::
 Route103_EventScript_Rival::
 	lockall
 #if defined(POKEMON_HNS)
-	@ HnS-Kanon: Birks Kind ist immer Maike. Erstbegegnung mit dem
-	@ Champion, danach Pokegear-Registrierung; der Vanilla-Nachlauf
-	@ (Labor-Pokedex-Event, Oldale-/Labor-Respawn) entfaellt.
+	@ HnS canon: Birch's child is always May. First meeting with the
+	@ champion, then PokeGear registration; the vanilla follow-up (lab
+	@ Pokedex event, Oldale/lab respawn) is dropped.
 	goto Route103_EventScript_RivalMayHns
 #endif
 #if IS_HNS
-	@ HnS-Kanon: Die Rivalin ist immer Maike, unabhaengig vom Geschlecht
-	@ der Spielfigur. Brix bleibt als eigenstaendige Figur frei.
+	@ HnS canon: the rival is always May, regardless of the player
+	@ character's gender. Brendan stays free as a character of his own.
 	goto Route103_EventScript_RivalMay
 #else
 	checkplayergender
@@ -179,8 +179,8 @@ Route103_EventScript_RivalMay::
 	waitmovement 0
 	msgbox Route103_Text_MayLetsBattle, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: VAR_STARTER_MON traegt hier den Johto-Starter. Maikes Starterlinie
-	@ steht fest (Flemmli), deshalb immer das Treecko-Set.
+	@ HnS: VAR_STARTER_MON holds the Johto starter here. May's starter line
+	@ is fixed (Torchic), so always use the Treecko set.
 	goto Route103_EventScript_StartMayBattleTreecko
 #endif
 	switch VAR_STARTER_MON

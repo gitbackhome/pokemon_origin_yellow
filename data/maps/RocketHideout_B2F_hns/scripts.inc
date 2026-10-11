@@ -554,7 +554,7 @@ RocketHideout_B2F_EventScript_ElectrodeDone::
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_EAST
 	delay 30
 	msgbox RocketHideout_B2F_Text_LanceElectrodeDone, MSGBOX_DEFAULT
-	@ Der Strudel gibt es in Kanto nicht - Lance uebergibt ihn regulaer.
+	@ Whirlpool does not exist in Kanto - Lance hands it over as usual.
 	giveitem ITEM_HM_WHIRLPOOL
 	msgbox RocketHideout_B2F_Text_LanceWhirlpool, MSGBOX_DEFAULT
 	closemessage

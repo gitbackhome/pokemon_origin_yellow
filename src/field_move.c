@@ -12,9 +12,9 @@
 #include "constants/party_menu.h"
 
 
-// Kanto-Merge: In Kanto gelten FRLGs Regeln. Die Orden dort vergibt seit dem
-// Merge FRLG selbst, also muessen auch die Schwellen die von FRLG sein - nicht
-// die von Johto. Gleiche Bauart wie HoennLicensesApply().
+// Kanto merge: FRLG's rules apply in Kanto. Since the merge the badges
+// there are handed out by FRLG itself, so the thresholds have to be
+// FRLG's as well - not Johto's. Built the same way as HoennLicensesApply().
 static bool32 KantoRulesApply(void)
 {
     u32 mapSec = gMapHeader.regionMapSectionId;
@@ -29,11 +29,11 @@ static bool32 IsFieldMoveUnlocked_Cut(void)
 
     if (IS_HNS)
     {
-        // In Hoenn zaehlt die Lizenz, in Johto die Befugnis.
+        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_CUT);
-        // In Johto zaehlt die Befugnis. Der Johto-Orden taugt nicht als
-        // Schwelle: Kanto setzt dieselben Flags und hat sie laengst alle.
+        // In Johto the permit counts. The Johto badge is no use as a
+        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_CUT);
         return FlagGet(FLAG_BADGE02_GET);
@@ -64,11 +64,11 @@ static bool32 IsFieldMoveUnlocked_RockSmash(void)
 
     if (IS_HNS)
     {
-        // In Hoenn zaehlt die Lizenz, in Johto die Befugnis.
+        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_ROCK_SMASH);
-        // In Johto zaehlt die Befugnis. Der Johto-Orden taugt nicht als
-        // Schwelle: Kanto setzt dieselben Flags und hat sie laengst alle.
+        // In Johto the permit counts. The Johto badge is no use as a
+        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_ROCK_SMASH);
         return FlagGet(FLAG_BADGE01_GET);
@@ -81,19 +81,19 @@ static bool32 IsFieldMoveUnlocked_RockSmash(void)
 
 static bool32 IsFieldMoveUnlocked_Strength(void)
 {
-    // Kanto-Merge: Orange-Orden. FRLG hat fuer diesen Zug keinen eigenen
-    // Zweig und faellt auf den Vorgabewert durch - den hatte ich in 0037
-    // uebersehen und einen Orden zu niedrig angesetzt.
+    // Kanto merge: Rainbow Badge (badge 4). FRLG has no branch of its own
+    // for this move and falls through to the default value - that was
+    // overlooked in 0037 and set one badge too low.
     if (KantoRulesApply())
         return FlagGet(FLAG_BADGE04_GET);
 
     if (IS_HNS)
     {
-        // In Hoenn zaehlt die Lizenz, in Johto die Befugnis.
+        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_STRENGTH);
-        // In Johto zaehlt die Befugnis. Der Johto-Orden taugt nicht als
-        // Schwelle: Kanto setzt dieselben Flags und hat sie laengst alle.
+        // In Johto the permit counts. The Johto badge is no use as a
+        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_STRENGTH);
         return FlagGet(FLAG_BADGE03_GET);
@@ -104,19 +104,19 @@ static bool32 IsFieldMoveUnlocked_Strength(void)
 
 static bool32 IsFieldMoveUnlocked_Surf(void)
 {
-    // Kanto-Merge: Seelen-Orden. FRLG hat fuer diesen Zug keinen eigenen
-    // Zweig und faellt auf den Vorgabewert durch - den hatte ich in 0037
-    // uebersehen und einen Orden zu niedrig angesetzt.
+    // Kanto merge: Soul Badge (badge 5). FRLG has no branch of its own for
+    // this move and falls through to the default value - that was
+    // overlooked in 0037 and set one badge too low.
     if (KantoRulesApply())
         return FlagGet(FLAG_BADGE05_GET);
 
     if (IS_HNS)
     {
-        // In Hoenn zaehlt die Lizenz, in Johto die Befugnis.
+        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_SURF);
-        // In Johto zaehlt die Befugnis. Der Johto-Orden taugt nicht als
-        // Schwelle: Kanto setzt dieselben Flags und hat sie laengst alle.
+        // In Johto the permit counts. The Johto badge is no use as a
+        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_SURF);
         return FlagGet(FLAG_BADGE04_GET);
@@ -142,11 +142,11 @@ static bool32 IsFieldMoveUnlocked_Dive(void)
 {
     if (IS_HNS)
     {
-        // In Hoenn zaehlt die Lizenz, in Johto die Befugnis.
+        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_DIVE);
-        // In Johto zaehlt die Befugnis. Der Johto-Orden taugt nicht als
-        // Schwelle: Kanto setzt dieselben Flags und hat sie laengst alle.
+        // In Johto the permit counts. The Johto badge is no use as a
+        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_DIVE);
         return FlagGet(FLAG_BADGE07_GET);
@@ -162,11 +162,11 @@ static bool32 IsFieldMoveUnlocked_Waterfall(void)
 
     if (IS_HNS)
     {
-        // In Hoenn zaehlt die Lizenz, in Johto die Befugnis.
+        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_WATERFALL);
-        // In Johto zaehlt die Befugnis. Der Johto-Orden taugt nicht als
-        // Schwelle: Kanto setzt dieselben Flags und hat sie laengst alle.
+        // In Johto the permit counts. The Johto badge is no use as a
+        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_WATERFALL);
         return FlagGet(FLAG_BADGE08_GET);

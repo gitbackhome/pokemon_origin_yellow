@@ -54,8 +54,9 @@ RusturfTunnel_EventScript_ClearTunnelScene::
 	call_if_eq VAR_TEMP_1, 3, RusturfTunnel_EventScript_FaceWandasBoyfriend3
 	call RusturfTunnel_EventScript_WandasBoyfriendNotice
 #if IS_HNS
-	@ HnS: Die Erlaubnis fuer Staerke erteilt allein Flavia mit dem
-	@ Hitzeorden (siehe LavaridgeTown_Gym_1F). Hier gibt es nichts mehr.
+	@ HnS: the license for Strength is granted only by Flannery with the
+	@ Heat Badge (see LavaridgeTown_Gym_1F). Nothing is handed out here
+	@ anymore.
 	msgbox Text_HnsShatteredBoulderNoHandover, MSGBOX_DEFAULT
 #else
 	msgbox RusturfTunnel_Text_YouShatteredBoulderTakeHM, MSGBOX_DEFAULT
@@ -665,8 +666,8 @@ RusturfTunnel_Text_MikePostBattle:
 #endif
 
 #if IS_HNS
-@ Nicht mehr angesprungen, seit die Erlaubnis am Hitzeorden haengt.
-@ Bleibt stehen, damit nichts geloescht wird.
+@ No longer jumped to since the license depends on the Heat Badge.
+@ Kept so nothing gets deleted.
 Text_HnsStrengthLicense:
 #if GERMAN
 	.string "{PLAYER} erhält die Lizenz für\n"

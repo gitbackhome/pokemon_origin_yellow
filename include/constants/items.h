@@ -830,10 +830,10 @@ enum __attribute__((packed)) Item
     #define TO_TMHM_NUMS(a, ...) (__VA_ARGS__)
     RECURSIVELY(R_ZIP(ENUM_TM, TO_TMHM_NUMS NUMBERS_256, (FOREACH_TM(APPEND_COMMA))))
     #undef ENUM_TM
-    // ENUM_HM und TO_TMHM_NUMS werden erst am Ende der Liste aufgeloest.
-    // Grund: ITEM_HM09 (Taucher) haengt unter HnS am Listenende, damit sich
-    // keine bestehende Item-ID verschiebt - der Alias ITEM_HM_DIVE kann sie
-    // also erst dort referenzieren.
+    // ENUM_HM and TO_TMHM_NUMS are only resolved at the end of the list.
+    // Reason: under HnS, ITEM_HM09 (Dive) is appended at the end of the
+    // list so no existing item ID shifts - so the alias ITEM_HM_DIVE can
+    // only reference it there.
 
     // Charms
     ITEM_OVAL_CHARM = 690,
@@ -1080,26 +1080,26 @@ enum __attribute__((packed)) Item
     ITEM_UNUSED_BERRY_3,
     ITEM_AZURE_FLUTE,
 
-    // HnS: Eigener Schluessel fuer Neu-Malvenfroh. ITEM_BASEMENT_KEY wird
-    // unter HnS bereits im Funkturm Dukatia vergeben und nie eingezogen -
-    // ohne eigene ID stuende Neu-Malvenfroh von Anfang an offen.
+    // HnS: a key of its own for New Mauville. Under HnS, ITEM_BASEMENT_KEY
+    // is already given out in the Goldenrod Radio Tower and never taken
+    // back - without its own ID New Mauville would be open from the start.
     ITEM_NEW_MAUVILLE_KEY,
 
-    // HnS: Fahrkarte fuer die Ueberfahrt nach Hoenn. Troy uebergibt sie in
-    // der Silph Co., nachdem der Spieler auch die Liga von Kanto gewonnen hat.
+    // HnS: ticket for the crossing to Hoenn. Steven (Troy) hands it over in
+    // Silph Co. after the player has also won the Kanto league.
     ITEM_HOENN_TICKET,
 
 #if IS_HNS
-    // HnS: Der Strudel belegt die VM08 (Johto), Taucher bekommt die VM09.
-    // Die ID haengt bewusst am Listenende statt hinter ITEM_HM08 - so
-    // verschiebt sich keine bestehende Item-ID und Speicherstaende mit
-    // gefuelltem Beutel bleiben gueltig.
+    // HnS: Whirlpool takes HM08 (Johto), Dive gets HM09.
+    // The ID is deliberately appended at the end of the list instead of
+    // after ITEM_HM08 - that way no existing item ID shifts and save files
+    // with a filled bag stay valid.
     ITEM_HM09,
 #endif
 
-    // Muss vor dem Alias-Block stehen: dessen letzte Zeile ist eine explizite
-    // Zuweisung (ITEM_HM_DIVE = ITEM_HMxx). Stuende ITEMS_COUNT danach, wuerde
-    // es von dort weiterzaehlen statt von der letzten echten Item-ID.
+    // Must come before the alias block: its last line is an explicit
+    // assignment (ITEM_HM_DIVE = ITEM_HMxx). If ITEMS_COUNT came after it,
+    // it would count on from there instead of from the last real item ID.
     ITEMS_COUNT,
 
     /* Expands to:

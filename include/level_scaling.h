@@ -5,19 +5,18 @@
 
 struct Trainer;
 
-// Dynamisches Levelscaling fuer Hoenn und Johto
-// (siehe include/config/hoenn_scaling.h und include/config/johto_scaling.h).
-// Welche Regel gilt, entscheidet die Mapsection der aktuellen Karte.
-// Ausserhalb beider Regionen bzw. bei abgeschaltetem Scaling sind alle
-// Funktionen wirkungslose Durchreichen - Kanto behaelt damit seine
-// handgesetzte Levelleiter.
+// Dynamic level scaling for Hoenn and Johto
+// (see include/config/hoenn_scaling.h and include/config/johto_scaling.h).
+// The map section of the current map decides which rule applies.
+// Outside both regions, or with scaling switched off, all functions are
+// no-op pass-throughs - Kanto thus keeps its hand-set level curve.
 bool32 LevelScalingActive(void);
 u8 ScaleWildMonLevel(u8 level);
 u8 ScaleTrainerMonLevel(const struct Trainer *trainer, u8 level, u8 partyMaxLevel);
 u16 ScaleTrainerMonSpecies(u16 species, u8 scaledLevel);
 
-// Reine Geografie bzw. Hoenn-Flags - unabhaengig vom Scaling und auch
-// von Regionskarte, Ortsnamen, VM-Lizenzen und Sprites genutzt.
+// Pure geography or Hoenn flags - independent of scaling and also used by
+// the region map, location names, HM licenses and sprites.
 bool32 IsHoennMapsec(u32 mapSecId);
 void TrySetHoennVisitedFlag(void);
 

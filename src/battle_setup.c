@@ -97,9 +97,9 @@ static const u8 *GetTrainerCantBattleSpeech(void);
 
 EWRAM_DATA TrainerBattleParameter gTrainerBattleParameter = {0};
 EWRAM_DATA u16 gPartnerTrainerId = 0;
-// Kanto-Merge: Merkt, welches Fang-Tutorial laeuft. Die Controllerwahl in
-// battle_controllers.c haing bisher an IS_FRLG - im HnS-Build lief deshalb
-// auch in Vertania Heikos Ralts-Tutorial statt dem des alten Mannes.
+// Kanto merge: remembers which catching tutorial is running. The controller
+// choice in battle_controllers.c used to depend on IS_FRLG - so in the HnS
+// build Viridian also ran Wally's Ralts tutorial instead of the old man's.
 EWRAM_DATA bool8 gIsOldManTutorialBattle = FALSE;
 EWRAM_DATA static u8 *sTrainerBattleEndScript = NULL;
 EWRAM_DATA static bool8 sShouldCheckTrainerBScript = FALSE;
@@ -206,11 +206,11 @@ const struct RematchTrainer gRematchTable[REMATCH_TABLE_ENTRIES] =
     [REMATCH_JOEL_HNS]    = REMATCH(TRAINER_JOEL_HNS,     TRAINER_JOEL_2_HNS,    TRAINER_JOEL_3_HNS,    TRAINER_JOEL_3_HNS,    TRAINER_JOEL_3_HNS,    MAP_ROUTE17_HNS),
     [REMATCH_CHARLES_HNS] = REMATCH(TRAINER_CHARLES_HNS,  TRAINER_CHARLES_2_HNS, TRAINER_CHARLES_3_HNS, TRAINER_CHARLES_3_HNS, TRAINER_CHARLES_3_HNS, MAP_ROUTE17_HNS),
 
-    // Spezialtrainer (ab REMATCH_WALLY_VR). Diese Plaetze waren leer, obwohl die
-    // PokeCom-Header in pokenav_match_call_data.c sie ueber .rematchTableIdx
-    // ansprechen und mit .name = NULL den Namen aus dieser Tabelle holen -- die
-    // Hoenn-Arenaleiter erschienen dadurch als namenlose Kontakte. Werte wortgleich
-    // zur Emerald-Tabelle weiter unten.
+    // Special trainers (from REMATCH_WALLY_VR on). These slots were empty
+    // although the PokeNav headers in pokenav_match_call_data.c address them
+    // via .rematchTableIdx and, with .name = NULL, take the name from this
+    // table -- so the Hoenn gym leaders showed up as nameless contacts.
+    // Values identical to the Emerald table further below.
     [REMATCH_WALLY_VR]      = REMATCH(TRAINER_WALLY_VR_2,        TRAINER_WALLY_VR_3,        TRAINER_WALLY_VR_4,        TRAINER_WALLY_VR_5,        TRAINER_WALLY_VR_5,        MAP_VICTORY_ROAD_1F),
     [REMATCH_ROXANNE]       = REMATCH(TRAINER_ROXANNE_1,         TRAINER_ROXANNE_2,         TRAINER_ROXANNE_3,         TRAINER_ROXANNE_4,         TRAINER_ROXANNE_5,         MAP_RUSTBORO_CITY),
     [REMATCH_BRAWLY]        = REMATCH(TRAINER_BRAWLY_1,          TRAINER_BRAWLY_2,          TRAINER_BRAWLY_3,          TRAINER_BRAWLY_4,          TRAINER_BRAWLY_5,          MAP_DEWFORD_TOWN),
@@ -227,10 +227,10 @@ const struct RematchTrainer gRematchTable[REMATCH_TABLE_ENTRIES] =
     [REMATCH_WALLACE] = REMATCH(TRAINER_WALLACE, TRAINER_WALLACE_2, TRAINER_WALLACE_2, TRAINER_WALLACE_2, TRAINER_WALLACE_2, MAP_EVER_GRANDE_CITY),
 
 
-    // Hoenn-Rueckkampftrainer. Die Plaetze 28-63 (JERRY..KIRA_AND_DAN) waren
-    // unter HnS leer und tragen wieder ihre Originaleintraege; die 28 Trainer,
-    // deren Namen oben von den Johto-Telefontrainern belegt sind, stehen unter
-    // *_HOENN am Tabellenende.
+    // Hoenn rematch trainers. Slots 28-63 (JERRY..KIRA_AND_DAN) were empty
+    // in HnS and hold their original entries again; the 28 trainers whose
+    // names are already taken above by the Johto phone trainers sit under
+    // *_HOENN at the end of the table.
     [REMATCH_JERRY] = REMATCH(TRAINER_JERRY_1, TRAINER_JERRY_2, TRAINER_JERRY_3, TRAINER_JERRY_4, TRAINER_JERRY_5, MAP_ROUTE116),
     [REMATCH_ANNA_AND_MEG] = REMATCH(TRAINER_ANNA_AND_MEG_1, TRAINER_ANNA_AND_MEG_2, TRAINER_ANNA_AND_MEG_3, TRAINER_ANNA_AND_MEG_4, TRAINER_ANNA_AND_MEG_5, MAP_ROUTE117),
     [REMATCH_ISABEL] = REMATCH(TRAINER_ISABEL_1, TRAINER_ISABEL_2, TRAINER_ISABEL_3, TRAINER_ISABEL_4, TRAINER_ISABEL_5, MAP_ROUTE110),
@@ -646,9 +646,9 @@ static void DoBattlePyramidTrainerHillBattle(void)
 void StartWallyTutorialBattle(void)
 {
     gIsOldManTutorialBattle = FALSE;
-    // HnS: Level 5 passt nicht zu einem Spieler, der Hoenn als Champion
-    // betritt. Das Ralts wird deshalb wie ein wildes Pokemon auf das
-    // Hoenn-Niveau hochgezogen (Anker = staerkstes Teammitglied).
+    // HnS: level 5 does not suit a player who enters Hoenn as a champion.
+    // The Ralts is therefore raised to the Hoenn level like a wild Pokemon
+    // (anchor = strongest party member).
     CreateMaleMon(&gEnemyParty[0], SPECIES_RALTS, IS_HNS ? ScaleWildMonLevel(5) : 5);
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_ReturnToFieldContinueScriptPlayMapMusic;
@@ -1240,11 +1240,11 @@ enum BattleTransition GetTrainerBattleTransition(void)
     u32 trainerId;
     enum TrainerClassID trainerClass;
 
-    // Origin Jade: Geheimbasis-Kaempfe nutzen die Sonder-ID 0xFF00 - vor dem
-    // SanitizeTrainerId abfangen, sonst Assert "invalid trainer: 65280"
-    // (Spieltest-Report). Vanillas Champion-Uebergang ist in der Expansion
-    // im Mugshot-System aufgegangen; die Engine waehlt fuer Geheimbasen
-    // selbst B_TRANSITION_BIG_POKEBALL (siehe GetSpecialBattleTransition).
+    // Origin Jade: secret base battles use the special ID 0xFF00 - catch it
+    // before SanitizeTrainerId, otherwise it asserts "invalid trainer: 65280"
+    // (playtest report). Vanilla's champion transition has been folded into
+    // the mugshot system in the expansion; for secret bases the engine
+    // picks B_TRANSITION_BIG_POKEBALL itself (see GetSpecialBattleTransition).
     if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_SECRET_BASE)
         return B_TRANSITION_BIG_POKEBALL;
 
@@ -1399,12 +1399,12 @@ static void TryUpdateGymLeaderRematchFromTrainer(void)
         UpdateGymLeaderRematch();
 }
 
-// Kanto-Merge: Trainer-ID -> Flag-ID. Die FRLG-Trainer und die HnS-Rueckkampf-
-// stufen liegen hinter TRAINER_FLAGS_END; ihre Flags bekommen deshalb ein
-// eigenes Fenster oberhalb des Hoenn-Blocks (siehe opponents_frlg_hns.h).
-// GetFlagPointer leitet diese Fenster nach SaveBlock3 um. Jede Stelle, die
-// aus einer Trainer-ID eine Flag-ID macht, MUSS ueber diese Funktion gehen -
-// ein blankes TRAINER_FLAGS_START + id landet sonst wieder in fremden Flags.
+// Kanto merge: trainer ID -> flag ID. The FRLG trainers and the HnS rematch
+// tiers lie beyond TRAINER_FLAGS_END, so their flags get a window of their
+// own above the Hoenn block (see opponents_frlg_hns.h). GetFlagPointer
+// redirects these windows into SaveBlock3. Every place that turns a
+// trainer ID into a flag ID MUST go through this function - a bare
+// TRAINER_FLAGS_START + id would land in unrelated flags again.
 u16 TrainerIdToFlagId(u16 trainerId)
 {
 #if IS_HNS
@@ -2201,9 +2201,10 @@ s32 TrainerIdToRematchTableId(const struct RematchTrainer *table, u16 trainerId)
 static inline bool32 IsRematchForbidden(s32 rematchTableId)
 {
     if (rematchTableId >= REMATCH_ELITE_FOUR_ENTRIES)
-        // Origin Jade: Top-Vier-Rueckkaempfe erst nach dem HOENN-Ligasieg.
-        // FLAG_SYS_GAME_CLEAR ist beim Champion-Spieler ab Ankunft gesetzt
-        // und haette schon den ersten Liga-Anlauf zum Rueckkampf gemacht.
+        // Origin Jade: Elite Four rematches only after winning the HOENN
+        // league. FLAG_SYS_GAME_CLEAR is set for the champion player from
+        // arrival on and would have turned the very first league run into
+        // a rematch.
         return !FlagGet(FLAG_IS_HOENN_CHAMPION);
     else if (rematchTableId == REMATCH_WALLY_VR)
         return !FlagGet(FLAG_DEFEATED_WALLY_VICTORY_ROAD);

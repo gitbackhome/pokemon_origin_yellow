@@ -5,10 +5,10 @@ FallarborTown_PokemonCenter_1F_MapScripts::
 
 FallarborTown_PokemonCenter_1F_OnTransition:
 #if IS_HNS
-	@ Origin Jade: Reparatur nur fuer den 0198-Zwischenstand - und NUR,
-	@ solange ihre Abgangsszene noch nicht lief (removeobject setzt ihr
-	@ Versteck-Flag automatisch; ein bedingungsloses clearflag holte sie
-	@ nach der Szene bei jedem Betreten zurueck, Spieltest-Report).
+	@ Origin Jade: repair only for the intermediate state of 0198 - and ONLY
+	@ while her leaving scene has not run yet (removeobject sets her hide
+	@ flag automatically; an unconditional clearflag brought her back on
+	@ every entry after the scene, playtest report).
 	call_if_set FLAG_HIDE_LANETTES_HOUSE_LANETTE, FallarborTown_PokemonCenter_1F_EventScript_RepairLanetteHidden
 #endif
 	setrespawn HEAL_LOCATION_FALLARBOR_TOWN

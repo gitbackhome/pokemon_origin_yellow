@@ -4,8 +4,8 @@ Route22_NorthEntrance_Frlg_MapScripts::
 Route22_NorthEntrance_EventScript_BoulderBadgeGuard::
 	lock
 	faceplayer
-	@ Kanto-Merge: Dieses Torhaus ist die Weltgrenze nach Johto, zum
-	@ Silberberg und zur Liga. Hier zaehlt der Erdorden, nicht der Felsorden.
+	@ Kanto merge: this gatehouse is the world border to Johto, Mt. Silver
+	@ and the league. The Earth Badge counts here, not the Boulder Badge.
 	setvar VAR_TEMP_1, 8
 	bufferstdstring STR_VAR_1, STDSTRING_EARTH_BADGE
 	goto Route22_NorthEntrance_EventScript_BadgeGuard

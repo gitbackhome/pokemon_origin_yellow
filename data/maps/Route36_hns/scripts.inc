@@ -17,7 +17,7 @@ Route36_EventScript_RockSmashGuy::
 	end
 Route36_EventScript_RockSmashGuy2::
 	goto_if_set FLAG_RECEIVED_HM_ROCK_SMASH, Route36_EventScript_RockSmashGuy3
-	@ Origin Jade: Wer aus Kanto kommt, hat die VM laengst.
+	@ Origin Jade: a player coming from Kanto has had the HM for a long time.
 	checkitem ITEM_HM_ROCK_SMASH
 	goto_if_eq VAR_RESULT, TRUE, Route36_EventScript_RockSmashGuyHasHM
 	msgbox Route36_Text_RockSmashGuy2, MSGBOX_DEFAULT

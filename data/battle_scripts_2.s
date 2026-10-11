@@ -181,7 +181,7 @@ BattleScript_BallThrow::
 	handleballthrow
 
 BattleScript_BallThrowByWally::
-	@ Kanto-Merge: Im Fangtutorial von Vertania wirft der alte Mann.
+	@ Kanto merge: in Viridian's catching tutorial the old man throws.
 	jumpifbyte CMP_NOT_EQUAL, gIsOldManTutorialBattle, 0, BattleScript_BallThrowByOldMan
 	printstring STRINGID_WALLYUSEDITEM
 	handleballthrow

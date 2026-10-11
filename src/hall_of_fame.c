@@ -780,8 +780,8 @@ static void Task_Hof_HandleExit(u8 taskId)
 
 static void StartCredits(void)
 {
-    // Kanto-Merge: Hier laeuft nur Hoenns Ruhmeshalle durch. Kantos Abspann
-    // haengt an SetWarpsToRollCredits in hall_of_fame_frlg.c.
+    // Kanto merge: only Hoenn's Hall of Fame runs through here. Kanto's
+    // credits hang on SetWarpsToRollCredits in hall_of_fame_frlg.c.
     SetMainCallback2(CB2_StartCreditsSequence);
 }
 

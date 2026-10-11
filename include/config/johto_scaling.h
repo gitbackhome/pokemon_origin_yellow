@@ -2,82 +2,78 @@
 #define GUARD_CONFIG_JOHTO_SCALING_H
 
 // =====================================================================
-// Johto-Levelscaling - Regeldatei (hns_de / modern_hns_engde)
+// Johto level scaling - rules file (hns_de / modern_hns_engde)
 //
-// Origin Jade schickt den Spieler als Champion von Kanto nach Johto.
-// HnS baut Johto dagegen als Startregion (Falkner Level 8-11). Statt
-// alle Trainer und Wildtabellen von Hand hochzuziehen, gilt hier
-// dasselbe Prinzip wie in Hoenn: Trainer und wilde Pokemon skalieren
-// dynamisch mit dem Spieler, innerhalb eines vom Autor gesetzten
-// Korridors pro Gebiet. Die statischen Level in trainers_hns.party
-// zaehlen dann nur noch als *Abstaende innerhalb eines Teams*.
+// Origin Jade sends the player to Johto as the champion of Kanto. HnS,
+// on the other hand, builds Johto as the starting region (Falkner at
+// levels 8-11). Instead of raising every trainer and wild table by hand,
+// the same principle as in Hoenn applies: trainers and wild Pokémon scale
+// dynamically with the player, within a corridor per area set by the
+// author. The static levels in trainers_hns.party then only count as
+// *gaps inside a team*.
 //
-// Kernregeln (mit Marc abgestimmt):
-//  - Anker  = hoechstes Level im Spielerteam, wie in Hoenn.
-//  - Routentrainer liegen bei Anker -3 bis +2, Bosse bei Anker +3.
-//  - Johto spannt sich ueber Level 45 bis 80: der Einstieg liegt
-//    knapp unter dem Kanto-Abschluss (Champion 50-52), die Liga
-//    endet bei 80 und uebergibt an Hoenn. Die Deckel der Stufen 1 bis 4
-//    sind eng gesetzt (55/61/67/73), damit der Ankunftsbereich nicht
-//    sofort ueber dem Spieler liegt.
-//  - Die Korridortabelle definiert zugleich die Region: was hier
-//    NICHT steht, behaelt die statische HnS-Balance. Damit bleibt
-//    Kanto unangetastet (dort gilt Marcs handgesetzte Leiter bis 52),
-//    und Sinjoh, die Alola-Inseln, Route 49/50, der Felsenherzturm
-//    und der Trainerberg bleiben aussen vor, solange sie nicht
-//    erreichbar sind.
-//  - Artenzusammensetzung bleibt vanilla - es skalieren NUR Level.
+// Core rules (agreed with Marc):
+//  - Anchor = highest level in the player's party, as in Hoenn.
+//  - Route trainers sit at anchor -3 to +2, bosses at anchor +3.
+//  - Johto spans levels 45 to 80: the entry lies just below the end of
+//    Kanto (champion 50-52), the league ends at 80 and hands over to
+//    Hoenn. The ceilings of tiers 1 to 4 are tight (55/61/67/73) so the
+//    arrival area does not immediately sit above the player.
+//  - The corridor table also defines the region: anything NOT listed here
+//    keeps the static HnS balance. That leaves Kanto untouched (Marc's
+//    hand-set ladder up to 52 applies there), and Sinjoh, the Alola
+//    islands, Route 49/50, Bell Tower and Trainer Hill stay out as long
+//    as they cannot be reached.
+//  - Species stay vanilla - ONLY levels scale.
 // =====================================================================
 
-#define JOHTO_LEVEL_SCALING          TRUE  // Hauptschalter
+#define JOHTO_LEVEL_SCALING          TRUE  // master switch
 
-// Enger als in Hoenn (-5/+3). Origin Jade schickt keinen Anfaenger durch
-// Johto, sondern einen Champion mit gewachsenem Team - da reicht ein
-// knapper Abstand, um Kaempfe interessant zu halten. Vier Level ueber dem
-// Spieler ist bereits anspruchsvoll, das bleibt den Bossen vorbehalten.
-#define JOHTO_SCALING_TRAINER_BELOW  3     // Trainerband: Anker - 3 ...
-#define JOHTO_SCALING_TRAINER_ABOVE  2     // ... bis Anker + 2
-#define JOHTO_SCALING_WILD_BELOW     10    // Wildband: Anker - 10 ...
-#define JOHTO_SCALING_WILD_ABOVE     4     // ... bis Anker - 4
-// Ein Level Aufschlag, nicht zwei. Vier ueber dem staerksten Teammitglied
-// ist viel, wenn der Anker ohnehin schon die Spitze des Spielerteams ist -
-// gegenueber dem Rest des Teams sind es dann schnell acht. Der Unterschied
-// zu einem Routentrainer kommt in Johto ueber Teamgroesse und Deckung,
-// nicht ueber rohe Level. Zum Vergleich: Hoenn faehrt +5, ist aber die
-// Endregion.
-#define JOHTO_SCALING_BOSS_EXTRA     1     // Boss-Ass: Anker + 2 + 1
+// Tighter than in Hoenn (-5/+3). Origin Jade does not send a beginner
+// through Johto but a champion with a grown team - a narrow gap is enough
+// to keep fights interesting. Four levels above the player is already
+// demanding; that is reserved for the bosses.
+#define JOHTO_SCALING_TRAINER_BELOW  3     // Trainer band: anchor - 3 ...
+#define JOHTO_SCALING_TRAINER_ABOVE  2     // ... up to anchor + 2
+#define JOHTO_SCALING_WILD_BELOW     10    // Wild band: anchor - 10 ...
+#define JOHTO_SCALING_WILD_ABOVE     4     // ... up to anchor - 4
+// One level on top, not two. Four above the strongest party member is a
+// lot when the anchor already is the top of the player's party - against
+// the rest of the team it quickly becomes eight. In Johto the difference
+// to a route trainer comes from team size and coverage, not from raw
+// levels. For comparison: Hoenn uses +5, but it is the final region.
+#define JOHTO_SCALING_BOSS_EXTRA     1     // Boss ace: anchor + 2 + 1
 
-// Trainer, deren Originalteam bereits auf oder ueber diesem Level liegt,
-// sind bewusst gesetzte Superbosse und werden NICHT skaliert. In Johto
-// trifft das nur Rot am Silberberg (77-93) - Lance' Champion-Team
-// (68-75) und die Top-Vier-Rematches (63-70) skalieren weiterhin mit.
+// Trainers whose original team is already at or above this level are
+// deliberately placed super bosses and are NOT scaled. In Johto this only
+// affects Red on Mt. Silver (77-93) - Lance's champion team (68-75) and
+// the Elite Four rematches (63-70) keep scaling.
 #define JOHTO_SCALING_FIXED_MIN_LEVEL 77
 
-// Entwicklungsangleich wie in Hoenn: Falkners Taubsi tritt auf
-// Level 55 als Tauboss an, nicht als Scheingegner.
+// Evolution catch-up as in Hoenn: Falkner's Pidgey shows up at level 55
+// as a Pidgeot, not as a pushover.
 #define JOHTO_SCALING_TRAINER_EVOLVE TRUE
-#define JOHTO_SCALING_EVO_OTHER_LEVEL 36   // Schwelle fuer Stein/Tausch
+#define JOHTO_SCALING_EVO_OTHER_LEVEL 36   // threshold for stone/trade evolutions
 
-// Nur als Rueckfallebene - in Johto definiert die Korridortabelle die
-// Region, ein Gebiet ohne Eintrag wird gar nicht erst skaliert.
-#define JOHTO_SCALING_MIN_LEVEL      5     // absolute Untergrenze
-#define JOHTO_SCALING_MAX_LEVEL      100   // absolute Obergrenze
+// Fallback only - in Johto the corridor table defines the region; an
+// area without an entry is not scaled at all.
+#define JOHTO_SCALING_MIN_LEVEL      5     // absolute lower bound
+#define JOHTO_SCALING_MAX_LEVEL      100   // absolute upper bound
 
 #define JOHTO_SCALING_DEFAULT_FLOOR    45
 #define JOHTO_SCALING_DEFAULT_CEILING  80
 
 #define JOHTO_SCALING_CORRIDORS \
-    /* Uebergang aus Kanto (45-80). Diese drei Gebiete werden ZWEIMAL \
-       durchlaufen: auf dem Hinweg als frischgebackener Kanto-Champion \
-       und auf dem Rueckweg zur Johto-Liga. Deshalb bewusst das volle \
-       Band - der Anker entscheidet, welcher der beiden Besuche es \
-       gerade ist. */ \
+    /* Transition from Kanto (45-80). These three areas are passed \
+       TWICE: on the way in as a fresh Kanto champion and on the way \
+       back to the Johto League. Hence the full band on purpose - the \
+       anchor decides which of the two visits it is. */ \
     { MAPSEC_ROUTE_26,          45,  80 }, \
     { MAPSEC_ROUTE_27,          45,  80 }, \
     { MAPSEC_TOHJO_FALLS,       45,  80 }, \
-    /* Stufe 1: Ankunft bis Bugsy (45-55). Der Deckel ist bewusst knapp:
-       wer mit 50 aus Kanto kommt, soll Silber beim ersten Treffen nicht
-       auf 60 gegenueberstehen. Das Ass eines Bosses liegt bei Anker + 5. */ \
+    /* Tier 1: arrival up to Bugsy (45-55). The ceiling is tight on
+       purpose: someone arriving from Kanto at 50 should not face Silver
+       at 60 on the first meeting. A boss's ace sits at anchor + 5. */ \
     { MAPSEC_NEW_BARK_TOWN,     45,  55 }, \
     { MAPSEC_ROUTE_29,          45,  55 }, \
     { MAPSEC_CHERRYGROVE_CITY,  45,  55 }, \
@@ -92,12 +88,12 @@
     { MAPSEC_AZALEA_TOWN,       45,  55 }, \
     { MAPSEC_SLOWPOKE_WELL,     45,  55 }, \
     { MAPSEC_ILEX_FOREST,       45,  55 }, \
-    /* Dunkelhoehle und Route 46 haengen beide auch an der spaeten \
-       Seite (Route 45 / Ebenholz). Sie bleiben trotzdem in Stufe 1, \
-       weil der frueheste Zugang das Niveau vorgibt. */ \
+    /* Dark Cave and Route 46 also connect to the late side \
+       (Route 45 / Blackthorn). They still stay in tier 1 because \
+       the earliest access sets the level. */ \
     { MAPSEC_DARK_CAVE,         45,  55 }, \
     { MAPSEC_ROUTE_46,          45,  55 }, \
-    /* Stufe 2: Whitney und Morty (50-61) */ \
+    /* Tier 2: Whitney and Morty (50-61) */ \
     { MAPSEC_ROUTE_34,          50,  61 }, \
     { MAPSEC_GOLDENROD_CITY,    50,  61 }, \
     { MAPSEC_ROUTE_35,          50,  61 }, \
@@ -107,7 +103,7 @@
     { MAPSEC_ECRUTEAK_CITY,     50,  61 }, \
     { MAPSEC_BURNED_TOWER,      50,  61 }, \
     { MAPSEC_TIN_TOWER,         50,  61 }, \
-    /* Stufe 3: Jasmine und Chuck (55-67) */ \
+    /* Tier 3: Jasmine and Chuck (55-67) */ \
     { MAPSEC_ROUTE_38,          55,  67 }, \
     { MAPSEC_ROUTE_39,          55,  67 }, \
     { MAPSEC_OLIVINE_CITY,      55,  67 }, \
@@ -121,7 +117,7 @@
     { MAPSEC_ROUTE_48,          55,  67 }, \
     { MAPSEC_CLIFF_CAVE,        55,  67 }, \
     { MAPSEC_SAFARI_ZONE_GATE,  55,  67 }, \
-    /* Stufe 4: Pryce und Clair (60-73) */ \
+    /* Tier 4: Pryce and Clair (60-73) */ \
     { MAPSEC_ROUTE_42,          60,  73 }, \
     { MAPSEC_MT_MORTAR,         60,  73 }, \
     { MAPSEC_MAHOGANY_TOWN,     60,  73 }, \
@@ -133,17 +129,17 @@
     { MAPSEC_BLACKTHORN_CITY,   60,  73 }, \
     { MAPSEC_DRAGONS_DEN,       60,  73 }, \
     { MAPSEC_ROUTE_45,          60,  73 }, \
-    /* Stufe 5: Siegesstrasse und Liga (65-80). Achtung: \
-       MAPSEC_INDIGO_PLATEAU traegt Johtos Top-Vier-Raeume \
-       (PokemonLeague_*_hns) UND Kantos Aussenbereich; Kantos eigene \
-       Liga sitzt dagegen unter MAPSEC_POKEMON_LEAGUE (*_Frlg) und \
-       bleibt damit ausserhalb des Scalings. */ \
+    /* Tier 5: Victory Road and League (65-80). Careful: \
+       MAPSEC_INDIGO_PLATEAU holds Johto's Elite Four rooms \
+       (PokemonLeague_*_hns) AND Kanto's outdoor area; Kanto's own \
+       league sits under MAPSEC_POKEMON_LEAGUE (*_Frlg) instead and \
+       therefore stays outside the scaling. */ \
     { MAPSEC_VICTORY_ROAD_HNS,  65,  80 }, \
     { MAPSEC_INDIGO_PLATEAU,    65,  80 }, \
-    /* Silberberg: bewusst ueber dem Johto-Deckel, der Berg ist der \
-       haerteste Ort der Region. Rot selbst bleibt unskaliert \
-       (JOHTO_SCALING_FIXED_MIN_LEVEL). Route 28 steht mit drin, \
-       damit der Zugang passt, sobald er geoeffnet wird. */ \
+    /* Mt. Silver: deliberately above the Johto ceiling, the mountain \
+       is the toughest place in the region. Red himself stays unscaled \
+       (JOHTO_SCALING_FIXED_MIN_LEVEL). Route 28 is included so the \
+       access fits as soon as it opens. */ \
     { MAPSEC_ROUTE_28,          70,  90 }, \
     { MAPSEC_MT_SILVER,         70,  90 },
 

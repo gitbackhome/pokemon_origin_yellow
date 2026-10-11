@@ -1,12 +1,12 @@
 Common_EventScript_SetupRivalGfxId::
 #if defined(POKEMON_HNS)
-	@ HnS-Kanon: Birks Kind ist immer Maike (Brix ist Normans Sohn).
-	@ Die Rivalengrafik haengt daher nicht mehr am Spielergeschlecht.
+	@ HnS canon: Birch's child is always May (Brendan is Norman's son).
+	@ The rival graphic therefore no longer depends on the player's gender.
 	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
-	@ WICHTIG: return, nicht end! Das Skript wird per call eingebunden;
-	@ ein end beendet den ganzen Aufrufer. Dadurch liefen in Bad Lavastadt
-	@ die Folgezeilen (Rad-Grafik, Rivalenposition) nie - und beim Abgang
-	@ erschien ein falscher Sprite.
+	@ IMPORTANT: return, not end! This script is included via call; an end
+	@ ends the whole caller. Because of that the following lines in
+	@ Lavaridge Town (bike graphic, rival position) never ran - and a wrong
+	@ sprite appeared when she left.
 	return
 #endif
 	checkplayergender
@@ -24,9 +24,9 @@ EventScript_SetupRivalGfxIdMale::
 
 Common_EventScript_SetupRivalOnBikeGfxId::
 #if IS_HNS
-	@ HnS-Kanon: Auch auf dem Rad ist die Rivalin immer Maike. Ohne diese
-	@ Weiche bekam die weibliche Spielfigur nach dem Route-110-Kampf
-	@ Brix' Bike-Sprite zu sehen (Spieltest-Report).
+	@ HnS canon: on the bike, too, the rival is always May. Without this
+	@ switch a female player character saw Brendan's bike sprite after the
+	@ Route 110 battle (playtest report).
 	setvar VAR_OBJ_GFX_ID_3, OBJ_EVENT_GFX_RIVAL_MAY_MACH_BIKE
 	return
 #endif

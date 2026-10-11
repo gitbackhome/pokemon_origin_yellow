@@ -1,17 +1,17 @@
 #ifndef GUARD_CONSTANTS_VARS_FRLG_HNS_H
 #define GUARD_CONSTANTS_VARS_FRLG_HNS_H
 
-// Auto-generiert fuer den Kanto-Merge (test/kanto-start).
-// SaveBlock1 hat nur noch 4 Byte frei, deshalb liegen diese Vars in
-// SaveBlock3 (dort sind ~1.5 KB frei). Zugriff via GetVarPointer().
+// Auto-generated for the Kanto merge (test/kanto-start).
+// SaveBlock1 has only 4 bytes left, so these vars live in SaveBlock3
+// (about 1.5 KB free there). Accessed via GetVarPointer().
 //
-// Quellen: FRLG-Kartenskripte und Coord-/Objekt-Vars aus den map.json.
+// Sources: FRLG map scripts and coord/object vars from the map.json files.
 
 #define FRLG_VARS_START 0x4200
-// Vorbereitung auf die Zukunft (vor Release): 64 Reserve-Vars fuer neue
-// Szenen, Zaehler und Zustaende, frei ab (FRLG_VARS_START+0x80). Die
-// Slots 0x7D bis 0x7F am alten Ende sind bereits vergeben. Nach dem
-// Release ist diese Zahl eingefroren.
+// Preparing for the future (before release): 64 spare vars for new
+// scenes, counters and states, free from (FRLG_VARS_START+0x80). Slots
+// 0x7D to 0x7F at the old end are already taken. After the release this
+// number is frozen.
 #define FRLG_VARS_COUNT 192
 #define FRLG_VARS_END   (FRLG_VARS_START+FRLG_VARS_COUNT-1)
 
@@ -110,23 +110,23 @@
 #undef  VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER
 #define VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER                          (FRLG_VARS_START+0x2E)
 
-// Kanto-Merge: Johto-Orden als eigene Bitmaske (Kanto behaelt FLAG_BADGE0X_GET).
+// Kanto merge: Johto badges as a bitmask of their own (Kanto keeps FLAG_BADGE0X_GET).
 #define VAR_JOHTO_BADGES (FRLG_VARS_START+0x7F)
 
-// Kanto-Merge: 0 = Startgespraech steht noch aus, 1 = gelaufen.
+// Kanto merge: 0 = intro conversation still pending, 1 = done.
 #define VAR_PALLET_HOUSE_INTRO (FRLG_VARS_START+0x7D)
 
-// Kanto-Merge: Schrittzaehler fuer den Anruf der Mutter.
+// Kanto merge: step counter for Mom's call.
 #define VAR_HNS_MOM_CALL_STEPS (FRLG_VARS_START+0x7E)
 
-// Uebergang nach Johto:
-//   0 = nichts, 1 = Eich hat ins Labor gebeten, 2 = GS-Ball erhalten,
-//   3 = GS-Ball bei Prof. Lind abgegeben.
+// Transition to Johto:
+//   0 = nothing, 1 = Oak asked the player to the lab, 2 = received the
+//   GS Ball, 3 = handed the GS Ball to Prof. Elm.
 #define VAR_JOHTO_HANDOVER (FRLG_VARS_START+0x7C)
 
-// Kanto-Merge: 0 = Wanduhr im Obergeschoss noch nicht gestellt, 1 = gestellt.
+// Kanto merge: 0 = upstairs wall clock not set yet, 1 = set.
 #define VAR_PALLET_HOUSE_CLOCK (FRLG_VARS_START+0x7B)
 
-// Belegt: 0x2F von 0x80
+// Used: 0x2F of 0x80 (0x00-0x2E), plus 0x7B-0x7F at the old end.
 
 #endif // GUARD_CONSTANTS_VARS_FRLG_HNS_H

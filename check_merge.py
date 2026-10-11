@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 """
-check_merge.py -- Konsistenzpruefer fuer den FRLG-Kanto / HnS-Johto Merge
-=========================================================================
+check_merge.py -- consistency checker for the FRLG Kanto / HnS Johto merge
+==========================================================================
 
-Findet genau die Fehlerklasse, die der Compiler NICHT sieht:
-  * Flags/Vars, die auf 0 gestubbt sind, aber in aktiven Skripten benutzt werden
-  * Vars, die sich zwei Namensraeume teilen (stiller State-Clobber)
-  * Warps, die ins Leere oder in eine deaktivierte Map zeigen
-  * Connections, die nur einseitig eingetragen sind
-  * Layouts, die von aktiven Maps referenziert, aber nicht aktiviert sind
-  * MAPSECs, die im aktuellen Build auf 0 kollabieren
-  * Maps ohne Wild-Encounter-Tabelle (nur informativ)
+Finds exactly the class of bugs the compiler does NOT see:
+  * flags/vars stubbed to 0 but used in active scripts
+  * vars shared by two name spaces (silent state clobbering)
+  * warps pointing nowhere or into a disabled map
+  * connections that are only registered on one side
+  * layouts referenced by active maps but not enabled
+  * MAPSECs that collapse to 0 in the current build
+  * maps without a wild encounter table (informational only)
 
-Aufruf (im Repo-Wurzelverzeichnis):
-    python3 check_merge.py                 # prueft MAP_VERSION=hns
+Usage (from the repository root):
+    python3 check_merge.py                 # checks MAP_VERSION=hns
     python3 check_merge.py --version frlg
     python3 check_merge.py --only warps,flags
-    python3 check_merge.py --quiet         # nur Zusammenfassung
+    python3 check_merge.py --quiet         # summary only
 
-Exit-Code 1, wenn Fehler (nicht Warnungen) gefunden wurden -> CI-tauglich.
+Exit code 1 if errors (not warnings) were found -> usable in CI.
 """
 
 import argparse
@@ -80,7 +80,7 @@ class Report:
 
 
 def parse_defines(path):
-    """Liest #define NAME WERT aus einem Header. Nur numerische Literale."""
+    """Reads #define NAME VALUE from a header. Numeric literals only."""
     out = {}
     if not os.path.exists(path):
         return out
@@ -95,16 +95,16 @@ def parse_defines(path):
 
 RELATIVE_RE = re.compile(r"^\s*#define\s+(\w+)\s+\((\w+)\s*\+")
 
-# Platzhalterwert fuer relativ definierte Flags: echt, aber nicht auswertbar.
-# Muss ausserhalb des TEMP-Bereichs (0x00-0x1F) liegen.
+# Placeholder value for relatively defined flags: real, but not evaluable.
+# Must lie outside the TEMP range (0x00-0x1F).
 RELATIVE_MARKER = 0x2000
 
 
 def parse_relative_defines(path):
-    """Namen aus Headern der Form '#define X (BASIS+0x1)'.
+    """Names from headers of the form '#define X (BASE+0x1)'.
 
-    parse_defines() erkennt nur nackte Zahlen; die generierten Kanto-Header
-    rechnen aber relativ zu einer Basis.
+    parse_defines() only recognizes bare numbers; the generated Kanto
+    headers, however, compute relative to a base.
     """
     out = set()
     if not os.path.exists(path):
@@ -117,6 +117,7 @@ def parse_relative_defines(path):
     return out
 
 def load_maps():
+    """Loads every data/maps/*/map.json, keyed by map name."""
     maps = {}
     for entry in sorted(os.listdir(MAPS_DIR)):
         path = os.path.join(MAPS_DIR, entry, "map.json")
@@ -137,6 +138,7 @@ def load_maps():
 # ---------------------------------------------------------------- checks
 
 def check_layouts(maps, active_names, version, rep):
+    """Checks layout files and that active maps use layouts of this build."""
     if not os.path.exists(LAYOUTS):
         return
     with open(LAYOUTS, encoding="utf-8") as fh:
@@ -154,9 +156,9 @@ def check_layouts(maps, active_names, version, rep):
             if path and not os.path.exists(path):
                 rep.warn("layouts",
                          f"{lay['id']}: {key} fehlt auf der Platte ({path})")
-        # Groesse gegen die deklarierten Masse pruefen. Eine zu kurze
-        # border.bin laesst die Engine ueber das Dateiende hinaus lesen -
-        # am Kartenrand erscheinen dann fremde Kacheln.
+        # Check the size against the declared dimensions. A border.bin that
+        # is too short makes the engine read past the end of the file -
+        # unrelated tiles then appear at the map edge.
         border = lay.get("border_filepath")
         if border and os.path.exists(border):
             need = lay.get("border_width", 2) * lay.get("border_height", 2) * 2
@@ -170,8 +172,8 @@ def check_layouts(maps, active_names, version, rep):
         if blocks and os.path.exists(blocks):
             need = lay.get("width", 0) * lay.get("height", 0) * 2
             have = os.path.getsize(blocks)
-            # Zu klein ist gefaehrlich - die Engine liest darueber hinaus.
-            # Zu gross ist nur ungenutzter Platz.
+            # Too small is dangerous - the engine reads past the end.
+            # Too large is only unused space.
             if have < need:
                 rep.error("layouts",
                           f"{lay['id']}: map.bin ist {have} Byte, "
@@ -193,6 +195,7 @@ def check_layouts(maps, active_names, version, rep):
 
 
 def check_warps(maps, active_names, rep):
+    """Checks that warps of active maps lead to existing, active maps and warp ids."""
     id_to_name = {m["id"]: n for n, m in maps.items() if "id" in m}
     active_ids = {maps[n]["id"] for n in active_names if "id" in maps[n]}
     for name in sorted(active_names):
@@ -229,6 +232,7 @@ OPPOSITE = {"up": "down", "down": "up", "left": "right", "right": "left"}
 
 
 def check_connections(maps, active_names, rep):
+    """Checks that map connections exist on both sides with mirrored offsets."""
     id_to_name = {m["id"]: n for n, m in maps.items() if "id" in m}
     active_ids = {maps[n]["id"] for n in active_names if "id" in maps[n]}
     for name in sorted(active_names):
@@ -265,6 +269,7 @@ def check_connections(maps, active_names, rep):
 
 
 def check_mapsecs(maps, active_names, version, rep):
+    """Checks that the region map sections of active maps exist in this build."""
     if not os.path.exists(REGION_MAP):
         return
     with open(REGION_MAP, encoding="utf-8") as fh:
@@ -295,13 +300,13 @@ def check_mapsecs(maps, active_names, version, rep):
 
 
 def collect_script_symbols(active_names, maps):
-    """Sammelt alle FLAG_/VAR_-Bezeichner aus den Skripten aktiver Maps."""
+    """Collects all FLAG_/VAR_ identifiers from the scripts of active maps."""
     used_flags = defaultdict(set)
     used_vars = defaultdict(set)
     token = re.compile(r"\b(FLAG_[A-Z0-9_]+|VAR_[A-Z0-9_]+)\b")
     for name in active_names:
-        # Objekt-, Coord- und BG-Events verweisen in der map.json auf Flags und
-        # Vars. Wer nur scripts.inc liest, haelt sie faelschlich fuer ungenutzt.
+        # Object, coord and BG events refer to flags and vars in map.json.
+        # Reading only scripts.inc would wrongly consider them unused.
         text = json.dumps(maps[name])
         path = os.path.join(MAPS_DIR, maps[name]["_dir"], "scripts.inc")
         if os.path.exists(path):
@@ -316,12 +321,13 @@ def collect_script_symbols(active_names, maps):
 
 
 def check_flags(used_flags, version, rep):
+    """Reports used flags that are stubbed to 0 or lie in the TEMP range."""
     header = ("include/constants/flags_hns.h" if version == "hns"
               else "include/constants/flags_frlg.h")
-    # parse_defines() sieht keine #if-Zweige. flags.h enthaelt fuer viele
-    # Namen sowohl den echten Wert als auch eine 0-Attrappe aus einem
-    # inaktiven Zweig. Ein Flag gilt deshalb nur dann als gestubbt, wenn
-    # KEINE Quelle einen echten Wert liefert.
+    # parse_defines() does not see #if branches. For many names flags.h
+    # contains both the real value and a 0 dummy from an inactive branch.
+    # A flag therefore only counts as stubbed if NO source provides a real
+    # value.
     defines = {}
     for src in (header,
                 "include/constants/flags.h",
@@ -329,20 +335,20 @@ def check_flags(used_flags, version, rep):
         for key, val in parse_defines(src).items():
             if val != 0 or key not in defines:
                 defines[key] = val
-        # Viele Flags sind relativ definiert, z.B. (SYS_FLAGS + 0x93).
-        # parse_defines() sieht nur nackte Zahlen und wuerde sie sonst mit
-        # der 0-Attrappe aus flags.h verwechseln.
+        # Many flags are defined relatively, e.g. (SYS_FLAGS + 0x93).
+        # parse_defines() only sees bare numbers and would otherwise mistake
+        # them for the 0 dummy from flags.h.
         for key in parse_relative_defines(src):
             defines[key] = RELATIVE_MARKER
-    # Kanto-Merge: flags_frlg_hns.h macht #undef und weist echte Slots zu.
-    # Ohne diese Datei meldet der Check die remappten Flags faelschlich als
-    # "auf 0 gestubbt".
+    # Kanto merge: flags_frlg_hns.h does #undef and assigns real slots.
+    # Without this file the check would wrongly report the remapped flags
+    # as "stubbed to 0".
     for key in parse_relative_defines("include/constants/flags_frlg_hns.h"):
-        defines[key] = 0x3000  # echter Slot in SaveBlock3
+        defines[key] = 0x3000  # real slot in SaveBlock3
     for flag in sorted(used_flags):
         val = defines.get(flag)
         if val is None:
-            continue  # evtl. via Makro definiert -- Linker faengt das ab
+            continue  # possibly defined via a macro -- the linker catches that
         if val == 0:
             users = sorted(used_flags[flag])
             rep.error("flags-stub",
@@ -355,12 +361,14 @@ def check_flags(used_flags, version, rep):
 
 
 def check_var_collisions(used_vars, rep):
-    """Kollisionen anhand der EFFEKTIVEN Werte.
+    """Collisions based on the EFFECTIVE values.
 
-    vars.h inkludiert vars_frlg.h, vars_hns.h, vars_hoenn_de.h und
-    vars_frlg_hns.h nacheinander - die spaetere Definition gewinnt. Wer nur
-    vars_frlg.h gegen vars_hns.h haelt, meldet Kollisionen, die durch eine
-    spaetere Neudefinition laengst aufgeloest sind.
+    vars.h includes vars_frlg.h, vars_hns.h, vars_hoenn_de.h and
+    vars_frlg_hns.h one after another - the later definition wins. Comparing
+    only vars_frlg.h against vars_hns.h would report collisions that a later
+    redefinition resolved long ago.
+    Note: vars.h itself (Emerald vars) and vars_origin_jade.h are not part
+    of this check - tools/check_flags.py covers all vars numerically.
     """
     order = ["include/constants/vars_frlg.h",
              "include/constants/vars_hns.h",
@@ -369,7 +377,7 @@ def check_var_collisions(used_vars, rep):
     for src in order:
         effective.update(parse_defines(src))
     for name in parse_relative_defines("include/constants/vars_frlg_hns.h"):
-        effective[name] = -1  # eigener Bereich in SaveBlock3, kollisionsfrei
+        effective[name] = -1  # own range in SaveBlock3, collision-free
 
     by_value = defaultdict(list)
     for name, val in effective.items():
@@ -391,6 +399,7 @@ def check_var_collisions(used_vars, rep):
 
 
 def check_wild(maps, active_names, rep):
+    """Notes encounter tables of inactive maps and routes without a table."""
     if not os.path.exists(WILD):
         return
     with open(WILD, encoding="utf-8") as fh:
@@ -414,6 +423,7 @@ def check_wild(maps, active_names, rep):
 
 
 def check_script_includes(maps, active_names, rep):
+    """Reports active maps whose scripts.inc is not included in event_scripts.s."""
     if not os.path.exists(EVENT_SCRIPTS):
         return
     with open(EVENT_SCRIPTS, encoding="utf-8", errors="replace") as fh:
@@ -429,7 +439,7 @@ def check_script_includes(maps, active_names, rep):
 
 
 def check_duplicate_symbols(maps, active_names, rep):
-    """Findet Labels, die in mehreren aktiven Skripten definiert werden."""
+    """Finds labels that are defined in more than one active script."""
     label = re.compile(r"^([A-Za-z_][A-Za-z_0-9]*)::", re.M)
     owners = defaultdict(list)
     for name in active_names:
@@ -447,12 +457,12 @@ def check_duplicate_symbols(maps, active_names, rep):
 
 
 def check_tilesets(maps, active_names, rep):
-    """Prueft, ob die Attributbreite eines Tilesets zur layout_version passt.
+    """Checks whether a tileset's attribute width matches the layout_version.
 
-    FRLG-Layouts lesen metatile_attributes.bin als u32 (Verhalten in Bit 0-8,
-    Ebene in Bit 29-30), alle anderen als u16 (0-7 / 12-15). Ein Tileset mit
-    der falschen Breite liefert Zufallswerte fuer die Ebene -> Grafiken
-    zeichnen ueber dem Spieler.
+    FRLG layouts read metatile_attributes.bin as u32 (behavior in bits 0-8,
+    layer in bits 29-30), all others as u16 (0-7 / 12-15). A tileset with
+    the wrong width yields random values for the layer -> graphics are
+    drawn above the player.
     """
     if not os.path.exists(LAYOUTS):
         return
@@ -508,11 +518,11 @@ def check_tilesets(maps, active_names, rep):
 
 
 def check_warp_reciprocity(maps, active_names, rep):
-    """Meldet Warps, deren Zielwarp nicht zurueckfuehrt.
+    """Reports warps whose destination warp does not lead back.
 
-    Faengt vertauschte Karten-IDs: MAP_VICTORY_ROAD_1F ist Hoenns
-    Siegesstrasse, FRLGs heisst MAP_VICTORY_ROAD_1F_FRLG. Ein Warp dorthin
-    kompiliert und laedt - man landet nur in der falschen Region.
+    Catches swapped map IDs: MAP_VICTORY_ROAD_1F is Hoenn's Victory Road,
+    FRLG's is called MAP_VICTORY_ROAD_1F_FRLG. A warp there compiles and
+    loads - the player just ends up in the wrong region.
     """
     id_to_name = {m["id"]: n for n, m in maps.items() if "id" in m}
     active_ids = {maps[n]["id"] for n in active_names if "id" in maps[n]}
@@ -543,11 +553,11 @@ RELATIVE_VALUE_RE = re.compile(
 
 
 def check_generated_headers(rep):
-    """Doppelt vergebene Slots in den generierten Kanto-Headern.
+    """Slots assigned twice in the generated Kanto headers.
 
-    Die Header werden schrittweise erweitert. Wer dabei die Basis falsch
-    ermittelt, vergibt eine Nummer zweimal - beide Namen zeigen dann auf
-    dasselbe Bit bzw. dieselbe Var, ohne dass der Compiler mahnt.
+    The headers are extended step by step. Getting the base wrong while
+    doing so assigns a number twice - both names then point to the same
+    bit or var without the compiler complaining.
     """
     for path in ("include/constants/flags_frlg_hns.h",
                  "include/constants/vars_frlg_hns.h",

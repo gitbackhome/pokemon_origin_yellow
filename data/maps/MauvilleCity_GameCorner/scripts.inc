@@ -699,7 +699,14 @@ MauvilleCity_GameCorner_EventScript_Girl::
 	goto_if_set FLAG_RECEIVED_STARTER_DOLL, MauvilleCity_GameCorner_EventScript_ReceivedStarterDoll
 	msgbox MauvilleCity_GameCorner_Text_GotTwoOfSameDollWantOne, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MauvilleCity_GameCorner_EventScript_DeclineStarterDoll
+#if IS_HNS
+	@ Origin Jade: there is no Hoenn starter choice. The Johto index has the
+	@ same order (grass, fire, water) as Hoenn's, the Kanto one in
+	@ VAR_STARTER_MON does not (FRLG: grass, water, fire).
+	switch VAR_JOHTO_STARTER_MON
+#else
 	switch VAR_STARTER_MON
+#endif
 	case 0, MauvilleCity_GameCorner_EventScript_GiveTreeckoDoll
 	case 1, MauvilleCity_GameCorner_EventScript_GiveTorchicDoll
 	case 2, MauvilleCity_GameCorner_EventScript_GiveMudkipDoll

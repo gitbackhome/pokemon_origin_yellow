@@ -1225,6 +1225,10 @@ Common_EventScript_HnsNormanCall::
 	clearflag FLAG_HNS_NORMAN_CALL_PENDING
 	setvar VAR_HNS_NORMAN_CALL_STEPS, 0
 	goto_if_set FLAG_ENABLE_NORMAN_MATCH_CALL, Common_EventScript_HnsNormanCallDone
+	@ Origin Jade: like every other pokenavcall, the call needs its speaker;
+	@ without setspeaker the name field of the call box stays empty (same fix
+	@ as Mom's call in Common_EventScript_HnsMomCall).
+	setspeaker Common_Text_HnsNormanName
 	pokenavcall Common_Text_HnsNormanGymOpen
 	waitmessage
 	delay 30
@@ -1543,6 +1547,13 @@ Common_Text_PartyIsFull:
 	.string "mehr Pokémon mitnehmen.$"	
 
 #if IS_HNS
+Common_Text_HnsNormanName:
+#if GERMAN
+	.string "Norman$"
+#else
+	.string "NORMAN$"
+#endif
+
 @ HnS: Norman calls as soon as the renovation of his gym is finished.
 Common_Text_HnsNormanGymOpen:
 #if GERMAN
@@ -2250,6 +2261,9 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 	.include "data/maps/TinTower_RoofNight_hns/scripts.inc"
 	.include "data/maps/TohjoFalls_Cavern_hns/scripts.inc"
 	.include "data/maps/TohjoFalls_GiovanniRoom_hns/scripts.inc"
+	.include "data/maps/VictoryRoadKanto_B2F_hns/scripts.inc"
+	.include "data/maps/VictoryRoadKanto_B1F_hns/scripts.inc"
+	.include "data/maps/VictoryRoadKanto_1F_hns/scripts.inc"
 	.include "data/maps/MtSilver_Outside_hns/scripts.inc"
 	.include "data/maps/MtSilver_1F_ItemRoom_hns/scripts.inc"
 	.include "data/maps/MtSilver_1F_WaterfallRoom_hns/scripts.inc"

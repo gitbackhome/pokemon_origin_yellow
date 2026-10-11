@@ -411,7 +411,8 @@ Route110_EventScript_PlayBrendanMusic::
 Route110_EventScript_MayBattle::
 	msgbox Route110_Text_MayLetsBattle, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: VAR_STARTER_MON holds the Johto starter here. May's starter line
+	@ HnS: VAR_STARTER_MON holds the Kanto starter here (the Johto one is
+	@ in VAR_JOHTO_STARTER_MON), never a Hoenn one. May's starter line
 	@ has been fixed since Route 103 (Torchic), so always use the Treecko set.
 	goto Route110_EventScript_MayBattleTreecko
 #else

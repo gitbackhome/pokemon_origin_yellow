@@ -162,7 +162,8 @@ Route104_EventScript_MayAskToBattle::
 Route104_EventScript_BattleMay::
 	msgbox Route104_Text_MayIntro, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: VAR_STARTER_MON holds the Johto starter here. May's starter line
+	@ HnS: VAR_STARTER_MON holds the Kanto starter here (the Johto one is
+	@ in VAR_JOHTO_STARTER_MON), never a Hoenn one. May's starter line
 	@ has been fixed since Route 103 (Torchic), so always use the Treecko set.
 	goto Route104_EventScript_BattleMayTreecko
 #else

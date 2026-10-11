@@ -54,12 +54,16 @@ PokemonLeague_LoreleisRoom_EventScript_Lorelei::
 	goto_if_set FLAG_DEFEATED_LORELEI, PokemonLeague_LoreleisRoom_EventScript_PostBattle
 	famechecker FAMECHECKER_LORELEI, 0
 	famechecker FAMECHECKER_LORELEI, 1
-	call_if_unset FLAG_IS_CHAMPION, PokemonLeague_LoreleisRoom_EventScript_Intro
-	call_if_set FLAG_IS_CHAMPION, PokemonLeague_LoreleisRoom_EventScript_RematchIntro
+	@ Origin Jade: FRLG picks the rematch intro and teams by
+	@ FLAG_IS_CHAMPION, which only its postgame sets. Here that is the title
+	@ of a later league, so they follow the Kanto title (set by the Kanto
+	@ Hall of Fame).
+	call_if_unset FLAG_IS_KANTO_CHAMPION, PokemonLeague_LoreleisRoom_EventScript_Intro
+	call_if_set FLAG_IS_KANTO_CHAMPION, PokemonLeague_LoreleisRoom_EventScript_RematchIntro
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
-	call_if_unset FLAG_IS_CHAMPION, PokemonLeague_LoreleisRoom_EventScript_Battle
-	call_if_set FLAG_IS_CHAMPION, PokemonLeague_LoreleisRoom_EventScript_Rematch
+	call_if_unset FLAG_IS_KANTO_CHAMPION, PokemonLeague_LoreleisRoom_EventScript_Battle
+	call_if_set FLAG_IS_KANTO_CHAMPION, PokemonLeague_LoreleisRoom_EventScript_Rematch
 	clearflag FLAG_TEMP_5
 	goto PokemonLeague_LoreleisRoom_EventScript_DefeatedLorelei
 	end

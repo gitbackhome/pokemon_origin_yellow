@@ -903,7 +903,8 @@ RustboroCity_EventScript_MayAskToBattle::
 RustboroCity_EventScript_BattleMay::
 	msgbox RustboroCity_Text_MayImNotGoingToLose, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: VAR_STARTER_MON holds the Johto starter here. May's starter line
+	@ HnS: VAR_STARTER_MON holds the Kanto starter here (the Johto one is
+	@ in VAR_JOHTO_STARTER_MON), never a Hoenn one. May's starter line
 	@ has been fixed since Route 103 (Torchic), so always use the Treecko set.
 	goto RustboroCity_EventScript_BattleMayTreecko
 #else

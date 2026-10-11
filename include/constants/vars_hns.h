@@ -280,6 +280,8 @@
 #define VAR_TEMP_FRONTIER_TUTOR_ID         VAR_TEMP_E
 
 #define VAR_TEMP_TRANSFERRED_SPECIES  VAR_TEMP_1
+// Unused in Origin Jade: the radio song is kept in gRadioMapMusic
+// (src/event_data.c) because other maps use VAR_TEMP_F for their scripts.
 #define VAR_TEMP_RADIO_MUSIC          VAR_TEMP_F
 
 // VAR_TEMP_A used due to limited use elsewhere.

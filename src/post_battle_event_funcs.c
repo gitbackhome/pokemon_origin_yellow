@@ -36,13 +36,13 @@ int GameClear(void)
 
     SetContinueGameWarpStatus();
 
-    // Kanto merge: after Kanto's league the player wakes up at home in
-    // Pallet Town, not in New Bark Town. Once the player has reached Johto,
-    // New Bark Town applies again - FLAG_VISITED_JOHTO tells the two cases
-    // apart.
-    if (IS_HNS && FlagGet(FLAG_VISITED_JOHTO))
-        SetContinueGameWarpToHealLocation(HEAL_LOCATION_NEW_BARK_TOWN_HNS);
-    else if (IS_HNS)
+    // Origin Jade: after every league (Johto and Hoenn here, and after Red)
+    // the player wakes up at home in Pallet Town. Mom lives only there; the
+    // house in New Bark Town belongs to a stranger since the Johto rework and
+    // the one in Littleroot Town is not ours either. The former rule "New
+    // Bark Town once Johto was visited" predates that. See
+    // docs/origin_jade/DECISIONS.md, D-002.
+    if (IS_HNS)
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_PALLET_TOWN);
     else if (gSaveBlock2Ptr->playerGender == MALE)
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F);
@@ -121,16 +121,8 @@ bool8 EnterHallOfFame(void)
         SetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME, (gSaveBlock2Ptr->playTimeHours << 16) | (gSaveBlock2Ptr->playTimeMinutes << 8) | gSaveBlock2Ptr->playTimeSeconds);
     }
     SetContinueGameWarpStatus();
-    // Kanto merge: after Kanto's league the player wakes up at home in
-    // Pallet Town, not in New Bark Town. Once the player has reached Johto,
-    // New Bark Town applies again - FLAG_VISITED_JOHTO tells the two cases
-    // apart.
-    if (IS_HNS && FlagGet(FLAG_VISITED_JOHTO))
-        SetContinueGameWarpToHealLocation(HEAL_LOCATION_NEW_BARK_TOWN_HNS);
-    else if (IS_HNS)
-        SetContinueGameWarpToHealLocation(HEAL_LOCATION_PALLET_TOWN);
-    else
-        SetContinueGameWarpToHealLocation(HEAL_LOCATION_PALLET_TOWN);
+    // Origin Jade: home is Pallet Town after every league, see GameClear.
+    SetContinueGameWarpToHealLocation(HEAL_LOCATION_PALLET_TOWN);
     gaveAtLeastOneRibbon = FALSE;
     for (i = 0, r7 = &ribbonState; i < PARTY_SIZE; i++)
     {

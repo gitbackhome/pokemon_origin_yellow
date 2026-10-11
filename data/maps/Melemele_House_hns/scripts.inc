@@ -89,8 +89,8 @@ Alola_Melemele_Pokecenter_Jessica::
 	lock
 	faceplayer
 	goto_if_set FLAG_COMPLETED_TAUROS_TRADE, Alola_Melemele_Pokecenter_Jessica_TradeCompleted
-	goto_if_eq VAR_STARTER_MON, 0, Alola_Melemele_Pokecenter_Jessica_TradeWater
-	goto_if_eq VAR_STARTER_MON, 1, Alola_Melemele_Pokecenter_Jessica_TradeFire
+	goto_if_eq VAR_JOHTO_STARTER_MON, 0, Alola_Melemele_Pokecenter_Jessica_TradeWater
+	goto_if_eq VAR_JOHTO_STARTER_MON, 1, Alola_Melemele_Pokecenter_Jessica_TradeFire
 	goto Alola_Melemele_Pokecenter_Jessica_TradeFight
 	end
 

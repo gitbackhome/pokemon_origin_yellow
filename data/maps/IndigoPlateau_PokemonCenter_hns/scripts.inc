@@ -82,9 +82,9 @@ IndigoPlateau_EventScript_Silver::
 	faceplayer
 	goto_if_set FLAG_DAILY_BEAT_SILVER, IndigoPlateau_EventScript_SilverBeat
 	msgbox IndigoPlateau_Text_RivalEntrance1, MSGBOX_DEFAULT
-	call_if_eq VAR_STARTER_MON, 0, IndigoPlateau_Silver_Battle_Cyndaquil
-	call_if_eq VAR_STARTER_MON, 1, IndigoPlateau_Silver_Battle_Totodile
-	call_if_eq VAR_STARTER_MON, 2, IndigoPlateau_Silver_Battle_Chikorita
+	call_if_eq VAR_JOHTO_STARTER_MON, 0, IndigoPlateau_Silver_Battle_Cyndaquil
+	call_if_eq VAR_JOHTO_STARTER_MON, 1, IndigoPlateau_Silver_Battle_Totodile
+	call_if_eq VAR_JOHTO_STARTER_MON, 2, IndigoPlateau_Silver_Battle_Chikorita
 	msgbox IndigoPlateau_Text_RivalAfter, MSGBOX_DEFAULT
 	setflag FLAG_DAILY_BEAT_SILVER
 	release
@@ -163,13 +163,17 @@ IndigoPlateau_EventScript_PsychicTeleport::
 	msgbox IndigoPlateau_Text_TeleportGuyYes, MSGBOX_DEFAULT
 	closemessage
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_SOUTH
-	playbgm MUS_HG_NEW_BARK, FALSE
+	@ Origin Jade: "home" is Pallet Town, not New Bark Town (the player never
+	@ lived there in OJ, see docs/origin_jade/DECISIONS.md, D-002). The texts
+	@ only say "home", so just the target and the music changed. 6,8 is the
+	@ tile in front of the player's house (HEAL_LOCATION_PALLET_TOWN).
+	playbgm MUS_RG_PALLET, FALSE
 	delay 60
 	playmoncry SPECIES_ABRA, CRY_MODE_NORMAL
 	applymovement2 LOCALID_INDIGOPLATEAU_ABRA, IndigoPLateau_Movement_Abra
 	waitmovement 0
 	fadescreen FADE_TO_WHITE
-	warpteleport MAP_NEW_BARK_TOWN_HNS, 20, 12
+	warpteleport MAP_PALLET_TOWN, 6, 8
 	waitstate
 	release
 	end

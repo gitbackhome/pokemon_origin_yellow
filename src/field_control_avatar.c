@@ -683,9 +683,12 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, u8 metati
         return EventScript_UseSurf;
 
 #if IS_HNS
-    // Surf would be possible, only the Hoenn license is missing: explain it
-    // briefly instead of leaving the player standing silently at the water.
-    if (HoennLicensesApply() && !HasHoennLicense(LIC_SURF)
+    // Surf would be possible, only the Hoenn license or the Johto permit is
+    // missing: explain it briefly instead of leaving the player standing
+    // silently at the water. (Origin Jade: Johto was missing here, unlike
+    // the Dive check below; the script names the region's term.)
+    if (((HoennLicensesApply() && !HasHoennLicense(LIC_SURF))
+      || (JohtoPermitsApply() && !HasJohtoPermit(PERM_SURF)))
      && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE)
         return EventScript_NoSurfLicense;
 #endif

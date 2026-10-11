@@ -199,6 +199,15 @@ PetalburgCity_Gym_EventScript_OpensWithBadges::
 	@ Norman. So set it straight to 6 and enable the greeting.
 	setvar VAR_PETALBURG_GYM_STATE, 6
 	call Common_EventScript_ReadyPetalburgGymForBattle
+#if IS_HNS
+	@ Origin Jade: ON_LOAD has already built the gym with the doors closed
+	@ (the state was still below 6), so they only opened on the next visit.
+	@ Open the entrance doors now, like ...OpenUnlockedDoors does at state 6.
+	@ The room doors stay shut: no gym trainer can be beaten yet.
+	setvar VAR_0x8005, 1
+	call PetalburgCity_Gym_EventScript_OpenGymEntranceDoors
+	special DrawWholeMapView
+#endif
 	end
 
 PetalburgCity_Gym_Text_GymIsClosed:

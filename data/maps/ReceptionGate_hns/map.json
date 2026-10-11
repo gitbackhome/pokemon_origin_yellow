@@ -68,15 +68,15 @@
       "x": 11,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_ROUTE23",
-      "dest_warp_id": "2"
+      "dest_map": "MAP_DYNAMIC",
+      "dest_warp_id": "WARP_ID_DYNAMIC"
     },
     {
       "x": 10,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_ROUTE23",
-      "dest_warp_id": "2"
+      "dest_map": "MAP_DYNAMIC",
+      "dest_warp_id": "WARP_ID_DYNAMIC"
     },
     {
       "x": 1,
@@ -94,15 +94,6 @@
     }
   ],
   "coord_events": [
-    {
-      "type": "trigger",
-      "x": 11,
-      "y": 14,
-      "elevation": 0,
-      "var": "VAR_ROUTE27_STATE",
-      "var_value": "1",
-      "script": "ReceptionGate_Trigger"
-    },
     {
       "type": "trigger",
       "x": 11,

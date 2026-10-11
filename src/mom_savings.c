@@ -152,7 +152,15 @@ bool8 Mom_CheckForGiftPurchase(u32 newBalance, u32 oldBalance, bool8 isAutomatic
     {
         if (purchasedItem == MOM_GIFT_STARTER_DOLL)
         {
+#if IS_HNS
+            // Origin Jade: the dolls are the Johto starters, so this reads the
+            // Johto choice (VAR_STARTER_MON holds the Kanto one). Before Elm's
+            // lab there is no Johto starter yet; 0xFFFF falls through to the
+            // default doll instead of handing out a Chikorita doll.
+            u16 starterChoice = FlagGet(FLAG_RECEIVED_JOHTO_STARTER) ? VarGet(VAR_JOHTO_STARTER_MON) : 0xFFFF;
+#else
             u16 starterChoice = VarGet(VAR_STARTER_MON);
+#endif
             switch (starterChoice)
             {
                 case 0:
@@ -387,6 +395,11 @@ static void Task_MomInput_HandleInput(u8 taskId)
     else if (JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_SELECT);
+        // Origin Jade: the D-pad helper never goes below 1, even when the
+        // maximum is 0 (Mom's account or the wallet already full). Moving 1
+        // anyway lost that 1 P; 0 makes the script treat it as cancelled.
+        if (sMomInputAmount > sMomInputMaxAmount)
+            sMomInputAmount = sMomInputMaxAmount;
         gSpecialVar_0x8000 = sMomInputAmount;
 
         if (tIsDeposit)
@@ -473,6 +486,9 @@ static void MomInput_Open(bool8 isDeposit)
         u32 momsAvailableMoney = Mom_GetBalance();
         sMomInputMaxAmount = min(MOM_MAX_INPUT, min(momsAvailableMoney, playersWalletCapacity));
     }
+    // Origin Jade: start at 0 instead of 1 when nothing can be moved.
+    if (sMomInputAmount > sMomInputMaxAmount)
+        sMomInputAmount = sMomInputMaxAmount;
 
     ScriptContext_Stop();
 }

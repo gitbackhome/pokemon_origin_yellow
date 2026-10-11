@@ -465,7 +465,7 @@ Debug_EventScript_Silver_Multi::
 	end
 
 Debug_EventScript_PickSilverPartner::
-	switch VAR_STARTER_MON
+	switch VAR_JOHTO_STARTER_MON
 	case 0, Debug_EventScript_DoSilverMulti_Typhlosion
 	case 1, Debug_EventScript_DoSilverMulti_Feraligatr
 	case 2, Debug_EventScript_DoSilverMulti_Meganium

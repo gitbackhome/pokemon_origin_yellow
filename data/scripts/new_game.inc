@@ -458,7 +458,13 @@ EventScript_ResetAllMapFlagsHnS::
 	@ regions' level bands are tuned for it. Anyone who does not like it
 	@ can switch it off in the bag.
 	setflag FLAG_EXP_SHARE_ENABLED
-	setrespawn HEAL_LOCATION_NEW_BARK_TOWN_HNS
+	@ Origin Jade: the game starts in Pallet Town (the bedroom sets this
+	@ again on entry); New Bark Town is not the player's home.
+	setrespawn HEAL_LOCATION_PALLET_TOWN
+	@ Origin Jade: a new game keeps the Johto starter in its own var from
+	@ the start, so the one-time migration in LoadGameSave (src/save.c)
+	@ must never touch it.
+	setflag FLAG_MIGRATED_JOHTO_STARTER_VAR
 
 	call EventScript_ResetAllBerries
 	end

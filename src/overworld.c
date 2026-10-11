@@ -783,9 +783,10 @@ void SetWarpDestinationToLastHealLocation(void)
         sWarpDestination = gSaveBlock1Ptr->lastHealLocation;
 
 #if IS_HNS
+    // Origin Jade: home is Pallet Town, so an empty respawn falls back there.
     if (sWarpDestination.mapGroup == 0 && sWarpDestination.mapNum == 0)
     {
-        const struct HealLocation *fallback = GetHealLocation(HEAL_LOCATION_NEW_BARK_TOWN_HNS);
+        const struct HealLocation *fallback = GetHealLocation(HEAL_LOCATION_PALLET_TOWN);
         if (fallback)
             SetWarpDestination(fallback->mapGroup, fallback->mapNum, WARP_ID_NONE, fallback->x, fallback->y);
     }
@@ -1350,9 +1351,11 @@ void Overworld_PlaySpecialMapMusic(void)
     if (gDisableMapMusicChangeOnMapLoad == MUSIC_DISABLE_KEEP)
         return;
 
-    if (IS_HNS && VarGet(VAR_TEMP_RADIO_MUSIC) != 0)
+    // Origin Jade: the radio song lives in gRadioMapMusic (src/event_data.c),
+    // no longer in VAR_TEMP_F, which other maps use for their own scripts.
+    if (IS_HNS && gRadioMapMusic != 0)
     {
-        music = VarGet(VAR_TEMP_RADIO_MUSIC);
+        music = gRadioMapMusic;
     }
     else if (music != MUS_ABNORMAL_WEATHER && music != MUS_NONE)
     {

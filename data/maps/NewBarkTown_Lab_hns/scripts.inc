@@ -194,7 +194,7 @@ NewBarkTown_Lab_EventScript_ChikoritaBall::
 
 NewBarkTown_Lab_EventScript_ChikoritaBall_Choice::
 	@callnative DisableStaticRandomizer
-	setvar VAR_STARTER_MON, 0
+	setvar VAR_JOHTO_STARTER_MON, 0
 	setvar PLAYER_STARTER_SPECIES, SPECIES_CHIKORITA
 	showmonpic PLAYER_STARTER_SPECIES, 10, 3
 	playmoncry PLAYER_STARTER_SPECIES, CRY_MODE_NORMAL
@@ -220,7 +220,7 @@ NewBarkTown_Lab_EventScript_CyndaquilBall::
 
 NewBarkTown_Lab_EventScript_CyndaquilBall_Choice::
 	@callnative DisableStaticRandomizer
-	setvar VAR_STARTER_MON, 1
+	setvar VAR_JOHTO_STARTER_MON, 1
 	setvar PLAYER_STARTER_SPECIES, SPECIES_CYNDAQUIL
 	showmonpic PLAYER_STARTER_SPECIES, 10, 3
 	playmoncry PLAYER_STARTER_SPECIES, CRY_MODE_NORMAL
@@ -246,7 +246,7 @@ NewBarkTown_Lab_EventScript_TotodileBall::
 
 NewBarkTown_Lab_EventScript_TotodileBall_Choice::
 	@callnative DisableStaticRandomizer
-	setvar VAR_STARTER_MON, 2
+	setvar VAR_JOHTO_STARTER_MON, 2
 	setvar PLAYER_STARTER_SPECIES, SPECIES_TOTODILE
 	showmonpic PLAYER_STARTER_SPECIES, 10, 3
 	playmoncry PLAYER_STARTER_SPECIES, CRY_MODE_NORMAL
@@ -268,18 +268,27 @@ NewBarkTown_Lab_EventScript_DeclinedStarter::
 NewBarkTown_Lab_EventScript_ChoseStarter::
 	@callnative EnableStaticRandomizer
 	hidemonpic
+	@ Origin Jade: givemon only fails when the party and every PC box are
+	@ full - then the starter was simply gone, while Elm spoke of the box.
+	@ Check before the choice is locked in: nothing is set yet, so the
+	@ player can make room and choose again.
+	getpartysize
+	goto_if_lt VAR_RESULT, PARTY_SIZE, NewBarkTown_Lab_EventScript_RoomForStarter
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_NoMoreRoomForPokemon
+NewBarkTown_Lab_EventScript_RoomForStarter:
 	@ Lock first, then give: if giving is aborted, the other two balls must
 	@ still not be takeable. Only the chosen ball disappears from the table
 	@ - the other two stay, and one of them is stolen in the theft scene.
 	setflag FLAG_RECEIVED_JOHTO_STARTER
-	call_if_eq VAR_STARTER_MON, 0, NewBarkTown_Lab_EventScript_HideChikorita
-	call_if_eq VAR_STARTER_MON, 1, NewBarkTown_Lab_EventScript_HideCyndaquil
-	call_if_eq VAR_STARTER_MON, 2, NewBarkTown_Lab_EventScript_HideTotodile
+	call_if_eq VAR_JOHTO_STARTER_MON, 0, NewBarkTown_Lab_EventScript_HideChikorita
+	call_if_eq VAR_JOHTO_STARTER_MON, 1, NewBarkTown_Lab_EventScript_HideCyndaquil
+	call_if_eq VAR_JOHTO_STARTER_MON, 2, NewBarkTown_Lab_EventScript_HideTotodile
 	removeobject VAR_LAST_TALKED
 	msgbox NewBarkTown_Lab_Text_ChoseStarter, MSGBOX_DEFAULT
-	call_if_eq VAR_STARTER_MON, 0, NewBarkTown_Lab_EventScript_GiveStarter_Chikorita
-	call_if_eq VAR_STARTER_MON, 1, NewBarkTown_Lab_EventScript_GiveStarter_Cyndaquil
-	call_if_eq VAR_STARTER_MON, 2, NewBarkTown_Lab_EventScript_GiveStarter_Totodile
+	call_if_eq VAR_JOHTO_STARTER_MON, 0, NewBarkTown_Lab_EventScript_GiveStarter_Chikorita
+	call_if_eq VAR_JOHTO_STARTER_MON, 1, NewBarkTown_Lab_EventScript_GiveStarter_Cyndaquil
+	call_if_eq VAR_JOHTO_STARTER_MON, 2, NewBarkTown_Lab_EventScript_GiveStarter_Totodile
 	@ givemon stores where the Pokemon ended up: 0 party, 1 PC box, 2 nowhere.
 	@ A player coming from Kanto often has a full party - that could not
 	@ happen in HnS, where the party was empty.
@@ -421,9 +430,9 @@ NewBarkTown_Lab_EventScript_HideChikorita::
 NewBarkTown_Lab_EventScript_PoliceEpisode::
 	lock
 	setmetatile 7, 1, METATILE_R26_21_Broken_Window, TRUE
-	call_if_eq VAR_STARTER_MON, 0 NewBarkTown_Lab_EventScript_HideCyndaquil
-	call_if_eq VAR_STARTER_MON, 1 NewBarkTown_Lab_EventScript_HideTotodile
-	call_if_eq VAR_STARTER_MON, 2 NewBarkTown_Lab_EventScript_HideChikorita
+	call_if_eq VAR_JOHTO_STARTER_MON, 0 NewBarkTown_Lab_EventScript_HideCyndaquil
+	call_if_eq VAR_JOHTO_STARTER_MON, 1 NewBarkTown_Lab_EventScript_HideTotodile
+	call_if_eq VAR_JOHTO_STARTER_MON, 2 NewBarkTown_Lab_EventScript_HideChikorita
 	applymovement OBJ_EVENT_ID_PLAYER, NeBarkTownLab_Movement_PlayerWalkToCop
 	waitmovement 0
 	setflag FLAG_HIDE_LAB_POLICEMAN

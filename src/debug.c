@@ -61,6 +61,7 @@
 #include "constants/expansion.h"
 #include "constants/flags.h"
 #include "constants/items.h"
+#include "constants/johto_permits.h"
 #include "constants/map_groups.h"
 #include "constants/rgb.h"
 #include "constants/script_commands.h"
@@ -1932,6 +1933,13 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
     FlagSet(FLAG_VISITED_JOHTO);
     FlagSet(FLAG_IS_CHAMPION);
     FlagSet(FLAG_IS_KANTO_CHAMPION);
+    // Origin Jade: Johto keeps its own badges, HM permits and title (the
+    // badge flags above are Kanto's). Without these the jump still counted
+    // Johto as unfinished: Mt. Silver closed, the Johto league in
+    // first-battle mode, no field moves in Johto.
+    VarSet(VAR_JOHTO_BADGES, 0xFF);
+    VarSet(VAR_JOHTO_PERMITS, (1 << PERM_COUNT) - 1);
+    FlagSet(FLAG_IS_JOHTO_CHAMPION);
     FlagSet(FLAG_RECEIVED_PASS_BINDER);
     // Fly points Johto+Kanto (Hoenn deliberately stays unvisited)
     for (i = 0; i < ARRAY_COUNT(sJkVisitedFlags); i++)

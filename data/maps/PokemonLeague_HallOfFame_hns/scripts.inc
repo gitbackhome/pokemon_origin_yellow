@@ -27,7 +27,9 @@ PokemonLeague_HallOfFame_EventScript_Cutscene::
 	delay 40
 	setvar VAR_TEMP_1, 1
 	call PokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags
-	setrespawn HEAL_LOCATION_NEW_BARK_TOWN_HNS
+	@ Origin Jade: home is Mom's house in Pallet Town, also after the Johto
+	@ league. New Bark Town is no longer the player's home.
+	setrespawn HEAL_LOCATION_PALLET_TOWN
 	fadescreenspeed FADE_TO_BLACK, 24
 	special GameClear
 	waitstate
@@ -50,7 +52,7 @@ PokemonLeague_HallOfFame_EventScript_CutsceneKantoChamp::
 	delay 40
 	setvar VAR_TEMP_1, 1
 	call PokemonLeague_HallOfFame_EventScript_SetGameClearFlags
-	setrespawn HEAL_LOCATION_NEW_BARK_TOWN_HNS
+	setrespawn HEAL_LOCATION_PALLET_TOWN
 	fadescreenspeed FADE_TO_BLACK, 24
 	special GameClear
 	waitstate

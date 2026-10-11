@@ -46,6 +46,13 @@
 // only being filled now (src/johto_badges.c).
 // Progress of the arrival from Kanto, counterpart to VAR_HOENN_ARRIVAL_STATE.
 #define VAR_JOHTO_ARRIVAL_STATE     (OJ_VARS_JOHTO + 1)
+// Johto starter from Elm's lab, in HnS order: 0 Chikorita, 1 Cyndaquil,
+// 2 Totodile (the index GetStarterPokemon expects in IS_HNS). Silver's
+// teams, Mom's starter doll and the credits read it. VAR_STARTER_MON
+// keeps the Kanto choice from Oak's lab (FRLG order: 0 Bulbasaur,
+// 1 Squirtle, 2 Charmander) for Blue's teams; Elm's lab used to overwrite
+// it. Older saves are migrated once in LoadGameSave (src/save.c).
+#define VAR_JOHTO_STARTER_MON       (OJ_VARS_JOHTO + 2)
 
 // ---------------------------------------------------------------------
 // Hoenn (OJ_VARS_HOENN + 0 to + 23)
@@ -102,6 +109,15 @@
 // shared its number with VAR_RADIO_LUCKY_ID_HI
 #undef  VAR_JAGGED_PASS_STATE
 #define VAR_JAGGED_PASS_STATE                   (OJ_VARS_HOENN + 14)
+// Devon's fossil revival in Rustboro. Not an #undef like the vars above:
+// the Ruins of Alph lab in Johto uses the very same names
+// (VAR_FOSSIL_RESURRECTION_STATE, VAR_WHICH_FOSSIL_REVIVED), so the Devon
+// scripts use these names instead. Shared, a fossil left in one lab was
+// advanced and handed out by the other - and a Johto fossil (index 3-5)
+// locked up Devon's scientist. FLAG_RECEIVED_REVIVED_FOSSIL_MON stays
+// shared: only the Fossil Maniac on Route 114 reads it, with a generic line.
+#define VAR_HOENN_FOSSIL_RESURRECTION_STATE     (OJ_VARS_HOENN + 15)
+#define VAR_HOENN_WHICH_FOSSIL_REVIVED          (OJ_VARS_HOENN + 16)
 
 // ---------------------------------------------------------------------
 // Cross-region (OJ_VARS_GLOBAL + 0 to + 15)

@@ -26,6 +26,14 @@ EWRAM_DATA u16 gSpecialVar_MonBoxId = 0;
 EWRAM_DATA u16 gSpecialVar_MonBoxPos = 0;
 EWRAM_DATA u16 gSpecialVar_Unused_0x8014 = 0;
 EWRAM_DATA static u8 sSpecialFlags[SPECIAL_FLAGS_SIZE] = {0};
+// Origin Jade: song the PokeGear radio keeps playing on the current map
+// (0 = none). HnS kept it in VAR_TEMP_F (VAR_TEMP_RADIO_MUSIC), but the
+// Battle Frontier rooms and the Trainer Tower use that temp var for their
+// own script logic: after a battle there, their value was played back as a
+// song ID, and the radio could overwrite their state. Same lifetime as a
+// temp var (reset in ClearTempFieldEventData on every map change), except
+// that it is not saved: a continued game starts without the radio song.
+EWRAM_DATA u16 gRadioMapMusic = 0;
 
 #if TESTING
 #define TEST_FLAGS_SIZE     1
@@ -68,6 +76,7 @@ void ClearTempFieldEventData(void)
     FlagClear(FLAG_SYS_USE_STRENGTH);
     FlagClear(FLAG_SYS_CTRL_OBJ_DELETE);
     FlagClear(FLAG_NURSE_UNION_ROOM_REMINDER);
+    gRadioMapMusic = 0;
 }
 
 void ClearDailyFlags(void)

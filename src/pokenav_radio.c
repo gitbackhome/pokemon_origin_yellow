@@ -944,14 +944,16 @@ u32 GetRadioCallback(void)
 void FreeRadioSubstruct1(void)
 {
     struct Pokenav_Radio *radio = GetSubstructPtr(POKENAV_SUBSTRUCT_RADIO);
+    // Origin Jade: kept in gRadioMapMusic instead of VAR_TEMP_RADIO_MUSIC
+    // (VAR_TEMP_F), see src/event_data.c.
     if (radio->currentStation == RADIO_STATION_NONE)
     {
-        VarSet(VAR_TEMP_RADIO_MUSIC, 0);
+        gRadioMapMusic = 0;
         PlayNewMapMusic(GetCurrLocationDefaultMusic());
     }
     else
     {
-        VarSet(VAR_TEMP_RADIO_MUSIC, GetCurrentMapMusic());
+        gRadioMapMusic = GetCurrentMapMusic();
     }
     FreePokenavSubstruct(POKENAV_SUBSTRUCT_RADIO);
 }

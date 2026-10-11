@@ -91,12 +91,13 @@ IndigoPlateau_Exterior_EventScript_Credits::
 	@ In FRLG the credits roll takes over here and drops the player at home
 	@ afterwards. Without it the player is left standing off-screen, so we
 	@ warp to Pallet Town ourselves.
+	@ Origin Jade: nothing after warp + waitstate runs any more (the map load
+	@ ends the script), so the former "face up" movement here never played;
+	@ ScrCmd_warp lets the player arrive facing down.
 	setrespawn HEAL_LOCATION_PALLET_TOWN
 	fadescreen FADE_TO_BLACK
 	warp MAP_PALLET_TOWN_PLAYERS_HOUSE_2F, 6, 6
 	waitstate
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterUp
-	waitmovement 0
 	releaseall
 	end
 

@@ -979,6 +979,24 @@ u8 LoadGameSave(u8 saveType)
         gSaveBlock1Ptr->saveVersion = 5;
     }
 
+#if IS_HNS
+    // Origin Jade: one-time migrations of its own. Each one is keyed to a
+    // flag from the Origin Jade block instead of SAVE_VERSION - that number
+    // belongs to HnS upstream, and an Origin Jade bump would collide with
+    // their next one. New games set the flag right away
+    // (data/scripts/new_game.inc), so only older saves are touched.
+    if (!FlagGet(FLAG_MIGRATED_JOHTO_STARTER_VAR))
+    {
+        // Elm's lab used to write the Johto starter into VAR_STARTER_MON,
+        // over the Kanto choice. From lab state 3 on the starter has been
+        // chosen, so that var holds the Johto index; the Kanto choice
+        // itself cannot be recovered.
+        if (VarGet(VAR_NEWBARKTOWN_LABSTATE) >= 3)
+            VarSet(VAR_JOHTO_STARTER_MON, VarGet(VAR_STARTER_MON));
+        FlagSet(FLAG_MIGRATED_JOHTO_STARTER_VAR);
+    }
+#endif
+
     // Add version migration steps here:
     // if (gSaveBlock1Ptr->saveVersion < 1)
     // {

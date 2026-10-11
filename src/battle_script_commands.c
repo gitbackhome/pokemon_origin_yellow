@@ -5952,6 +5952,14 @@ static void Cmd_handlelearnnewmove(void)
 
     if (B_LEVEL_UP_NOTIFICATION >= GEN_9 && gBattleResources->beforeLvlUp->learnMultipleMoves)
     {
+        // Origin Jade fix: beforeLvlUp->level is the level before the
+        // experience gain. Its moves were offered when the Pokemon reached
+        // it, so starting there offered them a second time (a declined move
+        // came back). Start one level above, once per level-up.
+        // (Upstream expansion #10614 fixes this differently but skips a
+        // second move learned at the same level, so it was not taken over.)
+        if (cmd->isFirstMove)
+            gBattleResources->beforeLvlUp->level++;
         while (gBattleResources->beforeLvlUp->level <= currLvl)
         {
             learnMove = MonTryLearningNewMoveAtLevel(&gPlayerParty[monId], cmd->isFirstMove, gBattleResources->beforeLvlUp->level);

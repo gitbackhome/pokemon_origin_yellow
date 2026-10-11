@@ -361,9 +361,9 @@ GoldenrodCity_UndergroundSwitches_EventScript_SilverTriggerTop::
 	waitmovement 0
 	msgbox GoldenrodUnderground_Text_SilverBefore, MSGBOX_DEFAULT
 	closemessage
-	call_if_eq VAR_STARTER_MON, 0, GoldenrodCity_UndergroundSwitches_EventScript_Cyndaquil
-	call_if_eq VAR_STARTER_MON, 1, GoldenrodCity_UndergroundSwitches_EventScript_Totodile
-	call_if_eq VAR_STARTER_MON, 2, GoldenrodCity_UndergroundSwitches_EventScript_Chikorita
+	call_if_eq VAR_JOHTO_STARTER_MON, 0, GoldenrodCity_UndergroundSwitches_EventScript_Cyndaquil
+	call_if_eq VAR_JOHTO_STARTER_MON, 1, GoldenrodCity_UndergroundSwitches_EventScript_Totodile
+	call_if_eq VAR_JOHTO_STARTER_MON, 2, GoldenrodCity_UndergroundSwitches_EventScript_Chikorita
 	playbgm MUS_HG_RIVAL_EXIT, FALSE
 	msgbox GoldenrodUnderground_Text_SilverAfter, MSGBOX_DEFAULT
 	closemessage
@@ -394,9 +394,9 @@ GoldenrodCity_UndergroundSwitches_EventScript_SilverTriggerBot::
 	waitmovement 0
 	msgbox GoldenrodUnderground_Text_SilverBefore, MSGBOX_DEFAULT
 	closemessage
-	call_if_eq VAR_STARTER_MON, 0, GoldenrodCity_UndergroundSwitches_EventScript_Cyndaquil
-	call_if_eq VAR_STARTER_MON, 1, GoldenrodCity_UndergroundSwitches_EventScript_Totodile
-	call_if_eq VAR_STARTER_MON, 2, GoldenrodCity_UndergroundSwitches_EventScript_Chikorita
+	call_if_eq VAR_JOHTO_STARTER_MON, 0, GoldenrodCity_UndergroundSwitches_EventScript_Cyndaquil
+	call_if_eq VAR_JOHTO_STARTER_MON, 1, GoldenrodCity_UndergroundSwitches_EventScript_Totodile
+	call_if_eq VAR_JOHTO_STARTER_MON, 2, GoldenrodCity_UndergroundSwitches_EventScript_Chikorita
 	playbgm MUS_HG_RIVAL_EXIT, FALSE
 	msgbox GoldenrodUnderground_Text_SilverAfter, MSGBOX_DEFAULT
 	closemessage

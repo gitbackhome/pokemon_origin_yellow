@@ -23,10 +23,15 @@ EWRAM_DATA const u8 *gSpeakerName = NULL;
 static const u32 sNameBoxDefaultGfx[] = INCBIN_U32("graphics/text_window/name_box.4bpp");
 static const u32 sNameBoxPokenavGfx[] = INCBIN_U32("graphics/pokenav/name_box.4bpp");
 
+static void DestroyNameboxFrame(void);
 static void WindowFunc_DrawNamebox(u32, u32, u32, u32, u32, u32, u32);
 static void WindowFunc_ClearNamebox(u8, u8, u8, u8, u8, u8);
 
-void TrySpawnNamebox(u32 tileNum)
+// Builds the name box window for gSpeakerName without showing it yet; it is
+// put on screen together with the dialogue frame (DrawNamebox). Upstream fix
+// (expansion #9905): an existing box is only rebuilt off-screen instead of
+// being cleared on screen first, so back-to-back messages no longer flicker.
+void PrepareNamebox(u32 tileNum)
 {
     u8 *strbuf = AllocZeroed(32 * sizeof(u8));
     if ((OW_FLAG_SUPPRESS_NAME_BOX != 0 && FlagGet(OW_FLAG_SUPPRESS_NAME_BOX)) || gSpeakerName == NULL || !strbuf)
@@ -36,6 +41,7 @@ void TrySpawnNamebox(u32 tileNum)
             Free(strbuf);
 
         DestroyNamebox();
+        RedrawDialogueFrame();
         return;
     }
 
@@ -46,6 +52,7 @@ void TrySpawnNamebox(u32 tileNum)
     {
         Free(strbuf);
         DestroyNamebox();
+        RedrawDialogueFrame();
         return;
     }
 
@@ -61,7 +68,7 @@ void TrySpawnNamebox(u32 tileNum)
 
     if (sNameboxWindowId != WINDOW_NONE)
     {
-        DestroyNamebox();
+        DestroyNameboxFrame();
         RedrawDialogueFrame();
     }
 
@@ -90,9 +97,8 @@ void TrySpawnNamebox(u32 tileNum)
     }
 
     union TextColor savedTextColors = SaveTextColors();
-    AddTextPrinterParameterized3(sNameboxWindowId, fontId, strX, 0, colors, 0, strbuf);
+    AddTextPrinterParameterized3(sNameboxWindowId, fontId, strX, 0, colors, TEXT_SKIP_DRAW, strbuf);
     RestoreTextColors(savedTextColors);
-    PutWindowTilemap(sNameboxWindowId);
     Free(strbuf);
 }
 
@@ -107,16 +113,22 @@ void ResetNameboxData(void)
     gSpeakerName = NULL;
 }
 
+// Removes the window but keeps gSpeakerName; the screen is updated by
+// whoever redraws next (no separate VRAM copy, see PrepareNamebox).
+static void DestroyNameboxFrame(void)
+{
+    ClearNamebox(sNameboxWindowId, FALSE);
+    ClearWindowTilemap(sNameboxWindowId);
+    RemoveWindow(sNameboxWindowId);
+}
+
 void DestroyNamebox(void)
 {
     if (sNameboxWindowId == WINDOW_NONE)
         return;
 
-    ClearNamebox(sNameboxWindowId, TRUE);
-    ClearWindowTilemap(sNameboxWindowId);
-    RemoveWindow(sNameboxWindowId);
-    sNameboxWindowId = WINDOW_NONE;
-    gSpeakerName = NULL;
+    DestroyNameboxFrame();
+    ResetNameboxData();
 }
 
 u32 GetNameboxWidth(void)
@@ -200,9 +212,35 @@ void SetSpeaker(struct ScriptContext *ctx)
 void TrySpawnAndShowNamebox(const u8 *speaker, u32 tileNum)
 {
     gSpeakerName = speaker;
-    TrySpawnNamebox(tileNum);
+    if (sNameboxWindowId != WINDOW_NONE && gSpeakerName == NULL)
+    {
+        ClearNamebox(sNameboxWindowId, TRUE);
+        DestroyNamebox();
+        RedrawDialogueFrame();
+        return;
+    }
+    else if (gSpeakerName == NULL)
+    {
+        // Upstream fix (expansion #10540): nothing to remove and nothing to show.
+        return;
+    }
+
+    PrepareNamebox(tileNum);
+    // PrepareNamebox drops the box again for an empty or suppressed name.
     if (sNameboxWindowId != WINDOW_NONE)
         DrawNamebox(sNameboxWindowId, tileNum - NAME_BOX_BASE_TILES_TOTAL, TRUE);
-    else // either NULL or SP_NAME_NONE
-        RedrawDialogueFrame();
+}
+
+// TRUE if the message has a speaker: either set earlier via setspeaker, or as
+// a speaker control code at the very start of the expanded text.
+bool32 IsSpeakerBuffered(const u8 *str)
+{
+    if (str[0] == EXT_CTRL_CODE_BEGIN
+     && str[1] == EXT_CTRL_CODE_SPEAKER
+     && str[2] < SP_NAME_COUNT)
+    {
+        gSpeakerName = gSpeakerNamesTable[str[2]];
+    }
+
+    return gSpeakerName != NULL;
 }

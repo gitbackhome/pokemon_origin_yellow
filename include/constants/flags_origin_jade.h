@@ -77,6 +77,9 @@
 // One-time catch-up on first entering New Bark Town: HnS sets its Johto
 // start values in Mom's house, which Origin Jade skips.
 #define FLAG_JOHTO_ARRIVAL_DONE                      (OJ_FLAGS_JOHTO + 2)
+// Save migration done: VAR_JOHTO_STARTER_MON split off VAR_STARTER_MON
+// (see LoadGameSave in src/save.c). New games set it right away.
+#define FLAG_MIGRATED_JOHTO_STARTER_VAR              (OJ_FLAGS_JOHTO + 3)
 
 // ---------------------------------------------------------------------
 // Hoenn (OJ_FLAGS_HOENN + 0 to + 95)

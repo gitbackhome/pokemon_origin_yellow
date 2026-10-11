@@ -4219,3 +4219,22 @@ bool8 ScrCmd_getbraillestringwidth(struct ScriptContext * ctx)
     gSpecialVar_0x8004 = GetStringWidth(FONT_BRAILLE, msg, -1);
     return FALSE;
 }
+
+// Upstream fix (expansion #10550): signmsg/normalmsg were no-ops. The FRLG
+// scripts (Pallet Town sign lady, Pewter running shoes, move tutors) use them
+// to show a message in the signpost frame.
+bool8 ScrCmd_signmsg(struct ScriptContext *ctx)
+{
+    Script_RequestEffects(SCREFF_V1);
+
+    gMsgIsSignPost = TRUE;
+    return FALSE;
+}
+
+bool8 ScrCmd_normalmsg(struct ScriptContext *ctx)
+{
+    Script_RequestEffects(SCREFF_V1);
+
+    gMsgIsSignPost = FALSE;
+    return FALSE;
+}

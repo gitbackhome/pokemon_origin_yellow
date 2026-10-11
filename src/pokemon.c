@@ -4869,7 +4869,11 @@ static void CreateEventMon(struct Pokemon *mon, u16 species, u8 level, u32 perso
 {
     bool32 isModernFatefulEncounter = TRUE;
 
-    CreateMon(mon, species, level, personality, otId);
+    // Upstream fix (expansion #10191): the IVs and the moveset used to be
+    // set by CreateEnemyEventMon after CalculateMonStats, so the battle stats
+    // of event legendaries did not match their IVs.
+    CreateMonWithIVs(mon, species, level, personality, otId, USE_RANDOM_IVS);
+    GiveMonInitialMoveset(mon);
     SetMonData(mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER, &isModernFatefulEncounter);
     CalculateMonStats(mon);
 }
@@ -4918,8 +4922,6 @@ void CreateEnemyEventMon(void)
     ZeroEnemyPartyMons();
 
     CreateEventMon(&gEnemyParty[0], species, level, Random32(), OTID_STRUCT_PLAYER_ID);
-    SetBoxMonIVs(&gEnemyParty[0].box, USE_RANDOM_IVS);
-    GiveMonInitialMoveset(&gEnemyParty[0]);
     if (itemId)
     {
         u8 heldItem[2];

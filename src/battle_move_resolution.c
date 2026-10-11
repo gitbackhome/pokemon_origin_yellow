@@ -225,6 +225,9 @@ static enum CancelerResult CancelerObedience(struct BattleContext *ctx)
             return CANCELER_RESULT_FAILURE;
         case DISOBEYS_RANDOM_MOVE:
             gCurrentMove = gCalledMove = gBattleMons[ctx->battlerAtk].moves[gCurrMovePos];
+            // Upstream fix (expansion #10093): return into the script of the
+            // random move, not into the script of the move that was chosen.
+            gBattlescriptCurrInstr = GetMoveBattleScript(gCalledMove);
             BattleScriptCall(BattleScript_IgnoresAndUsesRandomMove);
             gBattlerTarget = GetBattleMoveTarget(gCalledMove, TARGET_NONE);
             return CANCELER_RESULT_BREAK;

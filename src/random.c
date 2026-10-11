@@ -213,7 +213,10 @@ u8 RandomWeightedIndex(u8 *weights, u8 length)
     for (i = 0; i < length; i++)
     {
         weightSum += weights[i];
-        if (randomValue <= weightSum)
+        // Upstream fix (expansion #10241): randomValue is 0..sum-1, so "<="
+        // gave the first entry one extra chance and a weight of 0 could
+        // still be picked.
+        if (randomValue < weightSum)
             return i;
     }
     return 0;

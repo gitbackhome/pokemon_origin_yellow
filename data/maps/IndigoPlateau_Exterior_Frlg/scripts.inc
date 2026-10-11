@@ -78,6 +78,10 @@ IndigoPlateau_Exterior_EventScript_Credits::
 
 	@ Kanto merge: Oak turns to the player and asks them to his lab - this
 	@ is the link to the journey to Johto.
+	@ Origin Jade: only after the first Kanto title. Every rematch win
+	@ replays this scene; without the check Oak would start the errand again
+	@ and hand out a second GS Ball.
+	goto_if_ne VAR_JOHTO_HANDOVER, 0, IndigoPlateau_Exterior_EventScript_OakLeaves
 	applymovement LOCALID_CREDITS_PROF_OAK, Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox IndigoPlateau_Exterior_Text_OakComeToMyLab
@@ -86,6 +90,7 @@ IndigoPlateau_Exterior_EventScript_Credits::
 	closemessage
 	delay 20
 
+IndigoPlateau_Exterior_EventScript_OakLeaves:
 	@ Oak looks at player, then walks off
 	applymovement LOCALID_PLAYER, IndigoPlateau_Exterior_Movement_PlayerWatchOakLeave
 	applymovement LOCALID_CREDITS_PROF_OAK, IndigoPlateau_Exterior_Movement_OakLeave

@@ -142,9 +142,12 @@ dated 2026-10-10 or later were decided directly.
   `FLAG_SYS_GAME_CLEAR`, i.e. after the Kanto league), west to Mt. Silver
   (opens only with `FLAG_IS_JOHTO_CHAMPION` - Red is level 77-93) and north
   to the league (D-010). Each check has its own temp var, so passing one
-  does not switch off the others for the rest of the visit.
+  does not switch off the others for the rest of the visit. HnS's Black Belt
+  in the west corridor steps aside with the Johto title as well (HnS hid him
+  with Oak's permission in its retired Kanto).
 - **Evidence:** 49ab1eff8b, 4e687ebd9b, 9f4cf4bb86, 1391e9d479,
-  4cd0b47231, review 2026-10-09 (one temp var per check).
+  4cd0b47231, review 2026-10-09 (one temp var per check), review
+  2026-10-11 (Black Belt).
 
 ### D-010 The league changes after the eighth Johto badge and the legendary event
 - **Status:** Active (2026-10-10 and 2026-10-11).
@@ -412,7 +415,9 @@ dated 2026-10-10 or later were decided directly.
   the rival is meant; Will says "Elite Vier"; typos in Johto's
   `IndigoPlateau_EventScript_ShigyNinja` text; Route 28 has English text
   only; Johto's Oak says "Es ist lange her" after the Johto title although he
-  handed over the GS Ball shortly before.
+  handed over the GS Ball shortly before; the ship is "M.S. Anne" in FRLG's
+  German texts but "S.S. Anne" in Vermilion's port texts
+  (`VermilionCity_PortInside_*`) and on the region map.
 
 ## Superseded decisions (kept for the record)
 

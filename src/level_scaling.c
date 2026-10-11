@@ -37,12 +37,16 @@ bool32 IsHoennMapsec(u32 mapSecId)
     // Contiguous Hoenn block of the HnS map section list ...
     if (mapSecId >= MAPSEC_LITTLEROOT_TOWN && mapSecId < MAPSEC_NONE)
         return TRUE;
-    // ... plus the three sections Hoenn shares with the Johto/Kanto number
-    // range (no active _hns user, or only placeholder maps): Victory Road,
-    // Safari Zone, Abandoned Ship.
+    // ... plus the sections Hoenn shares with the Johto/Kanto number range
+    // (no active _hns user, or only placeholder maps): Victory Road, Safari
+    // Zone, Abandoned Ship and Lilycove City. Origin Jade: Lilycove was
+    // missing (its HnS number is 5); after the first Johto visit its maps
+    // fell back to the Johto/Kanto map table, where it has no entry - blank
+    // names, a zero width on the region map, no Hoenn scaling or licenses.
     if (mapSecId == MAPSEC_VICTORY_ROAD
      || mapSecId == MAPSEC_SAFARI_ZONE
-     || mapSecId == MAPSEC_ABANDONED_SHIP)
+     || mapSecId == MAPSEC_ABANDONED_SHIP
+     || mapSecId == MAPSEC_LILYCOVE_CITY)
         return TRUE;
     return FALSE;
 }

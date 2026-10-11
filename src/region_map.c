@@ -263,6 +263,23 @@ static const struct RegionMapLocation sRegionMapEntries_Johto[] = {
     [MAPSEC_SEAFOAM_ISLANDS]   = { 22, 13, 1, 1, COMPOUND_STRING("Seeschauminseln") },
     [MAPSEC_CERULEAN_CAVE]     = { 23, 1,  1, 1, COMPOUND_STRING("Azuria-Höhle") },
     [MAPSEC_POWER_PLANT]       = { 27, 3,  1, 1, COMPOUND_STRING("Kraftwerk") },
+    // Origin Jade: Kanto sections of the FRLG maps that were missing here.
+    // Once Johto has been visited this table is used everywhere outside
+    // Hoenn, so their names came out blank (map name popup, met location in
+    // the summary) and opening the region map inside them divided by a zero
+    // width. Each sits on the cell of the place it belongs to; the names are
+    // the ones of the Kanto table (region_map_sections.json, hns list).
+    [MAPSEC_ROCKET_HIDEOUT]    = { 22, 5,  1, 1, COMPOUND_STRING("Rocket-Versteck") },
+    [MAPSEC_KANTO_VICTORY_ROAD] = { 16, 4, 1, 4, COMPOUND_STRING("Siegesstraße") },
+    [MAPSEC_POKEMON_LEAGUE]    = { 16, 2,  1, 2, COMPOUND_STRING("Pokémon-Liga") },
+    [MAPSEC_POKEMON_TOWER]     = { 27, 5,  1, 1, COMPOUND_STRING("Pokémon-Turm") },
+    [MAPSEC_POKEMON_MANSION]   = { 19, 13, 1, 1, COMPOUND_STRING("Pokémon-Villa") },
+    [MAPSEC_SILPH_CO]          = { 24, 5,  1, 1, COMPOUND_STRING("Silph Co.") },
+    [MAPSEC_S_S_ANNE]          = { 24, 7,  1, 1, COMPOUND_STRING("S.S. Anne") },
+    [MAPSEC_KANTO_SAFARI_ZONE] = { 24, 11, 1, 1, COMPOUND_STRING("Safari-Zone") },
+    [MAPSEC_UNDERGROUND_PATH]  = { 24, 5,  1, 1, COMPOUND_STRING("Untergrundpfad") },
+    [MAPSEC_UNDERGROUND_PATH_2] = { 24, 5, 1, 1, COMPOUND_STRING("Untergrundpfad") },
+    [MAPSEC_SPECIAL_AREA]      = { 0,  0,  1, 1, COMPOUND_STRING("Sonderbereich") },
     [MAPSEC_DARK_CAVE]         = { 10, 5,  1, 1, COMPOUND_STRING("Dunkelhöhle") },
     [MAPSEC_UNION_CAVE]        = { 7,  11, 1, 2, COMPOUND_STRING("Einheitstunnel") },
     [MAPSEC_ILEX_FOREST]       = { 5,  11, 1, 2, COMPOUND_STRING("Steineichenwald") },
@@ -1995,17 +2012,27 @@ static u8 GetMapsecType(mapsec_u16_t mapSecId)
         return MAPSECTYPE_NONE;
     // HnS: Hoenn cities are fly destinations here too (the vanilla city
     // scripts set the visited flags on entry).
+    // Origin Jade: 3a046d54b6 dropped seven of these case labels together
+    // with the stubbed Sevii ones, which left their returns unreachable and
+    // the towns unselectable on the Fly map. The labels are back, and so is
+    // Lilycove City.
+    case MAPSEC_LITTLEROOT_TOWN:
         return FlagGet(FLAG_VISITED_LITTLEROOT_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_OLDALE_TOWN:
         return FlagGet(FLAG_VISITED_OLDALE_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_DEWFORD_TOWN:
         return FlagGet(FLAG_VISITED_DEWFORD_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_LAVARIDGE_TOWN:
         return FlagGet(FLAG_VISITED_LAVARIDGE_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_FALLARBOR_TOWN:
         return FlagGet(FLAG_VISITED_FALLARBOR_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_VERDANTURF_TOWN:
         return FlagGet(FLAG_VISITED_VERDANTURF_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_PACIFIDLOG_TOWN:
         return FlagGet(FLAG_VISITED_PACIFIDLOG_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_PETALBURG_CITY:
         return FlagGet(FLAG_VISITED_PETALBURG_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_SLATEPORT_CITY:
         return FlagGet(FLAG_VISITED_SLATEPORT_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_MAUVILLE_CITY:
         return FlagGet(FLAG_VISITED_MAUVILLE_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
@@ -2013,10 +2040,13 @@ static u8 GetMapsecType(mapsec_u16_t mapSecId)
         return FlagGet(FLAG_VISITED_RUSTBORO_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_FORTREE_CITY:
         return FlagGet(FLAG_VISITED_FORTREE_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_LILYCOVE_CITY: // dropped by HnS (d862567985), back with Hoenn
+        return FlagGet(FLAG_VISITED_LILYCOVE_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_MOSSDEEP_CITY:
         return FlagGet(FLAG_VISITED_MOSSDEEP_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_SOOTOPOLIS_CITY:
         return FlagGet(FLAG_VISITED_SOOTOPOLIS_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_EVER_GRANDE_CITY:
         return FlagGet(FLAG_VISITED_EVER_GRANDE_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_BATTLE_FRONTIER:
         return FlagGet(FLAG_LANDMARK_BATTLE_FRONTIER) ? MAPSECTYPE_BATTLE_FRONTIER : MAPSECTYPE_NONE;

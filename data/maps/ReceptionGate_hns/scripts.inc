@@ -1,7 +1,23 @@
 ReceptionGate_hns_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, ReceptionGate_EventScript_SetNorthWarp
+	map_script MAP_SCRIPT_ON_TRANSITION, ReceptionGate_OnTransition
 	map_script MAP_SCRIPT_ON_RESUME, ReceptionGate_EventScript_SetNorthWarp
 	.byte 0
+
+@ Origin Jade (D-009): the Black Belt at (7,7) stands on the only tile of the
+@ corridor to the west exit. HnS hid him once its Oak gave permission, in a
+@ Kanto lab that Origin Jade retired - so he blocked Mt. Silver and Red for
+@ good. He now steps aside with Johto's title, the same condition as the
+@ trigger at (4,7) behind him (ReceptionGate_EventScript_BlockMtSilver).
+@ ON_TRANSITION runs before the objects are placed, so he is simply gone. A
+@ save continued inside the gate still shows him until the player walks
+@ out and back in.
+ReceptionGate_OnTransition:
+	call_if_set FLAG_IS_JOHTO_CHAMPION, ReceptionGate_EventScript_HideSilverGuard
+	goto ReceptionGate_EventScript_SetNorthWarp
+
+ReceptionGate_EventScript_HideSilverGuard:
+	setflag FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD
+	return
 
 ReceptionGate_EventScript_Janine::
     lock

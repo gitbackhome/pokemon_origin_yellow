@@ -1070,6 +1070,10 @@ gStdScripts_End::
 EventScript_WhiteOut::
 	call EverGrandeCity_HallOfFame_EventScript_ResetEliteFour
 .if IS_HNS
+	@ Origin Jade: Kanto's Elite Four (FRLG maps) start over after a lost run,
+	@ as in FRLG, whose DoWhiteOut ran EventScript_ResetEliteFourEnd. Without
+	@ this the beaten members' doors stayed open for the next run.
+	call EventScript_ResetEliteFour
 	clearflag FLAG_NO_WILD_CATCHING
 	clearflag FLAG_NO_WILD_RUNNING
 	clearflag FLAG_SMART_WILD_AI

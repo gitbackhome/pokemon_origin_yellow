@@ -9,6 +9,11 @@ PokemonLeague_BrunosRoom_OnResume_Hns::
 	special DoPokemonLeagueLightingEffect
 	end
 
+@ Origin Jade: the Kanto merge gave this label its _Hns suffix (FRLG's Bruno
+@ room owns PokemonLeague_BrunosRoom_EventScript_Bruno), but map.json kept
+@ the old name. Johto's Bruno then ran FRLG's script: Kanto's rematch team,
+@ Kanto texts, and FLAG_DEFEATED_BRUNO, which shut his door for good on the
+@ next run. map.json points here again.
 PokemonLeague_BrunosRoom_EventScript_Bruno_Hns::
 	lock
 	faceplayer

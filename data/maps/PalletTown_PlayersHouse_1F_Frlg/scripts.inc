@@ -150,10 +150,20 @@ PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYouFemale::
 	return
 
 PalletTown_PlayersHouse_1F_EventScript_MomHeal::
+	@ Pokemon Center challenge: like the HnS Mom, no healing at home - only
+	@ the savings menu.
+	specialvar VAR_RESULT, IsPokecenterChallengeActivated
+	goto_if_eq VAR_RESULT, TRUE, PalletTown_PlayersHouse_1F_EventScript_MomPokecenterChallenge
 	msgbox PalletTown_PlayersHouse_1F_Text_YouShouldTakeQuickRest
 	closemessage
 	call Common_EventScript_OutOfCenterPartyHeal
 	incrementgamestat GAME_STAT_RESTED_AT_HOME
+	call PalletTown_PlayersHouse_1F_EventScript_MomSavingsMenu
+	release
+	end
+
+PalletTown_PlayersHouse_1F_EventScript_MomPokecenterChallenge::
+	msgbox PlayersHouse_1F_Text_YouShouldRestABit_PokecenterChallenge, MSGBOX_DEFAULT
 	call PalletTown_PlayersHouse_1F_EventScript_MomSavingsMenu
 	release
 	end

@@ -500,7 +500,10 @@ void Special_MomGetBalance(void)
     u32 balance = Mom_GetBalance();
     ConvertIntToDecimalStringN(gStringVar1, balance, STR_CONV_MODE_LEFT_ALIGN, 6);
     StringExpandPlaceholders(gStringVar2, gText_PokedollarVar1);
-    gSpecialVar_Result = balance;
+    // VAR_RESULT is only 16 bits wide but the balance goes up to 999999, so
+    // 65536, 131072, ... used to read as an empty account. The scripts only
+    // test the result against 0.
+    gSpecialVar_Result = (balance != 0);
 }
 
 void Special_MomDeposit(void)

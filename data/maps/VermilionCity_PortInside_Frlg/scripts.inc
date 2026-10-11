@@ -225,7 +225,10 @@ VermilionPortFrlg_EventScript_EnterShip::
 	applymovement LOCALID_VERMILIONMARINA_FRLG_SAILOR, VermilionPortFrlg_Movement_BoatLeave
 	applymovement LOCALID_VERMILIONMARINA_FRLG_BOAT, VermilionPortFrlg_Movement_BoatLeave
 	waitmovement LOCALID_VERMILIONMARINA_FRLG_BOAT
-	setrespawn HEAL_LOCATION_VERMILION_CITY_HNS
+	@ The FRLG Pokemon Center: HEAL_LOCATION_VERMILION_CITY_HNS lies on the
+	@ retired HnS map, whose map header is NULL in this build - a whiteout
+	@ on the S.S. Anne would have warped there.
+	setrespawn HEAL_LOCATION_VERMILION_CITY
 	return
 
 VermilionPortFrlg_EventScript_Sailor_Refused::

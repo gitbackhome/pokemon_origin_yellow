@@ -149,6 +149,9 @@ VictoryRoadGate_Text_RightBlackBelt:
 @ The player comes from Kanto (east). North = league, south = Johto,
 @ west = Mt. Silver. Johto opens after the (Kanto) Elite Four, Mt. Silver
 @ only after the Johto league (see ReceptionGate_EventScript_BlockMtSilver).
+@ Each check has its own temp var (Johto VAR_TEMP_5, Mt. Silver VAR_TEMP_6,
+@ league VAR_TEMP_7): passing one of them must not switch off the other two
+@ for the rest of the visit.
 @ ============================================================================
 
 ReceptionGate_EventScript_BlockJohto::
@@ -183,7 +186,7 @@ ReceptionGate_EventScript_BlockMtSilver::
 	end
 
 ReceptionGate_EventScript_PassMtSilver::
-	setvar VAR_TEMP_5, 1
+	setvar VAR_TEMP_6, 1
 	release
 	end
 
@@ -227,7 +230,7 @@ ReceptionGate_EventScript_LeagueCheck::
 	goto_if_unset FLAG_BADGE06_GET, ReceptionGate_EventScript_LeagueDenied
 	goto_if_unset FLAG_BADGE07_GET, ReceptionGate_EventScript_LeagueDenied
 	goto_if_unset FLAG_BADGE08_GET, ReceptionGate_EventScript_LeagueDenied
-	setvar VAR_TEMP_5, 1
+	setvar VAR_TEMP_7, 1
 	release
 	end
 

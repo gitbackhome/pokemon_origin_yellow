@@ -7,6 +7,7 @@
 #include "level_scaling.h"
 #include "regions.h"
 #include "event_data.h"
+#include "constants/maps.h"
 
 EWRAM_DATA u8 gStringVar1[0x100] = {0};
 EWRAM_DATA u8 gStringVar2[0x100] = {0};
@@ -500,8 +501,13 @@ static const u8 *ExpandPlaceholder_RivalName(void)
     // Kanto merge: in Kanto {RIVAL} means Blue, in Johto Silver. Each has
     // its own name storage so a later return trip to Kanto does not
     // suddenly show Silver's name in Blue's dialogue.
+    // Route22_hns (east of Route 26 North in Johto) carries the HGSS Celebi
+    // event in which Silver meets Giovanni. The map uses the Kanto section
+    // MAPSEC_ROUTE_22, but {RIVAL} there is Silver, not Blue.
     if (gMapHeader.regionMapSectionId >= KANTO_MAPSEC_START
-     && gMapHeader.regionMapSectionId <= KANTO_MAPSEC_END)
+     && gMapHeader.regionMapSectionId <= KANTO_MAPSEC_END
+     && !(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ROUTE22_HNS)
+       && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ROUTE22_HNS)))
     {
         // The name has to end within the field. A save from before this
         // field existed holds random data there; without a terminator the

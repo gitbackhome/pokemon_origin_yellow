@@ -167,7 +167,10 @@ static bool8 ShouldForceCyclingRoadDownward(void)
 
 void MovePlayerOnBike(enum Direction direction, u16 newKeys, u16 heldKeys)
 {
-    if (IS_HNS || IS_FRLG)
+    // Origin Jade: same region test as in AcroBike_GetJumpDirection. Without
+    // it the Acro Bike in Hoenn could side jump but never wheelie or bunny
+    // hop, so the bumpy slopes of the Jagged Pass could not be climbed.
+    if ((IS_HNS || IS_FRLG) && GetCurrentRegion() != REGION_HOENN)
     {
         newKeys &= ~B_BUTTON;
         heldKeys &= ~B_BUTTON;

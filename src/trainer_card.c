@@ -745,15 +745,13 @@ u32 CountPlayerTrainerStars(void)
 // Hoenn champion -> silver, Red beaten -> gold.
 // (Planned extension: Pokedex complete -> diamond, needs a fifth card
 // palette.)
+// One star per title plus Red; at most four, matching the five entries
+// (0-4 stars) of sHnsTrainerCardPals and sHoennTrainerCardPals.
 static u8 GetHnSTrainerStars(struct TrainerCard *trainerCard)
 {
     u8 stars = 0;
 
-    if (FlagGet(FLAG_IS_CHAMPION))
-        stars++;
-    if (trainerCard->caughtAllHoenn)
-        stars++;
-    if (FlagGet(TRAINER_FLAGS_START + TRAINER_RED_HNS))
+    if (FlagGet(FLAG_IS_JOHTO_CHAMPION))
         stars++;
     if (FlagGet(FLAG_IS_KANTO_CHAMPION))
         stars++;
@@ -879,8 +877,13 @@ void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard *trainerCard)
     SetPlayerCardData(trainerCard, CARD_TYPE_EMERALD);
     trainerCard->linkHasAllFrontierSymbols = HasAllFrontierSymbols();
     *((u16 *)&trainerCard->linkPoints.frontier) = gSaveBlock2Ptr->frontier.cardBattlePoints;
+    // Same guard as in TrainerCard_GenerateCardForPlayer: GetHnSTrainerStars
+    // already gives up to four stars, a fifth would index past the card
+    // palette tables.
+#if !IS_HNS
     if (trainerCard->linkHasAllFrontierSymbols)
         trainerCard->stars++;
+#endif
 
     if (trainerCard->gender == FEMALE)
         trainerCard->unionRoomClass = gUnionRoomFacilityClasses[(trainerCard->trainerId % NUM_UNION_ROOM_CLASSES) + NUM_UNION_ROOM_CLASSES];

@@ -4,6 +4,17 @@ MtSilver_PokemonCenter_hns_MapScripts::
 
 MtSilver_PokemonCenter_OnTransition::
 	setrespawn HEAL_LOCATION_MT_SILVER_HNS
+	@ Origin Jade: SINJOH_CONTENT_AVAILABLE (include/config/general.h) decides
+	@ whether Meara is here. Her warp at (43,9) in MtSilver_1F_WaterfallRoom is
+	@ the only way into Snowswept Cavern, New Sinjoh and the Sinjoh Ruins,
+	@ whose Pokemon (Arceus, Dialga, Palkia, Giratina, the Hisuian forms) are
+	@ switched off in include/config/species_enabled.h. Set on every entry, so
+	@ changing the switch also reaches existing save files.
+#if SINJOH_CONTENT_AVAILABLE
+	clearflag FLAG_HIDE_MT_SILVER_PC_MEARA
+#else
+	setflag FLAG_HIDE_MT_SILVER_PC_MEARA
+#endif
 	end
 
 MtSilver_PokemonCenter_EventScript_Meara::

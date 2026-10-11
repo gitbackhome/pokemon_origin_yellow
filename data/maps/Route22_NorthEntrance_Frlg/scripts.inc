@@ -14,7 +14,9 @@ Route22_NorthEntrance_EventScript_BoulderBadgeGuard::
 Route22_NorthEntrance_EventScript_BoulderBadgeGuardTrigger::
 	lockall
 	setvar VAR_TEMP_1, 8
-	setvar VAR_0x8009, 8
+	@ VAR_0x8009 is the guard's local id (the only object here), not the
+	@ badge number - Route23_EventScript_BadgeGuardTrigger turns him with it.
+	setvar VAR_0x8009, 1
 	bufferstdstring STR_VAR_1, STDSTRING_EARTH_BADGE
 	goto Route23_EventScript_BadgeGuardTrigger
 	end

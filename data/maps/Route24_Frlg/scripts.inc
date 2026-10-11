@@ -39,7 +39,10 @@ Route24_EventScript_NoRoomForNuggetTrigger::
 	closemessage
 	applymovement LOCALID_PLAYER, Route24_Movement_WalkDown
 	waitmovement 0
-	call_if_eq VAR_TEMP_1, 0, Route24_EventScript_RocketWalkBackToPos
+	@ VAR_TEMP_1 = number of steps the Rocket walked towards the player
+	@ (see Route24_EventScript_RocketTrigger): 0 = he only turned.
+	call_if_eq VAR_TEMP_1, 2, Route24_EventScript_RocketWalkBackToPos2
+	call_if_eq VAR_TEMP_1, 1, Route24_EventScript_RocketWalkBackToPos
 	release
 	end
 
@@ -48,8 +51,19 @@ Route24_EventScript_RocketWalkBackToPos::
 	waitmovement 0
 	return
 
+Route24_EventScript_RocketWalkBackToPos2::
+	applymovement LOCALID_ROUTE24_ROCKET, Route24_Movement_RocketWalkBackToPos2
+	waitmovement 0
+	return
+
 
 Route24_Movement_RocketWalkBackToPos::
+	walk_right
+	walk_in_place_faster_left
+	step_end
+
+Route24_Movement_RocketWalkBackToPos2::
+	walk_right
 	walk_right
 	walk_in_place_faster_left
 	step_end

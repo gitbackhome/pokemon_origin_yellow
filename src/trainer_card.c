@@ -741,12 +741,8 @@ u32 CountPlayerTrainerStars(void)
 }
 
 #if IS_HNS
-// Marc's card tiers: Johto champion -> bronze, Kanto champion -> copper,
-// Hoenn champion -> silver, Red beaten -> gold.
-// (Planned extension: Pokedex complete -> diamond, needs a fifth card
-// palette.)
-// One star per title plus Red; at most four, matching the five entries
-// (0-4 stars) of sHnsTrainerCardPals and sHoennTrainerCardPals.
+// One star each for the Johto, Kanto and Hoenn titles and for beating Red.
+// More stars need more entries in sHnsTrainerCardPals and sHoennTrainerCardPals.
 static u8 GetHnSTrainerStars(struct TrainerCard *trainerCard)
 {
     u8 stars = 0;
@@ -877,9 +873,7 @@ void TrainerCard_GenerateCardForLinkPlayer(struct TrainerCard *trainerCard)
     SetPlayerCardData(trainerCard, CARD_TYPE_EMERALD);
     trainerCard->linkHasAllFrontierSymbols = HasAllFrontierSymbols();
     *((u16 *)&trainerCard->linkPoints.frontier) = gSaveBlock2Ptr->frontier.cardBattlePoints;
-    // Same guard as in TrainerCard_GenerateCardForPlayer: GetHnSTrainerStars
-    // already gives up to four stars, a fifth would index past the card
-    // palette tables.
+    // HnS: no Frontier star, GetHnSTrainerStars already gives up to four.
 #if !IS_HNS
     if (trainerCard->linkHasAllFrontierSymbols)
         trainerCard->stars++;
@@ -1063,8 +1057,7 @@ static bool8 PrintAllOnCardBack(void)
         break;
     case 2:
 #if IS_HNS
-        // HnS back side (Marc's layout): Hall of Fame, Kanto row, Hoenn row
-        // (from Birch on), team - the link stat lines are dropped.
+        // HnS back side: Hall of Fame, badge rows with region labels, team.
         if (sData->cardType == CARD_TYPE_HNS)
         {
             PrintRegionLabelsOnBack();
@@ -1334,22 +1327,8 @@ static void BufferHofDebutTime(void)
 // Prints the region labels below the badge rows on the HnS card's back side.
 static void PrintRegionLabelsOnBack(void)
 {
-    // The card lines sit at screen y 55, 71, 87, 103, 119; the bands
-    // between them are 16 px each = exactly two tile rows. Every element
-    // gets a band of its own, nothing overlaps:
-    // Measured from Marc's markup. Each badge row fills the band above a
-    // line, the label sits directly below the line:
-    //   56- 71  first badge row    (tile row  7/8)
-    //   73- 81  label of that row  (window y 61)
-    //   88-103  Hoenn badge row    (tile row 11/12)
-    //  105-113  label "Hoenn"      (window y 93) - team icons start at 117
-    // Conversion: screen y = window y + 8 (window origin); the small font's
-    // glyphs sit another 4 px lower -- so the glyph top is at window y + 12.
-    // Horizontal: window x 17 = screen x 25, seven pixels left of the badge
-    // edge (tile 4 = 32).
-    // Kanto merge: the first row now shows Johto (see DrawExtraBadgesOnBack).
-    // Its label only appears once the player has entered Johto - until then
-    // the row is an empty badge row.
+    // Labels below the Johto badge row (tile rows 7/8) and the Hoenn row (11/12).
+    // Window coordinates: screen x = x + 8, glyph top on screen = y + 12.
     if (FlagGet(FLAG_VISITED_JOHTO))
         AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_SMALL, 17, 61, sTrainerCardTextColors, TEXT_SKIP_DRAW, sText_RegionLabelJohto);
     if (FlagGet(FLAG_RECEIVED_PASS_BINDER))
@@ -1710,9 +1689,7 @@ static void DrawStarsAndBadgesOnCard(void)
     static const u8 yOffsets[] = {7, 7};
 
     s16 i, x, y;
-    // Kanto merge: the front side now shows the Kanto badges. Their symbols
-    // sit in the second half of combined_badges (tile 192+32) and use the
-    // FRLG palette 6.
+    // Origin Jade: Kanto badges on the front (tile 192+32, FRLG palette 6).
     u16 tileNum = IS_HNS ? 192 + 32 : 192;
     u8 palNum = IS_HNS ? 6 : 3;
 
@@ -1742,11 +1719,7 @@ static void DrawStarsAndBadgesOnCard(void)
 #if IS_HNS
 static void DrawExtraBadgesOnBack(void)
 {
-    // First row on tile row 7/8, Hoenn row on 11/12; both start at tile 4
-    // (screen x 32). See PrintRegionLabelsOnBack.
-    // Kanto merge: the first row shows Johto (symbols in the first half of
-    // combined_badges, palette 3), fed from VAR_JOHTO_BADGES. The vanilla
-    // flags FLAG_BADGE01-08 now belong to Kanto and are shown on the front.
+    // Johto badges on tile rows 7/8, Hoenn badges on 11/12, both from tile x 4.
     u8 i, x = 4;
     u8 palNum = 3;
     u16 tileNum = 192;

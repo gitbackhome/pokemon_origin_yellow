@@ -58,8 +58,7 @@ CinnabarIsland_Gym_EventScript_DefeatedBlaine::
 	setflag FLAG_DEFEATED_BLAINE
 	setflag FLAG_BADGE07_GET
 	setrespawn HEAL_LOCATION_CINNABAR_ISLAND
-	@ Kanto merge: in FRLG Bill leads to the Sevii Islands. Those are
-	@ retired, so the warp went nowhere and the game crashed.
+	@ Origin Jade: Bill's trip to the Sevii Islands is disabled.
 	@ setvar VAR_MAP_SCENE_CINNABAR_ISLAND, 1
 	@ clearflag FLAG_HIDE_CINNABAR_BILL
 	set_gym_trainers_frlg 7

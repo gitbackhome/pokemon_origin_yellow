@@ -24,18 +24,12 @@ PalletTown_PlayersHouse_1F_Text_MomGoSeeOak:
 #endif
 
 @ ============================================================================
-@ Kanto merge: intro conversation at the foot of the stairs. Covers the
-@ rival's name, the PokeGear and the Running Shoes in one scene; the old
-@ block at the front door is no longer needed. The handover wording comes
-@ from the HnS Mom.
+@ Origin Jade: Mom's intro with the rival's name, PokeGear and Running Shoes.
 @ ============================================================================
 
 PalletTown_PlayersHouse_1F_EventScript_Intro::
 	lockall
 	delay 20
-	@ Kanto merge: the player walks over to Mom on their own. The sequence
-	@ hangs on the map script table and starts right after the warp, not
-	@ only when a particular tile is stepped on.
 	applymovement OBJ_EVENT_ID_PLAYER, PalletTown_PlayersHouse_1F_Movement_ToMom
 	waitmovement 0
 	applymovement LOCALID_PLAYERS_HOUSE_1F_MOM, Common_Movement_FacePlayer
@@ -54,8 +48,6 @@ PalletTown_PlayersHouse_1F_EventScript_Intro::
 	setflag FLAG_RECEIVED_POKENAV
 	setflag FLAG_ADDED_MATCH_CALL_TO_POKENAV
 	setflag FLAG_REGISTER_RIVAL_POKENAV
-	@ Kanto merge: Mom registers herself right away - in her next sentence
-	@ she says anyway that numbers are stored in it.
 	setflag FLAG_ENABLE_MOM_MATCH_CALL
 	msgbox PalletTown_PlayersHouse_1F_Text_ExplainPokeGear, MSGBOX_DEFAULT
 	closemessage
@@ -75,7 +67,7 @@ PalletTown_PlayersHouse_1F_EventScript_Intro::
 	applymovement LOCALID_PLAYERS_HOUSE_1F_MOM, Common_Movement_FaceOriginalDirection
 	waitmovement 0
 	setvar VAR_PALLET_HOUSE_INTRO, 1
-	@ Prepare Mom's call - she tries out the device right away.
+	@ Schedule Mom's first call.
 	setvar VAR_HNS_MOM_CALL_STEPS, 0
 	setflag FLAG_HNS_MOM_CALL_PENDING
 	releaseall
@@ -150,8 +142,7 @@ PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYouFemale::
 	return
 
 PalletTown_PlayersHouse_1F_EventScript_MomHeal::
-	@ Pokemon Center challenge: like the HnS Mom, no healing at home - only
-	@ the savings menu.
+	@ Pokemon Center challenge: no healing, only the savings menu.
 	specialvar VAR_RESULT, IsPokecenterChallengeActivated
 	goto_if_eq VAR_RESULT, TRUE, PalletTown_PlayersHouse_1F_EventScript_MomPokecenterChallenge
 	msgbox PalletTown_PlayersHouse_1F_Text_YouShouldTakeQuickRest
@@ -169,9 +160,7 @@ PalletTown_PlayersHouse_1F_EventScript_MomPokecenterChallenge::
 	end
 
 @ ============================================================================
-@ Kanto merge: Mom's savings. In HnS this was with Mom in New Bark Town;
-@ in our game the player no longer lives there. The specials and the
-@ purchases via ShouldDoMomCall are unchanged, only the place changes.
+@ Mom's savings menu.
 @ ============================================================================
 PalletTown_PlayersHouse_1F_EventScript_MomSavingsMenu::
 	special Special_MomEnsureInitialized
@@ -461,11 +450,7 @@ PalletTown_PlayersHouse_1F_Text_OopsWrongSide::
 	.string "Oops, wrong side…$"
 #endif
 
-@ Kanto merge: the Running Shoes come from Mom instead of Oak's aide in
-@ Pewter City. The aide there also checks FLAG_SYS_B_DASH and thereby
-@ skips himself.
-@ Kanto merge: wording and sequence taken 1:1 from the HnS Mom in New Bark
-@ Town (NewBarkTown_PlayersHouse_1F_EventScript_MomsIntro).
+@ Unused.
 PalletTown_PlayersHouse_1F_EventScript_MomGivePokeGear::
 	playfanfare MUS_OBTAIN_ITEM
 	message PalletTown_PlayersHouse_1F_Text_ObtainedPokeGear
@@ -478,7 +463,6 @@ PalletTown_PlayersHouse_1F_EventScript_MomGivePokeGear::
 	msgbox PalletTown_PlayersHouse_1F_Text_ExplainPokeGear, MSGBOX_DEFAULT
 	closemessage
 	delay 30
-	@ Prepare Mom's call - she tries out the device right away.
 	setvar VAR_HNS_MOM_CALL_STEPS, 0
 	setflag FLAG_HNS_MOM_CALL_PENDING
 	goto PalletTown_PlayersHouse_1F_EventScript_MomGiveRunningShoes
@@ -580,9 +564,7 @@ PalletTown_PlayersHouse_1F_Text_MomRivalNameConfirm:
 	.string "inseparable since you were toddlers.$"
 #endif
 
-@ Kanto merge: Mom handles the rival's name and the Running Shoes. Both
-@ are required for what follows, so she holds the player back until the
-@ conversation has happened. The trigger is in front of the door.
+@ Unused.
 PalletTown_PlayersHouse_1F_EventScript_BlockExit::
 	lock
 	goto_if_set FLAG_SYS_B_DASH, PalletTown_PlayersHouse_1F_EventScript_ExitAllowed

@@ -25,8 +25,7 @@ static void CreateHealthboxSprite(enum BattlerId battler);
 static void ClearBattleBgCntBaseBlocks(void);
 static void CreateCaughtMonSprite(void);
 
-// Kanto merge: in Viridian the old man demonstrates catching, in Hoenn it
-// is still Wally. The switch depends on the tutorial, not on the build.
+// Origin Jade: the old man in the Viridian catch tutorial, otherwise Wally.
 #define CATCH_TUTORIAL_TRAINER_PIC_BACK ((IS_FRLG || gIsOldManTutorialBattle) ? TRAINER_PIC_BACK_OLD_MAN : TRAINER_PIC_BACK_WALLY)
 
 void ReshowBattleScreenDummy(void)

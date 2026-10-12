@@ -371,7 +371,7 @@ Route110_EventScript_RivalTrigger3::
 Route110_EventScript_RivalScene::
 	lockall
 #if IS_HNS
-	@ HnS: the rival is always May - so always her encounter topic.
+	@ Origin Jade: the Hoenn rival is always May.
 	call Route110_EventScript_PlayMayMusic
 #else
 	checkplayergender
@@ -389,8 +389,6 @@ Route110_EventScript_RivalScene::
 	call_if_eq VAR_0x8008, 2, Route110_EventScript_RivalApproachPlayer2
 	call_if_eq VAR_0x8008, 3, Route110_EventScript_RivalApproachPlayer3
 #if IS_HNS
-	@ HnS canon: the rival is always May, regardless of the player
-	@ character's gender. Brendan stays free as a character of his own.
 	goto Route110_EventScript_MayBattle
 #else
 	checkplayergender
@@ -411,9 +409,7 @@ Route110_EventScript_PlayBrendanMusic::
 Route110_EventScript_MayBattle::
 	msgbox Route110_Text_MayLetsBattle, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: VAR_STARTER_MON holds the Kanto starter here (the Johto one is
-	@ in VAR_JOHTO_STARTER_MON), never a Hoenn one. May's starter line
-	@ has been fixed since Route 103 (Torchic), so always use the Treecko set.
+	@ Origin Jade: May always has the Torchic line (Treecko set).
 	goto Route110_EventScript_MayBattleTreecko
 #else
 	switch VAR_STARTER_MON
@@ -477,8 +473,7 @@ Route110_EventScript_BrendanDefeated::
 
 Route110_EventScript_GiveItemfinder::
 #if IS_HNS
-	@ Origin Jade: the champion has carried the Itemfinder since Johto - no
-	@ handover; the texts refer to that instead.
+	@ Origin Jade: no Itemfinder handover.
 	return
 #endif
 	giveitem_unless_owned ITEM_DOWSING_MACHINE
@@ -596,8 +591,7 @@ Route110_Movement_RivalExit3:
 Route110_EventScript_BirchScene1::
 	lockall
 #if IS_HNS
-	@ Origin Jade: scene retired (Birch has been registered since the
-	@ arrival). Fallback for saves whose var was already at 1.
+	@ Origin Jade: Birch registration scene disabled.
 	setvar VAR_REGISTER_BIRCH_STATE, 2
 	releaseall
 	end

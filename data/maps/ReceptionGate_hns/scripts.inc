@@ -3,14 +3,8 @@ ReceptionGate_hns_MapScripts::
 	map_script MAP_SCRIPT_ON_RESUME, ReceptionGate_EventScript_SetNorthWarp
 	.byte 0
 
-@ Origin Jade (D-009): the Black Belt at (7,7) stands on the only tile of the
-@ corridor to the west exit. HnS hid him once its Oak gave permission, in a
-@ Kanto lab that Origin Jade retired - so he blocked Mt. Silver and Red for
-@ good. He now steps aside with Johto's title, the same condition as the
-@ trigger at (4,7) behind him (ReceptionGate_EventScript_BlockMtSilver).
-@ ON_TRANSITION runs before the objects are placed, so he is simply gone. A
-@ save continued inside the gate still shows him until the player walks
-@ out and back in.
+@ Origin Jade: the Black Belt in front of the Mt. Silver exit is gone once
+@ Johto's league is won.
 ReceptionGate_OnTransition:
 	call_if_set FLAG_IS_JOHTO_CHAMPION, ReceptionGate_EventScript_HideSilverGuard
 	goto ReceptionGate_EventScript_SetNorthWarp
@@ -55,12 +49,6 @@ ReceptionGate_Text_Janine:
 
 
 ReceptionGate_EventScript_Officer::
-	@ Origin Jade: in HnS he congratulated everyone on "the eight BADGES of
-	@ JOHTO". He now only says so once the north exit really leads to Johto's
-	@ Victory Road (ReceptionGate_EventScript_SetNorthWarp). Before that he
-	@ gives his checkpoint line, and while the legendary event is still open
-	@ the same line as ReceptionGate_EventScript_LeagueCheck. All three texts
-	@ are HnS's own.
 	lock
 	faceplayer
 	specialvar VAR_RESULT, CountJohtoBadges
@@ -80,17 +68,7 @@ ReceptionGate_EventScript_OfficerLegendary::
 	release
 	end
 
-@ HnS's checkpoint on the south entrance (coord trigger at 11,14 while
-@ VAR_ROUTE27_STATE is 1). Origin Jade no longer references it: here the
-@ south entrance is the way home from Johto to Kanto and has to stay open
-@ (the trigger turned everyone back until the legendary event in Ecruteak
-@ was over, and then checked FLAG_BADGE08_GET, a Kanto badge in OJ). Its jobs
-@ moved to the north exit: the warp switch in
-@ ReceptionGate_EventScript_SetNorthWarp follows the league change (badges
-@ and legendary event, PokemonLeague_EventScript_CheckLeagueChanged), and
-@ ReceptionGate_EventScript_LeagueCheck stops players with all eight Johto
-@ badges until the legendary event is done. Kept unchanged to ease HnS
-@ merges.
+@ HnS's south entrance checkpoint, unused.
 ReceptionGate_Trigger::
     lock
     playse SE_PIN
@@ -196,28 +174,14 @@ VictoryRoadGate_Text_RightBlackBelt:
 #endif
 
 @ ============================================================================
-@ Kanto merge (test/kanto-start): gate logic for the four-way junction.
-@ The player comes from Kanto (east). North = league, south = Johto,
-@ west = Mt. Silver. Johto opens after the (Kanto) Elite Four, Mt. Silver
-@ only after the Johto league (see ReceptionGate_EventScript_BlockMtSilver).
-@ North leads to Kanto's league until the league has changed, then to
-@ Johto's league (see ReceptionGate_EventScript_SetNorthWarp).
-@ Each check has its own temp var (Johto VAR_TEMP_5, Mt. Silver VAR_TEMP_6,
-@ league VAR_TEMP_7): passing one of them must not switch off the other two
-@ for the rest of the visit.
+@ Origin Jade: gate checks. East = Kanto, north = league, south = Johto,
+@ west = Mt. Silver. Each check has its own temp var: Johto VAR_TEMP_5,
+@ Mt. Silver VAR_TEMP_6, league VAR_TEMP_7.
 @ ============================================================================
 
-@ Origin Jade (decisions 2026-10-10 and 2026-10-11,
-@ docs/origin_jade/DECISIONS.md, D-010): the north exit leads to Kanto's
-@ league (Route 23 and the FRLG Victory Road) until the league has changed -
-@ all eight Johto badges and the legendary event done - and from then on to
-@ Johto's Victory Road and Johto's league (Indigo Plateau, HnS maps).
-@ Training against Kanto's league stays possible until then; afterwards
-@ Kanto's league is gone for good (the story: the league has changed).
-@ Both north door warps are MAP_DYNAMIC. The target is set on every map load
-@ (ON_TRANSITION) and again on resume (ON_RESUME), which also covers
-@ continuing a save made inside the gate. The door on Kanto's Indigo Plateau
-@ switches under the same condition (IndigoPlateau_Exterior_Frlg).
+@ Origin Jade: the north exit (MAP_DYNAMIC warps) leads to Kanto's league
+@ until the league change, then to Johto's Victory Road. Keep in sync with
+@ IndigoPlateau_Exterior_Frlg.
 ReceptionGate_EventScript_SetNorthWarp::
 	call PokemonLeague_EventScript_CheckLeagueChanged
 	goto_if_eq VAR_RESULT, TRUE, ReceptionGate_EventScript_NorthToJohtoLeague
@@ -226,9 +190,7 @@ ReceptionGate_EventScript_SetNorthWarp::
 
 ReceptionGate_EventScript_NorthToJohtoLeague::
 	setdynamicwarp MAP_VICTORY_ROAD_KANTO_B2F_HNS, 0
-	@ HnS armed Silver's battle on Johto's Victory Road when the officer let
-	@ the player through (VAR_ROUTE27_STATE 1 -> 2, ReceptionGate_Trigger).
-	@ That checkpoint is gone, so the state moves on here.
+	@ Arms Silver's battle on Johto's Victory Road.
 	goto_if_ne VAR_ROUTE27_STATE, 1, ReceptionGate_EventScript_NorthWarpDone
 	setvar VAR_ROUTE27_STATE, 2
 ReceptionGate_EventScript_NorthWarpDone:
@@ -253,10 +215,6 @@ ReceptionGate_EventScript_PassJohto::
 
 ReceptionGate_EventScript_BlockMtSilver::
 	lock
-	@ Origin Jade: not FLAG_SYS_GAME_CLEAR - Kanto's Hall of Fame already
-	@ sets that, so Mt. Silver would be open from the arrival in Johto on
-	@ and Red at levels 77 to 93 reachable before the first Johto badge. It
-	@ only opens with the win over Johto's league.
 	goto_if_set FLAG_IS_JOHTO_CHAMPION, ReceptionGate_EventScript_PassMtSilver
 	msgbox ReceptionGate_Text_MtSilverClosed, MSGBOX_DEFAULT
 	closemessage
@@ -310,13 +268,7 @@ ReceptionGate_EventScript_LeagueCheck::
 	goto_if_unset FLAG_BADGE06_GET, ReceptionGate_EventScript_LeagueDenied
 	goto_if_unset FLAG_BADGE07_GET, ReceptionGate_EventScript_LeagueDenied
 	goto_if_unset FLAG_BADGE08_GET, ReceptionGate_EventScript_LeagueDenied
-	@ Origin Jade: HnS only let the player onto Johto's Victory Road once the
-	@ legendary event at the Ecruteak theater was over
-	@ (VAR_ECRUTEAK_CITY_THEATER 8). That check sat on the south entrance
-	@ (ReceptionGate_Trigger); it now guards the north exit for players with
-	@ all eight Johto badges. Kanto's league is no goal for them any more, and
-	@ the exit leads to Johto's league once the legendary event is done - the
-	@ moment the league changes (ReceptionGate_EventScript_SetNorthWarp).
+	@ Origin Jade: with eight Johto badges the legendary event must be done first.
 	specialvar VAR_RESULT, CountJohtoBadges
 	goto_if_lt VAR_RESULT, 8, ReceptionGate_EventScript_LeaguePass
 	goto_if_lt VAR_ECRUTEAK_CITY_THEATER, 8, ReceptionGate_EventScript_Kimono

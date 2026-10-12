@@ -17,8 +17,7 @@ NewBarkTown_PlayersHouse_1F_SetMomStandingAtTable::
 	clearflag FLAG_MOM_VISITED
 	return
 
-@ Kanto merge: the house does not belong to the player. A woman lives here
-@ with her son; he is away and shows up later in the game.
+@ Origin Jade: LOCALID_MOM is the woman of the house, not the player's mom.
 NewBarkTown_PlayersHouse_1F_EventScript_Mom::
 	lock
 	faceplayer

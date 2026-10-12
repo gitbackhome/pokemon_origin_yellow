@@ -20,12 +20,7 @@ PalletTown_PlayersHouse_2F_FirstWarpIn::
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F, 1
 	end
 
-@ ============================================================================
-@ Kanto merge: the wall clock. In HnS it hangs upstairs in New Bark Town,
-@ where the player no longer lives in our game; it is set here now.
-@ Same setup as there: the clock hangs by the stairs, two trigger tiles
-@ in front of it, the player walks over and sets it.
-@ ============================================================================
+@ Origin Jade: wall clock setup, started by two trigger tiles in front of the clock.
 PalletTown_PlayersHouse_2F_Script_ClockSetupTrigger1::
 	lock
 	playse SE_PIN
@@ -57,20 +52,19 @@ PalletTown_PlayersHouse_2F_Script_ClockSetupCommon::
 	releaseall
 	end
 
-@ From (10,3): right to the stairs, then up to the clock.
+@ From trigger tile (10,3).
 PalletTown_PlayersHouse_2F_Movement_PlayerWalkToClock1:
 	walk_right
 	walk_up
 	delay_8
 	step_end
 
-@ From (11,3) the player is already in the right place.
+@ From trigger tile (11,3).
 PalletTown_PlayersHouse_2F_Movement_PlayerWalkToClock2:
 	walk_up
 	delay_8
 	step_end
 
-@ Interactable while the clock hangs - sets it again.
 PalletTown_PlayersHouse_2F_EventScript_WallClock::
 	lockall
 	msgbox PlayersHouse_2F_Text_ClockChange, MSGBOX_DEFAULT

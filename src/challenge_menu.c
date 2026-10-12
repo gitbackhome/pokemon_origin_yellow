@@ -1341,8 +1341,7 @@ static bool8 CheckConditions(u8 tab, u8 itemIndex)
         switch (itemIndex)
         {
         case ITEM_FEATURES_RTC_SPEED:
-            // Only selectable if the fake clock is running at all. With the
-            // real clock there is no speed to set.
+            // Only with the fake clock.
             return *GetSelectionPtr(TAB_FEATURES, ITEM_FEATURES_RTC_TYPE) == 1;
         default:
             return TRUE;
@@ -2071,7 +2070,7 @@ static void Task_ConfirmSaveYes(u8 taskId)
         cs->tx_Random_Static           = *GetSelectionPtr(TAB_RANDOMIZER, ITEM_RANDOM_STATIC);
         cs->tx_Random_Similar          = !(*GetSelectionPtr(TAB_RANDOMIZER, ITEM_RANDOM_SIMILAR));
         cs->tx_Random_IncludeLegendaries = *GetSelectionPtr(TAB_RANDOMIZER, ITEM_RANDOM_LEGENDARIES);
-        // Origin Jade: no menu entry for this (see config/randomizer.h).
+        // Origin Jade: always the default from config/randomizer.h.
         cs->tx_Random_GenScope         = RANDOMIZER_DEFAULT_GEN_SCOPE_1_3;
         cs->tx_Random_Type             = *GetSelectionPtr(TAB_RANDOMIZER, ITEM_RANDOM_TYPE);
         cs->tx_Random_Moves            = *GetSelectionPtr(TAB_RANDOMIZER, ITEM_RANDOM_MOVES);

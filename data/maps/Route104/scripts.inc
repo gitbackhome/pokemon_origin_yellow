@@ -21,8 +21,7 @@ Route104_OnTransition:
 Route104_EventScript_ShowOrHideWhiteHerbFlorist::
 	goto_if_unset FLAG_MET_PRETTY_PETAL_SHOP_OWNER, Route104_EventScript_HideWhiteHerbFlorist
 #if IS_HNS
-	@ HnS: FLAG_BADGE03_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 3 (Wattson)
 	setvar VAR_0x8004, 2
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, FALSE, Route104_EventScript_HideWhiteHerbFlorist
@@ -80,8 +79,7 @@ Route104_EventScript_RivalTrigger::
 @ Unused, shares script with Rustboro encounter instead
 Route104_EventScript_PlayRivalMusic::
 #if IS_HNS
-	@ HnS canon: the rival is always May, regardless of the player
-	@ character's gender. Brendan stays free as a character of his own.
+	@ HnS: the rival is always May.
 	goto Route104_EventScript_PlayMayMusic
 #else
 	checkplayergender
@@ -100,8 +98,7 @@ Route104_EventScript_PlayBrendanMusic::
 
 Route104_EventScript_RivalEncounter::
 #if IS_HNS
-	@ HnS canon: the rival is always May, regardless of the player
-	@ character's gender. Brendan stays free as a character of his own.
+	@ HnS: the rival is always May.
 	goto Route104_EventScript_MayEncounter
 #else
 	checkplayergender
@@ -162,9 +159,7 @@ Route104_EventScript_MayAskToBattle::
 Route104_EventScript_BattleMay::
 	msgbox Route104_Text_MayIntro, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: VAR_STARTER_MON holds the Kanto starter here (the Johto one is
-	@ in VAR_JOHTO_STARTER_MON), never a Hoenn one. May's starter line
-	@ has been fixed since Route 103 (Torchic), so always use the Treecko set.
+	@ HnS: May always has Torchic (her *_TREECKO party).
 	goto Route104_EventScript_BattleMayTreecko
 #else
 	switch VAR_STARTER_MON
@@ -380,11 +375,7 @@ Route104_EventScript_SailToDewford::
 	hideobjectat LOCALID_PLAYER, MAP_ROUTE104
 	call Common_EventScript_PlayBrineysBoatMusic
 #if IS_HNS
-	@ HnS: the call from Dad is dropped. Norman is not the player's father,
-	@ and the player's family does not live in Hoenn. Instead Norman
-	@ registers himself in the PokeGear after his gym defeat
-	@ (PetalburgCity_Gym). The handover branch is kept for the non-HnS
-	@ build.
+	@ HnS: no call from Dad.
 	goto Route104_EventScript_SailToDewfordNoCall
 #else
 	goto_if_set FLAG_ENABLE_NORMAN_MATCH_CALL, Route104_EventScript_SailToDewfordNoCall

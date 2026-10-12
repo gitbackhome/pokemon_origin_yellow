@@ -3,22 +3,15 @@
 check_merge.py -- consistency checker for the FRLG Kanto / HnS Johto merge
 ==========================================================================
 
-Finds exactly the class of bugs the compiler does NOT see:
-  * flags/vars stubbed to 0 but used in active scripts
-  * vars shared by two name spaces (silent state clobbering)
-  * warps pointing nowhere or into a disabled map
-  * connections that are only registered on one side
-  * layouts referenced by active maps but not enabled
-  * MAPSECs that collapse to 0 in the current build
-  * maps without a wild encounter table (informational only)
+Finds merge errors the compiler does not report.
 
 Usage (from the repository root):
     python3 check_merge.py                 # checks MAP_VERSION=hns
     python3 check_merge.py --version frlg
     python3 check_merge.py --only warps,flags
-    python3 check_merge.py --quiet         # summary only
+    python3 check_merge.py --quiet         # no notes, at most 10 messages per section
 
-Exit code 1 if errors (not warnings) were found -> usable in CI.
+Exit code 1 if errors (not warnings) were found.
 """
 
 import argparse
@@ -95,16 +88,14 @@ def parse_defines(path):
 
 RELATIVE_RE = re.compile(r"^\s*#define\s+(\w+)\s+\((\w+)\s*\+")
 
-# Placeholder value for relatively defined flags: real, but not evaluable.
-# Must lie outside the TEMP range (0x00-0x1F).
+# Stand-in value for flags defined as (BASE + n). Keep it above the TEMP range (0x00-0x1F).
 RELATIVE_MARKER = 0x2000
 
 
 def parse_relative_defines(path):
     """Names from headers of the form '#define X (BASE+0x1)'.
 
-    parse_defines() only recognizes bare numbers; the generated Kanto
-    headers, however, compute relative to a base.
+    Complements parse_defines(), which reads plain numbers only.
     """
     out = set()
     if not os.path.exists(path):
@@ -156,9 +147,7 @@ def check_layouts(maps, active_names, version, rep):
             if path and not os.path.exists(path):
                 rep.warn("layouts",
                          f"{lay['id']}: {key} fehlt auf der Platte ({path})")
-        # Check the size against the declared dimensions. A border.bin that
-        # is too short makes the engine read past the end of the file -
-        # unrelated tiles then appear at the map edge.
+        # Check border.bin and map.bin sizes against the layout dimensions.
         border = lay.get("border_filepath")
         if border and os.path.exists(border):
             need = lay.get("border_width", 2) * lay.get("border_height", 2) * 2
@@ -172,8 +161,6 @@ def check_layouts(maps, active_names, version, rep):
         if blocks and os.path.exists(blocks):
             need = lay.get("width", 0) * lay.get("height", 0) * 2
             have = os.path.getsize(blocks)
-            # Too small is dangerous - the engine reads past the end.
-            # Too large is only unused space.
             if have < need:
                 rep.error("layouts",
                           f"{lay['id']}: map.bin ist {have} Byte, "
@@ -305,8 +292,7 @@ def collect_script_symbols(active_names, maps):
     used_vars = defaultdict(set)
     token = re.compile(r"\b(FLAG_[A-Z0-9_]+|VAR_[A-Z0-9_]+)\b")
     for name in active_names:
-        # Object, coord and BG events refer to flags and vars in map.json.
-        # Reading only scripts.inc would wrongly consider them unused.
+        # Scan map.json events and scripts.inc.
         text = json.dumps(maps[name])
         path = os.path.join(MAPS_DIR, maps[name]["_dir"], "scripts.inc")
         if os.path.exists(path):
@@ -324,10 +310,7 @@ def check_flags(used_flags, version, rep):
     """Reports used flags that are stubbed to 0 or lie in the TEMP range."""
     header = ("include/constants/flags_hns.h" if version == "hns"
               else "include/constants/flags_frlg.h")
-    # parse_defines() does not see #if branches. For many names flags.h
-    # contains both the real value and a 0 dummy from an inactive branch.
-    # A flag therefore only counts as stubbed if NO source provides a real
-    # value.
+    # A flag counts as stubbed only if no header gives it a nonzero value.
     defines = {}
     for src in (header,
                 "include/constants/flags.h",
@@ -335,20 +318,16 @@ def check_flags(used_flags, version, rep):
         for key, val in parse_defines(src).items():
             if val != 0 or key not in defines:
                 defines[key] = val
-        # Many flags are defined relatively, e.g. (SYS_FLAGS + 0x93).
-        # parse_defines() only sees bare numbers and would otherwise mistake
-        # them for the 0 dummy from flags.h.
+        # Flags defined as (BASE + n), e.g. (SYS_FLAGS + 0x93).
         for key in parse_relative_defines(src):
             defines[key] = RELATIVE_MARKER
-    # Kanto merge: flags_frlg_hns.h does #undef and assigns real slots.
-    # Without this file the check would wrongly report the remapped flags
-    # as "stubbed to 0".
+    # flags_frlg_hns.h remaps Kanto flags to real slots.
     for key in parse_relative_defines("include/constants/flags_frlg_hns.h"):
         defines[key] = 0x3000  # real slot in SaveBlock3
     for flag in sorted(used_flags):
         val = defines.get(flag)
         if val is None:
-            continue  # possibly defined via a macro -- the linker catches that
+            continue  # not a plain #define
         if val == 0:
             users = sorted(used_flags[flag])
             rep.error("flags-stub",
@@ -361,14 +340,10 @@ def check_flags(used_flags, version, rep):
 
 
 def check_var_collisions(used_vars, rep):
-    """Collisions based on the EFFECTIVE values.
+    """Reports vars that share a value, using the last definition of each.
 
-    vars.h includes vars_frlg.h, vars_hns.h, vars_hoenn_de.h and
-    vars_frlg_hns.h one after another - the later definition wins. Comparing
-    only vars_frlg.h against vars_hns.h would report collisions that a later
-    redefinition resolved long ago.
-    Note: vars.h itself (Emerald vars) and vars_origin_jade.h are not part
-    of this check - tools/check_flags.py covers all vars numerically.
+    Keep `order` in the include order of vars.h. vars.h itself and
+    vars_origin_jade.h are checked by tools/check_flags.py.
     """
     order = ["include/constants/vars_frlg.h",
              "include/constants/vars_hns.h",
@@ -377,7 +352,7 @@ def check_var_collisions(used_vars, rep):
     for src in order:
         effective.update(parse_defines(src))
     for name in parse_relative_defines("include/constants/vars_frlg_hns.h"):
-        effective[name] = -1  # own range in SaveBlock3, collision-free
+        effective[name] = -1  # own range in SaveBlock3, not checked
 
     by_value = defaultdict(list)
     for name, val in effective.items():
@@ -459,10 +434,8 @@ def check_duplicate_symbols(maps, active_names, rep):
 def check_tilesets(maps, active_names, rep):
     """Checks whether a tileset's attribute width matches the layout_version.
 
-    FRLG layouts read metatile_attributes.bin as u32 (behavior in bits 0-8,
-    layer in bits 29-30), all others as u16 (0-7 / 12-15). A tileset with
-    the wrong width yields random values for the layer -> graphics are
-    drawn above the player.
+    FRLG layouts expect 4 bytes per metatile in metatile_attributes.bin,
+    all others 2.
     """
     if not os.path.exists(LAYOUTS):
         return
@@ -520,9 +493,8 @@ def check_tilesets(maps, active_names, rep):
 def check_warp_reciprocity(maps, active_names, rep):
     """Reports warps whose destination warp does not lead back.
 
-    Catches swapped map IDs: MAP_VICTORY_ROAD_1F is Hoenn's Victory Road,
-    FRLG's is called MAP_VICTORY_ROAD_1F_FRLG. A warp there compiles and
-    loads - the player just ends up in the wrong region.
+    Catches swapped map IDs, e.g. MAP_VICTORY_ROAD_1F instead of
+    MAP_VICTORY_ROAD_1F_FRLG.
     """
     id_to_name = {m["id"]: n for n, m in maps.items() if "id" in m}
     active_ids = {maps[n]["id"] for n in active_names if "id" in maps[n]}
@@ -553,12 +525,7 @@ RELATIVE_VALUE_RE = re.compile(
 
 
 def check_generated_headers(rep):
-    """Slots assigned twice in the generated Kanto headers.
-
-    The headers are extended step by step. Getting the base wrong while
-    doing so assigns a number twice - both names then point to the same
-    bit or var without the compiler complaining.
-    """
+    """Reports slots assigned twice in the generated Kanto headers."""
     for path in ("include/constants/flags_frlg_hns.h",
                  "include/constants/vars_frlg_hns.h",
                  "include/constants/opponents_frlg_hns.h"):

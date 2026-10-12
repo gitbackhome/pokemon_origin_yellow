@@ -450,9 +450,8 @@ RuinsOfAlph_Lab_EventScript_FinishReceivingOmanyte::
 
 RuinsOfAlph_Lab_EventScript_ReceiveKabuto::
 	setvar VAR_TEMP_1, SPECIES_KABUTO
-	@ Johto badge 4 (Morty) decides the level, not FLAG_BADGE04_GET: Kanto
-	@ sets that flag as well. givemon overwrites VAR_RESULT, so branch with
-	@ goto here instead of two call_if checks on VAR_RESULT.
+	@ Johto badge 4 (Morty) decides the level.
+	@ Keep the goto: givemon overwrites VAR_RESULT.
 	setvar VAR_0x8004, 3
 	special CheckJohtoBadge
 	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_ReceiveLateKabuto

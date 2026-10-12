@@ -14,8 +14,6 @@ IcePath_1F_EventScript_Item_Protein::
 	finditem ITEM_PROTEIN
 	end
 IcePath_1F_EventScript_Item_HM_Waterfall::
-	@ Waterfall is one of the two HMs that do not exist in Kanto - it has to
-	@ stay here. The player may only use it with Clair's permit.
 	finditem ITEM_HM_WATERFALL
 	end
 

@@ -20,8 +20,7 @@ PetalburgCity_WallysHouse_EventScript_GiveHMSurf::
 	lockall
 	msgbox PetalburgCity_WallysHouse_Text_PleaseExcuseUs, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: instead of the HM (which the player has long owned) the Hoenn
-	@ license is granted - see src/hoenn_licenses.c.
+	@ Origin Jade: Hoenn Surf license instead of the HM.
 	setvar VAR_0x8004, LIC_SURF
 	special SetHoennLicense
 	playfanfare MUS_OBTAIN_ITEM

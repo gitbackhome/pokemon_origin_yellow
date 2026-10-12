@@ -31,12 +31,8 @@ static const u16 GymLeaderRematches_BeforeNewMauville[] = {
     REMATCH_JUAN
 };
 
-// Origin Jade: before every new league run (Hall of Fame / league lobby)
-// all five Elite Four entries are set to their rematch tier as soon as the
-// HOENN league has been won (FLAG_IS_HOENN_CHAMPION). Unlike the gym
-// leaders there is no random unlock: the league is always repeated as a
-// whole. After every battle HandleRematchVarsOnBattleEnd resets the entry,
-// so it has to be set again before every run.
+// Origin Jade: once the Hoenn league is won, sets all Elite Four entries to
+// their rematch tier. Call it before every league run, each battle resets them.
 void UpdateEliteFourRematch(void)
 {
 #if FREE_MATCH_CALL == FALSE

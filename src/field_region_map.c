@@ -238,9 +238,7 @@ static void PrintTitleWindowText(void)
     const u8 *region;
     if (IS_HNS)
     {
-        // Origin Jade: the heading follows the map actually shown. A
-        // hard-wired "Johto" made the wall map in Kanto and Hoenn show the
-        // wrong region.
+        // Origin Jade: heading by the region of the map shown.
         switch (GetRegionMapType(gMapHeader.regionMapSectionId))
         {
         case REGION_MAP_HOENN:

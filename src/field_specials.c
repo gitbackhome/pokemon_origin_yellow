@@ -552,13 +552,9 @@ bool32 ShouldDoRoxanneCall(void)
     return TRUE;
 }
 
-// HnS: Norman's call after a badge handover. It does not come right away
-// (there it interrupted the gym leader's scene) but after
-// HNS_NORMAN_CALL_STEPS steps outdoors - the player is on the move by then
-// and the hint arrives at a fitting moment.
+// Outdoor steps until Norman's queued call.
 #define HNS_NORMAN_CALL_STEPS 50
 
-// TRUE once Norman's queued call is due (counted in outdoor steps).
 bool32 ShouldDoNormanCall(void)
 {
     if (!FlagGet(FLAG_HNS_NORMAN_CALL_PENDING))
@@ -580,13 +576,9 @@ bool32 ShouldDoNormanCall(void)
     return TRUE;
 }
 
-// Kanto merge: Mom's test call after she has handed over the PokeGear in
-// the intro conversation (PalletTown_PlayersHouse_1F). Same pattern as
-// ShouldDoNormanCall - the call does not come right away but after
-// HNS_MOM_CALL_STEPS steps outdoors.
+// Outdoor steps from getting the PokeGear to Mom's test call.
 #define HNS_MOM_CALL_STEPS 100
 
-// TRUE once Mom's queued test call is due (counted in outdoor steps).
 bool32 ShouldDoMomCall(void)
 {
     if (!FlagGet(FLAG_HNS_MOM_CALL_PENDING))
@@ -1651,9 +1643,8 @@ void LoadWallyZigzagoon(void)
 {
     u16 monData;
 #if IS_HNS
-    // In Hoenn the catching lesson comes late in the game. Wally therefore
-    // uses the evolved form (Linoone instead of Zigzagoon) at the level of
-    // the route corridor - just like the other trainers.
+    // Origin Jade: Linoone at the scaled level.
+    // Keep in sync with MultichoiceList_Mechadoll2_Q1 (script_menu.h).
     CreateRandomMon(&gPlayerParty[0], SPECIES_LINOONE, ScaleWildMonLevel(7));
 #else
     CreateRandomMon(&gPlayerParty[0], SPECIES_ZIGZAGOON, 7);
@@ -3883,10 +3874,7 @@ bool32 IsTrainerRegistered(void)
             return TRUE;
     }
 #if IS_HNS
-    // Trainers without a slot in the rematch table cannot be registered at
-    // all. If this returned FALSE, their scripts would offer registration
-    // again every time they are spoken to - and it would silently fail
-    // every time.
+    // No rematch slot: counts as registered, so no registration is offered.
     else
     {
         return TRUE;
@@ -6277,17 +6265,14 @@ void GivePartyMonNationalRibbon(void)
     }
 }
 
-// Origin Jade: region switch for scripts (berry trees among others) -
-// TRUE if the player is in Hoenn.
+// Origin Jade: special for scripts, e.g. berry trees.
 u16 IsPlayerInHoenn(void)
 {
     gSpecialVar_Result = (GetCurrentRegion() == REGION_HOENN);
     return gSpecialVar_Result;
 }
 
-// Origin Jade: returns the number of badges. The gym leaders need it
-// because Koga and Sabrina can be beaten in any order and only the one
-// who hands out the sixth badge should announce the next obedience limit.
+// Origin Jade: lets Koga and Sabrina announce the obedience limit at the sixth badge.
 u16 GetPlayerBadgeCount(void)
 {
     gSpecialVar_Result = GetCurrentBadgeCount();

@@ -2226,10 +2226,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
         else
         {
             s16 r5, r10;
-            // Kanto merge: the list follows the obtainable order so late
-            // additions like Ambipom come after Aipom instead of at 979.
-            // Disabled species - in this setup the 50 regional forms - are
-            // skipped, otherwise empty rows would remain.
+            // Origin Jade: list in obtainable order, without disabled species.
             for (i = 0, r5 = 0, r10 = 0; i < temp_dexCount; i++)
             {
                 temp_dexNum = ObtainableToNationalOrder(i + 1);
@@ -4556,7 +4553,7 @@ u16 GetNationalPokedexCount(u8 caseID)
     {
         enum NationalDexOrder nationalNum = ObtainableToNationalOrder(i + 1);
 
-        // Kanto merge: disabled species do not count.
+        // Origin Jade: disabled species do not count.
         if (!IsSpeciesEnabled(NationalPokedexNumToSpecies(nationalNum)))
             continue;
 

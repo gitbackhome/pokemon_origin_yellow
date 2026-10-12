@@ -44,8 +44,7 @@ MtSilver_SummitDay_EventScript_RedPostOBC::
 
 MtSilver_SummitDay_EventScript_RedOnDefeat::
 	playse SE_M_BLIZZARD
-	@ Origin Jade: after the credits the player wakes up at home in Pallet
-	@ Town (see GameClear), so a whiteout leads there as well.
+	@ Origin Jade: after the credits the player wakes up at home in Pallet Town.
 	setrespawn HEAL_LOCATION_PALLET_TOWN
 	msgbox MtSilver_SummitDay_Text_Red, MSGBOX_DEFAULT
 	special GivePartyMonLandRibbon

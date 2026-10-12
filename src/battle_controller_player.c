@@ -1089,10 +1089,7 @@ void HandleMoveSwitching(enum BattlerId battler)
             }
         }
 
-        // Upstream fix (expansion #10015): only FRLG gives the player the
-        // Oak/old man controller in the first battle (see battle_controllers.c).
-        // In our build the player keeps the normal controller there, so
-        // reordering moves in Oak's lab must not switch to Oak's handler.
+        // Upstream fix (expansion #10015).
         if (IS_FRLG && gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)
             gBattlerControllerFuncs[battler] = OakOldManHandleInputChooseMove;
         else
@@ -1113,7 +1110,7 @@ void HandleMoveSwitching(enum BattlerId battler)
         MoveSelectionDestroyCursorAt(gMultiUsePlayerCursor);
         MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
 
-        // Same case when the reordering is cancelled (not covered upstream).
+        // Origin Jade: the same when the reordering is cancelled.
         if (IS_FRLG && gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)
             gBattlerControllerFuncs[battler] = OakOldManHandleInputChooseMove;
         else

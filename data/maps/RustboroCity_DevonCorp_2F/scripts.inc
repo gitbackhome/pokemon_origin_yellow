@@ -6,15 +6,11 @@ RustboroCity_DevonCorp_2F_OnTransition:
 	call_if_eq VAR_HOENN_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_SetHoennFossilReady
 	end
 
-@ Origin Jade: Devon keeps its revival state in vars of its own
-@ (VAR_HOENN_*, constants/vars_origin_jade.h); before, it shared them with
-@ the Ruins of Alph lab in Johto.
 RustboroCity_DevonCorp_2F_EventScript_SetHoennFossilReady::
 	setvar VAR_HOENN_FOSSIL_RESURRECTION_STATE, 2
 	return
 
-@ Still called by the Ruins of Alph lab (Johto, HnS script) for its own
-@ state, which keeps the original var.
+@ Used by the Ruins of Alph lab in Johto.
 RustboroCity_DevonCorp_2F_EventScript_SetFossilReady::
 	setvar VAR_FOSSIL_RESURRECTION_STATE, 2
 	return

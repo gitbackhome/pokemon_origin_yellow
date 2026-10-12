@@ -39,8 +39,7 @@ Route24_EventScript_NoRoomForNuggetTrigger::
 	closemessage
 	applymovement LOCALID_PLAYER, Route24_Movement_WalkDown
 	waitmovement 0
-	@ VAR_TEMP_1 = number of steps the Rocket walked towards the player
-	@ (see Route24_EventScript_RocketTrigger): 0 = he only turned.
+	@ VAR_TEMP_1 = steps the Rocket walked towards the player (0 = he only turned).
 	call_if_eq VAR_TEMP_1, 2, Route24_EventScript_RocketWalkBackToPos2
 	call_if_eq VAR_TEMP_1, 1, Route24_EventScript_RocketWalkBackToPos
 	release
@@ -306,11 +305,8 @@ Route24_Text_CalePostBattle::
 	.string "I did my best. I have no regrets!$"
 #endif
 
-@ Nugget Bridge Rocket. The scene sits in the northern part taken over from
-@ Route 25. The Rocket stands at (19,27), the three trigger lanes are to
-@ his left on row 27. Battle and texts still come from
-@ Route24_Frlg/scripts.inc; BattleRocket sets VAR_MAP_SCENE_ROUTE24 to 1
-@ and thereby also defuses these triggers.
+@ Nugget Bridge Rocket at (19,27), triggers on row 27 to his left.
+@ They run while VAR_MAP_SCENE_ROUTE24 is 0; the battle sets it to 1.
 Route24_EventScript_RocketTriggerLeft::
 	lockall
 	setvar VAR_TEMP_1, 2

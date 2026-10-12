@@ -88,9 +88,7 @@ SlateportCity_OceanicMuseum_2F_EventScript_CaptStern::
 
 SlateportCity_OceanicMuseum_2F_EventScript_ReadyRegisterBirch::
 #if IS_HNS
-	@ Origin Jade: Birch already registered himself in the PokeGear in the
-	@ arrival scene in the lab - the Route 110 registration scene is
-	@ dropped. Set straight to "done" (2) so the coord triggers never fire.
+	@ Origin Jade: 2 = done, skips Birch's registration scene on Route 110.
 	setvar VAR_REGISTER_BIRCH_STATE, 2
 #else
 	setvar VAR_REGISTER_BIRCH_STATE, 1

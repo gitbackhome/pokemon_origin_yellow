@@ -8,9 +8,7 @@ PokemonLeague_HallOfFame_OnFrame_Hns::
 
 PokemonLeague_HallOfFame_EventScript_Cutscene::
 	lock
-	@ First Johto title or a repeat visit? Decided by FLAG_IS_JOHTO_CHAMPION:
-	@ FLAG_IS_CHAMPION is also set by Hoenn's Hall of Fame, and a player who
-	@ finished Hoenn first would never receive the Johto title here.
+	@ First Johto title or a repeat visit.
 	goto_if_set FLAG_IS_JOHTO_CHAMPION, PokemonLeague_HallOfFame_EventScript_CutsceneKantoChamp
 	applymovement LOCALID_HALLOFFAME_LANCE, PokemonLeague_HallOfFame_Movement_LanceEnter
 	applymovement OBJ_EVENT_ID_PLAYER, PokemonLeague_HallOfFame_Movement_PlayerEnter
@@ -27,8 +25,7 @@ PokemonLeague_HallOfFame_EventScript_Cutscene::
 	delay 40
 	setvar VAR_TEMP_1, 1
 	call PokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags
-	@ Origin Jade: home is Mom's house in Pallet Town, also after the Johto
-	@ league. New Bark Town is no longer the player's home.
+	@ Origin Jade: home is Pallet Town.
 	setrespawn HEAL_LOCATION_PALLET_TOWN
 	fadescreenspeed FADE_TO_BLACK, 24
 	special GameClear
@@ -65,8 +62,6 @@ PokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags::
 	clearflag FLAG_HIDE_AZALEA_TOWN_TAILED_SLOWPOKES
 	clearflag FLAG_HIDE_LEAGUE_BLACKBELT
 	setflag FLAG_IS_CHAMPION
-	@ Origin Jade: FLAG_IS_CHAMPION is shared with Hoenn's Hall of Fame,
-	@ so Johto needs its own flag to recognise its own title.
 	setflag FLAG_IS_JOHTO_CHAMPION
 	setflag FLAG_HIDE_BATTLEFRONTIER_ENGINEER
 	setvar VAR_LEAGUE_STATE, 1

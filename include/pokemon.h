@@ -422,8 +422,7 @@ struct SpeciesInfo /*0xC4*/
     u8 safariZoneFleeRate;
 
     // Pokédex data
-    u8 categoryName[16]; // 13 upstream; raised to 16 because German
-                         // categories are longer (e.g. "Elektrohoernchen")
+    u8 categoryName[16]; // Origin Jade: 16 instead of 13 for German category names
     u8 speciesName[POKEMON_NAME_LENGTH + 1];
     enum PokemonCry cryId:16;
     enum NationalDexOrder natDexNum:16;

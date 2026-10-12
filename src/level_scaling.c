@@ -11,38 +11,18 @@
 #include "config/johto_scaling.h"
 
 // =====================================================================
-// Level scaling - implementation of the rule files config/hoenn_scaling.h
-// and config/johto_scaling.h. Anchor = highest level in the player's
-// party; trainers scale around the anchor (team structure is kept), wild
-// Pokemon sit below it; one corridor per map section preserves the
-// region's level gradient.
-//
-// Two regions, one calculation - they only differ in their constants and
-// their corridor table:
-//   Hoenn: region via IsHoennMapsec (contiguous mapsec block); areas
-//          without a corridor entry use the default values.
-//   Johto: region via the corridor table itself - Johto's map sections
-//          share the number range with Kanto's, and Kanto is meant to keep
-//          its hand-set level curve. Whatever is not in the table is
-//          therefore not scaled at all.
+// Level scaling, rules in config/hoenn_scaling.h and config/johto_scaling.h.
+// Hoenn: every mapsec where IsHoennMapsec is TRUE, unlisted ones use the
+// default corridor. Johto: only the mapsecs in its corridor table.
 // =====================================================================
 
-// Pure geography: also used by the region map, location names, HM
-// licenses and sprites, and therefore independent of the scaling switches.
 #if defined(POKEMON_HNS)
 
-// TRUE if the map section belongs to Hoenn.
 bool32 IsHoennMapsec(u32 mapSecId)
 {
-    // Contiguous Hoenn block of the HnS map section list ...
     if (mapSecId >= MAPSEC_LITTLEROOT_TOWN && mapSecId < MAPSEC_NONE)
         return TRUE;
-    // ... plus the sections Hoenn shares with the Johto/Kanto number range
-    // (no active _hns user, or only placeholder maps): Victory Road, Safari
-    // Zone, Abandoned Ship and Lilycove City. Origin Jade: Lilycove was
-    // missing (its HnS number is 5); after the first Johto visit its maps
-    // fell back to the Johto/Kanto map table, where it has no entry - blank
-    // names, a zero width on the region map, no Hoenn scaling or licenses.
+    // Hoenn mapsecs inside the Johto/Kanto number range
     if (mapSecId == MAPSEC_VICTORY_ROAD
      || mapSecId == MAPSEC_SAFARI_ZONE
      || mapSecId == MAPSEC_ABANDONED_SHIP
@@ -85,9 +65,8 @@ struct ScalingRules
     u8 defaultFloor;
     u8 defaultCeiling;
     bool8 trainerEvolve;
-    // TRUE: the corridor table defines the region (Johto).
-    // FALSE: the region depends on IsHoennMapsec, areas without an entry
-    // use the default values (Hoenn).
+    // TRUE: only mapsecs in the corridor table scale (Johto).
+    // FALSE: IsHoennMapsec decides, unlisted mapsecs use the defaults (Hoenn).
     bool8 corridorListIsRegion;
 };
 
@@ -143,8 +122,7 @@ static const struct ScalingRules sJohtoRules =
 };
 #endif
 
-// Looks up the corridor of a map section. Returns FALSE (and leaves
-// floor/ceiling untouched) if the table has no entry for it.
+// Leaves floor/ceiling untouched if the mapsec has no corridor.
 static bool32 FindCorridor(const struct ScalingRules *rules, u16 mapsec, u8 *floor, u8 *ceiling)
 {
     u32 i;
@@ -163,14 +141,12 @@ static bool32 FindCorridor(const struct ScalingRules *rules, u16 mapsec, u8 *flo
     return FALSE;
 }
 
-// Which rule set applies on the current map? NULL = no scaling.
+// NULL = no scaling on the current map.
 static const struct ScalingRules *GetScalingRules(void)
 {
     u16 mapsec = gMapHeader.regionMapSectionId;
 
 #if JOHTO_LEVEL_SCALING == TRUE
-    // Johto first: MAPSEC_INDIGO_PLATEAU holds Johto's league but lies in
-    // the Kanto block of the mapsec list.
     if (FindCorridor(&sJohtoRules, mapsec, NULL, NULL))
         return &sJohtoRules;
 #endif
@@ -181,14 +157,12 @@ static const struct ScalingRules *GetScalingRules(void)
     return NULL;
 }
 
-// TRUE if level scaling applies on the current map.
 bool32 LevelScalingActive(void)
 {
     return GetScalingRules() != NULL;
 }
 
-// Scaling anchor: the highest level among the non-egg party members
-// (0 if there are none).
+// Anchor: highest level in the party, eggs excluded (0 = no Pokemon).
 static u8 GetScalingAnchor(void)
 {
     u32 i;
@@ -206,8 +180,6 @@ static u8 GetScalingAnchor(void)
     return best;
 }
 
-// Corridor of the current map section, falling back to the rule set's
-// default floor/ceiling.
 static void GetCorridor(const struct ScalingRules *rules, u8 *floor, u8 *ceiling)
 {
     *floor = rules->defaultFloor;
@@ -215,8 +187,6 @@ static void GetCorridor(const struct ScalingRules *rules, u8 *floor, u8 *ceiling
     FindCorridor(rules, gMapHeader.regionMapSectionId, floor, ceiling);
 }
 
-// Clamps a scaled level into the corridor and then into the rule set's
-// absolute min/max level.
 static u8 ClampScaledLevel(const struct ScalingRules *rules, s32 level, u8 floor, u8 ceiling)
 {
     if (level < floor)
@@ -230,8 +200,6 @@ static u8 ClampScaledLevel(const struct ScalingRules *rules, s32 level, u8 floor
     return level;
 }
 
-// Scales a wild Pokemon's level to the player's party. Returns the level
-// unchanged where no scaling applies or the party is empty.
 u8 ScaleWildMonLevel(u8 level)
 {
     const struct ScalingRules *rules = GetScalingRules();
@@ -253,10 +221,7 @@ u8 ScaleWildMonLevel(u8 level)
 }
 
 
-// Evolves a trainer's species along its evolution chain (up to two
-// steps) as long as the scaled level reaches the threshold. Only for
-// trainer teams - wild Pokemon deliberately keep their base forms (so they
-// can be caught).
+// Trainer Pokemon only: evolves up to two steps if the scaled level allows it.
 u16 ScaleTrainerMonSpecies(u16 species, u8 scaledLevel)
 {
     const struct ScalingRules *rules = GetScalingRules();
@@ -294,15 +259,12 @@ u16 ScaleTrainerMonSpecies(u16 species, u8 scaledLevel)
         }
         if (count == 0)
             break;
-        // Branches (e.g. Wurmple -> Silcoon/Cascoon) are picked at random.
         species = candidates[Random() % count];
     }
     return species;
 }
 
-// TRUE for trainer classes that get the boss surcharge on top of the
-// trainer band (gym leaders, Elite Four, champions, team leaders/admins,
-// Silver).
+// Trainer classes that get the boss extra levels.
 static bool32 IsBossTrainer(const struct Trainer *trainer)
 {
     switch (trainer->trainerClass)
@@ -315,14 +277,12 @@ static bool32 IsBossTrainer(const struct Trainer *trainer)
     case TRAINER_CLASS_MAGMA_ADMIN:
     case TRAINER_CLASS_AQUA_LEADER:
     case TRAINER_CLASS_AQUA_ADMIN:
-    // Johto (HnS has classes of its own)
+    // Johto
     case TRAINER_CLASS_LEADER_HNS:
     case TRAINER_CLASS_LEADER_KANTO_HNS:
     case TRAINER_CLASS_ELITE_FOUR_HNS:
     case TRAINER_CLASS_CHAMPION_HNS:
     case TRAINER_CLASS_ROCKET_ADMIN_HNS:
-    // In Johto Silver is not a route trainer but the recurring yardstick -
-    // he gets the same surcharge as the gym leaders.
     case TRAINER_CLASS_RIVAL_HNS:
         return TRUE;
     default:
@@ -330,9 +290,7 @@ static bool32 IsBossTrainer(const struct Trainer *trainer)
     }
 }
 
-// Scales the level of one trainer party member. partyMaxLevel is the
-// highest original level in the trainer's party and keeps the level gaps
-// within the team intact.
+// partyMaxLevel: highest original level in the trainer's party.
 u8 ScaleTrainerMonLevel(const struct Trainer *trainer, u8 level, u8 partyMaxLevel)
 {
     const struct ScalingRules *rules = GetScalingRules();
@@ -341,8 +299,6 @@ u8 ScaleTrainerMonLevel(const struct Trainer *trainer, u8 level, u8 partyMaxLeve
 
     if (rules == NULL)
         return level;
-    // Super bosses with a fixed original level (Steven in Meteor Falls,
-    // Red on Mt. Silver) stay unscaled.
     if (partyMaxLevel >= rules->fixedMinLevel)
         return level;
 
@@ -350,9 +306,7 @@ u8 ScaleTrainerMonLevel(const struct Trainer *trainer, u8 level, u8 partyMaxLeve
     if (anchor == 0 || partyMaxLevel == 0)
         return level;
 
-    // The trainer's ace sits at the top of the band; all others keep their
-    // original distance to the ace. That way the team structure (e.g.
-    // 17/17/19) survives scaling.
+    // The ace goes to the top of the band, the others keep their distance to it.
     top = anchor + rules->trainerAbove;
     if (IsBossTrainer(trainer))
         top += rules->bossExtra;
@@ -390,10 +344,7 @@ u16 ScaleTrainerMonSpecies(u16 species, u8 scaledLevel)
 
 #if defined(POKEMON_HNS)
 
-// The Hoenn town scripts set their FLAG_VISITED_* in the ON_TRANSITION
-// script. In a playtest Oldale Town stayed grey (no flying there) despite
-// a visit, so the flag is additionally set here whenever a map is loaded.
-// That also heals existing save files in which the flag is missing.
+// Visited flags of the Hoenn towns, set again on every map load.
 static const struct { u16 mapSec; u16 flag; } sHoennVisitedFlags[] =
 {
     { MAPSEC_LITTLEROOT_TOWN,  FLAG_VISITED_LITTLEROOT_TOWN  },
@@ -414,7 +365,6 @@ static const struct { u16 mapSec; u16 flag; } sHoennVisitedFlags[] =
     { MAPSEC_EVER_GRANDE_CITY, FLAG_VISITED_EVER_GRANDE_CITY },
 };
 
-// Sets the FLAG_VISITED_* flag of the current Hoenn town, if any.
 void TrySetHoennVisitedFlag(void)
 {
     u32 i;

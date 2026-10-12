@@ -1447,8 +1447,7 @@ static void SpriteCB_CreditsMonBg(struct Sprite *sprite)
 
 static void DeterminePokemonToShow(void)
 {
-    // Origin Jade: GetStarterPokemon maps the Johto index (HnS order), so it
-    // gets the Johto choice; VAR_STARTER_MON holds the Kanto one.
+    // Origin Jade: GetStarterPokemon takes the Johto index, VAR_STARTER_MON is Kanto's.
     enum NationalDexOrder starter = SpeciesToNationalPokedexNum(GetStarterPokemon(VarGet(VAR_JOHTO_STARTER_MON)));
     u16 page;
     u16 dexNum;

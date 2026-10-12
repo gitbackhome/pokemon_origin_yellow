@@ -875,8 +875,7 @@
 #define TRAINERS_COUNT                      TRAINERS_COUNT_FRLG
 #define MAX_TRAINERS_COUNT                  MAX_TRAINERS_COUNT_FRLG
 #elif IS_HNS
-// Kanto merge: the FRLG trainers come after the HnS/Hoenn trainers, and the
-// HnS rematch tiers (HNS_REMATCH_TIERS_*) in turn come after the FRLG trainers.
+// Origin Jade: trainer order is HnS/Hoenn, then FRLG, then HNS_REMATCH_TIERS_*.
 #if HNS_REMATCH_TIERS_START != FRLG_TRAINERS_END + 1
 #error "HNS_REMATCH_TIERS_START muss direkt hinter FRLG_TRAINERS_END liegen (opponents_hns.h anpassen)"
 #endif

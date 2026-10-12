@@ -1,13 +1,6 @@
 EventScript_SetDefeatedEliteFourFlagsVars::
-	@ Kanto merge: in HnS only the second Hall of Fame sets the title. For
-	@ us Kanto is the first region, so it belongs here. Without it the
-	@ trainer card shows no title, and the Safari guard in Fuchsia as well
-	@ as the Eon Ticket woman in Olivine do not recognize the champion.
 	setflag FLAG_IS_KANTO_CHAMPION
-	@ The guard in front of Cerulean Cave stands at (7,11), i.e. on the only
-	@ tile from which the entrance at (7,10) can be reached. His flag is
-	@ otherwise only set in OneIsland_PokemonCenter_1F, and the Sevii Islands
-	@ are not in the build - so the cave could never be entered.
+	@ Origin Jade: opens Cerulean Cave.
 	setflag FLAG_HIDE_CERULEAN_CAVE_GUARD
 	clearflag FLAG_HIDE_POSTGAME_GOSSIPERS
 	call EventScript_ResetEliteFour

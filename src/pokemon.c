@@ -1513,11 +1513,7 @@ static const enum NationalDexOrder sObtainableToNationalOrder[OBTAINABLE_DEX_COU
 #endif // P_PALDEAN_FORMS
     OBTAINABLE_TO_NATIONAL(CLODSIRE),
     // Other
-    // Origin Jade: the Regis are listed above in Hoenn order after
-    // Metagross (National Dex 377-379), not here at the end as in HnS
-    // 2.0.1. Upstream (d403c9ed69) removed the upper copy, we removed the
-    // lower one - the entry must not appear twice, otherwise the Dex shifts
-    // from Latias on.
+    // Origin Jade: the Regis are listed after Metagross, do not add them here again.
     OBTAINABLE_TO_NATIONAL(ARCEUS),
     OBTAINABLE_TO_NATIONAL(TAPU_KOKO),
     OBTAINABLE_TO_NATIONAL(TAPU_LELE),
@@ -4869,9 +4865,7 @@ static void CreateEventMon(struct Pokemon *mon, u16 species, u8 level, u32 perso
 {
     bool32 isModernFatefulEncounter = TRUE;
 
-    // Upstream fix (expansion #10191): the IVs and the moveset used to be
-    // set by CreateEnemyEventMon after CalculateMonStats, so the battle stats
-    // of event legendaries did not match their IVs.
+    // Upstream fix (expansion #10191).
     CreateMonWithIVs(mon, species, level, personality, otId, USE_RANDOM_IVS);
     GiveMonInitialMoveset(mon);
     SetMonData(mon, MON_DATA_MODERN_FATEFUL_ENCOUNTER, &isModernFatefulEncounter);
@@ -7889,8 +7883,7 @@ static void BufferStatRoseMessage(enum Stat statIdx)
 {
     gBattlerTarget = gBattlerInMenuId;
     StringCopy(gBattleTextBuff1, gStatNamesTable[sStatsToRaise[statIdx]]);
-    // German: gText_StatSharply already contains the full verb phrase
-    // ("steigt stark!"), so it must not be combined with gText_StatRose.
+    // German: gText_StatSharply is the full phrase, do not append gText_StatRose.
     if (B_X_ITEMS_BUFF >= GEN_7)
         StringCopy(gBattleTextBuff2, gText_StatSharply);
     else
@@ -8910,9 +8903,7 @@ u8 GetTrainerEncounterMusicId(u16 trainerOpponentId)
 {
     u32 sanitizedTrainerId;
 
-    // Origin Jade: catch the secret base special ID before SanitizeTrainerId
-    // (assert "invalid trainer: 65280", playtest report). Vanilla uses the
-    // default male encounter music for secret bases.
+    // Origin Jade: keep before SanitizeTrainerId, which asserts on secret base IDs.
     if (trainerOpponentId == TRAINER_SECRET_BASE)
         return TRAINER_ENCOUNTER_MUSIC_MALE;
 

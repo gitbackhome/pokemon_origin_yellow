@@ -1,27 +1,14 @@
 #ifndef GUARD_CONSTANTS_FLAGS_FRLG_HNS_H
 #define GUARD_CONSTANTS_FLAGS_FRLG_HNS_H
 
-// Auto-generated for the Kanto merge (test/kanto-start).
-// flags_hns.h defines these FRLG flags as 0 (= FLAG_TEMP_0, cleared on
-// every map change). Here they get real slots.
+// Origin Jade: real slots for the FRLG flags that flags_hns.h stubs to 0.
 //
-// Sources: FRLG map scripts, object/coord flags from the map.json files
-// and EventScript_ResetAllMapFlagsFrlg.
+// Sources: FRLG map scripts, map.json object/coord flags, EventScript_ResetAllMapFlagsFrlg.
 
-// Own address range outside SaveBlock1 (only 4 bytes are free there).
-//
-// The upper bound is set by the hidden items: bg_hidden_item_event stores
-// (flag - FLAG_HIDDEN_ITEMS_START) in a 13-bit field (global.fieldmap.h,
-// struct BgEvent). With the old start at 0x3000 the offsets went up to
-// 12725 - 186 Kanto hidden items overflowed, their flag id was truncated
-// to 13 bits and landed at 0x11B3-0x129F, i.e. outside SaveBlock1.flags.
-// Every pickup wrote into gSaveBlock1Ptr->vars there.
-//
-// The block now sits so that the largest offset stays below 8192:
-// FRLG_FLAGS_END - FLAG_HIDDEN_ITEMS_START = 0x13FF - 0xEA = 4885.
-// The lower bound is HOENN_FLAGS_END (0xF53) so the ranges do not
-// overlap. The remainder mod 8 stays 0 as with 0x3000, so nothing changes
-// for flagsFrlg in SaveBlock3 - save files stay valid.
+// Stored in flagsFrlg (SaveBlock3). When moving the block: keep
+// FRLG_FLAGS_END - FLAG_HIDDEN_ITEMS_START below 8192 (13-bit hidden item
+// offset in struct BgEvent), FRLG_FLAGS_START above HOENN_FLAGS_END and a
+// multiple of 8.
 #define FRLG_FLAGS_START 0x1000
 
 #undef  FLAG_BEAT_RIVAL_IN_OAKS_LAB
@@ -897,9 +884,7 @@
 
 
 
-// Kanto merge: FRLG hidden items. flags_hns.h assigns all of them
-// FLAG_HIDDEN_ITEMS_START (offset 0) - all 191 hidden items hang on the
-// same flag there. Here each one gets its own.
+// FRLG hidden items, one flag each.
 
 #undef  FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS
 #define FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS                  (FRLG_FLAGS_START+0x1B3)
@@ -1275,10 +1260,7 @@
 #define FLAG_HIDDEN_ITEM_VERMILION_CITY_MAX_ETHER                        (FRLG_FLAGS_START+0x26C)
 #undef  FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_FULL_RESTORE
 #define FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_FULL_RESTORE                    (FRLG_FLAGS_START+0x26D)
-// Emerald and FRLG both call their hidden Ultra Ball on Victory Road 1F
-// FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL. Redefining that name here
-// pulled Hoenn's item onto this Kanto slot, so picking up one of them hid
-// the other. Kanto gets its own name; Hoenn keeps flags_hoenn_de.h's slot.
+// Kanto's Victory Road Ultra Ball; FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL is Hoenn's.
 #define FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL_FRLG                 (FRLG_FLAGS_START+0x26E)
 #undef  FLAG_HIDDEN_ITEM_VIRIDIAN_CITY_GYM_MACHO_BRACE
 #define FLAG_HIDDEN_ITEM_VIRIDIAN_CITY_GYM_MACHO_BRACE                   (FRLG_FLAGS_START+0x26F)
@@ -1289,7 +1271,7 @@
 
 
 
-// Kanto merge: remaining mainland flags that flags_hns.h stubs to 0.
+// Remaining FRLG mainland flags.
 
 #undef  FLAG_SYS_GOT_BERRY_POUCH
 #define FLAG_SYS_GOT_BERRY_POUCH                       (FRLG_FLAGS_START+0x272)
@@ -1304,39 +1286,35 @@
 
 
 
-// Kanto merge: Mom's call after she hands over the PokéGear.
+// Mom's call after she hands over the PokéGear.
 
 #undef  FLAG_HNS_MOM_CALL_PENDING
 #define FLAG_HNS_MOM_CALL_PENDING                      (FRLG_FLAGS_START+0x278)
 
 
 
-// Kanto merge: Mom's PokéGear contact (stubbed to 0 in flags_hns.h).
+// Mom's PokéGear contact.
 
 #undef  FLAG_ENABLE_MOM_MATCH_CALL
 #define FLAG_ENABLE_MOM_MATCH_CALL                     (FRLG_FLAGS_START+0x279)
 
 
 
-// Kanto merge: set when entering Route 26 North for the first time;
-// switches the region map from Kanto to the combined Johto/Kanto map.
+// Set on first entering Route 26 North; switches the region map to Johto/Kanto.
 
 #define FLAG_VISITED_JOHTO                             (FRLG_FLAGS_START+0x27A)
 
 
 
-// Kanto merge: Daisy sits with Mom at the start and leaves as soon as the
-// player has their starter.
+// Daisy sits with Mom until the player has a starter.
 #define FLAG_HIDE_PALLET_HOUSE_DAISY                   (FRLG_FLAGS_START+0x27B)
 
 
-// Kanto merge: Daisy is visiting us at the start and therefore not at
-// home. The flag drops as soon as the starter has been handed out.
+// Daisy is away from home until the player has a starter.
 #define FLAG_HIDE_RIVALS_HOUSE_DAISY                   (FRLG_FLAGS_START+0x27C)
 
 
-// Kanto merge: world map flags. flags_hns.h stubs them to 0, which made
-// every fly destination count as visited from the start.
+// FRLG world map (fly) flags.
 
 #undef  FLAG_WORLD_MAP_CELADON_CITY
 #define FLAG_WORLD_MAP_CELADON_CITY                              (FRLG_FLAGS_START+0x27D)
@@ -1392,43 +1370,34 @@
 #define FLAG_WORLD_MAP_VIRIDIAN_FOREST                           (FRLG_FLAGS_START+0x296)
 
 
-// Kanto merge: own flag for the Moltres on Victory Road.
-// FLAG_HIDE_MOLTRES belongs to HnS's Mt. Silver Moltres and is only
-// cleared after that Hall of Fame - ours would never be visible.
+// Moltres on Victory Road. FLAG_HIDE_MOLTRES is HnS's Mt. Silver Moltres.
 #define FLAG_HIDE_MOLTRES_KANTO                        (FRLG_FLAGS_START+0x297)
 
 
-// Kanto merge: two evolution items that HnS's Kanto had as hidden items.
+// Hidden evolution items from HnS's Kanto.
 
 #define FLAG_HIDDEN_ITEM_CERULEAN_CAVE_B1F_ELECTIRIZER       (FRLG_FLAGS_START+0x298)
 #define FLAG_HIDDEN_ITEM_ROCK_TUNNEL_B1F_OVAL_STONE          (FRLG_FLAGS_START+0x299)
 
 
-// Kanto merge: evolution items as item balls at fitting places.
+// Evolution item balls.
 
 #define FLAG_HIDE_SILPHCO_9F_UP_GRADE                        (FRLG_FLAGS_START+0x29A)
 #define FLAG_HIDE_SILPHCO_10F_DUBIOUS_DISC                   (FRLG_FLAGS_START+0x29B)
 #define FLAG_HIDE_MTMOON_1F_PROTECTOR                        (FRLG_FLAGS_START+0x29C)
 #define FLAG_HIDE_POKEMONMANSION_2F_MAGMARIZER               (FRLG_FLAGS_START+0x29D)
 
-// Kanto merge: Mew in the chamber behind Mt. Moon (B3F), reachable only
-// with HM Strength. Same pattern as FLAG_HIDE_MOLTRES_KANTO.
+// Mew on Mt. Moon B3F.
 #define FLAG_HIDE_MEW_KANTO                                  (FRLG_FLAGS_START+0x29E)
-// Hidden items on Mt. Moon B3F. 0x277 fills a gap in the block, 0x29F is
-// the last slot that fits without growing flagsFrlg (84 bytes) - the
-// block is full with it.
+// Hidden items on Mt. Moon B3F.
 #define FLAG_HIDDEN_ITEM_MT_MOON_B3F_FULL_HEAL               (FRLG_FLAGS_START+0x277)
 #define FLAG_HIDDEN_ITEM_MT_MOON_B3F_ULTRA_BALL              (FRLG_FLAGS_START+0x29F)
 
-// Preparing for the future (before release, no save files exist yet):
-// reserve for items, objects and events. 0x2A0 to 0x3FF are free to use
-// (352 flags). After the release this limit is frozen - the block may
-// then only grow by appending to the end of SaveBlock3.
+// Reserve for new flags, up to FRLG_FLAGS_END. After release, grow the
+// block only by appending to the end of SaveBlock3.
 #define FRLG_FLAGS_RESERVE_START (FRLG_FLAGS_START+0x2A0)
 
-// Vermilion City port, two-ship logic. The S.S. Anne keeps using
-// FLAG_HIDE_SS_ANNE (0x158). The S.S. Aqua starts hidden (set in
-// new_game.inc) and becomes visible once the story lets it dock.
+// S.S. Aqua in Vermilion: set in new_game.inc, cleared once it docks.
 #define FLAG_HIDE_VERMILION_SS_AQUA                          (FRLG_FLAGS_START+0x2A0)
 
 #define FRLG_FLAGS_END (FRLG_FLAGS_START+0x3FF)

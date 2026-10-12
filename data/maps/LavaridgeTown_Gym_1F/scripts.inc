@@ -58,8 +58,6 @@ LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox LavaridgeTown_Gym_1F_Text_ExplainHeatBadgeTakeThis, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: the Heat Badge also grants the license for Strength - the badge
-	@ text says so, no separate handover is needed.
 	setvar VAR_0x8004, LIC_STRENGTH
 	special SetHoennLicense
 #endif
@@ -82,8 +80,6 @@ LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated::
 	closemessage
 	delay 30
 	setflag FLAG_ENABLE_FLANNERY_MATCH_CALL
-	@ HnS: Norman's call comes at the very end - before, it ran right into
-	@ the gym leader's scene while the text box was still open.
 	call_if_eq VAR_PETALBURG_GYM_STATE, 6, Common_EventScript_ReadyPetalburgGymForBattle
 	release
 	end
@@ -171,8 +167,7 @@ LavaridgeTown_Gym_1F_EventScript_GymGuidePostVictory::
 LavaridgeTown_Gym_1F_EventScript_LeftGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE04_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 4 (Flannery)
 	setvar VAR_0x8004, 3
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, LavaridgeTown_Gym_1F_EventScript_GymStatueCertified
@@ -185,8 +180,7 @@ LavaridgeTown_Gym_1F_EventScript_LeftGymStatue::
 LavaridgeTown_Gym_1F_EventScript_RightGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE04_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 4 (Flannery)
 	setvar VAR_0x8004, 3
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, LavaridgeTown_Gym_1F_EventScript_GymStatueCertified

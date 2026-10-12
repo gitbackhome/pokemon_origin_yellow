@@ -14,9 +14,7 @@ EventScript_EndUseSurf::
 	end
 
 #if IS_HNS
-@ In Hoenn the player first needs a license for Surf (see
-@ src/hoenn_licenses.c). Without it this hint explains why nothing
-@ happens - otherwise the player would stand silently at the water.
+@ HnS: hint at the water when the Surf license is missing.
 EventScript_NoSurfLicense::
 	lockall
 	playse SE_SELECT

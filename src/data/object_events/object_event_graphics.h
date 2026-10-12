@@ -272,10 +272,7 @@ const u32 gObjectEventPic_DurinBerryTree[] = INCBIN_U32("graphics/object_events/
 const u32 gObjectEventPic_LiechiBerryTree[] = INCBIN_U32("graphics/object_events/pics/berry_trees/liechi_hns.4bpp");
 const u32 gObjectEventPic_LansatBerryTree[] = INCBIN_U32("graphics/object_events/pics/berry_trees/lansat_hns.4bpp");
 
-// Hoenn keeps its familiar berry trees: the same pictures as in the
-// non-HnS build, just under symbol names of their own. The HnS sprites
-// only show the fruit (the bush is part of the tileset there) and would
-// be invisible in Hoenn.
+// Hoenn berry trees: the non-HnS pictures under their own symbol names.
 const u32 gObjectEventPic_BerryTreeDirtPile_Hoenn[] = INCBIN_U32("graphics/object_events/pics/berry_trees/dirt_pile.4bpp");
 const u32 gObjectEventPic_BerryTreeSprout_Hoenn[] = INCBIN_U32("graphics/object_events/pics/berry_trees/sprout.4bpp");
 const u32 gObjectEventPic_CheriBerryTree_Hoenn[] = INCBIN_U32("graphics/object_events/pics/berry_trees/cheri.4bpp");

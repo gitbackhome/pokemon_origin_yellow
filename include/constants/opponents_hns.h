@@ -635,13 +635,8 @@
 
 
 
-// Phone rematch tiers for Irwin, Derek and Beverly (HnS 2.0.1, commit
-// 313d4290e8). Upstream appends them at 619-630 - in our build those are
-// the Hoenn trainers (TRAINER_SAWYER_1 = 619). Only 330, 1478 and 1479 are
-// still free in the HnS/Hoenn block, so they sit behind the FRLG block.
-// Their trainer flags (TRAINER_FLAGS_START + id) would lie in SYS_FLAGS
-// and are redirected into SaveBlock3 (flagsHnsRematchTiers) by
-// GetFlagPointer - so all existing flag and trainer IDs stay unchanged.
+// Phone rematch tiers for Irwin, Derek and Beverly, placed after the FRLG block.
+// GetFlagPointer redirects their trainer flags into SaveBlock3 (flagsHnsRematchTiers).
 #define HNS_REMATCH_TIERS_START               2324  // = FRLG_TRAINERS_END + 1
 #define TRAINER_IRWIN_2_HNS                   (HNS_REMATCH_TIERS_START + 0)
 #define TRAINER_IRWIN_3_HNS                   (HNS_REMATCH_TIERS_START + 1)
@@ -655,11 +650,7 @@
 #define TRAINER_BEVERLY_3_HNS                 (HNS_REMATCH_TIERS_START + 9)
 #define TRAINER_BEVERLY_4_HNS                 (HNS_REMATCH_TIERS_START + 10)
 #define TRAINER_BEVERLY_5_HNS                 (HNS_REMATCH_TIERS_START + 11)
-// Post-OBC rematch teams of the gym leaders, Elite Four, Lance, Blue and
-// Red (HnS 2.0.5). Upstream appends them at 631 to 652 - in our build
-// those are Hoenn trainers, 631 is TRAINER_ED and 652 is TRAINER_ARCHIE.
-// They therefore sit in the same redirected range as the phone rematch
-// tiers.
+// Post-OBC rematch teams of the gym leaders, Elite Four, Lance, Blue and Red.
 #define TRAINER_FALKNER_POSTOBC_HNS           (HNS_REMATCH_TIERS_START + 12)
 #define TRAINER_BUGSY_POSTOBC_HNS             (HNS_REMATCH_TIERS_START + 13)
 #define TRAINER_WHITNEY_POSTOBC_HNS           (HNS_REMATCH_TIERS_START + 14)
@@ -685,11 +676,8 @@
 #define HNS_REMATCH_TIERS_END                 (HNS_REMATCH_TIERS_START + 33)
 #define HNS_REMATCH_TIERS_COUNT               (HNS_REMATCH_TIERS_END - HNS_REMATCH_TIERS_START + 1)
 
-// Flags of these IDs (see GetFlagPointer). 0x500 + id would give
-// 0xE14-0xE1F and thus lie inside the Hoenn flag block (0xB72-0xF53) -
-// the same trap as with the FRLG block, see opponents_frlg_hns.h. A window
-// of its own directly behind the FRLG trainer window; the remainder mod 8
-// (0xE14 -> 4) is kept so existing save files keep their bits.
+// Trainer flag window of these IDs, behind the FRLG trainer window (see GetFlagPointer).
+// Keep the mod-8 offset: saves store these bits.
 #define HNS_REMATCH_TIER_FLAGS_BASE           0x3680
 #define HNS_REMATCH_TIER_FLAGS_START          (HNS_REMATCH_TIER_FLAGS_BASE + ((0x500 + HNS_REMATCH_TIERS_START) & 7))
 #define HNS_REMATCH_TIER_FLAGS_END            (HNS_REMATCH_TIER_FLAGS_START + HNS_REMATCH_TIERS_COUNT - 1)
@@ -697,10 +685,8 @@
 
 // 618 is TRAINER_TANYA_HNS, relocated out of the TRAINER_FRONTIER_BRAIN slot (330).
 
-// Elite Four rematches (Origin Jade). Only ONE extra tier per member:
-// MAX_TRAINERS_COUNT_HNS leaves only 7 free slots before the trainer flags
-// overflow - four tiers per member (20 IDs) would need a save-breaking
-// flag shift. Level scaling carries the difficulty anyway.
+// Origin Jade: Elite Four rematches, one tier per member.
+// More IDs here would overflow the trainer flags and break saves.
 #define TRAINER_SIDNEY_2                         1473
 #define TRAINER_PHOEBE_2                         1474
 #define TRAINER_GLACIA_2                         1475

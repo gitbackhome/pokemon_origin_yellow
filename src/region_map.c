@@ -87,9 +87,7 @@ static bool32 sDrawFlyDestTextWindow;
 
 static u8 ProcessRegionMapInput_Full(void);
 #if IS_HNS
-// HnS: switching maps JK <-> Hoenn via the D-pad at the map edge. Flying
-// is allowed in both directions - the natural limit is the visited flags
-// (only places already visited can be selected).
+// Origin Jade: switching to and from the Hoenn map.
 static bool8 sViewedOverridden = FALSE;
 static enum RegionMapType sViewedMapType;
 static enum RegionMapType sViewSwitchTarget;
@@ -170,11 +168,7 @@ static const u8 sRegionMapPlayerIcon_KrisGfx[] = INCBIN_U8("graphics/pokenav/reg
 #include "data/region_map/region_map_entries.h"
 
 #if IS_HNS
-// JK combined map coordinates, used once FLAG_VISITED_JOHTO is set
-// (despite the name - see the JK layout: Viola City sits at 7/5 there).
-// The auto-generated gRegionMapEntries carries the Johto-only coordinates
-// for Johto/Kanto mapsecs plus the Emerald coordinates for Hoenn mapsecs,
-// so it serves both the Johto view and the Hoenn view.
+// Coordinates on the combined JK map (despite the name).
 static const struct RegionMapLocation sRegionMapEntries_Johto[] = {
     [MAPSEC_VIOLET_CITY]       = { 7,  5,  1, 1, COMPOUND_STRING("Viola City") },
     [MAPSEC_AZALEA_TOWN]       = { 6,  12, 1, 1, COMPOUND_STRING("Azalea City") },
@@ -249,9 +243,6 @@ static const struct RegionMapLocation sRegionMapEntries_Johto[] = {
     [MAPSEC_ROUTE_20]          = { 20, 13, 2, 1, COMPOUND_STRING("Route 20") },
     [MAPSEC_ROUTE_21]          = { 19, 12, 1, 1, COMPOUND_STRING("Route 21") },
     [MAPSEC_ROUTE_22]          = { 17, 7,  2, 1, COMPOUND_STRING("Route 22") },
-    // Kanto merge: Route 23 was missing from the Johto table, so the
-    // location popup stayed empty there whenever the JK view was active. It
-    // shares the cell with Victory Road, as laid out in the JK grid.
     [MAPSEC_ROUTE_23]          = { 16, 4,  1, 4, COMPOUND_STRING("Route 23") },
     [MAPSEC_ROUTE_24]          = { 24, 0,  1, 2, COMPOUND_STRING("Route 24") },
     [MAPSEC_ROUTE_25]          = { 25, 0,  1, 1, COMPOUND_STRING("Route 25") },
@@ -263,12 +254,7 @@ static const struct RegionMapLocation sRegionMapEntries_Johto[] = {
     [MAPSEC_SEAFOAM_ISLANDS]   = { 22, 13, 1, 1, COMPOUND_STRING("Seeschauminseln") },
     [MAPSEC_CERULEAN_CAVE]     = { 23, 1,  1, 1, COMPOUND_STRING("Azuria-Höhle") },
     [MAPSEC_POWER_PLANT]       = { 27, 3,  1, 1, COMPOUND_STRING("Kraftwerk") },
-    // Origin Jade: Kanto sections of the FRLG maps that were missing here.
-    // Once Johto has been visited this table is used everywhere outside
-    // Hoenn, so their names came out blank (map name popup, met location in
-    // the summary) and opening the region map inside them divided by a zero
-    // width. Each sits on the cell of the place it belongs to; the names are
-    // the ones of the Kanto table (region_map_sections.json, hns list).
+    // Origin Jade: FRLG Kanto mapsecs. Every mapsec used outside Hoenn needs an entry here.
     [MAPSEC_ROCKET_HIDEOUT]    = { 22, 5,  1, 1, COMPOUND_STRING("Rocket-Versteck") },
     [MAPSEC_KANTO_VICTORY_ROAD] = { 16, 4, 1, 4, COMPOUND_STRING("Siegesstraße") },
     [MAPSEC_POKEMON_LEAGUE]    = { 16, 2,  1, 2, COMPOUND_STRING("Pokémon-Liga") },
@@ -321,13 +307,7 @@ static const struct RegionMapLocation sRegionMapEntries_Johto[] = {
 const struct RegionMapLocation *GetActiveRegionMapEntries(void)
 {
 #if IS_HNS
-    // The table choice follows the map shown, not just the Kanto flag: in
-    // the Hoenn view gRegionMapEntries holds the Emerald coordinates of the
-    // Hoenn mapsecs (sRegionMapEntries_Johto has only zero entries there -
-    // the cause of the bug "Hoenn map without player icon/name/cursor
-    // target"). Outside the map screen the view matches the player's region
-    // (GetViewedRegionMapType falls back to gMapHeader), so location name
-    // popups and the Dex area screen in Hoenn get the right table too.
+    // Table of the map shown; outside the map screen, of the player's region.
     switch (GetViewedRegionMapType())
     {
     case REGION_MAP_HOENN:
@@ -666,7 +646,7 @@ const struct RegionMapInfo gRegionMapInfos[] =
 
 static const u8 sMapHealLocations[][3] =
 {
-    [MAPSEC_LITTLEROOT_TOWN] = {MAP_GROUP(MAP_LITTLEROOT_TOWN), MAP_NUM(MAP_LITTLEROOT_TOWN), HEAL_LOCATION_LITTLEROOT_TOWN_LAB}, // Origin Jade: Fly lands in front of the lab, not in the bedroom
+    [MAPSEC_LITTLEROOT_TOWN] = {MAP_GROUP(MAP_LITTLEROOT_TOWN), MAP_NUM(MAP_LITTLEROOT_TOWN), HEAL_LOCATION_LITTLEROOT_TOWN_LAB}, // Origin Jade: Fly lands in front of the lab
     [MAPSEC_OLDALE_TOWN] = {MAP_GROUP(MAP_OLDALE_TOWN), MAP_NUM(MAP_OLDALE_TOWN), HEAL_LOCATION_OLDALE_TOWN},
     [MAPSEC_DEWFORD_TOWN] = {MAP_GROUP(MAP_DEWFORD_TOWN), MAP_NUM(MAP_DEWFORD_TOWN), HEAL_LOCATION_DEWFORD_TOWN},
     [MAPSEC_LAVARIDGE_TOWN] = {MAP_GROUP(MAP_LAVARIDGE_TOWN), MAP_NUM(MAP_LAVARIDGE_TOWN), HEAL_LOCATION_LAVARIDGE_TOWN},
@@ -876,9 +856,7 @@ static const u8 sMapHealLocations[][3] =
 
 #endif
 
-    // Kanto merge: the HnS entries further up point to the retired HnS
-    // Kanto maps. In an array with designated indices the last assignment
-    // wins, so the FRLG destinations sit here at the end.
+    // Origin Jade: FRLG Kanto destinations. Keep them last, they override the HnS entries above.
     [MAPSEC_PALLET_TOWN] = {MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), HEAL_LOCATION_PALLET_TOWN},
     [MAPSEC_VIRIDIAN_CITY] = {MAP_GROUP(MAP_VIRIDIAN_CITY), MAP_NUM(MAP_VIRIDIAN_CITY), HEAL_LOCATION_VIRIDIAN_CITY},
     [MAPSEC_PEWTER_CITY] = {MAP_GROUP(MAP_PEWTER_CITY), MAP_NUM(MAP_PEWTER_CITY), HEAL_LOCATION_PEWTER_CITY},
@@ -890,10 +868,6 @@ static const u8 sMapHealLocations[][3] =
     [MAPSEC_CINNABAR_ISLAND] = {MAP_GROUP(MAP_CINNABAR_ISLAND), MAP_NUM(MAP_CINNABAR_ISLAND), HEAL_LOCATION_CINNABAR_ISLAND},
     [MAPSEC_SAFFRON_CITY] = {MAP_GROUP(MAP_SAFFRON_CITY), MAP_NUM(MAP_SAFFRON_CITY), HEAL_LOCATION_SAFFRON_CITY},
     [MAPSEC_INDIGO_PLATEAU] = {MAP_GROUP(MAP_INDIGO_PLATEAU_EXTERIOR), MAP_NUM(MAP_INDIGO_PLATEAU_EXTERIOR), HEAL_LOCATION_INDIGO_PLATEAU},
-    // The two routes with a Pokemon Center were missing here. Without them
-    // the HnS entry further up won, and that points to
-    // HEAL_LOCATION_ROUTE4_HNS or HEAL_LOCATION_ROUTE10_HNS - both lie on
-    // the retired HnS maps and do not even have a respawn_map.
     [MAPSEC_ROUTE_4] = {MAP_GROUP(MAP_ROUTE4), MAP_NUM(MAP_ROUTE4), HEAL_LOCATION_ROUTE4},
     [MAPSEC_ROUTE_10] = {MAP_GROUP(MAP_ROUTE10), MAP_NUM(MAP_ROUTE10), HEAL_LOCATION_ROUTE10},
 };
@@ -1227,10 +1201,7 @@ void BlendRegionMap(u16 color, u32 coeff)
 void FreeRegionMapIconResources(void)
 {
 #if IS_HNS
-    // Do not keep the switch state beyond the end of the screen:
-    // GetActiveRegionMapEntries/GetMapName also run in the overworld
-    // (location name popup, Dex area screen) and should follow the
-    // player's region there again.
+    // Outside this screen the player's own region applies again.
     sViewedOverridden = FALSE;
 #endif
     if (sRegionMap->cursorSprite != NULL)
@@ -1255,10 +1226,8 @@ u8 DoRegionMapInputCallback(void)
 static u8 ProcessRegionMapInput_Full(void)
 {
 #if IS_HNS
-    // Map switch JK <-> Hoenn: keep going down at the bottom JK edge or up
-    // at the top Hoenn edge - or press SELECT at any time. The Hoenn view
-    // exists from the arrival on; a player standing in Hoenn may always
-    // switch back to their own map.
+    // Map switch: SELECT, DOWN at the bottom edge, or UP at the top edge of the Hoenn map.
+    // The Hoenn map is available once the player has sailed to Hoenn.
     {
         bool32 hoennKnown = (VarGet(VAR_HOENN_ARRIVAL_STATE) != 0
                           || IsHoennMapsec(gMapHeader.regionMapSectionId));
@@ -1594,12 +1563,9 @@ void PokedexAreaScreen_UpdateRegionMapVariablesAndVideoRegs(s16 x, s16 y)
 enum RegionMapType GetRegionMapType(u32 mapSecId)
 {
 #if IS_HNS
-    // HnS: in the Hoenn world the Emerald map opens (graphics, cursor
-    // coordinates and fly destinations are already wired up).
     if (IsHoennMapsec(mapSecId))
         return REGION_MAP_HOENN;
-    // Kanto merge: Kanto is the starting region. Only once the player has
-    // entered Johto does it switch to the combined map.
+    // Origin Jade: Kanto map until Johto is visited.
     if (FlagGet(FLAG_VISITED_JOHTO))
         return REGION_MAP_JK;
     return REGION_MAP_KANTO;
@@ -1627,7 +1593,6 @@ enum RegionMapType GetRegionMapType(u32 mapSecId)
 }
 
 #if IS_HNS
-// Starts switching the displayed map (JK <-> Hoenn) to the given region.
 static u8 StartRegionMapViewSwitch(enum RegionMapType target)
 {
     sViewSwitchTarget = target;
@@ -1637,8 +1602,6 @@ static u8 StartRegionMapViewSwitch(enum RegionMapType target)
     return MAP_INPUT_NONE;
 }
 
-// Input callback that performs the map switch over several frames
-// (graphics, palette, cursor, icons) and then hands control back.
 static u8 SwitchViewInputCallback(void)
 {
     switch (sViewSwitchStep)
@@ -1688,8 +1651,7 @@ static u8 SwitchViewInputCallback(void)
         // Only show the player icon on the home map
         if (sRegionMap->playerIconSprite != NULL)
             sRegionMap->playerIconSprite->invisible = RegionMapIsViewingForeignRegion();
-        // In the fly screen, build the destinations of the new map
-        // (graphics sheet/palettes stay loaded, only the sprites change).
+        // Fly screen: rebuild the destination icons
         if (sFlyMap != NULL)
         {
             DestroyFlyDestIcons();
@@ -1707,14 +1669,13 @@ static u8 SwitchViewInputCallback(void)
 }
 #endif
 
-// Public so the PokeNav map can move its info window along.
+// Used by the PokeNav map.
 enum RegionMapType GetCurrentViewedRegionMapType(void)
 {
     return GetViewedRegionMapType();
 }
 
-// The region map currently shown: the switched-to map while the map screen
-// is open, otherwise the player's own region.
+// Switched map while the map screen is open, otherwise the player's region.
 static enum RegionMapType GetViewedRegionMapType(void)
 {
 #if IS_HNS
@@ -1724,7 +1685,6 @@ static enum RegionMapType GetViewedRegionMapType(void)
     return GetRegionMapType(gMapHeader.regionMapSectionId);
 }
 
-// TRUE if the map screen currently shows a region other than the player's.
 static bool32 RegionMapIsViewingForeignRegion(void)
 {
 #if IS_HNS
@@ -1892,11 +1852,7 @@ static void InitMapBasedOnPlayerLocation(void)
     }
 
 #if IS_HNS
-    // Kanto merge: Route 26 consists of two maps, Route26North with 30 rows
-    // and Route26 with 81 rows, sharing one mapsec. The scaling above works
-    // per map, so the northern half alone was spread over all four cells of
-    // the strip - the player was shown at the end of Route 26 after walking
-    // only a quarter of it. Compute over the total height here.
+    // Origin Jade: Route 26 is two maps in one mapsec; place the player over their combined height.
     if (sRegionMap->mapSecId == MAPSEC_ROUTE_26)
     {
         const struct MapHeader *north = Overworld_GetMapHeaderByGroupAndId(MAP_GROUP(MAP_ROUTE26NORTH_HNS), MAP_NUM(MAP_ROUTE26NORTH_HNS));
@@ -2010,12 +1966,6 @@ static u8 GetMapsecType(mapsec_u16_t mapSecId)
     {
     case MAPSEC_NONE:
         return MAPSECTYPE_NONE;
-    // HnS: Hoenn cities are fly destinations here too (the vanilla city
-    // scripts set the visited flags on entry).
-    // Origin Jade: 3a046d54b6 dropped seven of these case labels together
-    // with the stubbed Sevii ones, which left their returns unreachable and
-    // the towns unselectable on the Fly map. The labels are back, and so is
-    // Lilycove City.
     case MAPSEC_LITTLEROOT_TOWN:
         return FlagGet(FLAG_VISITED_LITTLEROOT_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_OLDALE_TOWN:
@@ -2040,7 +1990,7 @@ static u8 GetMapsecType(mapsec_u16_t mapSecId)
         return FlagGet(FLAG_VISITED_RUSTBORO_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_FORTREE_CITY:
         return FlagGet(FLAG_VISITED_FORTREE_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
-    case MAPSEC_LILYCOVE_CITY: // dropped by HnS (d862567985), back with Hoenn
+    case MAPSEC_LILYCOVE_CITY:
         return FlagGet(FLAG_VISITED_LILYCOVE_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_MOSSDEEP_CITY:
         return FlagGet(FLAG_VISITED_MOSSDEEP_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
@@ -2096,8 +2046,6 @@ static u8 GetMapsecType(mapsec_u16_t mapSecId)
         return FlagGet(FLAG_WORLD_MAP_INDIGO_PLATEAU_EXTERIOR) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_SAFFRON_CITY:
         return FlagGet(FLAG_WORLD_MAP_SAFFRON_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
-    // Kanto merge: the two route centers were missing here entirely and
-    // fell into the default branch, i.e. counted as MAPSECTYPE_NONE.
     case MAPSEC_ROUTE_4_POKECENTER:
         return FlagGet(FLAG_WORLD_MAP_ROUTE4_POKEMON_CENTER_1F) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_ROUTE_10_POKECENTER:
@@ -2155,10 +2103,6 @@ static u8 GetMapsecType(mapsec_u16_t mapSecId)
         return FlagGet(FLAG_VISITED_MT_SILVER) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_ROUTE_26:
         return FlagGet(FLAG_VISITED_RECEPTION_GATE) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
-    // Kanto merge: the two case labels were missing - the returns stood
-    // after them without a case and were therefore unreachable. Both
-    // centers are in Kanto and are set via setworldmapflag, not via
-    // FLAG_VISITED_*.
     case MAPSEC_ROUTE_10:
         return FlagGet(FLAG_WORLD_MAP_ROUTE10_POKEMON_CENTER_1F) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_ROUTE_4:
@@ -2524,10 +2468,7 @@ static void SpriteCB_PlayerIconMapFull(struct Sprite *sprite)
 static void SpriteCB_PlayerIcon(struct Sprite *sprite)
 {
 #if IS_HNS
-    // Foreign map: icon permanently off. This has to be here and not only
-    // when switching - this callback runs every frame and would otherwise
-    // reset invisible to FALSE right away (cause: the icon stayed visible
-    // in both regions after a map switch).
+    // Foreign map: no player icon. Must stay in this per-frame callback.
     if (RegionMapIsViewingForeignRegion())
     {
         sprite->invisible = TRUE;
@@ -2572,8 +2513,7 @@ u8 *GetMapName(u8 *dest, mapsec_u16_t regionMapId, u16 padLength)
     {
         const u8 *name;
 
-        // The HnS table ends before the Hoenn IDs. An access beyond it would
-        // be out of bounds, so use the full table there.
+        // sRegionMapEntries_Johto ends before the Hoenn IDs.
 #if IS_HNS
         if (GetActiveRegionMapEntries() == sRegionMapEntries_Johto
          && regionMapId >= ARRAY_COUNT(sRegionMapEntries_Johto))
@@ -2767,16 +2707,10 @@ static void SetFlyMapCallback(void callback(void))
 }
 
 #if IS_HNS
-// Deliberately neutral, without a map name: stays valid if another map
-// is added later. The region itself is meant to appear as a watermark in
-// the map graphics eventually.
 static const u8 sText_SwitchMap[] = _("{SELECT_BUTTON} Wechsel");
 #endif
 
-// Line "Wohin?" (left) and - if Hoenn is already known - the switch hint
-// "SELECT Wechsel" right-aligned. Window width unchanged at 14 tiles =
-// 112 px; question 34 px, hint 53 px (both FONT_NORMAL) -> 25 px gap in
-// between.
+// "Wohin?" and, once Hoenn is known, the right-aligned switch hint. Both must fit in 112 px.
 static void PrintFlyToWhereWindow(void)
 {
     FillWindowPixelBuffer(WIN_FLY_TO_WHERE, PIXEL_FILL(0));
@@ -3091,10 +3025,7 @@ static const struct FlyLocation sFlyLocations[] =
     { .regionMapType = REGION_MAP_JK, .mapsec = MAPSEC_MT_SILVER, .flag = FLAG_VISITED_MT_SILVER },
     { .regionMapType = REGION_MAP_JK, .mapsec = MAPSEC_ROUTE_26, .flag = FLAG_VISITED_RECEPTION_GATE },
     // Combined JK map fly destinations (Kanto)
-    // Kanto merge: on the JK view the Kanto cities are drawn via the same
-    // FLAG_WORLD_MAP_* as on the Kanto view. Nobody sets HnS's
-    // FLAG_VISITED_* in Origin Jade: our Kanto maps are the FRLG versions,
-    // and those call setworldmapflag.
+    // Origin Jade: FLAG_WORLD_MAP_* (set by the FRLG maps), not FLAG_VISITED_*.
     { .regionMapType = REGION_MAP_JK, .mapsec = MAPSEC_PALLET_TOWN, .flag = FLAG_WORLD_MAP_PALLET_TOWN },
     { .regionMapType = REGION_MAP_JK, .mapsec = MAPSEC_VIRIDIAN_CITY, .flag = FLAG_WORLD_MAP_VIRIDIAN_CITY },
     { .regionMapType = REGION_MAP_JK, .mapsec = MAPSEC_PEWTER_CITY, .flag = FLAG_WORLD_MAP_PEWTER_CITY },
@@ -3120,10 +3051,7 @@ static const struct FlyLocation sFlyLocations[] =
 static bool32 UseBlueFlyDestIcon(u32 mapSecId)
 {
 #if IS_HNS
-    // Kanto merge: blue wherever there is no gym - red stays reserved for
-    // gym cities. The list is generated from the maps: every mapsec in
-    // sFlyLocations without an active *Gym*. The exception is Indigo
-    // Plateau: the league counts as a gym and therefore stays red.
+    // Origin Jade: every fly destination without a gym. Indigo Plateau counts as a gym.
     switch (mapSecId)
     {
     case MAPSEC_CHERRYGROVE_CITY:
@@ -3148,10 +3076,7 @@ static bool32 UseBlueFlyDestIcon(u32 mapSecId)
 
 static void CreateFlyDestIcons(void)
 {
-    // Filter by the map shown, not by the home region: when switching maps
-    // in the fly screen the icons of the visible region have to appear
-    // (coordinates come view-based from
-    // GetMapSecDimensions/GetActiveRegionMapEntries).
+    // Icons of the map shown, not of the player's region.
     enum RegionMapType regionMapType = GetViewedRegionMapType();
     u32 i;
     u16 x;
@@ -3195,18 +3120,14 @@ static void CreateFlyDestIcons(void)
 }
 
 #if IS_HNS
-// Removes all destination sprites (normal and red outline icons) before
-// they are rebuilt on a map switch. The graphics sheet and palettes stay
-// loaded, so no FreeSpriteTilesByTag/FreeSpritePaletteByTag.
+// Sprites only: tiles and palettes stay loaded for the rebuild.
 static void DestroyFlyDestIcons(void)
 {
     u32 i;
 
     for (i = 0; i < MAX_SPRITES; i++)
     {
-        // Pointer comparison against the static templates - do not go via
-        // template->tileTag, because the cursor/player icon are created
-        // from stack templates whose pointers can dangle.
+        // Compare template pointers, not template->tileTag: some templates live on the stack.
         if (gSprites[i].inUse
          && (gSprites[i].template == &sFlyDestIconSpriteTemplate
           || gSprites[i].template == &sFlyDestIconBlueSpriteTemplate
@@ -3229,8 +3150,7 @@ static void TryCreateRedOutlineFlyDestIcons(void)
     u8 spriteId;
 
 #if IS_HNS
-    // Battle Zone, New Sinjoh and Melemele only exist in the JK layout; on
-    // the Hoenn view the icons would sit at unrelated coordinates.
+    // Battle Zone, New Sinjoh and Melemele only exist on the JK map.
     if (GetViewedRegionMapType() == REGION_MAP_HOENN)
         return;
 #endif

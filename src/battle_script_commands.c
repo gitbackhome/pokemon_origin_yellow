@@ -5952,12 +5952,7 @@ static void Cmd_handlelearnnewmove(void)
 
     if (B_LEVEL_UP_NOTIFICATION >= GEN_9 && gBattleResources->beforeLvlUp->learnMultipleMoves)
     {
-        // Origin Jade fix: beforeLvlUp->level is the level before the
-        // experience gain. Its moves were offered when the Pokemon reached
-        // it, so starting there offered them a second time (a declined move
-        // came back). Start one level above, once per level-up.
-        // (Upstream expansion #10614 fixes this differently but skips a
-        // second move learned at the same level, so it was not taken over.)
+        // Origin Jade: start at the level after beforeLvlUp->level.
         if (cmd->isFirstMove)
             gBattleResources->beforeLvlUp->level++;
         while (gBattleResources->beforeLvlUp->level <= currLvl)
@@ -6215,11 +6210,8 @@ static void Cmd_hitanimation(void)
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
-// Origin Jade: prize money based on the level actually fought. The party
-// file only provides the ROM level (Hoenn corridors 13-58), but the
-// battle is fought against the scaled team (~70). At payout time the
-// scaled team is in gEnemyParty - we read the level of the given
-// opponent's last mon from there. Johto/super bosses: RAM == ROM, unchanged.
+// Origin Jade: level of the opponent's last mon after level scaling,
+// used for the prize money.
 static u32 GetLastMonLevelFromEnemyParty(u16 trainerId)
 {
     s32 i, first = 0, last = PARTY_SIZE - 1;
@@ -7960,7 +7952,7 @@ static u32 ChangeStatBuffs(enum BattlerId battler, s8 statValue, enum Stat statI
             }
             else
             {
-                // German: the whole verb phrase goes into B_BUFF2 (German Emerald structure)
+                // German: the whole verb phrase goes into B_BUFF2.
                 PREPARE_STRING_BUFFER(gBattleTextBuff2, STRINGID_STATFELL);
             }
 
@@ -7997,7 +7989,7 @@ static u32 ChangeStatBuffs(enum BattlerId battler, s8 statValue, enum Stat statI
         }
         else
         {
-            // German: the whole verb phrase goes into B_BUFF2 (German Emerald structure)
+            // German: the whole verb phrase goes into B_BUFF2.
             PREPARE_STRING_BUFFER(gBattleTextBuff2, STRINGID_STATROSE);
         }
 
@@ -10265,10 +10257,7 @@ static void Cmd_switchoutabilities(void)
         if (gBattleMons[battler].status1 & STATUS1_SLEEP)
             TryDeactivateSleepClause(GetBattlerSide(battler), gBattlerPartyIndexes[battler]);
 
-        // Upstream fix (expansion #10543): gBattleStruct->battlerPartyIndexes
-        // still holds the slot from the last switch decision. After a switch
-        // followed by U-turn/Volt Switch it pointed at the mon that left
-        // earlier, so that one was cured/healed instead.
+        // Upstream fix (expansion #10543).
         gBattleMons[battler].status1 = 0;
         BtlController_EmitSetMonData(battler, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE,
                                         1u << gBattlerPartyIndexes[battler],
@@ -12032,8 +12021,7 @@ void ApplyExperienceMultipliers(s32 *expAmount, u8 expGetterMonId, u8 faintedBat
     if (CheckBagHasItem(ITEM_EXP_CHARM, 1)) //is also for other exp boosting Powers if/when implemented
         *expAmount = (*expAmount * 150) / 100;
 
-    // Global experience damping (see config/hoenn_scaling.h):
-    // 1-30 fast, 31-60 medium, 61+ slower - per level of the receiving mon.
+    // Experience damping by the receiving mon's level, set in config/hoenn_scaling.h.
 #if EXP_DAMP_ENABLED == TRUE
     {
         u8 expGetterLvl = GetMonData(&gPlayerParty[expGetterMonId], MON_DATA_LEVEL);

@@ -12,9 +12,7 @@
 #include "constants/party_menu.h"
 
 
-// Kanto merge: FRLG's rules apply in Kanto. Since the merge the badges
-// there are handed out by FRLG itself, so the thresholds have to be
-// FRLG's as well - not Johto's. Built the same way as HoennLicensesApply().
+// Origin Jade: TRUE on Kanto maps, where FRLG's badge thresholds apply.
 static bool32 KantoRulesApply(void)
 {
     u32 mapSec = gMapHeader.regionMapSectionId;
@@ -29,11 +27,8 @@ static bool32 IsFieldMoveUnlocked_Cut(void)
 
     if (IS_HNS)
     {
-        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_CUT);
-        // In Johto the permit counts. The Johto badge is no use as a
-        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_CUT);
         return FlagGet(FLAG_BADGE02_GET);
@@ -64,11 +59,8 @@ static bool32 IsFieldMoveUnlocked_RockSmash(void)
 
     if (IS_HNS)
     {
-        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_ROCK_SMASH);
-        // In Johto the permit counts. The Johto badge is no use as a
-        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_ROCK_SMASH);
         return FlagGet(FLAG_BADGE01_GET);
@@ -81,19 +73,14 @@ static bool32 IsFieldMoveUnlocked_RockSmash(void)
 
 static bool32 IsFieldMoveUnlocked_Strength(void)
 {
-    // Kanto merge: Rainbow Badge (badge 4). FRLG has no branch of its own
-    // for this move and falls through to the default value - that was
-    // overlooked in 0037 and set one badge too low.
+    // Kanto: Rainbow Badge (badge 4)
     if (KantoRulesApply())
         return FlagGet(FLAG_BADGE04_GET);
 
     if (IS_HNS)
     {
-        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_STRENGTH);
-        // In Johto the permit counts. The Johto badge is no use as a
-        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_STRENGTH);
         return FlagGet(FLAG_BADGE03_GET);
@@ -104,19 +91,14 @@ static bool32 IsFieldMoveUnlocked_Strength(void)
 
 static bool32 IsFieldMoveUnlocked_Surf(void)
 {
-    // Kanto merge: Soul Badge (badge 5). FRLG has no branch of its own for
-    // this move and falls through to the default value - that was
-    // overlooked in 0037 and set one badge too low.
+    // Kanto: Soul Badge (badge 5)
     if (KantoRulesApply())
         return FlagGet(FLAG_BADGE05_GET);
 
     if (IS_HNS)
     {
-        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_SURF);
-        // In Johto the permit counts. The Johto badge is no use as a
-        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_SURF);
         return FlagGet(FLAG_BADGE04_GET);
@@ -142,11 +124,8 @@ static bool32 IsFieldMoveUnlocked_Dive(void)
 {
     if (IS_HNS)
     {
-        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_DIVE);
-        // In Johto the permit counts. The Johto badge is no use as a
-        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_DIVE);
         return FlagGet(FLAG_BADGE07_GET);
@@ -162,11 +141,8 @@ static bool32 IsFieldMoveUnlocked_Waterfall(void)
 
     if (IS_HNS)
     {
-        // In Hoenn the license counts, in Johto the permit.
         if (HoennLicensesApply())
             return HasHoennLicense(LIC_WATERFALL);
-        // In Johto the permit counts. The Johto badge is no use as a
-        // threshold: Kanto sets the same flags and has long had them all.
         if (JohtoPermitsApply())
             return HasJohtoPermit(PERM_WATERFALL);
         return FlagGet(FLAG_BADGE08_GET);

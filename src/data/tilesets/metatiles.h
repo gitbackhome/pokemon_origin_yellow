@@ -61,8 +61,8 @@ const u16 gMetatileAttributes_CableClub[] = INCBIN_U16("data/tilesets/secondary/
 
 const u16 gMetatiles_Lab_Frlg[] = INCBIN_U16("data/tilesets/secondary/lab_frlg/metatiles.bin");
 const u16 gMetatileAttributes_Lab_Frlg[] = INCBIN_U16("data/tilesets/secondary/lab_frlg/metatile_attributes.bin");
-// Kanto merge: the same tileset in FRLG attribute width (4 bytes, layer in
-// bits 29-30). The 2-byte version above stays for SinjohRuins_House1_hns.
+// Origin Jade: lab_frlg attributes in FRLG width (4 bytes).
+// Keep the 2-byte version above for SinjohRuins_House1_hns.
 const u16 gMetatileAttributes_Lab_Frlg_V4[] = INCBIN_U16("data/tilesets/secondary/lab_frlg/metatile_attributes_frlg.bin");
 
 #if !IS_FRLG

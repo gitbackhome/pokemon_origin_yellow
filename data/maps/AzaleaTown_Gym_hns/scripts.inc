@@ -481,7 +481,7 @@ AzaleaTown_Gym_EventScript_Trigger_11::
 AzaleaTown_Gym_EventScript_GymGuy::
 	lock
 	faceplayer
-	@ Johto badge 2 (Bugsy); Kanto sets FLAG_BADGE02_GET too.
+	@ Johto badge 2 (Bugsy)
 	setvar VAR_0x8004, 1
 	special CheckJohtoBadge
 	goto_if_eq VAR_RESULT, TRUE, AzaleaTown_Gym_EventScript_GymGuy2
@@ -536,12 +536,9 @@ AzaleaTown_Gym_EventScript_Bugsy::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox AzaleaTown_Gym_Text_HiveBadgeSpeech, MSGBOX_DEFAULT
 	setflag FLAG_BADGE02_GET
-	@ Bugsy: Johto badge 2. The flag above is shared by Johto and Kanto and
-	@ is set long before, after the Kanto league - the count lives in VAR_JOHTO_BADGES.
+	@ Johto badge 2 (Bugsy)
 	setvar VAR_0x8004, 1
 	special SetJohtoBadge
-	@ The badge also grants the permit for Cut - see
-	@ src/johto_permits.c. Johto shares the badge flags with Kanto.
 	setvar VAR_0x8004, PERM_CUT
 	special SetJohtoPermit
 	setflag FLAG_DEFEATED_AZALEA_TOWN_GYM

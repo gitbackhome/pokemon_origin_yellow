@@ -1,7 +1,5 @@
-@ HnS: in Hoenn every field move needs a license (src/hoenn_licenses.c),
-@ in Johto a permit (src/johto_permits.c). Put the index into VAR_0x8004
-@ before the call; a result of FALSE means "not allowed here". Always TRUE
-@ outside of both regions.
+@ HnS: field moves need a license in Hoenn and a permit in Johto.
+@ CheckFieldPermission: index in VAR_0x8004; VAR_RESULT FALSE = not allowed.
 EventScript_NoDiveLicense::
 	lockall
 	playse SE_SELECT
@@ -10,7 +8,7 @@ EventScript_NoDiveLicense::
 	end
 
 EventScript_NeedHoennLicense::
-	@ The term depends on the region: "Erlaubnis" (license) in Hoenn, "Befugnis" (permit) in Johto.
+	@ STR_VAR_2: "Erlaubnis" in Hoenn, "Befugnis" in Johto.
 	special BufferFieldPermissionTerm
 	msgbox Text_NeedHoennLicense, MSGBOX_DEFAULT
 	releaseall
@@ -32,7 +30,7 @@ EventScript_CutTree::
 	setvar VAR_0x8004, LIC_CUT
 	special CheckFieldPermission
 	goto_if_eq VAR_RESULT, FALSE, EventScript_NeedHoennLicense
-	@ HnS: the HM in the bag is enough, the Pokemon does not need to know Cut.
+	@ HnS: the HM in the bag is enough.
 	checkfieldmove FIELD_MOVE_CUT, TRUE
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckTreeCantCut
 	bufferpartymonnick STR_VAR_1, VAR_RESULT
@@ -116,7 +114,7 @@ EventScript_RockSmash::
 	setvar VAR_0x8004, LIC_ROCK_SMASH
 	special CheckFieldPermission
 	goto_if_eq VAR_RESULT, FALSE, EventScript_NeedHoennLicense
-	@ HnS: the HM in the bag is enough, the Pokemon does not need to know Rock Smash.
+	@ HnS: the HM in the bag is enough.
 	checkfieldmove FIELD_MOVE_ROCK_SMASH, TRUE
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantSmashRock
 	bufferpartymonnick STR_VAR_1, VAR_RESULT
@@ -400,7 +398,6 @@ EventScript_StrengthBoulder::
 	setvar VAR_0x8004, LIC_STRENGTH
 	special CheckFieldPermission
 	goto_if_eq VAR_RESULT, FALSE, EventScript_NeedHoennLicense
-	@ HnS: Strength depends on the Hoenn license, not on the Johto badge.
 	checkitem ITEM_HM_STRENGTH
 	goto_if_eq VAR_RESULT, FALSE, EventScript_CantStrength
 	goto_if_set FLAG_SYS_USE_STRENGTH, EventScript_CheckActivatedBoulder
@@ -484,8 +481,7 @@ Text_StrengthActivated:
 
 EventScript_UseWaterfall::
 	lockall
-	@ HnS: Waterfall depends on the Hoenn license, not on the Johto badge
-	@ (checked by IsFieldMoveUnlocked in field_control_avatar.c).
+	@ HnS: license/permit already checked by IsFieldMoveUnlocked.
 	checkfieldmove FIELD_MOVE_WATERFALL
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantWaterfall
 	bufferpartymonnick STR_VAR_1, VAR_RESULT
@@ -585,8 +581,7 @@ EventScript_EndSurface::
 @HnS
 EventScript_Whirlpool::
 	lockall
-	@ Whirlpools only exist in Johto (Route 41). They open with Johto badge 7
-	@ (Pryce); FLAG_BADGE07_GET is set by Kanto already.
+	@ Johto badge 7 (Pryce).
 	setvar VAR_0x8004, 6
 	special CheckJohtoBadge
 	goto_if_eq VAR_RESULT, FALSE, EventScript_CantWhirlpool

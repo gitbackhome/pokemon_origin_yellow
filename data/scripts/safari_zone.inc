@@ -17,12 +17,8 @@ SafariZone_EventScript_OutOfBallsMidBattle::
 #endif
 	end
 
-@ Origin Jade: Kanto's Safari Zone is the FRLG one, entered from
-@ FuchsiaCity_SafariZone_Entrance_Frlg (which sets FLAG_IN_KANTO_SAFARI_ZONE).
-@ HnS sent the player to its own Fuchsia entrance instead - a map of the HnS
-@ Kanto that Origin Jade does not use, so the player ended up in the wrong
-@ Kanto. Leave the same way FRLG does, and leave VAR_SAFARI_ZONE_STATE alone:
-@ that one belongs to the Johto and Hoenn safari gates.
+@ Origin Jade: leave Kanto's Safari Zone through the FRLG entrance.
+@ Do not touch VAR_SAFARI_ZONE_STATE here, it belongs to the Johto and Hoenn gates.
 SafariZone_EventScript_ExitKantoMidBattle::
 	clearflag FLAG_IN_KANTO_SAFARI_ZONE
 	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 3

@@ -26,7 +26,7 @@ GoldenrodCity_Gym_EventScript_Samantha::
 GoldenrodCity_Gym_EventScript_Gym_Guy::
 	lock
 	faceplayer
-	@ Johto badge 3 (Whitney); Kanto sets FLAG_BADGE03_GET too.
+	@ Johto badge 3 (Whitney)
 	setvar VAR_0x8004, 2
 	special CheckJohtoBadge
 	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_Gym_EventScript_Gym_Guy_After
@@ -73,12 +73,9 @@ GoldenrodCity_Gym_EventScript_WhitneyBadge::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox GoldenrodCity_Gym_Text_WhitneyPlainBadge, MSGBOX_DEFAULT
 	setflag FLAG_BADGE03_GET
-	@ Whitney: Johto badge 3. The flag above is shared by Johto and Kanto and
-	@ is set long before, after the Kanto league - the count lives in VAR_JOHTO_BADGES.
+	@ Johto badge 3 (Whitney)
 	setvar VAR_0x8004, 2
 	special SetJohtoBadge
-	@ The badge also grants the permit for Strength - see
-	@ src/johto_permits.c. Johto shares the badge flags with Kanto.
 	setvar VAR_0x8004, PERM_STRENGTH
 	special SetJohtoPermit
 	setflag FLAG_DEFEATED_GOLDENROD_CITY_GYM

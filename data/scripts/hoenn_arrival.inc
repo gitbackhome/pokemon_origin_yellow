@@ -4,8 +4,6 @@
 
 @ Called from both ports as soon as the player picks Hoenn.
 Common_EventScript_SailToHoenn::
-	@ HnS: the crossing depends on the Hoenn Ticket that Steven hands over
-	@ in Silph Co. - no longer just on the champion title.
 	checkitem ITEM_HOENN_TICKET
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_HoennNoTicket
 	closemessage
@@ -42,10 +40,7 @@ Common_Text_HoennNeedTicket:
 	.string "along. Sorry!$"
 #endif
 
-@ Hoenn is entered by ship, not via Emerald's moving-in scene. That
-@ scene's end state is established here once: the background characters
-@ of the opening sequence disappear and the state variables jump to the
-@ end.
+@ Sets the end state of Emerald's intro.
 Common_EventScript_HoennSkipIntro::
 	call Common_EventScript_HoennHideStoryNpcs
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_1
@@ -60,9 +55,7 @@ Common_EventScript_HoennSkipIntro::
 	setflag FLAG_HIDE_ROUTE_101_BIRCH_STARTERS_BAG
 	setflag FLAG_HIDE_ROUTE_101_ZIGZAGOON
 	setflag FLAG_HIDE_ROUTE_103_BIRCH
-	@ HnS: May (Birch's daughter) stands on Route 103 - the first meeting
-	@ with the champion, including the first battle, happens there (see
-	@ Route103/scripts.inc). Her hide flag is only set after that battle.
+	@ May stays on Route 103 until her battle there.
 	setflag FLAG_HIDE_OLDALE_TOWN_RIVAL
 	setflag FLAG_SET_WALL_CLOCK
 	setflag FLAG_ADVENTURE_STARTED
@@ -74,14 +67,10 @@ Common_EventScript_HoennSkipIntro::
 	setflag FLAG_BIRCH_AIDE_MET
 	setflag FLAG_RIVAL_LEFT_FOR_ROUTE103
 	setflag FLAG_ENABLE_PROF_BIRCH_MATCH_CALL
-	@ Steven knows the player from Johto - he is in the PokeGear from the start.
 	setflag FLAG_REGISTERED_STEVEN_POKENAV
 	setflag FLAG_VISITED_LITTLEROOT_TOWN
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
-	@ The player lives in neither of the two houses. Both belong to local
-	@ families: the player's own mother is dropped, the neighbor's mother
-	@ and the child stay.
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_MOM
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_MOM
 	clearflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_MOM
@@ -94,9 +83,7 @@ Common_EventScript_HoennSkipIntro::
 	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 2
 	goto Common_EventScript_HoennSkipIntroStates
 
-@ Emerald's own start initialization: hides 159 NPCs that only appear as
-@ the story progresses. HnS calls its own version instead, so it is caught
-@ up here.
+@ Copy of EventScript_ResetAllMapFlags (new_game.inc) with Origin Jade changes.
 Common_EventScript_HoennHideStoryNpcs::
 	setflag FLAG_HIDE_CONTEST_POKE_BALL
 	setflag FLAG_HIDE_ROUTE_111_VICTORIA_WINSTRATE
@@ -107,10 +94,7 @@ Common_EventScript_HoennHideStoryNpcs::
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_POKEBALL_CYNDAQUIL
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_POKEBALL_TOTODILE
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_POKEBALL_CHIKORITA
-	@ HnS: Wally stays visible - he stands in front of the Petalburg City
-	@ gym door and carries the catching event there (instead of the vanilla
-	@ tutorial in the gym). Gym state 2 = door closed, so the indoor Wally
-	@ intro and the Dad dialogue are unreachable.
+	@ Origin Jade: Wally stays visible, 2 = gym door closed.
 	setvar VAR_PETALBURG_GYM_STATE, 2
 	setflag FLAG_UNKNOWN_0x363
 	setflag FLAG_HIDE_RUSTBORO_CITY_AQUA_GRUNT
@@ -118,7 +102,7 @@ Common_EventScript_HoennHideStoryNpcs::
 	setflag FLAG_HIDE_RUSTBORO_CITY_RIVAL
 	setflag FLAG_HIDE_RUSTBORO_CITY_SCIENTIST
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_FAT_MAN
-	@ HnS: the Poke Mart tour in Oldale Town is dropped completely.
+	@ Origin Jade: no Poke Mart tour in Oldale Town.
 	setflag FLAG_HIDE_OLDALE_TOWN_MART_EMPLOYEE
 	setflag FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY
 	setflag FLAG_HIDE_BRINEYS_HOUSE_PEEKO
@@ -282,17 +266,8 @@ Common_EventScript_HoennSkipIntroStates::
 @ ------------------------------------------------------------
 @ Arrival at the Route 104 beach
 @ ------------------------------------------------------------
-@ Triggered as an ON_FRAME script on entering the map (see
-@ Route104_OnFrame). The player lands via warpsilent at (12,52) and is led
-@ from there up the beach to (17,52) - right below the door Birch steps
-@ out of. Birch stops at (17,51) looking down, the player looks up.
-@ The pier is two tiles wide (row 51 = top, row 52 = bottom) and sits at
-@ elevation 4. The triggers are therefore on the transition tile x=15
-@ (elevation 0) right behind the pier - on the pier itself a trigger with
-@ a fixed elevation would never have fired.
-@ The player stays put, Birch walks to them. On the lower lane he stands
-@ right above the player and looks down; on the upper lane that tile is
-@ taken, so he walks one tile further and looks up.
+@ Coord triggers at x=15, not on the pier (elevation 4).
+@ VAR_0x8008: 0 = lower lane (row 52), 1 = upper lane (row 51).
 Route104_EventScript_HoennArrivalUpper::
 	lockall
 	setvar VAR_0x8008, 1
@@ -359,11 +334,10 @@ LittlerootTown_ProfessorBirchsLab_EventScript_HoennWelcome::
 	closemessage
 	msgbox BirchsLab_Text_HoennDexExplain, MSGBOX_DEFAULT
 	closemessage
-	@ Badge case: unlocks the Hoenn badge row on the trainer card.
 	call Common_EventScript_HoennGiveBadgeBinder
 	setvar VAR_HOENN_ARRIVAL_STATE, 3
 	setflag FLAG_SYS_HOENN_DEX_GET
-	@ From now on Prof. Birch is in the PokeGear - a contact of his own next to Prof. Elm.
+	@ Birch's PokeGear contact (FLAG_ENABLE_PROF_BIRCH_MATCH_CALL is Elm's).
 	setflag FLAG_ENABLE_PROF_BIRK_MATCH_CALL
 	setflag FLAG_HIDE_ROUTE104_HOENN_BIRCH
 	setflag FLAG_VISITED_LITTLEROOT_TOWN
@@ -397,22 +371,18 @@ Common_Movement_HoennBirchWalkToPlayer:
 	face_left
 	step_end
 
-@ Birch stops one tile above the player and looks at them.
 Common_Movement_HoennBirchFacePlayer:
 	face_down
 	step_end
 
-@ Birch walks from the house entrance (17,50) to the player.
-@ Lower lane: via (17,51) to (15,51), facing down.
+@ Lower lane: Birch runs from (17,51) to (15,51), above the player.
 Common_Movement_HoennBirchRunLower:
 	walk_fast_left
 	walk_fast_left
 	face_down
 	step_end
 
-@ Upper lane: the player is standing at (15,51) themselves. Birch
-@ therefore stops in front of them at (16,51) instead of stepping below
-@ them - an NPC below the player sprite causes overlap glitches.
+@ Upper lane: Birch stops at (16,51), next to the player.
 Common_Movement_HoennBirchRunUpper:
 	walk_fast_left
 	face_left
@@ -502,10 +472,7 @@ BirchsLab_Text_HoennDexExplain:
 #endif
 
 @ ------------------------------------------------------------
-@ Badge case (FLAG_RECEIVED_PASS_BINDER)
-@ Unlocks the Hoenn badge row on the trainer card (src/trainer_card.c).
-@ Handed over in the arrival scene; Birch's NPC script in the lab hands it
-@ over later if needed.
+@ Badge case (FLAG_RECEIVED_PASS_BINDER): Hoenn badges on the trainer card
 @ ------------------------------------------------------------
 Common_EventScript_HoennGiveBadgeBinder::
 	goto_if_set FLAG_RECEIVED_PASS_BINDER, Common_EventScript_HoennBinderDone

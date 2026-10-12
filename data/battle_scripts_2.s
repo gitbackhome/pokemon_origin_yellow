@@ -181,7 +181,7 @@ BattleScript_BallThrow::
 	handleballthrow
 
 BattleScript_BallThrowByWally::
-	@ Kanto merge: in Viridian's catching tutorial the old man throws.
+	@ Origin Jade: old man's catching tutorial in Viridian City.
 	jumpifbyte CMP_NOT_EQUAL, gIsOldManTutorialBattle, 0, BattleScript_BallThrowByOldMan
 	printstring STRINGID_WALLYUSEDITEM
 	handleballthrow

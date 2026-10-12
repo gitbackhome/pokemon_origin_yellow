@@ -2,13 +2,9 @@
 """
 check_pokenav_text.py -- measures the line width of all PokeNav call texts.
 
-The call box is 28 tiles wide (224 px), but the text only starts at
-x = 32 because the handset icon sits on the left. So 192 px are usable
-instead of the 208 px of a normal text box -- about two and a half
-characters less. Lines that fit into msgbox overflow in pokenavcall.
+A call text line may be at most 192 px wide, 16 px less than in a msgbox.
 
-Measured with gFontNormalLatinGlyphWidths from src/fonts.c and the
-character mapping from charmap.txt, i.e. exactly the way the game computes.
+Glyph widths come from src/fonts.c, the character mapping from charmap.txt.
 
 Usage from the repository root:
     python3 check_pokenav_text.py
@@ -48,8 +44,7 @@ def load_charmap(path="charmap.txt"):
 
 
 PLACEHOLDERS = {
-    # Placeholders are replaced at runtime. A realistic length is assumed
-    # so that long names do not slip through.
+    # Assumed length in characters of each placeholder.
     "PLAYER": 7, "RIVAL": 7, "STR_VAR_1": 10, "STR_VAR_2": 10,
     "STR_VAR_3": 10, "KUN": 0, "POKEMON": 7, "POKEBLOCK": 9,
 }
@@ -83,7 +78,7 @@ def line_width(line, widths, charmap):
 
 
 def collect_call_texts():
-    """Finds all pokenavcall targets and returns (file, label, lines)."""
+    """Returns {label: [(file, text line)]} for all pokenavcall targets."""
     files = (glob.glob("data/maps/*/scripts.inc")
              + glob.glob("data/scripts/*.inc")
              + ["data/event_scripts.s"])
@@ -142,7 +137,6 @@ def main():
     problems = 0
     for label in sorted(targets):
         for path, raw in targets[label]:
-            # A text line ends at \n, \l, \p or $
             for chunk in re.split(r"\\n|\\l|\\p", raw):
                 chunk = chunk.replace("$", "")
                 if not chunk:

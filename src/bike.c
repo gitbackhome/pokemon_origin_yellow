@@ -167,9 +167,7 @@ static bool8 ShouldForceCyclingRoadDownward(void)
 
 void MovePlayerOnBike(enum Direction direction, u16 newKeys, u16 heldKeys)
 {
-    // Origin Jade: same region test as in AcroBike_GetJumpDirection. Without
-    // it the Acro Bike in Hoenn could side jump but never wheelie or bunny
-    // hop, so the bumpy slopes of the Jagged Pass could not be climbed.
+    // Origin Jade: B is masked outside Hoenn only, as in AcroBike_GetJumpDirection.
     if ((IS_HNS || IS_FRLG) && GetCurrentRegion() != REGION_HOENN)
     {
         newKeys &= ~B_BUTTON;
@@ -1144,9 +1142,7 @@ static u8 AcroBike_GetJumpDirection(void)
     // No acro tricks (side jump / turn jump) in these builds.
     // The trick history is fed unmasked keys from MovePlayerAvatar, so masking
     // B in MovePlayerOnBike alone isn't enough to suppress the jumps.
-    // Origin Jade: Hoenn keeps the Acro Bike tricks - the rail hops
-    // (Route 119, cycling road sections) are mandatory paths there.
-    // They are only disabled in Kanto, Johto and the other regions.
+    // Origin Jade: except in Hoenn (same test in MovePlayerOnBike).
     if ((IS_HNS || IS_FRLG) && GetCurrentRegion() != REGION_HOENN)
         return DIR_NONE;
 

@@ -6,9 +6,7 @@ BlackthornCity_hns_MapScripts::
 	.byte 0
 
 BlackthornCity_OnLoad::
-	@ The boy blocks the gym until Johto badges 5-7 (Chuck, Jasmine, Pryce).
-	@ FLAG_BADGE05-07_GET are set by Kanto already, so the gym was open from
-	@ the first visit.
+	@ The boy blocks the gym until the player has Johto badges 5-7.
 	call BlackthornCity_EventScript_CheckJohtoBadges5To7
 	goto_if_eq VAR_RESULT, FALSE, BlackThornCity_EventScript_MoveGymBoy
 	end

@@ -32,9 +32,6 @@ RustboroCity_EventScript_ScientistAddMatchCall::
 	lockall
 	setvar VAR_ROUTE104_STATE, 1
 #if IS_HNS
-@ The player brings the PokeGear including the call function from Johto.
-@ The scene in which the Devon researcher unlocks the function is
-@ therefore dropped -- the follow-up states are still set unchanged.
 	goto RustboroCity_EventScript_SkipScientistAddMatchCall
 #endif
 	applymovement LOCALID_PLAYER, RustboroCity_Movement_PlayerWalkDown
@@ -74,8 +71,7 @@ RustboroCity_EventScript_ScientistAddMatchCall::
 	goto RustboroCity_EventScript_MatchCallTutorial
 
 #if IS_HNS
-@ Replaces the call function scene: sets exactly the states its ending
-@ would have set, without the researcher appearing.
+@ Origin Jade: sets the end states of the Match Call scene without playing it.
 RustboroCity_EventScript_SkipScientistAddMatchCall::
 	setflag FLAG_ADDED_MATCH_CALL_TO_POKENAV
 	setflag FLAG_HIDE_RUSTBORO_CITY_SCIENTIST
@@ -175,8 +171,7 @@ RustboroCity_EventScript_Man1::
 	lock
 	faceplayer
 #if IS_HNS
-	@ HnS: FLAG_BADGE01_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 1 (Roxanne)
 	setvar VAR_0x8004, 0
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, RustboroCity_EventScript_Man1HaveBadge
@@ -705,8 +700,7 @@ RustboroCity_EventScript_Rival::
 
 RustboroCity_EventScript_PlayRivalMusic::
 #if IS_HNS
-	@ HnS canon: the rival is always May, regardless of the player
-	@ character's gender. Brendan stays free as a character of his own.
+	@ Origin Jade: the Hoenn rival is always May.
 	goto RustboroCity_EventScript_PlayMayMusic
 #else
 	checkplayergender
@@ -853,8 +847,6 @@ RustboroCity_EventScript_RivalTrigger7::
 
 RustboroCity_EventScript_RivalEncounter::
 #if IS_HNS
-	@ HnS canon: the rival is always May, regardless of the player
-	@ character's gender. Brendan stays free as a character of his own.
 	goto RustboroCity_EventScript_MayEncounter
 #else
 	checkplayergender
@@ -868,8 +860,7 @@ RustboroCity_EventScript_MayEncounter::
 	goto_if_set FLAG_MET_RIVAL_RUSTBORO, RustboroCity_EventScript_MayAskToBattle
 	setflag FLAG_MET_RIVAL_RUSTBORO
 #if IS_HNS
-	@ HnS: May already registers herself on Route 103 - no registration
-	@ event runs here anymore, the conversation simply continues.
+	@ Origin Jade: May registers on Route 103 instead.
 	msgbox RustboroCity_Text_MayHiLetsRegister, MSGBOX_DEFAULT
 #else
 	msgbox RustboroCity_Text_MayHiLetsRegister, MSGBOX_DEFAULT
@@ -903,9 +894,7 @@ RustboroCity_EventScript_MayAskToBattle::
 RustboroCity_EventScript_BattleMay::
 	msgbox RustboroCity_Text_MayImNotGoingToLose, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: VAR_STARTER_MON holds the Kanto starter here (the Johto one is
-	@ in VAR_JOHTO_STARTER_MON), never a Hoenn one. May's starter line
-	@ has been fixed since Route 103 (Torchic), so always use the Treecko set.
+	@ Origin Jade: May always has the Torchic line (Treecko set).
 	goto RustboroCity_EventScript_BattleMayTreecko
 #else
 	switch VAR_STARTER_MON

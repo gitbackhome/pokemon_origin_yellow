@@ -6,9 +6,7 @@ MauvilleCity_House1_EventScript_RockSmashDude::
 	faceplayer
 	goto_if_set FLAG_RECEIVED_HM_ROCK_SMASH, MauvilleCity_House1_EventScript_ReceivedRockSmash
 #if IS_HNS
-	@ HnS: the license for Rock Smash is granted only by Wattson with the
-	@ Dynamo Badge (see MauvilleCity_Gym). This NPC no longer hands out
-	@ anything.
+	@ HnS: no handover, the Rock Smash license comes with the Dynamo Badge.
 	msgbox Text_HnsRockSmashDudeNoHandover, MSGBOX_DEFAULT
 #else
 	msgbox MauvilleCity_House1_Text_ImRockSmashDudeTakeThis, MSGBOX_DEFAULT
@@ -85,8 +83,7 @@ MauvilleCity_House1_Text_MonCanFlyOutOfSmashedRock:
 #endif
 
 #if IS_HNS
-@ No longer jumped to since the license depends on the Dynamo Badge.
-@ Kept so nothing gets deleted.
+@ Unused.
 Text_HnsRockSmashLicense:
 #if GERMAN
 	.string "{PLAYER} erhält die Lizenz für\n"

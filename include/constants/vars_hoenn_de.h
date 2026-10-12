@@ -2,12 +2,8 @@
 #define GUARD_CONSTANTS_VARS_HOENN_DE_H
 
 // =====================================================================
-// Emerald/Hoenn section (hns_de / modern_hns_engde)
-// Separates the number spaces: vars of the Hoenn world (and engine vars
-// used twice) whose number is taken by something else in the HnS build
-// live here in a range of their own from 0x4100. vars_hns.h stays
-// untouched (keeps upstream merges easy).
-// Rule: allocate new Emerald vars ONLY from this section.
+// Emerald/Hoenn vars whose HnS number is taken, in their own range from
+// 0x4100. Allocate new Emerald vars only here; leave vars_hns.h untouched.
 // =====================================================================
 
 #define HOENN_VARS_START 0x4100
@@ -194,11 +190,8 @@
 // New vars for the Hoenn connection
 #define VAR_HOENN_ARRIVAL_STATE 0x4159
 // Hoenn badges as a bitmask (bit 0 = Stone Badge ... bit 7 = Rain Badge).
-// The vanilla gym scripts still set FLAG_BADGE0X_GET (already set for
-// the champion = no effect); the Hoenn system counts here.
 #define VAR_HOENN_BADGES 0x415A
-// HM licenses as a bitmask (see include/hoenn_licenses.h). Only in effect
-// inside Hoenn; Fly and Flash are deliberately not included.
+// HM licenses as a bitmask (LIC_* in include/constants/hoenn_licenses.h), Hoenn only.
 #define VAR_HOENN_LICENSES 0x415B
 // Progress of Steven's (Troy's) ticket chain: 0 = nothing, 1 = promise
 // given in Vermilion, 2 = called after the Kanto league (Steven waits in
@@ -209,8 +202,7 @@
 
 #define HOENN_VARS_END 0x4176
 
-// Extend the var storage: it stays in SaveBlock1 (STATIC_ASSERT in save.c),
-// flash size unchanged at 128 KiB (FLASH_1M) -> works natively in emulators.
+// Extends the var storage in SaveBlock1 (size checked by STATIC_ASSERT in save.c).
 #undef  VARS_END
 #undef  VARS_COUNT
 #define VARS_END HOENN_VARS_END

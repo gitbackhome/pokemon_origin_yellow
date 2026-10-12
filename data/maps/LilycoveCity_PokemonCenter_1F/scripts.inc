@@ -39,8 +39,7 @@ LilycoveCity_PokemonCenter_1F_EventScript_Maniac::
 	lock
 	faceplayer
 #if IS_HNS
-	@ HnS: FLAG_BADGE07_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 7 (Tate & Liza)
 	setvar VAR_0x8004, 6
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, LilycoveCity_PokemonCenter_1F_EventScript_ManiacBadTeamGone

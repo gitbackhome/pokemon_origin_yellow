@@ -15,7 +15,7 @@ PewterCity_Gym_EventScript_DefeatedBrock::
 	setflag FLAG_BADGE01_GET
 	setvar VAR_MAP_SCENE_PEWTER_CITY, 1
 	setflag FLAG_HIDE_PEWTER_CITY_GYM_GUIDE
-	@ Kanto merge: the aide stays away - Mom gives the Running Shoes.
+	@ Origin Jade: the Running Shoes aide stays hidden.
 	@ clearflag FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY
 	set_gym_trainers_frlg 1
 	goto PewterCity_Gym_EventScript_GiveTM39
@@ -27,8 +27,6 @@ PewterCity_Gym_EventScript_GiveTM39::
 	goto_if_eq VAR_RESULT, FALSE, PewterCity_Gym_EventScript_NoRoomForTM39
 	giveitem_msg PewterCity_Gym_Text_ReceivedTM39FromBrock, ITEM_TM39
 	setflag FLAG_GOT_TM39_FROM_BROCK
-	@ Kanto merge: with reusable TMs only the single-use warning is dropped,
-	@ the rest of the text stays.
 	special CheckTMsReusable
 	goto_if_eq VAR_RESULT, TRUE, PewterCity_Gym_EventScript_ExplainTM39Reusable
 	msgbox PewterCity_Gym_Text_ExplainTM39
@@ -342,9 +340,7 @@ PewterCity_Gym_EventScript_ExplainTM39Reusable::
 	release
 	end
 
-@ Same wording as PewterCity_Gym_Text_ExplainTM39, only without the
-@ paragraph "Man kann eine TM nur ein einziges Mal verwenden" (a TM can
-@ only be used once).
+@ PewterCity_Gym_Text_ExplainTM39 without the single-use paragraph; keep in sync.
 PewterCity_Gym_Text_ExplainTM39NoLimit::
 #if GERMAN
 	.string "Eine TM enthält Attacken, die\n"

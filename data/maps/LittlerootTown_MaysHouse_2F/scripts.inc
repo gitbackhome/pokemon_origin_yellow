@@ -237,8 +237,7 @@ RivalsHouse_2F_EventScript_Rival::
 	lockall
 	goto_if_set FLAG_MET_RIVAL_LILYCOVE, RivalsHouse_2F_EventScript_RivalPostLilycove
 #if IS_HNS
-	@ HnS canon: the rival is always May, regardless of the player
-	@ character's gender. Brendan stays free as a character of his own.
+	@ HnS: the rival is always May.
 	goto RivalsHouse_2F_EventScript_May
 #else
 	checkplayergender
@@ -288,8 +287,7 @@ RivalsHouse_2F_EventScript_BrendanWhereShouldIGoNext::
 LittlerootTown_MaysHouse_2F_EventScript_PC::
 	lockall
 #if IS_HNS
-	@ Origin Jade: May is always the rival - this house is hers, regardless
-	@ of the player's gender. The PC shows her e-mail.
+	@ Origin Jade: the PC always shows May's e-mail.
 	goto LittlerootTown_MaysHouse_2F_EventScript_CheckRivalsPC
 #endif
 	checkplayergender

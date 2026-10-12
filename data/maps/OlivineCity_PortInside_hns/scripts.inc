@@ -161,7 +161,7 @@ OlivinePort_EventScript_ChoseVermilion::
 	bufferitemname STR_VAR_1, ITEM_SS_TICKET
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
 	call OlivinePort_EventScript_EnterShip
-	@ Kanto merge: the HnS port is retired - the destination is FRLG's pier.
+	@ Origin Jade: lands at FRLG's Vermilion pier.
 	warpsilent MAP_VERMILION_CITY, 23, 33
 	waitstate
 	release

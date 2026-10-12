@@ -11,11 +11,8 @@ MtSilver_2F_OnResume::
 MtSilver_2F_OnTransition: 
 	callnative SetTimeBasedEncounters
 	setescapewarp MAP_MT_SILVER_OUTSIDE_HNS, 17, 8
-	@ Origin Jade: the Azure Flute is the key for Meara's Sinjoh offer, see
-	@ MtSilver_PokemonCenter_OnTransition. FLAG_HIDE_MT_SILVER_2F_AZURE_FLUTE
-	@ is also set when the ball is picked up, so with the content switched
-	@ on it is only cleared once (FLAG_SINJOH_UNLOCK_MIGRATED) and only if the
-	@ player does not own the flute yet.
+	@ Origin Jade: the Azure Flute unlocks Meara's Sinjoh offer
+	@ (SINJOH_CONTENT_AVAILABLE in include/config/general.h).
 #if SINJOH_CONTENT_AVAILABLE
 	call_if_unset FLAG_SINJOH_UNLOCK_MIGRATED, MtSilver_2F_EventScript_ShowAzureFlute
 #else

@@ -9,16 +9,11 @@ PokemonLeague_BrunosRoom_OnResume_Hns::
 	special DoPokemonLeagueLightingEffect
 	end
 
-@ Origin Jade: the Kanto merge gave this label its _Hns suffix (FRLG's Bruno
-@ room owns PokemonLeague_BrunosRoom_EventScript_Bruno), but map.json kept
-@ the old name. Johto's Bruno then ran FRLG's script: Kanto's rematch team,
-@ Kanto texts, and FLAG_DEFEATED_BRUNO, which shut his door for good on the
-@ next run. map.json points here again.
 PokemonLeague_BrunosRoom_EventScript_Bruno_Hns::
 	lock
 	faceplayer
 	goto_if_ge VAR_LEAGUE_STATE, 4, PokemonLeague_BrunosRoom_EventScript_BrunoDefeated
-	@ Johto title, not FLAG_IS_CHAMPION: Hoenn's Hall of Fame sets that one too.
+	@ Origin Jade: rematch team once the player is Johto champion.
 	goto_if_set FLAG_IS_JOHTO_CHAMPION, PokemonLeague_BrunosRoom_EventScript_BrunoRematch
 	msgbox PokemonLeague_BrunosRoom_Text_Before, MSGBOX_DEFAULT
 	setflag FLAG_TEMP_3

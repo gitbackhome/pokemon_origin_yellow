@@ -553,10 +553,7 @@ static void LoadPokenavRegionMapGfx(struct Pokenav_RegionMapGfx *state)
     BgDmaFill(1, PIXEL_FILL(1), 0x41, 1);
     CpuFill16(0x1040, state->tilemapBuffer, 0x800);
     SetBgTilemapBuffer(1, state->tilemapBuffer);
-    // The left window position only applies to the Johto/Kanto map. On the
-    // Hoenn map it would cover Dewford - there the window stays on the
-    // right as in the original Emerald. It moves along on a region change,
-    // see TryMoveMapSecInfoWindow().
+    // Info window: left on the Johto/Kanto map, right on the Hoenn map.
     state->infoWindowRegion = GetCurrentViewedRegionMapType();
     state->infoWindowId = AddWindow(GetMapSecInfoWindowTemplate(state->infoWindowRegion));
     LoadUserWindowBorderGfx_(state->infoWindowId, 0x42, BG_PLTT_ID(4));
@@ -582,15 +579,13 @@ static bool32 TryFreeTempTileDataBuffers(void)
 
 static const struct WindowTemplate *GetMapSecInfoWindowTemplate(u32 region)
 {
-    // Kanto merge: sMapSecInfoWindowTemplate_Right (despite its name placed
-    // at the left edge, tilemapLeft = 1) belongs to the wide JK map.
+    // Origin Jade: sMapSecInfoWindowTemplate_Right sits at the left edge (tilemapLeft = 1).
     if (FlagGet(FLAG_VISITED_JOHTO) && region != REGION_MAP_HOENN)
         return &sMapSecInfoWindowTemplate_Right;
     return &sMapSecInfoWindowTemplate;
 }
 
-// Moves the info window after a map change (SELECT or the map edge);
-// otherwise it would stay on the old side and cover location names there.
+// Moves the info window to its side for the newly shown region map.
 static void TryMoveMapSecInfoWindow(struct Pokenav_RegionMapGfx *state)
 {
     u32 region = GetCurrentViewedRegionMapType();
@@ -598,17 +593,12 @@ static void TryMoveMapSecInfoWindow(struct Pokenav_RegionMapGfx *state)
     if (region == state->infoWindowRegion)
         return;
 
-    // The frame (DrawTextBorderOuter) lies one tile outside the window -
-    // so clear one tile more, otherwise the old box remains after the
-    // switch.
+    // Also clear the frame, one tile around the window.
     {
         u32 left = GetWindowAttribute(state->infoWindowId, WINDOW_TILEMAP_LEFT);
         u32 top  = GetWindowAttribute(state->infoWindowId, WINDOW_TILEMAP_TOP);
         ClearWindowTilemap(state->infoWindowId);
-        // 0x1041 is the opaque fill tile of the window interior - it would
-        // leave a white bar at the old position. 0x1040 is the transparent
-        // tile the tilemap buffer is initialized with (see
-        // LoadPokenavRegionMapGfx).
+        // 0x1040 = transparent tile, 0x1041 = opaque window fill.
         FillBgTilemapBufferRect(1, 0x1040, left - 1, top - 1, 14, 15, 17);
     }
     RemoveWindow(state->infoWindowId);
@@ -642,7 +632,6 @@ static void UpdateMapSecInfoWindow(struct Pokenav_RegionMapGfx *state)
         FillWindowPixelBuffer(state->infoWindowId, PIXEL_FILL(1));
         PutWindowRectTilemap(state->infoWindowId, 0, 0, 12, 2);
         AddTextPrinterParameterized(state->infoWindowId, FONT_NARROW, regionMap->mapSecName, 0, 1, TEXT_SKIP_DRAW, NULL);
-        // A fixed 17 would be wrong as soon as the window sits on the left.
         FillBgTilemapBufferRect(1, 0x1041, GetWindowAttribute(state->infoWindowId, WINDOW_TILEMAP_LEFT), 6, 12, 11, 17);
         CopyWindowToVram(state->infoWindowId, COPYWIN_FULL);
         SetCityZoomTextInvisibility(TRUE);

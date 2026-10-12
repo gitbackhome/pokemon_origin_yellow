@@ -25,9 +25,6 @@ MrPokemonHouse_EventScript_GiveEgg::
 	msgbox MrPokemonHouse_Text_Intro4, MSGBOX_DEFAULT
 	msgbox MrPokemonHouse_Text_Intro5, MSGBOX_DEFAULT
 	closemessage
-	@ Transition to Johto: Prof. Oak no longer appears here. He sent the
-	@ player here himself and is in Pallet Town; and a Kanto champion does
-	@ not need to be handed a Pokedex anymore.
 	setflag FLAG_DELIVERED_EGG
 	turnobject OBJ_EVENT_ID_PLAYER DIR_NORTH
 	fadedefaultbgm

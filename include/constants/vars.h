@@ -332,8 +332,7 @@
 #include "constants/vars_frlg_hns.h"
 #include "constants/vars_origin_jade.h"
 #else
-// Origin Jade gives Devon's fossil revival vars of its own
-// (constants/vars_origin_jade.h); other builds keep the vanilla ones.
+// Other builds: Devon's Hoenn fossil vars are the vanilla ones.
 #define VAR_HOENN_FOSSIL_RESURRECTION_STATE     VAR_FOSSIL_RESURRECTION_STATE
 #define VAR_HOENN_WHICH_FOSSIL_REVIVED          VAR_WHICH_FOSSIL_REVIVED
 #endif

@@ -38,7 +38,7 @@ EverGrandeCity_ChampionsRoom_Movement_PlayerApproachWallace:
 	step_end
 
 EverGrandeCity_ChampionsRoom_EventScript_Wallace::
-	@ Origin Jade: after the league has been won the Elite Four use their rematch teams.
+	@ Origin Jade: rematch team once Hoenn's league is won.
 	goto_if_set FLAG_IS_HOENN_CHAMPION, EverGrandeCity_ChampionsRoom_EventScript_Rematch
 	playbgm MUS_ENCOUNTER_CHAMPION, FALSE
 	msgbox EverGrandeCity_ChampionsRoom_Text_IntroSpeech, MSGBOX_DEFAULT
@@ -66,8 +66,7 @@ EverGrandeCity_ChampionsRoom_EventScript_Defeated::
 	addobject LOCALID_CHAMPIONS_ROOM_RIVAL
 	call EverGrandeCity_ChampionsRoom_EventScript_RivalApproachPlayer
 #if IS_HNS
-	@ HnS canon: the rival is always May, regardless of the player
-	@ character's gender. Brendan stays free as a character of his own.
+	@ HnS: the rival is always May.
 	goto EverGrandeCity_ChampionsRoom_EventScript_MayAdvice
 #else
 	checkplayergender
@@ -146,10 +145,7 @@ EverGrandeCity_ChampionsRoom_EventScript_BirchArrivesExitForHoF::
 	waitmovement 0
 	setflag FLAG_HIDE_PETALBURG_GYM_GREETER
 #if IS_HNS
-	@ HnS: completion of the Hoenn league. FLAG_IS_HOENN_CHAMPION is read by
-	@ the trainer card (GetHnSTrainerStars) but was not set by any script so
-	@ far. The five FLAG_REGISTERED_* flags add the Elite Four to the
-	@ PokeNav contact list - nobody set those either.
+	@ HnS: Hoenn champion title; registers the Elite Four and Wallace in the PokeNav.
 	setflag FLAG_IS_HOENN_CHAMPION
 	setflag FLAG_REGISTERED_SIDNEY
 	setflag FLAG_REGISTERED_PHOEBE

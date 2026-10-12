@@ -69,9 +69,7 @@ VermilionCity_EventScript_CheckHasAuroraTicket::
 	end
 
 VermilionCity_EventScript_CheckSeagallopPresent::
-	@ Kanto merge: the Seagallop went to the retired Sevii Islands. Instead,
-	@ the same ferry menu as in Olivine - the list MULTI_VERMILION_HARBOR
-	@ already existed, it was just tied to the retired HnS map.
+	@ Origin Jade: harbor ferry menu, same destinations as Olivine's.
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	message VermilionCity_Text_WhereSail
 	multichoicegrid 1, 0, MULTI_VERMILION_HARBOR, 2, FALSE
@@ -92,7 +90,7 @@ VermilionCity_EventScript_CancelSail::
 	release
 	end
 
-@ Destinations that require a ticket. Without one the sailor stays friendly.
+@ Destinations that require a ticket.
 VermilionCity_EventScript_ChoseSouthernIsland::
 	goto_if_unset FLAG_ENABLE_SHIP_SOUTHERN_ISLAND, VermilionCity_EventScript_NoTicket
 	checkitem ITEM_EON_TICKET
@@ -135,7 +133,6 @@ VermilionCity_EventScript_ChoseBattleFrontier::
 	release
 	end
 
-@ To Johto. Only possible once the player has been there.
 VermilionCity_EventScript_ChoseOlivine::
 	goto_if_unset FLAG_VISITED_JOHTO, VermilionCity_EventScript_NoTicket
 	closemessage

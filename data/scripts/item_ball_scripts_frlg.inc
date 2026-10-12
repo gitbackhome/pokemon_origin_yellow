@@ -670,7 +670,7 @@ SilphCo_4F_EventScript_ItemTM41::
 	finditem ITEM_TM41
 	end
 
-@ Kanto merge: evolution items that are not available in Kanto otherwise.
+@ Origin Jade: extra evolution items.
 
 SilphCo_9F_EventScript_ItemUpGrade::
 	finditem ITEM_UP_GRADE

@@ -5,7 +5,7 @@ GoldenrodCity_FlowerShop_hns_MapScripts::
 GoldenrodCity_FlowerShop_EventScript_MintClerk::
 	lock
 	faceplayer
-	@ Johto badge 3 (Whitney); Kanto sets FLAG_BADGE03_GET too.
+	@ Johto badge 3 (Whitney).
 	setvar VAR_0x8004, 2
 	special CheckJohtoBadge
 	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_FlowerShop_EventScript_MintClerkNotReady
@@ -58,9 +58,7 @@ GoldenrodCity_FlowerShop_EventScript_Owner::
 	faceplayer
 	goto_if_set FLAG_HIDE_SUDOWOODO, GoldenrodCity_FlowerShop_EventScript_Normal
 	goto_if_set FLAG_RECEIVED_SQUIRTBOTTLE, GoldenrodCity_FlowerShop_EventScript_GotSquirtBottle
-	@ The Squirtbottle waits for Whitney's badge. FLAG_BADGE03_GET is set by
-	@ Kanto already, which handed it out before the third Johto gym and let
-	@ the player clear Sudowoodo early.
+	@ The Squirtbottle needs Johto badge 3 (Whitney).
 	setvar VAR_0x8004, 2
 	special CheckJohtoBadge
 	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_FlowerShop_EventScript_GiveSquirtBottle

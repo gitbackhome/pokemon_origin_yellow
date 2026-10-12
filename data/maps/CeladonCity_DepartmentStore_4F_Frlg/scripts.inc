@@ -31,8 +31,6 @@ CeladonCity_DepartmentStore_4F_Items::
 	.2byte ITEM_THUNDER_STONE
 	.2byte ITEM_WATER_STONE
 	.2byte ITEM_LEAF_STONE
-	@ Kanto merge: Ice Stone and Shiny Stone were not available anywhere
-	@ else in Kanto. They sit on the shelf with the other stones.
 	.2byte ITEM_ICE_STONE
 	.2byte ITEM_SHINY_STONE
 	.2byte ITEM_NONE

@@ -38,9 +38,7 @@ ProfBirch_EventScript_RatePokedexOrRegister::
 #if IS_HNS
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 3, ProfBirch_EventScript_GoFindMrPokemon
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 4, ProfBirch_EventScript_Robbery
-	@ Without this jump execution fell through into the two blocks below and
-	@ Prof. Birch printed Prof. Elm's text. Birch is a character of his own
-	@ and does his own Pokedex rating here.
+	@ Origin Jade: keep this goto, the two blocks below print Elm's texts.
 	goto ProfBirch_EventScript_AskRatePokedex
 #else
 	goto_if_unset FLAG_HAS_MATCH_CALL, ProfBirch_EventScript_AskRatePokedex

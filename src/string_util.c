@@ -490,28 +490,17 @@ static const u8 *ExpandPlaceholder_RivalName(void)
 #endif
 
 #if IS_HNS
-    // HnS canon: in Hoenn the rival is always May (Birch's daughter) -
-    // regardless of the player character's gender. In Johto and Kanto the
-    // same placeholder means the rival named there (Silver), who is stored
-    // in the save at the start of the game. Without this switch {RIVAL}
-    // would print "Silber" in Prof. Birch's lab as well.
+    // Origin Jade: {RIVAL} is May in Hoenn, Blue in Kanto and Silver in Johto.
     if (IsHoennMapsec(gMapHeader.regionMapSectionId))
         return gText_ExpandedPlaceholder_May;
 
-    // Kanto merge: in Kanto {RIVAL} means Blue, in Johto Silver. Each has
-    // its own name storage so a later return trip to Kanto does not
-    // suddenly show Silver's name in Blue's dialogue.
-    // Route22_hns (east of Route 26 North in Johto) carries the HGSS Celebi
-    // event in which Silver meets Giovanni. The map uses the Kanto section
-    // MAPSEC_ROUTE_22, but {RIVAL} there is Silver, not Blue.
+    // Route22_hns uses MAPSEC_ROUTE_22 but belongs to Johto.
     if (gMapHeader.regionMapSectionId >= KANTO_MAPSEC_START
      && gMapHeader.regionMapSectionId <= KANTO_MAPSEC_END
      && !(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ROUTE22_HNS)
        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ROUTE22_HNS)))
     {
-        // The name has to end within the field. A save from before this
-        // field existed holds random data there; without a terminator the
-        // text printer reads beyond it and the game crashes.
+        // Older saves may hold garbage here: only use a terminated name.
         {
             u32 i;
 
@@ -576,16 +565,7 @@ static const u8 *ExpandPlaceholder_Region(void)
 {
     if (IS_HNS)
     {
-        // Origin Jade: {REGION} follows the player's location. Wall maps in
-        // Pokemon Centers, houses etc. therefore always name the region the
-        // player is currently in.
-        //
-        // Before, the switch depended on FLAG_VISITED_KANTO (HnS canon:
-        // start in Johto, Kanto is added later). In Origin Jade Kanto is the
-        // starting region, so the flag stays unset for the whole Kanto half
-        // - every wall map in Kanto talked about "Johto" (finding at Indigo
-        // Plateau). After crossing over it would have said "Johto & Kanto",
-        // although the placeholder is meant to name the current location.
+        // Origin Jade: the region the player is in.
         switch (GetCurrentRegion())
         {
         case REGION_HOENN:

@@ -1,7 +1,4 @@
-@ Kanto-Merge (test/kanto-start):
-@ These symbols were defined in HnS Kanto maps but are referenced by
-@ active Johto maps. They live on here so the HnS Kanto maps can be
-@ retired.
+@ Symbols from the retired HnS Kanto maps that Johto maps still use.
 
 Route7_EventScript_Door::
 	msgbox Route7_Text_LockedDoor, MSGBOX_SIGN

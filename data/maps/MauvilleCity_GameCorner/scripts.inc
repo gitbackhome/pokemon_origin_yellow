@@ -700,9 +700,7 @@ MauvilleCity_GameCorner_EventScript_Girl::
 	msgbox MauvilleCity_GameCorner_Text_GotTwoOfSameDollWantOne, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MauvilleCity_GameCorner_EventScript_DeclineStarterDoll
 #if IS_HNS
-	@ Origin Jade: there is no Hoenn starter choice. The Johto index has the
-	@ same order (grass, fire, water) as Hoenn's, the Kanto one in
-	@ VAR_STARTER_MON does not (FRLG: grass, water, fire).
+	@ Origin Jade: Johto starter index (0 = grass, 1 = fire, 2 = water).
 	switch VAR_JOHTO_STARTER_MON
 #else
 	switch VAR_STARTER_MON
@@ -997,7 +995,7 @@ MauvilleCity_GameCorner_Text_DontHaveEnoughMoneyFor50:
 	.string "Komm doch wieder, wenn du mindestens\n"
 	.string "¥500 dabeihast!$"
 #else
-	@ Upstream text said ¥1000, but COINS_PRICE_50 is 500 - aligned.
+	@ Keep the amount equal to COINS_PRICE_50.
 	.string "Um… You don't appear to have\n"
 	.string "enough money to buy COINS…\p"
 	.string "Please come back when you have\n"
@@ -1021,7 +1019,6 @@ MauvilleCity_GameCorner_Text_NoRoomFor50Coins:
 	.string "Malvenfroh! Oder tausche deine Münzen\l"
 	.string "erst gegen Preise ein!$"
 #else
-	@ Upstream said GOLDENROD here - copy-paste slip, this is Mauville.
 	.string "Oh! Your COIN CASE is too full to buy\n"
 	.string "any more COINS!\p"
 	.string "Enjoy the MAUVILLE GAME CORNER or\n"
@@ -1039,7 +1036,7 @@ MauvilleCity_GameCorner_Text_NoRoomForCoins:
 	.string "Your COIN CASE can't fit those COINS...$"
 #endif
 
-@ No callers since the bulk purchase rework (upstream) - kept as dead text.
+@ Unused, has no text of its own.
 MauvilleCity_GameCorner_Text_CoinCaseIsFull:
 
 MauvilleCity_GameCorner_Text_DontNeedCoinsThen:

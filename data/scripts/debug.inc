@@ -8,15 +8,14 @@ Debug_ShowFieldMessageStringVar4::
 	special ShowFieldMessageStringVar4
 	goto Debug_MessageEnd
 
-@ HnS test tool: jumps straight into the port building of Olivine City.
+@ Debug: warp into Olivine City's port building.
 Debug_EventScript_HnsWarpOlivinePort::
 	setvar VAR_OLIVINE_CITY_STATE, 5
 	warp MAP_OLIVINE_CITY_PORT_INSIDE_HNS, 8, 9
 	waitstate
 	end
 
-@ Test tool: jumps into Prof. Oak's lab in Pallet Town, where the GS Ball
-@ is handed over after the Kanto run.
+@ Debug: warp into Prof. Oak's lab (GS Ball handover).
 Debug_EventScript_JohtoTestWarpOaksLab::
 	warp MAP_PALLET_TOWN_PROFESSOR_OAKS_LAB, 6, 11
 	waitstate

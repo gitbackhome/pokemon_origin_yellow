@@ -2,20 +2,10 @@
 #define GUARD_CONSTANTS_VARS_ORIGIN_JADE_H
 
 // =====================================================================
-// Origin Jade - reserved var block
+// Origin Jade - reserved var block (0x4300-0x437F, stored in SaveBlock3)
 //
-// Counterpart to constants/flags_origin_jade.h; the same rules apply.
-// New Origin Jade vars come from this block, not appended to
-// vars_hoenn_de.h anymore.
-//
-// Here too the storage lives in SaveBlock3 (GetVarPointer in
-// src/event_data.c) because SaveBlock1 is full. The numbers
-// 0x4300-0x437F lie behind the FRLG vars (0x4200-0x42BF) and far below
-// the special vars (0x8000).
-//
-// Layout as for the flags: Kanto, Johto, Hoenn, cross-region, with eight
-// spare slots between each. Vars cost two bytes instead of one bit, so
-// the block is smaller - if you only need a yes/no, use a flag.
+// Add new Origin Jade vars here, in their region's section. Same rules as
+// constants/flags_origin_jade.h. For yes/no values use a flag.
 // =====================================================================
 
 #define OJ_VARS_START               0x4300
@@ -41,81 +31,49 @@
 // ---------------------------------------------------------------------
 // HM permits as a bitmask, see include/johto_permits.h.
 #define VAR_JOHTO_PERMITS           (OJ_VARS_JOHTO + 0)
-// No VAR_JOHTO_BADGES here: it has existed in constants/vars_frlg_hns.h
-// since the Kanto merge, and the trainer card already reads it. It is
-// only being filled now (src/johto_badges.c).
-// Progress of the arrival from Kanto, counterpart to VAR_HOENN_ARRIVAL_STATE.
+// VAR_JOHTO_BADGES is in constants/vars_frlg_hns.h.
+// Arrival from Kanto: 0 = a girl blocks New Bark Town's exit, 1 = exit open (set by Elm).
 #define VAR_JOHTO_ARRIVAL_STATE     (OJ_VARS_JOHTO + 1)
-// Johto starter from Elm's lab, in HnS order: 0 Chikorita, 1 Cyndaquil,
-// 2 Totodile (the index GetStarterPokemon expects in IS_HNS). Silver's
-// teams, Mom's starter doll and the credits read it. VAR_STARTER_MON
-// keeps the Kanto choice from Oak's lab (FRLG order: 0 Bulbasaur,
-// 1 Squirtle, 2 Charmander) for Blue's teams; Elm's lab used to overwrite
-// it. Older saves are migrated once in LoadGameSave (src/save.c).
+// Johto starter from Elm's lab: 0 = Chikorita, 1 = Cyndaquil, 2 = Totodile.
+// VAR_STARTER_MON keeps the Kanto starter (0 = Bulbasaur, 1 = Squirtle, 2 = Charmander).
 #define VAR_JOHTO_STARTER_MON       (OJ_VARS_JOHTO + 2)
 
 // ---------------------------------------------------------------------
 // Hoenn (OJ_VARS_HOENN + 0 to + 23)
 // ---------------------------------------------------------------------
-// Relocated Hoenn vars. vars.h keeps every Emerald var on its vanilla
-// number, and vars_hns.h hands the same numbers to HnS content. Each of
-// these was used by a live Hoenn script and by a live HnS script or by C
-// at the same time. Examples: the Pokegear radio writes its weekly lucky
-// number into VAR_OLDALE_RIVAL_STATE and VAR_JAGGED_PASS_STATE, and Trick
-// House puzzle 5 overwrote VAR_SINJOH_STORYLINE. As with the flags, the
-// Hoenn side moves so the HnS numbers stay put for upstream merges.
-// shared its number with VAR_ALOLA_TRAVEL
+// Hoenn vars moved off the numbers that vars_hns.h gives to HnS content.
 #undef  VAR_TRICK_HOUSE_PUZZLE_3_STATE
 #define VAR_TRICK_HOUSE_PUZZLE_3_STATE          (OJ_VARS_HOENN + 0)
-// shared its number with VAR_ALOLA_STATE
 #undef  VAR_TRICK_HOUSE_PUZZLE_4_STATE
 #define VAR_TRICK_HOUSE_PUZZLE_4_STATE          (OJ_VARS_HOENN + 1)
-// shared its number with VAR_SINJOH_STORYLINE
 #undef  VAR_TRICK_HOUSE_PUZZLE_5_STATE
 #define VAR_TRICK_HOUSE_PUZZLE_5_STATE          (OJ_VARS_HOENN + 2)
-// shared its number with VAR_TRIGGER_ELM_ROCKET_CALL
 #undef  VAR_WEATHER_INSTITUTE_STATE
 #define VAR_WEATHER_INSTITUTE_STATE             (OJ_VARS_HOENN + 3)
-// shared its number with VAR_NOBLE_WYRDEER
 #undef  VAR_TRICK_HOUSE_PUZZLE_7_STATE_2
 #define VAR_TRICK_HOUSE_PUZZLE_7_STATE_2        (OJ_VARS_HOENN + 4)
-// shared its number with VAR_NOBLE_ARCANINE
 #undef  VAR_SLATEPORT_FAN_CLUB_STATE
 #define VAR_SLATEPORT_FAN_CLUB_STATE            (OJ_VARS_HOENN + 5)
-// shared its number with VAR_NOBLE_KLEAVOR
 #undef  VAR_MT_PYRE_STATE
 #define VAR_MT_PYRE_STATE                       (OJ_VARS_HOENN + 6)
-// shared its number with VAR_SAFFRON_CITY_STATE
 #undef  VAR_JAGGED_PASS_ASH_WEATHER
 #define VAR_JAGGED_PASS_ASH_WEATHER             (OJ_VARS_HOENN + 7)
-// shared its number with VAR_SHUCKIE
 #undef  VAR_GLASS_WORKSHOP_STATE
 #define VAR_GLASS_WORKSHOP_STATE                (OJ_VARS_HOENN + 8)
-// shared its number with VAR_SLOWPOKE_TAIL
 #undef  VAR_METEOR_FALLS_STATE
 #define VAR_METEOR_FALLS_STATE                  (OJ_VARS_HOENN + 9)
-// shared its number with VAR_SPROUT_TOWER
 #undef  VAR_SOOTOPOLIS_MYSTERY_EVENTS_STATE
 #define VAR_SOOTOPOLIS_MYSTERY_EVENTS_STATE     (OJ_VARS_HOENN + 10)
-// shared its number with VAR_VIRIDIAN_CITY_STATE
 #undef  VAR_TRICK_HOUSE_PRIZE_PICKUP
 #define VAR_TRICK_HOUSE_PRIZE_PICKUP            (OJ_VARS_HOENN + 11)
-// shared its number with VAR_WILTON_ITEM_HNS
 #undef  VAR_VICTORY_ROAD_1F_STATE
 #define VAR_VICTORY_ROAD_1F_STATE               (OJ_VARS_HOENN + 12)
-// shared its number with VAR_RADIO_LUCKY_ID
 #undef  VAR_OLDALE_RIVAL_STATE
 #define VAR_OLDALE_RIVAL_STATE                  (OJ_VARS_HOENN + 13)
-// shared its number with VAR_RADIO_LUCKY_ID_HI
 #undef  VAR_JAGGED_PASS_STATE
 #define VAR_JAGGED_PASS_STATE                   (OJ_VARS_HOENN + 14)
-// Devon's fossil revival in Rustboro. Not an #undef like the vars above:
-// the Ruins of Alph lab in Johto uses the very same names
-// (VAR_FOSSIL_RESURRECTION_STATE, VAR_WHICH_FOSSIL_REVIVED), so the Devon
-// scripts use these names instead. Shared, a fossil left in one lab was
-// advanced and handed out by the other - and a Johto fossil (index 3-5)
-// locked up Devon's scientist. FLAG_RECEIVED_REVIVED_FOSSIL_MON stays
-// shared: only the Fossil Maniac on Route 114 reads it, with a generic line.
+// Devon's fossil revival in Rustboro. VAR_FOSSIL_RESURRECTION_STATE and
+// VAR_WHICH_FOSSIL_REVIVED belong to the Ruins of Alph lab.
 #define VAR_HOENN_FOSSIL_RESURRECTION_STATE     (OJ_VARS_HOENN + 15)
 #define VAR_HOENN_WHICH_FOSSIL_REVIVED          (OJ_VARS_HOENN + 16)
 

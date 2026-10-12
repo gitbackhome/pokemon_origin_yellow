@@ -12,9 +12,6 @@ GraniteCave_StevensRoom_EventScript_Steven::
 	giveitem_unless_owned ITEM_TM_STEEL_WING
 	call_if_eq VAR_RESULT, FALSE, GraniteCave_StevensRoom_EventScript_BagFull
 #if IS_HNS
-	@ HnS: both texts are dropped. Steven has been in the contact list since
-	@ the arrival (hoenn_arrival.inc sets FLAG_REGISTERED_STEVEN_POKENAV),
-	@ and he does not need to tell the player about the champion title.
 	closemessage
 #else
 	msgbox GraniteCave_StevensRoom_Text_CouldBecomeChampionLetsRegister, MSGBOX_DEFAULT

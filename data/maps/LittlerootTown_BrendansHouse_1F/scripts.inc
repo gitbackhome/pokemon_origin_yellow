@@ -648,15 +648,8 @@ BrendansHouse_1F_Text_ChampionVisit:
 	.string "a hurry.$"
 #endif
 
-@ HnS: Littleroot Town without the player's family - this house belongs to
-@ Norman's family (see Norman's dialogue in the Petalburg gym). The house
-@ next door (MaysHouse) stays Prof. Birch's family.
+@ HnS: this house belongs to Norman's family.
 LittlerootTown_BrendansHouse_1F_EventScript_NormansFrau::
-	@ HnS: she does not know the player and never speaks up on her own.
-	@ Her text changes exactly once - when the gym renovation is finished
-	@ (VAR_PETALBURG_GYM_STATE reaches 6). After that it stays, whether
-	@ Norman has been beaten or not. This family has nothing to do with the
-	@ player.
 	goto_if_ge VAR_PETALBURG_GYM_STATE, 6, LittlerootTown_BrendansHouse_1F_EventScript_NormansFrauGymOpen
 	msgbox LittlerootTown_BrendansHouse_1F_Text_NormansFrau, MSGBOX_NPC
 	end
@@ -686,7 +679,6 @@ LittlerootTown_BrendansHouse_1F_Text_NormansFrau:
 	.string "with his POKéMON, too.$"
 #endif
 
-@ HnS: second and final state - from the reopening of the gym on.
 LittlerootTown_BrendansHouse_1F_Text_NormansFrauGymOpen:
 #if GERMAN
 	.string "Ah, ein Besucher! Mein Mann Norman\n"

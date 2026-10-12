@@ -13,12 +13,7 @@ SaffronCity_Dojo_EventScript_TriggerMasterBattleRight::
 	waitmovement 0
 	goto SaffronCity_Dojo_EventScript_MasterBattleFromTrigger
 
-@ Origin Jade: the Karate Master stands at (6,5) and his line of sight only
-@ covers column 6. The balls lie at (5,3) and (7,3), reachable via
-@ columns 5 and 7. The two triggers used to just turn him around and rely
-@ on the line of sight kicking in afterwards; if that failed, the trigger
-@ was used up anyway and he could be walked around for good. The battle
-@ now starts directly from the trigger.
+@ Origin Jade: the triggers in columns 5 and 7 start the Karate Master battle.
 SaffronCity_Dojo_EventScript_MasterBattleFromTrigger::
 	msgbox SaffronCity_Dojo_Text_MasterKoichiIntro, MSGBOX_DEFAULT
 	closemessage
@@ -145,7 +140,7 @@ SaffronCity_Dojo_EventScript_Mike::
 
 SaffronCity_Dojo_EventScript_MasterKoichi::
 	trainerbattle_single TRAINER_BLACK_BELT_KOICHI, SaffronCity_Dojo_Text_MasterKoichiIntro, SaffronCity_Dojo_Text_MasterKoichiDefeat, SaffronCity_Dojo_EventScript_DefeatedMasterKoichi
-	@ Kanto merge: only once both balls have been taken.
+	@ Origin Jade: only once both balls have been taken.
 	goto_if_unset FLAG_HIDE_DOJO_HITMONLEE_BALL, SaffronCity_Dojo_EventScript_MasterKoichiChoose
 	goto_if_set FLAG_HIDE_DOJO_HITMONCHAN_BALL, SaffronCity_Dojo_EventScript_MasterKoichiAlreadyGotHitmon
 SaffronCity_Dojo_EventScript_MasterKoichiChoose::
@@ -386,8 +381,7 @@ SaffronCity_Dojo_Text_FightingDojo::
 	.string "FIGHTING DOJO$"
 #endif
 
-@ Sets the flag of the ball that was just taken. VAR_TEMP_1 holds the
-@ species set by the respective ball script.
+@ VAR_TEMP_1 = species of the ball that was taken.
 SaffronCity_Dojo_EventScript_MarkBallTaken::
 	goto_if_eq VAR_TEMP_1, SPECIES_HITMONLEE, SaffronCity_Dojo_EventScript_MarkHitmonlee
 	setflag FLAG_HIDE_DOJO_HITMONCHAN_BALL

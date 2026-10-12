@@ -9625,9 +9625,7 @@ const struct ItemInfo gItemsInfo[] =
     {
         .name = ITEM_NAME("Metallmantel"),
         .pluralName = ITEM_PLURAL_NAME("Metallmäntel"),
-        // Price from the HnS price correction (2.0.2). The I_PRICE ladder
-        // below used to be here; evolution items are meant to stay
-        // expensive in HnS.
+        // HnS price (2.0.2).
         //#if I_PRICE >= GEN_9
         //    .price = 3000,
         //#elif I_PRICE >= GEN_7
@@ -14169,7 +14167,6 @@ const struct ItemInfo gItemsInfo[] =
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
     },
 
-    // Under HnS, Whirlpool takes HM08 and Dive moves up to HM09.
     [ITEM_HM_DIVE] =
     {
         .name = ITEM_NAME("VM09"),
@@ -14958,10 +14955,7 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Kelleröffner"),
         .price = 0,
 #if IS_HNS
-        // HnS: this item is now only given out in the Goldenrod Radio Tower
-        // and opens the door in the Goldenrod Underground. New Mauville
-        // depends on ITEM_NEW_MAUVILLE_KEY. Description after HGSS,
-        // shortened (style A).
+        // HnS: opens the door in the Goldenrod Underground.
         .description = COMPOUND_STRING(
             "Schlüssel für eine\n"
             "Tür in der Dukatia-\n"
@@ -15217,7 +15211,7 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Türöffner"),
         .price = 0,
 #if IS_HNS
-        // HnS: here the Card Key belongs to the Goldenrod Radio Tower.
+        // HnS: Card Key of the Goldenrod Radio Tower.
         .description = COMPOUND_STRING(
             "Schlüsselkarte für\n"
             "eine Tür im\n"

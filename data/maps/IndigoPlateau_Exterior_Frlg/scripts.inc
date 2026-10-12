@@ -14,14 +14,8 @@ IndigoPlateau_Exterior_OnResume::
 	call IndigoPlateau_Exterior_EventScript_SetDoorWarp
 	end
 
-@ Origin Jade (decision 2026-10-11, D-010): once the league has changed
-@ (PokemonLeague_EventScript_CheckLeagueChanged) Kanto's league is gone and
-@ the door leads into Johto's league center instead of Kanto's. Fly keeps
-@ landing here, and the stairs keep leading down to Kanto's Route 23 and
-@ Victory Road (Moltres). The door warp is MAP_DYNAMIC; the target is set on
-@ map load and again on resume, which also covers continuing a save made here.
-@ Johto's center leaves through its own door onto IndigoPlateau_hns, which
-@ uses the same layout.
+@ Origin Jade: sets the MAP_DYNAMIC door warp to Kanto's league center, or to
+@ Johto's after the league change.
 IndigoPlateau_Exterior_EventScript_SetDoorWarp::
 	call PokemonLeague_EventScript_CheckLeagueChanged
 	goto_if_eq VAR_RESULT, TRUE, IndigoPlateau_Exterior_EventScript_DoorToJohtoLeague
@@ -76,16 +70,11 @@ IndigoPlateau_Exterior_EventScript_Credits::
 	waitdooranim
 	delay 160
 
-	@ Kanto merge: Oak turns to the player and asks them to his lab - this
-	@ is the link to the journey to Johto.
-	@ Origin Jade: only after the first Kanto title. Every rematch win
-	@ replays this scene; without the check Oak would start the errand again
-	@ and hand out a second GS Ball.
+	@ Origin Jade: after the first Kanto title Oak asks the player to his lab.
 	goto_if_ne VAR_JOHTO_HANDOVER, 0, IndigoPlateau_Exterior_EventScript_OakLeaves
 	applymovement LOCALID_CREDITS_PROF_OAK, Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox IndigoPlateau_Exterior_Text_OakComeToMyLab
-	@ From here on Oak keeps the GS Ball ready for the player in his lab.
 	setvar VAR_JOHTO_HANDOVER, 1
 	closemessage
 	delay 20
@@ -116,13 +105,7 @@ IndigoPlateau_Exterior_EventScript_OakLeaves:
 	setvar VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR, 0
 	removeobject LOCALID_CREDITS_RIVAL
 	removeobject LOCALID_CREDITS_PROF_OAK
-	@ Kanto merge: no credits - Kanto is the first of three chapters.
-	@ In FRLG the credits roll takes over here and drops the player at home
-	@ afterwards. Without it the player is left standing off-screen, so we
-	@ warp to Pallet Town ourselves.
-	@ Origin Jade: nothing after warp + waitstate runs any more (the map load
-	@ ends the script), so the former "face up" movement here never played;
-	@ ScrCmd_warp lets the player arrive facing down.
+	@ Origin Jade: no credits, warp the player home to Pallet Town.
 	setrespawn HEAL_LOCATION_PALLET_TOWN
 	fadescreen FADE_TO_BLACK
 	warp MAP_PALLET_TOWN_PLAYERS_HOUSE_2F, 6, 6

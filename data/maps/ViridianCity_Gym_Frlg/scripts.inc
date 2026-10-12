@@ -23,9 +23,8 @@ ViridianCity_Gym_EventScript_DefeatedGiovanni::
 	goto ViridianCity_Gym_EventScript_GiveRockSmash
 	end
 
-@ Origin Jade: Giovanni gives HM Rock Smash instead of TM26. That makes it
-@ available before the endgame; FLAG_GOT_TM26_FROM_GIOVANNI stays as the
-@ marker so existing saves are not disturbed.
+@ Origin Jade: HM Rock Smash instead of TM26. FLAG_GOT_TM26_FROM_GIOVANNI
+@ marks it as received.
 ViridianCity_Gym_EventScript_GiveRockSmash::
 	msgbox ViridianCity_Gym_Text_ExplainEarthBadgeTakeThis
 	checkitemspace ITEM_HM_ROCK_SMASH

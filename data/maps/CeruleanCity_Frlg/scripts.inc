@@ -59,16 +59,12 @@ CeruleanCity_EventScript_Rival::
 	call_if_eq VAR_TEMP_1, 0, CeruleanCity_EventScript_RivalStartExit
 	call_if_eq VAR_TEMP_1, 1, CeruleanCity_EventScript_RivalStartExit
 	call_if_eq VAR_TEMP_1, 2, CeruleanCity_EventScript_RivalStartExitRight
-	@ Kanto merge: the Fame Checker is dropped - the PokeGear keeps the
-	@ contacts. That also removes the turning around: the rival leaves in
-	@ one go instead of stopping and speaking up once more.
+	@ Origin Jade: the rival leaves without handing over the Fame Checker.
 	setvar VAR_MAP_SCENE_CERULEAN_CITY_RIVAL, 1
 	setflag FLAG_GOT_FAME_CHECKER
 	applymovement LOCALID_CERULEAN_RIVAL, CeruleanCity_Movement_RivalExit
 	waitmovement 0
 	fadedefaultbgm
-	@ Kanto merge: removeobject only lasts until the map is entered again.
-	@ Without the flag the rival stood there again on the next visit.
 	setflag FLAG_HIDE_CERULEAN_RIVAL
 	removeobject LOCALID_CERULEAN_RIVAL
 	releaseall
@@ -122,8 +118,6 @@ CeruleanCity_Movement_RivalEnter::
 	walk_down
 	step_end
 
-@ Kanto merge: the rival ran off, stopped and came back up - that was the
-@ run-up to the Fame Checker. That is dropped, so he walks straight through.
 CeruleanCity_Movement_RivalStartExit::
 	walk_right
 	walk_down
@@ -135,8 +129,6 @@ CeruleanCity_Movement_RivalStartExit::
 	walk_down
 	step_end
 
-@ Kanto merge: the rival ran off, stopped and came back up - that was the
-@ run-up to the Fame Checker. That is dropped, so he walks straight through.
 CeruleanCity_Movement_RivalStartExitRight::
 	walk_left
 	walk_down
@@ -230,11 +222,7 @@ CeruleanCity_EventScript_Policeman::
 	release
 	end
 
-@ Block trigger on the four tiles left of the policeman (40-43, 20).
-@ Active while the guard duty lasts (until Bill hands over the ticket, like
-@ BlockExits). The player is pushed back one step up.
-@ After the ticket, the first contact defuses all four triggers for the
-@ rest of the map visit (VAR_TEMP_0 is reset when entering the map).
+@ Trigger on tiles 40-43,20: the policeman blocks them until the player has the S.S. Ticket.
 CeruleanCity_EventScript_PolicemanBlock::
 	lockall
 	goto_if_set FLAG_GOT_SS_TICKET, CeruleanCity_EventScript_PolicemanBlockOver

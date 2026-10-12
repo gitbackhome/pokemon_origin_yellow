@@ -54,9 +54,7 @@ RusturfTunnel_EventScript_ClearTunnelScene::
 	call_if_eq VAR_TEMP_1, 3, RusturfTunnel_EventScript_FaceWandasBoyfriend3
 	call RusturfTunnel_EventScript_WandasBoyfriendNotice
 #if IS_HNS
-	@ HnS: the license for Strength is granted only by Flannery with the
-	@ Heat Badge (see LavaridgeTown_Gym_1F). Nothing is handed out here
-	@ anymore.
+	@ HnS: no handover, the Strength license comes with the Heat Badge.
 	msgbox Text_HnsShatteredBoulderNoHandover, MSGBOX_DEFAULT
 #else
 	msgbox RusturfTunnel_Text_YouShatteredBoulderTakeHM, MSGBOX_DEFAULT
@@ -666,8 +664,7 @@ RusturfTunnel_Text_MikePostBattle:
 #endif
 
 #if IS_HNS
-@ No longer jumped to since the license depends on the Heat Badge.
-@ Kept so nothing gets deleted.
+@ Unused.
 Text_HnsStrengthLicense:
 #if GERMAN
 	.string "{PLAYER} erhält die Lizenz für\n"

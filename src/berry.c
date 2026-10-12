@@ -22,27 +22,19 @@ static u8 GetNumStagesWateredByBerryTreeId(u8 id);
 #if IS_HNS
 static u8 sLastPickedBerryType = BERRY_NONE;
 
-// Origin Jade: Hoenn uses the Emerald farming system (planting, watering,
-// species-specific growth times), Johto/Kanto the HGSS self-sustaining
-// system (fixed growth times, automatic replanting on picking).
-// The tree slot decides how interactions behave, and the same goes for
-// background growth: Hoenn uses save slots 0-89, Johto/Kanto 90 and up.
-// Known map data bug: three Johto trees share slots 2, 31 and 33 with
-// Hoenn (can only be fixed after the HnS full release, see planning
-// notes) - those use Hoenn growth for the time being.
+// Origin Jade: trees in save slots below HNS_BERRY_TREE_FIRST_ID (Hoenn) use the
+// Emerald farming system, all others (Johto/Kanto) the HGSS self-sustaining one.
+// Three Johto trees share slots 2, 31 and 33 with Hoenn and grow like Hoenn trees.
 #define HNS_BERRY_TREE_FIRST_ID 90
-// TRUE if the berry tree save slot belongs to Hoenn (Emerald farming
-// rules); Johto/Kanto trees use the slots from HNS_BERRY_TREE_FIRST_ID on.
 static bool32 BerryTreeIdIsHoenn(u8 id)
 {
     return id < HNS_BERRY_TREE_FIRST_ID;
 }
-// Same as BerryTreeIdIsHoenn, for a pointer into gSaveBlock1Ptr->berryTrees.
 static bool32 BerryTreeIsHoenn(struct BerryTree *tree)
 {
     return BerryTreeIdIsHoenn((u8)(tree - gSaveBlock1Ptr->berryTrees));
 }
-// HGSS growth time (formerly the IS_HNS branch of GetStageDurationByBerryType)
+// HGSS growth time per stage
 static u16 GetStageDurationHns(u8 berry)
 {
     if (berry == ITEM_TO_BERRY(ITEM_LUM_BERRY) || berry == ITEM_TO_BERRY(ITEM_SITRUS_BERRY))
@@ -1872,9 +1864,7 @@ bool32 BerryTreeGrow(struct BerryTree *tree)
         case BERRY_STAGE_TALLER:
         case BERRY_STAGE_FLOWERING:
         {
-            // Origin Jade: HGSS self-sustaining trees bear a random 1-5
-            // berries (capped per species) instead of always the maximum
-            // (playtest report).
+            // Origin Jade: HGSS trees bear 1-5 berries, at most the species' maxYield.
             u8 cap = GetBerryInfo(tree->berry)->maxYield;
             if (cap > 5)
                 cap = 5;
@@ -1946,7 +1936,7 @@ void BerryTreeTimeUpdate(s32 minutes)
         tree = &gSaveBlock1Ptr->berryTrees[i];
 
 #if IS_HNS
-        // HGSS tree (Johto/Kanto): simple minute counter, fixed growth time.
+        // HGSS tree (Johto/Kanto): minute counter, fixed growth time.
         if (!BerryTreeIsHoenn(tree))
         {
             if (tree->berry && tree->stage && !tree->stopGrowth && tree->stage != BERRY_STAGE_BERRIES)
@@ -2227,7 +2217,7 @@ static u8 GetBerryCountByBerryTreeId(u8 id)
 
 static u16 GetStageDurationByBerryType(u8 berry)
 {
-    // Emerald growth time; the HGSS branch lives in GetStageDurationHns().
+    // Emerald growth time; HGSS trees use GetStageDurationHns().
     return GetBerryInfo(berry)->growthDuration * 60 / (OW_BERRY_SIX_STAGES ? 6 : 4);
 }
 

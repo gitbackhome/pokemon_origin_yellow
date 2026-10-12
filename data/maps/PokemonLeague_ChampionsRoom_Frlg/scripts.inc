@@ -55,9 +55,7 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom::
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
 	savebgm MUS_VICTORY_GYM_LEADER
-	@ Origin Jade: FRLG picks the rematch teams by FLAG_IS_CHAMPION, which
-	@ only its postgame sets. Here that is the title of a later league, so
-	@ they follow the Kanto title (set by the Kanto Hall of Fame).
+	@ Origin Jade: rematch team once Kanto's league is won.
 	call_if_unset FLAG_IS_KANTO_CHAMPION, PokemonLeague_ChampionsRoom_EventScript_Battle
 	call_if_set FLAG_IS_KANTO_CHAMPION, PokemonLeague_ChampionsRoom_EventScript_Rematch
 	setflag FLAG_TEMP_4
@@ -74,10 +72,7 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom::
 	applymovement LOCALID_CHAMPIONS_ROOM_PROF_OAK, PokemonLeague_ChampionsRoom_Movement_OakEnter
 	waitmovement 0
 	delay 25
-	@ Kanto merge: GetStarterPokemon reads sStarterMon, which picks between
-	@ Kanto and Hoenn via IS_FRLG - in the HnS build it returned Treecko.
-	@ VAR_STARTER_MON holds the FRLG number anyway, so the species can be
-	@ determined from it directly.
+	@ Origin Jade: use VAR_STARTER_MON, GetStarterPokemon returns Hoenn starters in this build.
 	call_if_eq VAR_STARTER_MON, 0, PokemonLeague_ChampionsRoom_EventScript_NameBulbasaur
 	call_if_eq VAR_STARTER_MON, 1, PokemonLeague_ChampionsRoom_EventScript_NameSquirtle
 	call_if_eq VAR_STARTER_MON, 2, PokemonLeague_ChampionsRoom_EventScript_NameCharmander

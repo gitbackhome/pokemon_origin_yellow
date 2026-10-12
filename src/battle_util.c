@@ -5728,19 +5728,9 @@ enum Obedience GetAttackerObedienceForAction(void)
         return OBEYS;
     if (B_OBEDIENCE_MECHANICS < GEN_8 && !IsOtherTrainer(gBattleMons[gBattlerAttacker].otId, gBattleMons[gBattlerAttacker].otName))
         return OBEYS;
-    // Origin Jade: the limit depends on the number of badges, not on
-    // specific badge flags. Koga and Sabrina can be beaten in any order, so
-    // referring to individual flags would be ambiguous there.
-    //
-    // The eighth badge no longer lifts the limit but sets it to 50.
-    // Kanto ends at level 52; Johto is meant to follow with limits of its
-    // own. GetCurrentBadgeCount counts the badge flags FLAG_BADGE01-16 (NUM_BADGES
-    // is 16 under HnS); in Origin Jade only FLAG_BADGE01-08 get set (by the
-    // Kanto gyms, and again by the Johto gyms), so the count stops at 8 and
-    // the Johto badges (VAR_JOHTO_BADGES) are not included yet.
-    //
-    // The gym leaders announce the same values: Vermilion says 25, whoever
-    // hands out the sixth badge says 40, Viridian says 50.
+    // Origin Jade: obedience level by number of Kanto badges (Johto badges in
+    // VAR_JOHTO_BADGES do not count). Gym leader texts name 25, 40 and 50:
+    // keep them in sync.
     {
         // No badges: 10, then five more per badge.
         static const u8 sObedienceLevelByBadges[NUM_BADGES_CAPPED + 1] =

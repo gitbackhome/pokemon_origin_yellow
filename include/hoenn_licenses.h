@@ -3,10 +3,7 @@
 
 #include "constants/hoenn_licenses.h"
 
-// HM licenses for Hoenn. The player has long mastered the field moves
-// (Johto champion) but may only use them in Hoenn after official
-// permission. Only the moves that gate progress are locked -- Fly and
-// Flash stay free.
+// HM licenses: in Hoenn a field move needs its license.
 
 bool32 HasHoennLicense(u32 index);
 bool32 HoennLicensesApply(void);   // TRUE if the player is currently in Hoenn

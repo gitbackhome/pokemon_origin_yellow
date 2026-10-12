@@ -5,10 +5,7 @@ FallarborTown_PokemonCenter_1F_MapScripts::
 
 FallarborTown_PokemonCenter_1F_OnTransition:
 #if IS_HNS
-	@ Origin Jade: repair only for the intermediate state of 0198 - and ONLY
-	@ while her leaving scene has not run yet (removeobject sets her hide
-	@ flag automatically; an unconditional clearflag brought her back on
-	@ every entry after the scene, playtest report).
+	@ Origin Jade: save repair, shows Lanette here until her leaving scene has run.
 	call_if_set FLAG_HIDE_LANETTES_HOUSE_LANETTE, FallarborTown_PokemonCenter_1F_EventScript_RepairLanetteHidden
 #endif
 	setrespawn HEAL_LOCATION_FALLARBOR_TOWN

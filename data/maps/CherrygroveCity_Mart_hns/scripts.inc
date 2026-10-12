@@ -6,10 +6,6 @@ Cherrygrove_Pokemart_EventScript_Clerk::
 	faceplayer
 	message gText_HowMayIServeYou
 	waitmessage
-	@ Origin Jade: the stock used to be limited to Potion and Antidote until
-	@ the Poke Ball delivery, after which Clerk2 showed "pokemart 0" - a
-	@ null pointer, i.e. no shop at all. Both removed: one stock, from the
-	@ start at the level of a player who has finished Kanto.
 	pokemart Cherrygrove_Pokemart_Pokemart
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
 	release

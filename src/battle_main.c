@@ -2029,8 +2029,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
         u32 monIndices[monsCount];
         DoTrainerPartyPool(trainer, monIndices, monsCount, battleTypeFlags);
 
-        // Level scaling (Hoenn/Johto): the team's highest original level
-        // is the reference, so the team structure survives the scaling.
+        // Level scaling (Hoenn/Johto): scale relative to the team's highest level.
         u8 scalingPartyMaxLvl = 0;
         for (i = 0; i < monsCount; i++)
         {
@@ -5946,8 +5945,7 @@ static void HandleEndTurn_FinishBattle(void)
             {
                 // An off-type mon under the One Type Challenge could never have been
                 // caught, so it must not burn the route's Nuzlocke encounter.
-                // The Safari Zone / Bug Contest suspend the one-encounter-per-zone
-                // rule, so a catch there must not burn the zone either.
+                // Safari Zone and Bug Contest catches do not use it up either.
                 if (!NuzlockeIsSpeciesClauseActive && !OneTypeChallengeCaptureBlocked
                  && !IsNuzlockeCaptureSuspended())
                     NuzlockeFlagSet(NuzlockeGetCurrentRegionMapSectionId());

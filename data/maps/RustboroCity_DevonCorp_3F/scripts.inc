@@ -57,8 +57,7 @@ RustboroCity_DevonCorp_3F_EventScript_MeetPresident::
 	setflag FLAG_SYS_POKENAV_GET
 	setflag FLAG_RECEIVED_POKENAV
 #if IS_HNS
-	@ HnS: from here on the player knows Mr. Stone - only now does he show
-	@ up in the PokeNav contact list (he used to hang on Norman's flag).
+	@ Origin Jade: adds Mr. Stone to the PokeNav contacts.
 	setflag FLAG_MET_MR_STONE
 #endif
 	setflag FLAG_HIDE_RUSTBORO_CITY_POKEMON_SCHOOL_SCOTT

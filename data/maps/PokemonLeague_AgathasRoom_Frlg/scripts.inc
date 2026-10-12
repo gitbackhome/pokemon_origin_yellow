@@ -54,9 +54,7 @@ PokemonLeague_AgathasRoom_EventScript_Agatha::
 	call_if_set FLAG_SYS_GAME_CLEAR, PokemonLeague_AgathasRoom_EventScript_RematchIntro
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
-	@ Origin Jade: FRLG picks the rematch teams by FLAG_IS_CHAMPION, which
-	@ only its postgame sets. Here that is the title of a later league, so
-	@ they follow the Kanto title (set by the Kanto Hall of Fame).
+	@ Origin Jade: rematch team once the player is Kanto champion.
 	call_if_unset FLAG_IS_KANTO_CHAMPION, PokemonLeague_AgathasRoom_EventScript_Battle
 	call_if_set FLAG_IS_KANTO_CHAMPION, PokemonLeague_AgathasRoom_EventScript_Rematch
 	clearflag FLAG_TEMP_5

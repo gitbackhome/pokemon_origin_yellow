@@ -268,8 +268,6 @@ bool32 IsRematchEntryRegistered(int rematchIndex)
 {
     if (rematchIndex < REMATCH_TABLE_ENTRIES)
     {
-        // Never offer empty table slots as contacts -- they would have
-        // neither a name nor a class and could not be called sensibly.
         if (gRematchTable[rematchIndex].trainerIds[0] == TRAINER_NONE)
             return FALSE;
 

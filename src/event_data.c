@@ -27,12 +27,7 @@ EWRAM_DATA u16 gSpecialVar_MonBoxPos = 0;
 EWRAM_DATA u16 gSpecialVar_Unused_0x8014 = 0;
 EWRAM_DATA static u8 sSpecialFlags[SPECIAL_FLAGS_SIZE] = {0};
 // Origin Jade: song the PokeGear radio keeps playing on the current map
-// (0 = none). HnS kept it in VAR_TEMP_F (VAR_TEMP_RADIO_MUSIC), but the
-// Battle Frontier rooms and the Trainer Tower use that temp var for their
-// own script logic: after a battle there, their value was played back as a
-// song ID, and the radio could overwrite their state. Same lifetime as a
-// temp var (reset in ClearTempFieldEventData on every map change), except
-// that it is not saved: a continued game starts without the radio song.
+// (0 = none). Reset on every map change, not saved.
 EWRAM_DATA u16 gRadioMapMusic = 0;
 
 #if TESTING
@@ -205,7 +200,7 @@ u16 *GetVarPointer(u16 id)
         return NULL;
     else if (id >= FRLG_VARS_START && id <= FRLG_VARS_END)
         return &gSaveBlock3Ptr->varsFrlg[id - FRLG_VARS_START];
-    // Origin Jade: its own reserved block, also in SaveBlock3.
+    // Origin Jade block, in SaveBlock3.
     else if (id >= OJ_VARS_START && id <= OJ_VARS_END)
         return &gSaveBlock3Ptr->varsOj[id - OJ_VARS_START];
     else if (id < SPECIAL_VARS_START)
@@ -249,31 +244,20 @@ u16 VarGetObjectEventGraphicsId(u8 id)
 }
 
 #if IS_HNS
-// The FRLG block has to lie above the Hoenn block and at the same time low
-// enough that every hidden item flag still fits the 13-bit field of
-// struct BgEvent.
 STATIC_ASSERT(FRLG_FLAGS_START > HOENN_FLAGS_END, sFrlgFlagsAboveHoenn);
 STATIC_ASSERT((FRLG_FLAGS_END - FLAG_HIDDEN_ITEMS_START) < (1 << 13), sFrlgFlagsFitHiddenItemField);
 STATIC_ASSERT((FRLG_FLAGS_START & 7) == 0, sFrlgFlagsBitAligned);
 
-// Both redirected windows have to lie completely outside the Hoenn flag
-// block. If they were inside it, trainer flags and Hoenn flags would
-// share the same bit - exactly the bug through which a defeated Bug
-// Catcher on Route 3 triggered Roxanne's first call.
 STATIC_ASSERT(FRLG_TRAINER_FLAGS_START > HOENN_FLAGS_END, sFrlgTrainerFlagsAboveHoenn);
 STATIC_ASSERT(FRLG_TRAINER_FLAGS_START > FRLG_FLAGS_END, sFrlgTrainerFlagsAboveFrlgFlags);
 STATIC_ASSERT(FRLG_TRAINER_FLAGS_END < SPECIAL_FLAGS_START, sFrlgTrainerFlagsBelowSpecial);
 STATIC_ASSERT(HNS_REMATCH_TIER_FLAGS_START > FRLG_TRAINER_FLAGS_END, sRematchTierFlagsAboveFrlgTrainers);
 STATIC_ASSERT(HNS_REMATCH_TIER_FLAGS_END < SPECIAL_FLAGS_START, sRematchTierFlagsBelowSpecial);
 
-// The byte index and the bit index are computed differently ((id - START)
-// / 8 vs. id & 7). Only if the remainder mod 8 of the old window base is
-// kept do the bits in existing save files stay in the same place.
+// Keep each window's base mod 8, or flags in existing saves shift.
 STATIC_ASSERT((FRLG_TRAINER_FLAGS_START & 7) == ((0x500 + FRLG_TRAINER_OFFSET + 1) & 7), sFrlgTrainerFlagsBitAligned);
 STATIC_ASSERT((HNS_REMATCH_TIER_FLAGS_START & 7) == ((0x500 + HNS_REMATCH_TIERS_START) & 7), sRematchTierFlagsBitAligned);
 
-// The trainer flags moved off the daily and engine flags (TrainerIdToFlagId)
-// must stay inside the Hoenn section of the Origin Jade block.
 STATIC_ASSERT(OJ_TRAINER_FLAGS_HOENN_END < OJ_FLAGS_HOENN + OJ_FLAGS_HOENN_SIZE, sOjTrainerFlagsFitHoennSection);
 STATIC_ASSERT(FLAG_RECEIVED_HOENN_BIKE < OJ_FLAGS_HOENN + OJ_FLAGS_HOENN_SIZE, sOjHoennFlagsFitHoennSection);
 #endif
@@ -284,15 +268,13 @@ u8 *GetFlagPointer(u16 id)
         return NULL;
     else if (id >= FRLG_FLAGS_START && id <= FRLG_FLAGS_END)
         return &gSaveBlock3Ptr->flagsFrlg[(id - FRLG_FLAGS_START) / 8];
-    // Kanto merge: trainer flags of the FRLG trainers. Their IDs lie after
-    // the HnS/Hoenn trainers, so TRAINER_FLAGS_START + id would be in
-    // SYS_FLAGS.
+    // FRLG trainer flags, in SaveBlock3.
     else if (id >= FRLG_TRAINER_FLAGS_START && id <= FRLG_TRAINER_FLAGS_END)
         return &gSaveBlock3Ptr->flagsFrlgTrainers[(id - FRLG_TRAINER_FLAGS_START) / 8];
-    // HnS 2.0.1: rematch tiers of Irwin/Derek/Beverly, same redirection.
+    // Rematch tier flags of Irwin/Derek/Beverly, in SaveBlock3.
     else if (id >= HNS_REMATCH_TIER_FLAGS_START && id <= HNS_REMATCH_TIER_FLAGS_END)
         return &gSaveBlock3Ptr->flagsHnsRematchTiers[(id - HNS_REMATCH_TIER_FLAGS_START) / 8];
-    // Origin Jade: its own reserved block, also in SaveBlock3.
+    // Origin Jade block, in SaveBlock3.
     else if (id >= OJ_FLAGS_START && id <= OJ_FLAGS_END)
         return &gSaveBlock3Ptr->flagsOj[(id - OJ_FLAGS_START) / 8];
     else if (id < SPECIAL_FLAGS_START)

@@ -830,10 +830,7 @@ enum __attribute__((packed)) Item
     #define TO_TMHM_NUMS(a, ...) (__VA_ARGS__)
     RECURSIVELY(R_ZIP(ENUM_TM, TO_TMHM_NUMS NUMBERS_256, (FOREACH_TM(APPEND_COMMA))))
     #undef ENUM_TM
-    // ENUM_HM and TO_TMHM_NUMS are only resolved at the end of the list.
-    // Reason: under HnS, ITEM_HM09 (Dive) is appended at the end of the
-    // list so no existing item ID shifts - so the alias ITEM_HM_DIVE can
-    // only reference it there.
+    // ENUM_HM and TO_TMHM_NUMS stay defined for the HM aliases at the end of the list.
 
     // Charms
     ITEM_OVAL_CHARM = 690,
@@ -1080,26 +1077,18 @@ enum __attribute__((packed)) Item
     ITEM_UNUSED_BERRY_3,
     ITEM_AZURE_FLUTE,
 
-    // HnS: a key of its own for New Mauville. Under HnS, ITEM_BASEMENT_KEY
-    // is already given out in the Goldenrod Radio Tower and never taken
-    // back - without its own ID New Mauville would be open from the start.
+    // HnS: New Mauville's own key.
     ITEM_NEW_MAUVILLE_KEY,
 
-    // HnS: ticket for the crossing to Hoenn. Steven (Troy) hands it over in
-    // Silph Co. after the player has also won the Kanto league.
+    // HnS: ticket for the ship to Hoenn.
     ITEM_HOENN_TICKET,
 
 #if IS_HNS
-    // HnS: Whirlpool takes HM08 (Johto), Dive gets HM09.
-    // The ID is deliberately appended at the end of the list instead of
-    // after ITEM_HM08 - that way no existing item ID shifts and save files
-    // with a filled bag stay valid.
+    // HnS: HM09 (Dive), appended at the end: item IDs are stored in saves.
     ITEM_HM09,
 #endif
 
-    // Must come before the alias block: its last line is an explicit
-    // assignment (ITEM_HM_DIVE = ITEM_HMxx). If ITEMS_COUNT came after it,
-    // it would count on from there instead of from the last real item ID.
+    // Must stay before the HM alias block.
     ITEMS_COUNT,
 
     /* Expands to:

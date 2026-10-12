@@ -126,17 +126,13 @@ ViridianCity_EventScript_TutorialStart::
 	release
 	end
 
-@ Kanto merge: experienced players can skip the tutorial. The way still
-@ opens and the teaching TV is given as well.
+@ Origin Jade: the tutorial can be declined; the way still opens.
 ViridianCity_EventScript_TutorialDeclined::
 	msgbox ViridianCity_Text_TutorialDeclined
 	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 2
 	goto ViridianCity_EventScript_GiveRadio
 
-@ Kanto merge: instead of the teaching channel there is the radio card for
-@ the PokeGear. The teaching channel does not exist in this setup - the
-@ radio stations are in sRadioChannels (pokenav_radio.c), and Oak's
-@ Pokemon Talk is the station with the tips.
+@ Origin Jade: gives the PokeGear radio card.
 ViridianCity_EventScript_GiveRadio::
 	goto_if_set FLAG_ENABLE_RADIO, ViridianCity_EventScript_RadioDone
 	playfanfare MUS_OBTAIN_ITEM
@@ -287,9 +283,6 @@ ViridianCity_EventScript_TutorialTriggerRight::
 	end
 
 ViridianCity_EventScript_DoTutorialBattle::
-	@ Kanto merge: he first gives his usual speech, then comes the
-	@ question. It sits here instead of in TutorialStart because the battle
-	@ has three entry points - talking to him and two walking triggers.
 	msgbox ViridianCity_Text_ShowYouHowToCatchMons
 	msgbox ViridianCity_Text_AskShowCatching, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, ViridianCity_EventScript_TutorialDeclined

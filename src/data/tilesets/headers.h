@@ -281,8 +281,7 @@ const struct Tileset gTileset_Lab_Frlg =
     .callback = NULL,
 };
 
-// Kanto merge: version with FRLG attributes for the FRLG maps.
-// Same tiles/palettes/metatiles, just a different attribute table.
+// Origin Jade: gTileset_Lab_Frlg with FRLG metatile attributes, for the FRLG maps.
 const struct Tileset gTileset_Lab_Frlg_V4 =
 {
     .isCompressed = TRUE,

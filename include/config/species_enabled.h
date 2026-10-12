@@ -9,12 +9,7 @@
 #define P_GEN_1_POKEMON                  TRUE // Generation 1 Pokémon (RGBY)
 #define P_GEN_2_POKEMON                  TRUE // Generation 2 Pokémon (GSC)
 #define P_GEN_3_POKEMON                  TRUE // Generation 3 Pokémon (RSE, FRLG)
-// HnS: only the Gen 4 *evolutions* of existing lines are wanted
-// (Ambipom, Weavile, Magnezone, Rhyperior, Electivire, Magmortar,
-// Togekiss, Leafeon, Glaceon, Gliscor, Mamoswine, Porygon-Z, Gallade,
-// lines without Drifblim, etc.). They hang on the families of their
-// pre-evolutions and are kept via P_GEN_4_CROSS_EVOS. The 44 pure Gen 4
-// lines (Turtwig, Chimchar, Piplup, Starly, ...) are switched off by this.
+// HnS: pure Gen 4 lines off; Gen 4 evolutions of older lines stay via P_GEN_4_CROSS_EVOS.
 #define P_GEN_4_POKEMON                  FALSE // Generation 4 Pokémon (DPPt, HGSS)
 #define P_GEN_5_POKEMON                  FALSE // Generation 5 Pokémon (BW, B2W2)
 #define P_GEN_6_POKEMON                  FALSE // Generation 6 Pokémon (XY, ORAS)

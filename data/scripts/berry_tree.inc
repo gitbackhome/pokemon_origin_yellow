@@ -1,7 +1,7 @@
 #if IS_HNS
 
-@ Origin Jade: region switch. Hoenn uses the Emerald farming system (lower
-@ part of the file), Johto/Kanto the HGSS self-sustaining system.
+@ Origin Jade: Hoenn uses the Emerald berry system (lower part of the file),
+@ Johto and Kanto the HGSS one.
 BerryTreeScript::
 	specialvar VAR_RESULT, IsPlayerInHoenn
 	goto_if_eq VAR_RESULT, TRUE, BerryTreeScript_Emerald
@@ -64,8 +64,7 @@ BerryTree_EventScript_Hns_Sprout::
 	release
 	end
 
-@ Origin Jade: the item entry points now live in the shared Emerald part
-@ below (with a region guard). The old empty stubs are kept, renamed.
+@ Unused, the item entry points are in the Emerald part below.
 BerryTree_EventScript_ItemUsePlantBerry_HnsUnused::
 	end
 
@@ -316,7 +315,7 @@ BerryTree_EventScript_CancelPickingBerry::
 BerryTree_EventScript_ItemUsePlantBerry::
 	lockall
 #if IS_HNS
-	@ Only plantable in Hoenn - in Johto/Kanto the trees bear fruit on their own.
+	@ Origin Jade: planting only in Hoenn.
 	specialvar VAR_RESULT, IsPlayerInHoenn
 	goto_if_eq VAR_RESULT, FALSE, BerryTree_EventScript_ItemUseNoEffectHns
 #endif
@@ -355,7 +354,7 @@ BerryTree_EventScript_ItemUseWailmerPail::
 	special ObjectEventInteractionGetBerryTreeData
 	lockall
 #if IS_HNS
-	@ Watering only in the Hoenn farming system.
+	@ Origin Jade: watering only in Hoenn.
 	specialvar VAR_RESULT, IsPlayerInHoenn
 	goto_if_eq VAR_RESULT, FALSE, BerryTree_EventScript_ItemUseNoEffectHns
 #endif

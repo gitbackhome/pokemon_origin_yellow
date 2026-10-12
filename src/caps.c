@@ -4,7 +4,6 @@
 #include "caps.h"
 #include "pokemon.h"
 
-// Number of badge flags set (FLAG_BADGE01_GET onward, NUM_BADGES flags).
 u8 GetCurrentBadgeCount(void)
 {
     u16 i;
@@ -71,10 +70,7 @@ u32 GetCurrentLevelCap(void)
             badgeCount = 8;
 
 #if IS_HNS
-        // Origin Jade runs Kanto, Johto, Hoenn. FLAG_IS_KANTO_CHAMPION is
-        // therefore earned first, FLAG_IS_CHAMPION is the Johto title and
-        // comes afterwards. In HnS the order was reversed, which is why the
-        // two caps were swapped.
+        // Origin Jade: FLAG_IS_CHAMPION is Johto's title.
         if (FlagGet(FLAG_IS_CHAMPION))
             return MAX_LEVEL;
 

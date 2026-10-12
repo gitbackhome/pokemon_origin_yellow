@@ -894,9 +894,7 @@ static u16 GetTVMetatileId(bool8 on)
     if (gMapHeader.mapLayout->layoutVersion == LAYOUT_VERSION_HNS)
         return on ? METATILE_JohtoBuildingHns_TV_On : METATILE_JohtoBuildingHns_TV_Off;
 
-    // Kanto merge: FRLG layouts use gTileset_BuildingFrlg, whose TV tiles
-    // sit elsewhere. Without this case Hoenn's metatile 0x003 was placed and
-    // the screen turned into garbage.
+    // Origin Jade: FRLG layouts use gTileset_BuildingFrlg.
     if (gMapHeader.mapLayout->layoutVersion == LAYOUT_VERSION_FRLG)
         return on ? METATILE_BuildingFrlg_TV_On : METATILE_BuildingFrlg_TV_Off;
 

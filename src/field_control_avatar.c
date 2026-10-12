@@ -683,10 +683,7 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, u8 metati
         return EventScript_UseSurf;
 
 #if IS_HNS
-    // Surf would be possible, only the Hoenn license or the Johto permit is
-    // missing: explain it briefly instead of leaving the player standing
-    // silently at the water. (Origin Jade: Johto was missing here, unlike
-    // the Dive check below; the script names the region's term.)
+    // Surf possible, but the Hoenn license or Johto permit is missing: show a hint.
     if (((HoennLicensesApply() && !HasHoennLicense(LIC_SURF))
       || (JohtoPermitsApply() && !HasJohtoPermit(PERM_SURF)))
      && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE)
@@ -717,7 +714,7 @@ static bool32 TrySetupDiveDownScript(void)
     }
 
 #if IS_HNS
-    // Dive would be possible, only the license or permit is missing.
+    // Dive possible, but the license or permit is missing: show a hint.
     if (((HoennLicensesApply() && !HasHoennLicense(LIC_DIVE))
       || (JohtoPermitsApply() && !HasJohtoPermit(PERM_DIVE)))
      && TrySetDiveWarp() == 2)
@@ -1354,9 +1351,7 @@ static bool32 TrySetUpWalkIntoSignpostScript(struct MapPosition *position, u32 m
 {
     const u8 *script;
 
-    // Kanto merge: FRLG opens signs just by walking into them. That gets in
-    // the way when passing through, so it is switched off here - as in
-    // Emerald/HnS, signs only react to A.
+    // Origin Jade: signs only react to A, not to walking into them.
 #if IS_HNS
     return FALSE;
 #endif

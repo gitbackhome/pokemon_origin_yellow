@@ -329,7 +329,6 @@ EcruteakCity_Theater_EventScript_SurfGuy::
 	end
 
 EcruteakCity_Theater_EventScript_SurfGuy_GiveSurf::
-	@ Origin Jade: a player coming from Kanto has had Surf for a long time.
 	checkitem ITEM_HM_SURF
 	call_if_eq VAR_RESULT, TRUE, EcruteakCity_Theater_EventScript_SurfGuyHasSurf
 	call_if_eq VAR_RESULT, FALSE, EcruteakCity_Theater_EventScript_SurfGuyGivesSurf
@@ -362,7 +361,6 @@ EcruteakCity_Theater_EventScript_TriggerSurfGuy::
 	applymovement LOCALID_SURF_GUY, EcruteakCity_Theater_Movement_SurfGuy1
 	waitmovement 0
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
-	@ Origin Jade: a player coming from Kanto has had Surf for a long time.
 	checkitem ITEM_HM_SURF
 	call_if_eq VAR_RESULT, TRUE, EcruteakCity_Theater_EventScript_SurfGuyHasSurf
 	call_if_eq VAR_RESULT, FALSE, EcruteakCity_Theater_EventScript_SurfGuyGivesSurf

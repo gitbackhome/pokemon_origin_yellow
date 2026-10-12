@@ -338,9 +338,7 @@ struct ChallengeSettings
     u8 tx_Features_FrontierBans:1;
     u8 tx_Difficulty_EscapeRopeDig:1;
     u8 tx_Features_ShinyChance:4;
-    // Origin Jade: clock rate of the fake RTC. 0 is the previous value, so
-    // existing save files keep their behavior. Appended to the end of the
-    // struct; it uses the four free bits of the last byte.
+    // Origin Jade: fake RTC clock rate. 0 = fast, 1 = normal, 2 = slow.
     u8 tx_Features_RtcSpeed:2;
 };
 
@@ -364,30 +362,22 @@ struct SaveBlock3
     u16 registeredItemHold;
 #if IS_HNS
     // Origin Jade: Nuzlocke first-encounter bits for Hoenn (LUT IDs 0x80+).
-    // Appended to the end of the struct = save compatible; the size budget
-    // is guarded by the STATIC_ASSERT in src/save.c.
     u8 nuzlockeEncounterFlagsHoenn[16];
-    // Kanto merge: the FRLG vars live here because SaveBlock1 is full.
+    // Origin Jade: FRLG vars and flags.
     u16 varsFrlg[FRLG_VARS_COUNT];
     u8 flagsFrlg[FRLG_NUM_FLAG_BYTES];
     u8 flagsFrlgTrainers[FRLG_TRAINER_FLAG_BYTES];
 #endif
-    // Kanto merge: two rivals, one per region. rivalNameKanto holds Blue
-    // from FRLG, gSaveBlock2Ptr->rivalName stays Silver from Johto. That
-    // way a later return trip to Kanto does not show Silver's name in
-    // Blue's dialogue.
+    // Origin Jade: Blue's name; gSaveBlock2Ptr->rivalName is Silver's.
     u8 rivalNameKanto[PLAYER_NAME_LENGTH + 1];
 #if IS_HNS
-    // HnS 2.0.1: trainer flags of the rematch tiers of Irwin, Derek and
-    // Beverly (IDs HNS_REMATCH_TIERS_START..END, see opponents_hns.h).
-    // Appended to the end of the struct = save compatible.
+    // HnS: trainer flags of the rematch tiers (HNS_REMATCH_TIERS_START..END).
     u8 flagsHnsRematchTiers[HNS_REMATCH_TIER_FLAG_BYTES];
-    // Origin Jade: reserved block for its own flags and vars
-    // (constants/flags_origin_jade.h, constants/vars_origin_jade.h).
-    // Lives here and not in SaveBlock1 - less than eight bytes are free
-    // there. Redirected in GetFlagPointer/GetVarPointer.
+    // Origin Jade: own flags and vars (constants/flags_origin_jade.h,
+    // constants/vars_origin_jade.h), mapped in GetFlagPointer/GetVarPointer.
     u8 flagsOj[OJ_NUM_FLAG_BYTES];
     u16 varsOj[OJ_VARS_COUNT];
+    // Origin Jade: append new fields here, at the end (save layout).
 #endif
 }; /* max size 1624 bytes */
 
@@ -1310,10 +1300,8 @@ struct SaveBlock1
 #endif //FREE_LINK_BATTLE_RECORDS
     /*0x31A8*/ u8 giftRibbons[GIFT_RIBBONS_COUNT];
 #if IS_HNS
-    // GameCube link (Colosseum, XD, Pokemon Box) - unreachable in a ROM
-    // hack; apart from the ROM header nothing reads these fields. The 41
-    // bytes make room for the extended rematch table (see
-    // MAX_REMATCH_ENTRIES).
+    // HnS: no GameCube link data; the space goes to the rematch table
+    // (MAX_REMATCH_ENTRIES).
 #else
     /*0x31B3*/ struct ExternalEventData externalEventData;
     /*0x31C7*/ struct ExternalEventFlags externalEventFlags;

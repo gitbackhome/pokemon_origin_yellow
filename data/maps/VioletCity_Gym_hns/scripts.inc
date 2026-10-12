@@ -36,12 +36,9 @@ VioletCity_Gym_EventScript_Falkner::
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox VioletGym_Text_Falkner_BadgeExplain, MSGBOX_DEFAULT
 	setflag FLAG_BADGE01_GET
-	@ Falkner: Johto badge 1. The flag above is shared by Johto and Kanto and
-	@ is set long before, after the Kanto league - the count lives in VAR_JOHTO_BADGES.
+	@ Johto badge 1 (index 0 in VAR_JOHTO_BADGES).
 	setvar VAR_0x8004, 0
 	special SetJohtoBadge
-	@ The badge also grants the permit for Rock Smash - see
-	@ src/johto_permits.c. Johto shares the badge flags with Kanto.
 	setvar VAR_0x8004, PERM_ROCK_SMASH
 	special SetJohtoPermit
 	setflag FLAG_DEFEATED_VIOLET_GYM

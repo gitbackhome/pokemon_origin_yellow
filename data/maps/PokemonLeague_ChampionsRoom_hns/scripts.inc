@@ -44,7 +44,7 @@ PokemonLeague_WillsRoom_EventScript_Lance::
 	call_if_eq VAR_FACING, DIR_SOUTH, PokemonLeague_ChampionsRoom_EventScript_AdjustPlayerFacingSouth
 	call_if_eq VAR_FACING, DIR_WEST, PokemonLeague_ChampionsRoom_EventScript_AdjustPlayerFacingWest
 	faceplayer
-	@ Johto title, not FLAG_IS_CHAMPION: Hoenn's Hall of Fame sets that one too.
+	@ Origin Jade: rematch once Johto's league is won.
 	goto_if_set FLAG_IS_JOHTO_CHAMPION, PokemonLeague_WillsRoom_EventScript_LanceRematch
 	msgbox PokemonLeague_ChampionsRoom_Text_BattleIntro, MSGBOX_DEFAULT
 	setflag FLAG_TEMP_3

@@ -14,8 +14,7 @@ Route5_Text_UndergroundPathSign::
 	.string "CERULEAN CITY - VERMILION CITY$"
 #endif
 
-@ Day Care: the Day Care Man outside hands over the egg. Taking in and
-@ returning the Pokemon is handled by the Day Care Lady in the building.
+@ The Day Care Man hands over eggs; the Day Care Lady inside takes and returns Pokemon.
 Route5_EventScript_DaycareMan::
 	lock
 	faceplayer

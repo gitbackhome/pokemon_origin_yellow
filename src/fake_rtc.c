@@ -112,11 +112,8 @@ u32 FakeRtc_GetSecondsRatio(void)
 {
     if (UseFakeRtc() && OW_ALTERED_TIME_RATIO == GEN_LATEST)
     {
-        // Origin Jade: clock rate selectable in the challenge menu.
-        // The value is the factor relative to real time, so it also decides
-        // how fast berries grow and daily events come around.
-        // Setting 0 matches the previous behavior so existing save files
-        // keep running unchanged.
+        // Origin Jade: clock speed from the challenge menu.
+        // Keep 0 = 24: older saves use it.
         switch (gSaveBlock3Ptr->challengeSettings.tx_Features_RtcSpeed)
         {
         case 0:  return 24; // Fast:   1 real hour  = 1 game day

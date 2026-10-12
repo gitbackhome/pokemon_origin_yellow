@@ -503,8 +503,7 @@ static void GenerateOPTSegment(struct Pokenav_Radio *radio)
         radio->lines[n++] = radio->lineBuffers[buf++];
 
         // "sweet and adorably cute."
-        // German: the adverb and adjective lines are sentences of their own
-        // (German Crystal), hence two separate lines without a connector.
+        // German: adverb and adjective are separate lines, as in German Crystal.
         dst = radio->lineBuffers[buf];
         StringCopy(dst, sRadioText_OPT_Adverbs[Random() % ARRAY_COUNT(sRadioText_OPT_Adverbs)]);
         radio->lines[n++] = radio->lineBuffers[buf++];
@@ -944,8 +943,7 @@ u32 GetRadioCallback(void)
 void FreeRadioSubstruct1(void)
 {
     struct Pokenav_Radio *radio = GetSubstructPtr(POKENAV_SUBSTRUCT_RADIO);
-    // Origin Jade: kept in gRadioMapMusic instead of VAR_TEMP_RADIO_MUSIC
-    // (VAR_TEMP_F), see src/event_data.c.
+    // Origin Jade: radio music is kept in gRadioMapMusic (event_data.c).
     if (radio->currentStation == RADIO_STATION_NONE)
     {
         gRadioMapMusic = 0;

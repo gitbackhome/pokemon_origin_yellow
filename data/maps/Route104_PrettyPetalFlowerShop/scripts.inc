@@ -6,8 +6,7 @@ Route104_PrettyPetalFlowerShop_OnTransition:
 	setflag FLAG_LANDMARK_FLOWER_SHOP
 	goto_if_unset FLAG_MET_PRETTY_PETAL_SHOP_OWNER, Route104_PrettyPetalFlowerShop_EventScript_MoveShopOwner
 #if IS_HNS
-	@ HnS: FLAG_BADGE03_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 3 (Wattson)
 	setvar VAR_0x8004, 2
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, FALSE, Route104_PrettyPetalFlowerShop_EventScript_MoveShopOwner
@@ -81,8 +80,6 @@ Route104_PrettyPetalFlowerShop_EventScript_GiveWailmerPail::
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox Route104_PrettyPetalFlowerShop_Text_WailmerPailExplanation, MSGBOX_DEFAULT
 #if IS_HNS
-	@ Explains the difference to Johto/Kanto, where the berries hang on
-	@ trees and grow back on their own.
 	msgbox Route104_PrettyPetalFlowerShop_Text_HnsBerriesDiffer, MSGBOX_DEFAULT
 #endif
 	setflag FLAG_RECEIVED_WAILMER_PAIL

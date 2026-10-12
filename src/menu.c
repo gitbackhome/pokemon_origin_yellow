@@ -1920,12 +1920,7 @@ void BufferSaveMenuText(u8 textId, u8 *dest, u8 color)
     case SAVE_MENU_BADGES:
 #if IS_HNS
     {
-        // Origin Jade: count the whole career - the badge flags 01-16 (Kanto
-        // uses 01-08) plus the Johto badges from VAR_JOHTO_BADGES and the
-        // Hoenn badges from VAR_HOENN_BADGES. Careful: NUM_BADGES is already
-        // 16 under HnS (flags_hns.h) - the first attempt counted the Kanto
-        // flags twice with it (Discord report "26 instead of 18"). Hence a
-        // loop with explicit bounds.
+        // Origin Jade: badge flags 01-16 plus the Johto and Hoenn badge counts.
         u8 badgeCount = 0;
 
         for (curFlag = FLAG_BADGE01_GET; curFlag <= FLAG_BADGE16_GET; curFlag++)

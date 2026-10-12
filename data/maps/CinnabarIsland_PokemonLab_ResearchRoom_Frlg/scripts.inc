@@ -17,9 +17,6 @@ CinnabarIsland_PokemonLab_ResearchRoom_EventScript_AmberPipe::
 	msgbox CinnabarIsland_PokemonLab_ResearchRoom_Text_AnAmberPipe, MSGBOX_SIGN
 	end
 
-@ Kanto merge: in this setup Eevee has eight evolutions - Jolteon,
-@ Vaporeon, Flareon, Sylveon, Leafeon, Glaceon, Espeon and Umbreon.
-@ The vanilla text spoke of three.
 CinnabarIsland_PokemonLab_ResearchRoom_Text_EeveeCanEvolveIntroThreeMons::
 #if GERMAN
 	.string "Evoli ist ein Rätsel.\p"

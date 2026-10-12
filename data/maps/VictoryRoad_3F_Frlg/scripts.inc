@@ -282,10 +282,7 @@ VictoryRoad_3F_Text_TyraNotEnoughMons::
 #endif
 
 @ ============================================================================
-@ Kanto merge: in FRLG Moltres sits on Mt. Ember, i.e. on the retired
-@ Sevii Islands. In Red/Blue it was on Victory Road - it returns there so
-@ all three birds can be reached in Kanto. Zapdos is in the Power Plant,
-@ Articuno on the Seafoam Islands.
+@ Origin Jade: Moltres encounter.
 @ ============================================================================
 
 VictoryRoad_3F_EventScript_Moltres::

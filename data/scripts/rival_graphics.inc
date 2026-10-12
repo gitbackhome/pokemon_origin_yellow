@@ -1,12 +1,8 @@
 Common_EventScript_SetupRivalGfxId::
 #if defined(POKEMON_HNS)
-	@ HnS canon: Birch's child is always May (Brendan is Norman's son).
-	@ The rival graphic therefore no longer depends on the player's gender.
+	@ HnS: the rival is always May.
 	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_RIVAL_MAY_NORMAL
-	@ IMPORTANT: return, not end! This script is included via call; an end
-	@ ends the whole caller. Because of that the following lines in
-	@ Lavaridge Town (bike graphic, rival position) never ran - and a wrong
-	@ sprite appeared when she left.
+	@ Must be return, not end: this script is called.
 	return
 #endif
 	checkplayergender
@@ -24,9 +20,7 @@ EventScript_SetupRivalGfxIdMale::
 
 Common_EventScript_SetupRivalOnBikeGfxId::
 #if IS_HNS
-	@ HnS canon: on the bike, too, the rival is always May. Without this
-	@ switch a female player character saw Brendan's bike sprite after the
-	@ Route 110 battle (playtest report).
+	@ HnS: the rival is always May.
 	setvar VAR_OBJ_GFX_ID_3, OBJ_EVENT_GFX_RIVAL_MAY_MACH_BIKE
 	return
 #endif

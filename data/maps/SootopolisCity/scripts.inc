@@ -1291,9 +1291,7 @@ SootopolisCity_EventScript_Wallace::
 
 SootopolisCity_EventScript_GiveWaterfall::
 #if IS_HNS
-	@ HnS: the license for Waterfall is granted only by Juan with the Rain
-	@ Badge (see SootopolisCity_Gym_1F). Wallace no longer hands out
-	@ anything.
+	@ HnS: no HM from Wallace, the Rain Badge grants the Waterfall license.
 	msgbox Text_HnsWallaceNoWaterfallHandover, MSGBOX_DEFAULT
 #else
 	msgbox SootopolisCity_Text_ThankYouForHelpAcceptThis, MSGBOX_DEFAULT
@@ -2108,8 +2106,7 @@ SootopolisCity_Text_DazzledByMentor:
 #endif
 
 #if IS_HNS
-@ No longer jumped to since the license depends on the Rain Badge.
-@ Kept so nothing gets deleted.
+@ Unused.
 Text_HnsWaterfallLicense:
 #if GERMAN
 	.string "{PLAYER} erhält die Lizenz für\n"

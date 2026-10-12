@@ -50,9 +50,7 @@ EverGrandeCity_HallOfFame_EventScript_EnterHallOfFame::
 
 EverGrandeCity_HallOfFame_EventScript_GameClearMale::
 #if IS_HNS
-	@ Origin Jade: after the Hoenn league the player goes home to Mom in
-	@ Pallet Town. She does not live in Littleroot Town (decision
-	@ 2026-10-10, docs/origin_jade/DECISIONS.md, D-002).
+	@ Origin Jade: after the Hoenn league the player wakes up at home in Pallet Town.
 	setrespawn HEAL_LOCATION_PALLET_TOWN
 #else
 	setrespawn HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F

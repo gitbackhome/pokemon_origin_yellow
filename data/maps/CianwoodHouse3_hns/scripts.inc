@@ -25,7 +25,7 @@ CianwoodCity_EventScript_KirkDeclined::
 	end
 
 CianwoodCity_EventScript_KirkGivenShuckie::
-	@ Johto badge 1 (Falkner); Kanto sets FLAG_BADGE01_GET too.
+	@ Johto badge 1 (Falkner)
 	setvar VAR_0x8004, 0
 	special CheckJohtoBadge
 	goto_if_eq VAR_RESULT, TRUE, CianwoodCity_EventScript_KirkReturnShuckie

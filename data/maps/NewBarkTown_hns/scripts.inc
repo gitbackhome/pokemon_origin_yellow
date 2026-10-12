@@ -28,15 +28,6 @@ NewBarkTown_Text_ElmName:
 
 NewBarkTown_OnTransition::
 	call_if_unset FLAG_JOHTO_ARRIVAL_DONE, NewBarkTown_EventScript_JohtoArrivalSetup
-	@ The girl's position: as long as the player has not been to Elm, she
-	@ stands in the exit to Route 29, afterwards back in town. Depends on
-	@ VAR_JOHTO_ARRIVAL_STATE and not on HnS's VAR_NEWBARK_TOWN_STATE - that
-	@ one is set in Mom's house, which Origin Jade skips, and holds an
-	@ arbitrary value depending on the save.
-	@ Catch-up for saves that are already past the lab visit: Elm only sets
-	@ the var to 1 since patch 0015. A player who visited him earlier would
-	@ otherwise be stuck in New Bark Town for good. From lab state 3 on the
-	@ conversation has happened, so the way is open.
 	call_if_eq VAR_JOHTO_ARRIVAL_STATE, 0, NewBarkTown_EventScript_CheckElmAlreadySeen
 	call_if_eq VAR_JOHTO_ARRIVAL_STATE, 0, NewBarkTown_EventScript_LassBlocksExit
 	call_if_ne VAR_JOHTO_ARRIVAL_STATE, 0, NewBarkTown_EventScript_LassInTown
@@ -44,21 +35,12 @@ NewBarkTown_OnTransition::
 	goto_if_eq VAR_NEWBARK_TOWN_STATE, 4, NewBarkTown_Set_TalkToMom
 	end
 
-@ Origin Jade: HnS sets its Johto start values in Mom's house while the
-@ player gets their equipment there. A champion coming from Kanto never
-@ goes through this scene - and therefore entered Johto without these
-@ flags. It showed with the policeman, who stood in the lab from the start
-@ although he only belongs to the theft scene.
+@ Origin Jade: Johto start values that HnS sets in Mom's house.
 NewBarkTown_EventScript_JohtoArrivalSetup::
 	setflag FLAG_JOHTO_ARRIVAL_DONE
-	@ Town state: HnS sets it to 2 in Mom's house. Without it the states of
-	@ the New Bark Town NPCs do not match and nobody stops the player before
-	@ they have been to Elm. Only set it if it is still untouched.
 	call_if_eq VAR_NEWBARK_TOWN_STATE, 0, NewBarkTown_EventScript_SetArrivalState
 	setflag FLAG_HIDE_LAB_POLICEMAN
 	setflag FLAG_VISITED_NEWBARK_TOWN
-	@ PokeGear and call list: long present since Kanto, but the Johto side
-	@ depends on these flags.
 	setflag FLAG_SYS_POKENAV_GET
 	setflag FLAG_HAS_MATCH_CALL
 	setflag FLAG_RECEIVED_POKENAV
@@ -75,8 +57,6 @@ NewBarkTown_EventScript_ReleaseExit::
 	return
 
 NewBarkTown_EventScript_LassBlocksExit::
-	@ Next to the exit to Route 29; the three triggers at 0,12 to 0,14 do
-	@ the blocking.
 	setobjectxyperm LOCALID_LASS, 0, 11
 	return
 
@@ -85,9 +65,8 @@ NewBarkTown_EventScript_LassInTown::
 	setobjectxyperm LOCALID_LASS, 9, 16
 	return
 
-@ Blocks the exit. Triggered by the three tiles at 0,12 to 0,14 as long as
-@ VAR_JOHTO_ARRIVAL_STATE is 0. Elm sets it to 1 as soon as he has
-@ registered himself in the PokeGear.
+@ Lass blocks the exit to Route 29 (triggers 0,12-0,14) while
+@ VAR_JOHTO_ARRIVAL_STATE is 0. Elm sets it to 1.
 NewBarkTown_EventScript_JohtoLeaveBlock::
 	lock
 	playse SE_PIN

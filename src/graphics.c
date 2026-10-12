@@ -2244,20 +2244,16 @@ const u16 gMonIconPalettes[][16] =
 };
 
 #if IS_HNS
-// Origin Jade: logo reduced to 15 colors (palette 0 only);
-// title_screen.c loads image palettes 1-15 separately (titelbild_pal.bin).
+// Origin Jade: the logo uses only palette 0 (15 colors); title_screen.c loads
+// the image palettes 1-15 separately (titelbild_pal.bin).
 const u16 gTitleScreenBgPalettes[]         = INCBIN_U16("graphics/title_screen/hns/pokemon_logo.gbapal");
 const u16 gTitleScreenEmeraldVersionPal[]  = INCBIN_U16("graphics/title_screen/origin_jade/emerald_version.gbapal");
 const u32 gTitleScreenCloudsTilemap[]      = INCBIN_U32("graphics/title_screen/clouds.bin.smolTM");
 const u32 gTitleScreenPokemonLogoGfx[]     = INCBIN_U32("graphics/title_screen/hns/pokemon_logo.8bpp.smol");
 const u32 gTitleScreenEmeraldVersionGfx[]  = INCBIN_U32("graphics/title_screen/origin_jade/emerald_version.8bpp.smol");
-// Origin Jade: our own "PRESS START" graphic. HnS writes its version number
-// directly into this image (most recently v2.0.5); ours shows the Origin
-// Jade version there. A file of its own so HnS upstream can keep bumping
-// its number without a conflict on every release.
-// New version = replace the digits in
-// graphics/title_screen/origin_jade/press_start.png (9x7 per digit,
-// right-aligned at x=124).
+// Origin Jade: "PRESS START" graphic with the Origin Jade version. New version:
+// replace the digits in graphics/title_screen/origin_jade/press_start.png
+// (9x7 per digit, right-aligned at x=124).
 const u16 gTitleScreenPressStartPal[]      = INCBIN_U16("graphics/title_screen/origin_jade/press_start.gbapal");
 const u32 gTitleScreenPressStartGfx[]      = INCBIN_U32("graphics/title_screen/origin_jade/press_start.4bpp.smol");
 const u32 gTitleScreenPokemonLogoTilemap[] = INCBIN_U32("graphics/title_screen/hns/pokemon_logo.bin.smolTM");

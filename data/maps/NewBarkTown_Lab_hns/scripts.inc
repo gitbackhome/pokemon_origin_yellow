@@ -83,11 +83,6 @@ NewBarkTown_Lab_EventScript_Elm_AfterEggCheck:
 	goto_if_ge VAR_NEWBARKTOWN_LABSTATE, 6, NewBarkTown_Lab_EventScript_ElmState5
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 2, CopNewBarkTown_Lab_EventScript_ElmState2
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 3, CopNewBarkTown_Lab_EventScript_ElmState2
-	@ Transition to Johto: the old check of FLAG_SYS_POKEMON_GET was already
-	@ true since Kanto, so at state 1 Elm would have jumped straight to the
-	@ Mr. Pokemon errand instead of asking the player to pick one of the
-	@ three balls. Removing it entirely meant the errand never started - now
-	@ the dedicated FLAG_RECEIVED_JOHTO_STARTER decides.
 	goto_if_set FLAG_RECEIVED_JOHTO_STARTER, NewBarkTown_Lab_EventScript_MrPokemon
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 1, NewBarkTown_Lab_EventScript_ElmChoosePokemon
 	end
@@ -111,12 +106,8 @@ NewBarkTown_Lab_Text_ElmAideIsWaiting:
 	.string "In VIOLET CITY!$"
 #endif
 
-@ Transition to Johto: the player does not arrive as a beginner but with
-@ the GS Ball from Prof. Oak. The yes/no request is dropped; Elm accepts
-@ the ball and turns it into the errand to Mr. Pokemon.
+@ Elm takes the GS Ball; without it he sends the player back.
 NewBarkTown_Lab_EventScript_ElmIntro::
-	@ The way to Johto is open to every champion, even without the detour
-	@ via Oak's lab. Without the ball, Elm sends the player back.
 	checkitem ITEM_GS_BALL
 	goto_if_eq VAR_RESULT, FALSE, NewBarkTown_Lab_EventScript_ElmNoGsBall
 	msgbox NewBarkTown_Lab_Text_ElmGsBallHandover, MSGBOX_DEFAULT
@@ -181,10 +172,6 @@ NewBarkTown_Lab_EventScript_ShouldntTouch::
 
 NewBarkTown_Lab_EventScript_ChikoritaBall::
 	lock
-	@ Transition to Johto: the old lock checked FLAG_SYS_POKEMON_GET and so
-	@ locked every ball even though Elm asks the player to take one. Without
-	@ a lock, however, all three could be taken - now the dedicated
-	@ FLAG_RECEIVED_JOHTO_STARTER locks exactly from the first one on.
 	goto_if_set FLAG_RECEIVED_JOHTO_STARTER, NewBarkTown_Lab_EventScript_ShouldntTouch
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 1, NewBarkTown_Lab_EventScript_ChikoritaBall_Choice
 	msgbox NewBarkTown_Lab_Text_ShouldntTouch, MSGBOX_DEFAULT
@@ -207,10 +194,6 @@ NewBarkTown_Lab_EventScript_ChikoritaBall_Choice::
 
 NewBarkTown_Lab_EventScript_CyndaquilBall::
 	lock
-	@ Transition to Johto: the old lock checked FLAG_SYS_POKEMON_GET and so
-	@ locked every ball even though Elm asks the player to take one. Without
-	@ a lock, however, all three could be taken - now the dedicated
-	@ FLAG_RECEIVED_JOHTO_STARTER locks exactly from the first one on.
 	goto_if_set FLAG_RECEIVED_JOHTO_STARTER, NewBarkTown_Lab_EventScript_ShouldntTouch
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 1, NewBarkTown_Lab_EventScript_CyndaquilBall_Choice
 	msgbox NewBarkTown_Lab_Text_ShouldntTouch, MSGBOX_DEFAULT
@@ -233,10 +216,6 @@ NewBarkTown_Lab_EventScript_CyndaquilBall_Choice::
 
 NewBarkTown_Lab_EventScript_TotodileBall::
 	lock
-	@ Transition to Johto: the old lock checked FLAG_SYS_POKEMON_GET and so
-	@ locked every ball even though Elm asks the player to take one. Without
-	@ a lock, however, all three could be taken - now the dedicated
-	@ FLAG_RECEIVED_JOHTO_STARTER locks exactly from the first one on.
 	goto_if_set FLAG_RECEIVED_JOHTO_STARTER, NewBarkTown_Lab_EventScript_ShouldntTouch
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 1, NewBarkTown_Lab_EventScript_TotodileBall_Choice
 	msgbox NewBarkTown_Lab_Text_ShouldntTouch, MSGBOX_DEFAULT
@@ -268,18 +247,13 @@ NewBarkTown_Lab_EventScript_DeclinedStarter::
 NewBarkTown_Lab_EventScript_ChoseStarter::
 	@callnative EnableStaticRandomizer
 	hidemonpic
-	@ Origin Jade: givemon only fails when the party and every PC box are
-	@ full - then the starter was simply gone, while Elm spoke of the box.
-	@ Check before the choice is locked in: nothing is set yet, so the
-	@ player can make room and choose again.
+	@ Origin Jade: room check, keep it before the choice is locked in.
 	getpartysize
 	goto_if_lt VAR_RESULT, PARTY_SIZE, NewBarkTown_Lab_EventScript_RoomForStarter
 	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_NoMoreRoomForPokemon
 NewBarkTown_Lab_EventScript_RoomForStarter:
-	@ Lock first, then give: if giving is aborted, the other two balls must
-	@ still not be takeable. Only the chosen ball disappears from the table
-	@ - the other two stay, and one of them is stolen in the theft scene.
+	@ Lock the balls first, then give the starter.
 	setflag FLAG_RECEIVED_JOHTO_STARTER
 	call_if_eq VAR_JOHTO_STARTER_MON, 0, NewBarkTown_Lab_EventScript_HideChikorita
 	call_if_eq VAR_JOHTO_STARTER_MON, 1, NewBarkTown_Lab_EventScript_HideCyndaquil
@@ -289,9 +263,7 @@ NewBarkTown_Lab_EventScript_RoomForStarter:
 	call_if_eq VAR_JOHTO_STARTER_MON, 0, NewBarkTown_Lab_EventScript_GiveStarter_Chikorita
 	call_if_eq VAR_JOHTO_STARTER_MON, 1, NewBarkTown_Lab_EventScript_GiveStarter_Cyndaquil
 	call_if_eq VAR_JOHTO_STARTER_MON, 2, NewBarkTown_Lab_EventScript_GiveStarter_Totodile
-	@ givemon stores where the Pokemon ended up: 0 party, 1 PC box, 2 nowhere.
-	@ A player coming from Kanto often has a full party - that could not
-	@ happen in HnS, where the party was empty.
+	@ givemon result: 0 = party, 1 = PC box, 2 = nowhere.
 	copyvar VAR_TEMP_3, VAR_RESULT
 	playfanfare MUS_OBTAIN_ITEM
 	bufferspeciesname STR_VAR_1, PLAYER_STARTER_SPECIES
@@ -299,9 +271,7 @@ NewBarkTown_Lab_EventScript_RoomForStarter:
 	waitfanfare
 	waitmessage
 	goto_if_ne VAR_TEMP_3, 0, NewBarkTown_Lab_EventScript_StarterToBox
-	@ The nickname dialog names the party slot in VAR_0x8004. HnS hard-codes
-	@ 0 there because the starter was the first Pokemon - for us that would
-	@ be a member of the Kanto team. The newcomer is appended at the end.
+	@ VAR_0x8004 = the starter's party slot (the last one) for the nickname dialog.
 	specialvar VAR_RESULT, CalculatePlayerPartyCount
 	subvar VAR_RESULT, 1
 	copyvar VAR_0x8004, VAR_RESULT
@@ -343,7 +313,6 @@ NewBarkTown_Lab_EventScript_GiveStarter_Shiny::
 	return
 
 NewBarkTown_Lab_EventScript_NicknameStarter::
-	@ VAR_0x8004 already holds the newcomer's party slot.
 	call Common_EventScript_NameReceivedPartyMon
 	release
 	end
@@ -351,14 +320,11 @@ NewBarkTown_Lab_EventScript_NicknameStarter::
 NewBarkTown_Lab_EventScript_ChoseStarter_NicknameStarter_Nuzlocke::
 	message NewBarkTown_Lab_Text_Nickname
 	waitmessage
-	@ VAR_0x8004 already holds the newcomer's party slot.
 	call Common_EventScript_NameReceivedPartyMon
 	release
 	end
 
 NewBarkTown_Lab_EventScript_MrPokemon::
-	@ Transition to Johto: the aide with the Potion is dropped, so it goes
-	@ straight from the choice to state 3.
 	setvar VAR_NEWBARKTOWN_LABSTATE, 3
 	setvar VAR_NEWBARK_TOWN_STATE, 3
 	msgbox NewBarkTown_Lab_Text_ElmDirections1_Register, MSGBOX_DEFAULT
@@ -367,11 +333,7 @@ NewBarkTown_Lab_EventScript_MrPokemon::
 	waitfanfare
 	setflag FLAG_ENABLE_PROF_BIRCH_MATCH_CALL
 	msgbox NewBarkTown_Lab_Text_ElmDirections2, MSGBOX_DEFAULT
-	@ Origin Jade: the HM permits have to be explained once. Elm is the right
-	@ place - he has just been registered in the PokeGear and can remind the
-	@ player later.
 	msgbox NewBarkTown_Lab_Text_ElmPermits, MSGBOX_DEFAULT
-	@ From here on the girl lets the player leave New Bark Town.
 	setvar VAR_JOHTO_ARRIVAL_STATE, 1
 	closemessage
 	goto_if_eq VAR_FACING, DIR_EAST, NewBarkTown_Lab_EventScript_MrPokemonMovementSafe
@@ -478,10 +440,6 @@ NewBarkTown_Lab_EventScript_PoliceYes::
 	msgbox NewBarkTown_Lab_Text_ElmAfterTheft4, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_NEWBARKTOWN_LABSTATE, 5
-	@ Transition to Johto: journey, Nuzlocke and Exp. Share have been running
-	@ since Kanto. VAR_NEWBARK_TOWN_STATE and the friend swap belonged to the
-	@ HnS game start in the New Bark Town house, which is no longer the
-	@ player's.
 	removeitem ITEM_MYSTERY_EGG
 	release
 	end
@@ -545,10 +503,7 @@ NewBarkTown_Lab_EventScript_ElmSSTicket::
 	end
 
 NewBarkTown_Lab_EventScript_TriggerAideGiveBalls::
-	@ Origin Jade: after the theft the aide walked up to the player and
-	@ handed over five Poke Balls - a beginner's scene. A champion coming
-	@ from Kanto has a full bag. The scene is dropped, only the progress is
-	@ advanced.
+	@ Origin Jade: the aide's Poke Ball scene is skipped.
 	setflag FLAG_RECEIVED_FIRST_BALLS
 	setvar VAR_NEWBARKTOWN_LABSTATE, 6
 	end

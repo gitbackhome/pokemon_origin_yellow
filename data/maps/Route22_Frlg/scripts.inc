@@ -89,8 +89,7 @@ Route22_Movement_UnusedRivalExit:: @ 8
 	walk_right
 	step_end
 
-@ Origin Jade: after step 13 the rival is off-screen; the remaining
-@ 16 steps kept running invisibly and locked the player meanwhile.
+@ Origin Jade: ends once the rival is off-screen.
 Route22_Movement_EarlyRivalExit::
 	walk_down
 	walk_right
@@ -107,8 +106,7 @@ Route22_Movement_EarlyRivalExit::
 	walk_down
 	step_end
 
-@ Origin Jade: after step 15 the rival is off-screen; the remaining
-@ 15 steps kept running invisibly and locked the player meanwhile.
+@ Origin Jade: ends once the rival is off-screen.
 Route22_Movement_EarlyRivalExitBottom::
 	walk_up
 	walk_right
@@ -392,8 +390,7 @@ Route22_Movement_RivalApproachTop::
 	walk_right
 	step_end
 
-@ Origin Jade: after step 13 the rival is off-screen; the remaining
-@ 17 steps kept running invisibly and locked the player meanwhile.
+@ Origin Jade: ends once the rival is off-screen.
 Route22_Movement_RivalExitTop::
 	walk_down
 	walk_down

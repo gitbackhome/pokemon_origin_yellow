@@ -27,10 +27,8 @@ static void DestroyNameboxFrame(void);
 static void WindowFunc_DrawNamebox(u32, u32, u32, u32, u32, u32, u32);
 static void WindowFunc_ClearNamebox(u8, u8, u8, u8, u8, u8);
 
-// Builds the name box window for gSpeakerName without showing it yet; it is
-// put on screen together with the dialogue frame (DrawNamebox). Upstream fix
-// (expansion #9905): an existing box is only rebuilt off-screen instead of
-// being cleared on screen first, so back-to-back messages no longer flicker.
+// Builds the name box for gSpeakerName without showing it; DrawNamebox shows
+// it together with the dialogue frame. Upstream fix (expansion #9905).
 void PrepareNamebox(u32 tileNum)
 {
     u8 *strbuf = AllocZeroed(32 * sizeof(u8));
@@ -47,7 +45,7 @@ void PrepareNamebox(u32 tileNum)
 
     StringExpandPlaceholders(strbuf, gSpeakerName);
 
-    // An empty name would give an empty name box -- better none at all then.
+    // No name box for an empty name.
     if (strbuf[0] == EOS)
     {
         Free(strbuf);
@@ -113,8 +111,7 @@ void ResetNameboxData(void)
     gSpeakerName = NULL;
 }
 
-// Removes the window but keeps gSpeakerName; the screen is updated by
-// whoever redraws next (no separate VRAM copy, see PrepareNamebox).
+// Removes the window but keeps gSpeakerName. Does not copy to VRAM.
 static void DestroyNameboxFrame(void)
 {
     ClearNamebox(sNameboxWindowId, FALSE);
@@ -221,18 +218,17 @@ void TrySpawnAndShowNamebox(const u8 *speaker, u32 tileNum)
     }
     else if (gSpeakerName == NULL)
     {
-        // Upstream fix (expansion #10540): nothing to remove and nothing to show.
+        // Upstream fix (expansion #10540).
         return;
     }
 
     PrepareNamebox(tileNum);
-    // PrepareNamebox drops the box again for an empty or suppressed name.
+    // PrepareNamebox removes the box for an empty or suppressed name.
     if (sNameboxWindowId != WINDOW_NONE)
         DrawNamebox(sNameboxWindowId, tileNum - NAME_BOX_BASE_TILES_TOTAL, TRUE);
 }
 
-// TRUE if the message has a speaker: either set earlier via setspeaker, or as
-// a speaker control code at the very start of the expanded text.
+// TRUE if a speaker is set, by setspeaker or a speaker code at the start of str.
 bool32 IsSpeakerBuffered(const u8 *str)
 {
     if (str[0] == EXT_CTRL_CODE_BEGIN

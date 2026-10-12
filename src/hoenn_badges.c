@@ -2,14 +2,11 @@
 #include "event_data.h"
 #include "hoenn_badges.h"
 
-// Hoenn badge system: a bitmask of its own in VAR_HOENN_BADGES, separate
-// from the badge flags FLAG_BADGE01-08 (which a champion has long had
-// set). Feeds the gym gates, the trainer card and later the league
-// trigger.
+// Hoenn badges as a bitmask in VAR_HOENN_BADGES (bit 0 = Roxanne ... bit 7 = Juan).
+// Use these instead of FLAG_BADGE01-08 for Hoenn.
 
 #if defined(POKEMON_HNS)
 
-// Number of Hoenn badges (set bits in VAR_HOENN_BADGES).
 u32 GetHoennBadgeCount(void)
 {
     u32 i, count = 0;
@@ -23,8 +20,6 @@ u32 GetHoennBadgeCount(void)
     return count;
 }
 
-// TRUE if the Hoenn badge with the given index (0 = Roxanne ... 7 = Juan)
-// has been earned.
 bool32 HasHoennBadge(u32 index)
 {
     if (index >= 8)
@@ -39,16 +34,13 @@ void SetHoennBadge(void)
         VarSet(VAR_HOENN_BADGES, VarGet(VAR_HOENN_BADGES) | (1 << gSpecialVar_0x8004));
 }
 
-// Special: badge index (0-7) in gSpecialVar_0x8004, result into
-// gSpecialVar_Result. Replaces the FLAG_BADGE0x_GET checks in Hoenn
-// scripts - under HnS those belong to the Johto/Kanto badges and are all
-// set long before the player enters Hoenn.
+// Special: badge index (0-7) in gSpecialVar_0x8004, result in gSpecialVar_Result
 void CheckHoennBadge(void)
 {
     gSpecialVar_Result = HasHoennBadge(gSpecialVar_0x8004);
 }
 
-// Special: number of Hoenn badges into gSpecialVar_Result
+// Special: number of Hoenn badges in gSpecialVar_Result
 void CountHoennBadges(void)
 {
     gSpecialVar_Result = GetHoennBadgeCount();

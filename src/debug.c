@@ -1494,9 +1494,8 @@ static void DebugAction_Util_Fly(u8 taskId)
     SetMainCallback2(CB2_OpenFlyMap);
 }
 
-// Kanto merge: the warp dialog now works per region. tRegionBase is the
-// first map group of the chosen region, tRegionLast the last one; the
-// input counts from 0 within the region.
+// Origin Jade: warp dialog per region. tRegionBase/tRegionLast = first/last
+// map group of the region; the input counts from 0 within the region.
 #define REGION_JOHTO_FIRST_GROUP  0
 #define REGION_JOHTO_LAST_GROUP   30
 #define REGION_HOENN_FIRST_GROUP  31
@@ -1543,7 +1542,6 @@ static void DebugAction_Util_Warp_Warp(u8 taskId)
     gTasks[taskId].tWarp = 0;
 }
 
-// Opens the warp dialog restricted to the map groups first..last.
 static void DebugAction_Util_Warp_Region(u8 taskId, u32 first, u32 last)
 {
     DebugAction_Util_Warp_Warp(taskId);
@@ -1871,10 +1869,7 @@ static void DebugAction_Util_CheatStart(u8 taskId)
 }
 
 #if IS_HNS
-// Test tool: marks Johto+Kanto as finished (16 badges, champion, all fly
-// points, S.S. Aqua Hoenn route open) and provides a level-appropriate
-// champion team including HM moves - so every fresh save can be tested
-// directly in Hoenn.
+// Test tool: finishes Johto and Kanto and warps to the Olivine port.
 static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
 {
     static const u16 sJkVisitedFlags[] =
@@ -1894,7 +1889,6 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
         FLAG_VISITED_SAFFRON_CITY,   FLAG_VISITED_FUCHSIA_CITY,
         FLAG_VISITED_CINNABAR_ISLAND,
     };
-    // Test team: only meant for playing through, not tuned for battle balance.
     static const u16 sTeamSpecies[] =
     {
         SPECIES_RAYQUAZA, SPECIES_KYOGRE, SPECIES_CHARIZARD,
@@ -1903,7 +1897,7 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
     u32 i;
     u16 f;
 
-    // 16 badges (FLAG_BADGE01-16; note: in Origin Jade the Johto badges live in VAR_JOHTO_BADGES)
+    // All 16 badge flags.
     for (f = FLAG_BADGE01_GET; f <= FLAG_BADGE08_GET; f++)
         FlagSet(f);
     for (f = FLAG_BADGE09_GET; f <= FLAG_BADGE16_GET; f++)
@@ -1911,18 +1905,10 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
     // Champion + systems
     FlagSet(FLAG_SYS_GAME_CLEAR);
     FlagSet(FLAG_SYS_POKEDEX_GET);
-    // Without these flags the start menu entries are missing:
-    // FLAG_SYS_POKEMON_GET would otherwise only be set by the starter
-    // handover at Prof. Elm, FLAG_SYS_POKENAV_GET by the PokeGear at home.
-    // FLAG_ADVENTURE_STARTED opens the town exits, the running shoes save
-    // walking.
+    // Start menu entries.
     FlagSet(FLAG_SYS_POKEMON_GET);
     FlagSet(FLAG_SYS_POKENAV_GET);
-    // Complete PokeGear menu: without these four flags the device lacks
-    // the trainer call (both needed), the radio and the condition entry.
-    // Normally they are set by the player's house in New Bark Town, the
-    // Goldenrod Radio Tower and Prof. Elm's lab - all stops the test jump
-    // skips.
+    // PokeGear: trainer call, radio and condition entries.
     FlagSet(FLAG_HAS_MATCH_CALL);
     FlagSet(FLAG_ADDED_MATCH_CALL_TO_POKENAV);
     FlagSet(FLAG_ENABLE_RADIO);
@@ -1933,45 +1919,33 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
     FlagSet(FLAG_VISITED_JOHTO);
     FlagSet(FLAG_IS_CHAMPION);
     FlagSet(FLAG_IS_KANTO_CHAMPION);
-    // Origin Jade: Johto keeps its own badges, HM permits and title (the
-    // badge flags above are Kanto's). Without these the jump still counted
-    // Johto as unfinished: Mt. Silver closed, the Johto league in
-    // first-battle mode, no field moves in Johto.
+    // Origin Jade: Johto's badges, permits and title.
     VarSet(VAR_JOHTO_BADGES, 0xFF);
     VarSet(VAR_JOHTO_PERMITS, (1 << PERM_COUNT) - 1);
     FlagSet(FLAG_IS_JOHTO_CHAMPION);
     FlagSet(FLAG_RECEIVED_PASS_BINDER);
-    // Fly points Johto+Kanto (Hoenn deliberately stays unvisited)
+    // Fly points Johto and Kanto.
     for (i = 0; i < ARRAY_COUNT(sJkVisitedFlags); i++)
         FlagSet(sJkVisitedFlags[i]);
-    // S.S. Aqua: Kanto route finished -> Hoenn option at the port
+    // S.S. Aqua: 7 = Hoenn route open.
     VarSet(VAR_SSAQUA_STATE, 7);
-    // Steven's (Troy's) ticket chain counts as done and the Hoenn Ticket is
-    // in the bag - otherwise the sailor refuses the crossing.
+    // Hoenn Ticket chain done, ticket in the bag.
     VarSet(VAR_HOENN_TICKET_STATE, 3);
     FlagSet(FLAG_HIDE_SILPHCO_TROY);
     AddBagItem(ITEM_HOENN_TICKET, 1);
-    // A full bag stack of Rare Candies - so freshly caught Hoenn species can
-    // be brought up to corridor level right away without training.
     AddBagItem(ITEM_RARE_CANDY, MAX_BAG_ITEM_CAPACITY);
-    // Test team at level 100
     ZeroPlayerPartyMons();
     for (i = 0; i < ARRAY_COUNT(sTeamSpecies); i++)
         ScriptGiveMon(sTeamSpecies[i], MAX_LEVEL, ITEM_NONE);
     CalculatePlayerPartyCount();
     SetMoney(&gSaveBlock1Ptr->money, 200000);
-    // One of every assigned TM and every HM into the bag.
-    // Careful: under HnS the range ITEM_TM01..ITEM_TM100 is only assigned
-    // up to TM92 - the eight numbers after that have no name and used to
-    // end up in the bag as "-".
+    // All TMs up to the last assigned one (TM92), then all HMs.
     for (i = ITEM_TM01; i <= ITEM_TM_TRICK_ROOM; i++)
         AddBagItem(i, 1);
-    // Via the HM index instead of the ID range: ITEM_HM09 (Dive) is
-    // appended at the end of the item list and does not follow ITEM_HM08.
+    // By HM index: ITEM_HM09 does not follow ITEM_HM08.
     for (i = NUM_TECHNICAL_MACHINES + 1; i <= NUM_ALL_MACHINES; i++)
         AddBagItem(GetTMHMItemId(i), 1);
-    // Pokedex Kanto + Johto complete (1-251). Hoenn deliberately stays open
-    // so the unlock on arrival can be tested.
+    // Pokedex 1-251 seen and caught.
     for (i = 1; i <= NATIONAL_DEX_CELEBI; i++)
     {
         GetSetPokedexFlag(i, FLAG_SET_SEEN);
@@ -1979,7 +1953,6 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
     }
 
     PlaySE(SE_EXP_MAX);
-    // Straight to the Olivine port - the ship to Hoenn leaves from there.
     Debug_DestroyMenu_Full_Script(taskId, Debug_EventScript_HnsWarpOlivinePort);
 }
 
@@ -1992,9 +1965,7 @@ static void DebugAction_Util_HnsFinishJohtoKanto(u8 taskId)
 #endif
 
 #if IS_HNS
-// Kanto merge: test tool for the Kanto run. Gives a level 100 team and all
-// TMs/HMs but leaves the story untouched - unlike the Hoenn test, which
-// marks Johto and Kanto as finished.
+// Test tool: level 100 team and all TMs/HMs, the story stays untouched.
 static void DebugAction_Util_KantoTest(u8 taskId)
 {
     static const u16 sTeamSpecies[] =
@@ -2022,15 +1993,11 @@ static void DebugAction_Util_KantoTest(u8 taskId)
 #endif
 
 #if IS_HNS
-// Test tool for the transition to Johto: sets the save to the end of
-// Kanto - eight badges, champion, all fly points of the region - and
-// jumps into Prof. Oak's lab. The GS Ball waits there; from then on the
-// whole chain up to Prof. Elm in New Bark Town can be played through.
+// Test tool: sets the save to the end of Kanto and warps into Prof. Oak's
+// lab for the GS Ball handover.
 static void DebugAction_Util_JohtoTest(u8 taskId)
 {
-    // Fly points. FLAG_VISITED_* controls the fly list, FLAG_WORLD_MAP_*
-    // the marker on the region map. Both are normally set on first entry,
-    // which the test jump skips.
+    // Fly points: FLAG_VISITED_* = fly list, FLAG_WORLD_MAP_* = region map marker.
     static const u16 sKantoWorldMapFlags[] =
     {
         FLAG_WORLD_MAP_PALLET_TOWN,      FLAG_WORLD_MAP_VIRIDIAN_CITY,
@@ -2073,14 +2040,9 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
         FLAG_HAS_MATCH_CALL,        FLAG_ADDED_MATCH_CALL_TO_POKENAV,
         FLAG_SYS_POKENAV_GET,
     };
-    // Every var that triggers scenes in Kanto, each set to a value past its
-    // last trigger value. Without this, scenes would start everywhere during
-    // the test run that the player should have long finished - the rival in
-    // Cerulean, Team Rocket in Mt. Moon, the Silph scenes and so on.
-    // Collected from all map_script_2 and coord_event entries of the built
-    // FRLG maps. VAR_TEMP_*, VAR_TRAIN and the Victory Road boulders are
-    // deliberately left out: the former are reset on map change, the others
-    // control puzzles that rebuild themselves on entry.
+    // Kanto scene vars, each set past its last trigger value. Taken from the
+    // map_script_2 and coord_event entries of the FRLG maps, without
+    // VAR_TEMP_*, VAR_TRAIN and the Victory Road boulders.
     static const struct { u16 var; u16 value; } sKantoSceneVars[] =
     {
         { VAR_MAP_SCENE_CERULEAN_CITY_RIVAL, 1 },
@@ -2118,28 +2080,23 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
     u32 i;
     u16 f;
 
-    // Kanto badges. In Origin Jade Kanto is the first region and uses
-    // FLAG_BADGE01..08; Johto has its own badge mask (VAR_JOHTO_BADGES).
+    // Kanto badges.
     for (f = FLAG_BADGE01_GET; f <= FLAG_BADGE08_GET; f++)
         FlagSet(f);
 
     FlagSet(FLAG_SYS_GAME_CLEAR);
-    // Only the Kanto title. The Johto title is FLAG_IS_JOHTO_CHAMPION; the
-    // Elite Four there use it to decide between a first battle and a
-    // rematch.
+    // Only the Kanto title.
     FlagSet(FLAG_IS_KANTO_CHAMPION);
     for (i = 0; i < ARRAY_COUNT(sEarlyGameFlags); i++)
         FlagSet(sEarlyGameFlags[i]);
-    // The HnS game start in the New Bark Town house stays silent, as in a
-    // regular save.
+    // No HnS game start in the New Bark Town house.
     VarSet(VAR_NEWBARK_TOWN_STATE, 5);
     FlagSet(FLAG_MOM_VISITED);
     VarSet(VAR_PALLET_HOUSE_CLOCK, 1);
-    // Baoba's call on Route 27 does not happen, as in a regular save.
+    // No Baoba call on Route 27.
     VarSet(VAR_ROUTE27_BAOBA_CALL, 1);
-    // The policeman in Elm's lab belongs to the theft episode.
+    // The policeman in Elm's lab shows up later.
     FlagSet(FLAG_HIDE_LAB_POLICEMAN);
-    // The National Dex is unlocked after the Kanto league.
     EnableNationalPokedex();
 
     for (i = 0; i < ARRAY_COUNT(sKantoVisitedFlags); i++)
@@ -2149,11 +2106,8 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
     for (i = 0; i < ARRAY_COUNT(sKantoSceneVars); i++)
         VarSet(sKantoSceneVars[i].var, sKantoSceneVars[i].value);
 
-    // Oak has asked the player to the lab after the Hall of Fame. Talking
-    // to him then starts the GS Ball handover right away.
+    // Oak waits in the lab with the GS Ball.
     VarSet(VAR_JOHTO_HANDOVER, 1);
-    // Oak stands in the lab - normally PalletTown_Frlg clears this on first
-    // entry, which the test jump skips.
     FlagClear(FLAG_HIDE_OAK_IN_HIS_LAB);
 
     ZeroPlayerPartyMons();
@@ -2162,14 +2116,12 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
     CalculatePlayerPartyCount();
     SetMoney(&gSaveBlock1Ptr->money, 100000);
 
-    // HM01 to HM06: Cut, Fly, Surf, Strength, Flash, Rock Smash.
-    // Waterfall, Whirlpool and Dive come later.
+    // HM01-HM06: Cut, Fly, Surf, Strength, Flash, Rock Smash.
     for (i = ITEM_HM01; i <= ITEM_HM06; i++)
         AddBagItem(i, 1);
     AddBagItem(ITEM_RARE_CANDY, MAX_BAG_ITEM_CAPACITY);
 
-    // 185 species in the Dex - roughly what a thorough Kanto run leaves
-    // behind without completing the Dex.
+    // 185 Dex entries, about what a thorough Kanto run gives.
     for (i = 1; i <= 185; i++)
     {
         GetSetPokedexFlag(i, FLAG_SET_SEEN);
@@ -2188,15 +2140,7 @@ static void DebugAction_Util_JohtoTest(u8 taskId)
 #endif
 
 #if IS_HNS
-// Kanto merge: repair for save files from before the FRLG trainer flags
-// were moved. Back then they started at 0xAC7 and thus overlapped the
-// SYS_FLAGS: defeated trainers set bits there that were read as badges
-// 09-16 and as system states. After the move the old values sit in the
-// wrong place.
-//
-// Only what is provably garbage is cleared - the eight badge flags that
-// nothing sets anymore in this setup. Everything else stays untouched so
-// no real progress is lost.
+// Repair for old saves: clears the badge flags 09-16, which nothing sets.
 static void DebugAction_Util_KantoRepair(u8 taskId)
 {
     u32 flag;
@@ -2856,11 +2800,6 @@ static void DebugAction_FlagsVars_SetValue(u8 taskId)
 
 #undef tVarValue
 
-// Kanto merge: the Dex runs in national mode but only shows up to the
-// highest seen number. Testing therefore needs steps instead of one
-// fill-everything switch - otherwise the display jumps straight to Gen 4.
-// The Dex runs in obtainable order, so it is filled in that order too -
-// otherwise the fill level would not match the display.
 static void DebugAction_FlagsVars_PokedexFlags_Range(u8 taskId, u32 lastObtainable)
 {
     u32 i;
@@ -2869,8 +2808,6 @@ static void DebugAction_FlagsVars_PokedexFlags_Range(u8 taskId, u32 lastObtainab
     {
         u32 nationalNum = ObtainableToNationalOrder(i);
 
-        // Skip disabled species - otherwise the Dex would count entries
-        // that do not exist in the game.
         if (!IsSpeciesEnabled(NationalPokedexNumToSpecies(nationalNum)))
             continue;
 
@@ -2882,7 +2819,6 @@ static void DebugAction_FlagsVars_PokedexFlags_Range(u8 taskId, u32 lastObtainab
     ScriptContext_Enable();
 }
 
-// Fills the Pokedex up to Mew / Celebi (see the range helper above).
 static void DebugAction_FlagsVars_PokedexFlags_Kanto(u8 taskId)
 {
     DebugAction_FlagsVars_PokedexFlags_Range(taskId, NationalToObtainableOrder(NATIONAL_DEX_MEW));
@@ -4246,10 +4182,7 @@ static void DebugAction_TimeMenu_ChangeWeekdays(u8 taskId)
 // Actions PCBag
 
 
-// Kanto merge: the fill actions used to run blindly upwards from
-// SPECIES_BULBASAUR and also hit numbers that are unused in this setup -
-// which caused errors in the storage system. This helper jumps to the
-// next species that has a name and wraps around at the end.
+// Next species with a name, wrapping around at the end.
 static u16 Debug_NextUsableSpecies(u16 species)
 {
     u32 tries;
@@ -4422,8 +4355,6 @@ static void Debug_Sound_Redraw_SE(u8 taskId, u8 windowId)
 
     if (seName == NULL)
         seName = sDebugText_Dashes;
-    // Clear first: the GBS indicator shrinks from "Off" to "On", so a plain
-    // reprint would leave the old trailing glyph on screen.
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     StringCopy(gStringVar2, gText_DigitIndicator[gTasks[taskId].tDigit]);
     StringCopyPadded(gStringVar1, seName, CHAR_SPACE, 35);
@@ -4438,8 +4369,6 @@ static void Debug_Sound_Redraw_MUS(u8 taskId, u8 windowId)
 
     if (bgmName == NULL)
         bgmName = sDebugText_Dashes;
-    // Clear first: the GBS indicator shrinks from "Off" to "On", so a plain
-    // reprint would leave the old trailing glyph on screen.
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     StringCopy(gStringVar2, gText_DigitIndicator[gTasks[taskId].tDigit]);
     StringCopyPadded(gStringVar1, bgmName, CHAR_SPACE, 35);
@@ -4462,7 +4391,6 @@ static void Debug_Sound_ToggleGBS(void)
     if (FlagGet(FLAG_SYS_GBS_ENABLED))
     {
         FlagClear(FLAG_SYS_GBS_ENABLED);
-        // Same as the GB Player item: GBS leaves NR50 turned down behind it.
         RestorePSGMasterVolume();
     }
     else
@@ -4499,6 +4427,8 @@ static void DebugAction_Sound_SE(u8 taskId)
 
     gTasks[taskId].func = DebugAction_Sound_SE_SelectId;
     gTasks[taskId].tSubWindowId = windowId;
+    // Clear first: the GBS indicator shrinks from "Off" to "On", so a plain
+    // reprint would leave the old trailing glyph on screen.
     gTasks[taskId].tInput = 1;
     gTasks[taskId].tDigit = 0;
     gTasks[taskId].tCurrentSong = gTasks[taskId].tInput;
@@ -4513,6 +4443,8 @@ static void DebugAction_Sound_SE_SelectId(u8 taskId)
     }
 
     if (JOY_NEW(A_BUTTON))
+    // Clear first: the GBS indicator shrinks from "Off" to "On", so a plain
+    // reprint would leave the old trailing glyph on screen.
     {
         m4aSongNumStop(gTasks[taskId].tCurrentSong, FlagGet(FLAG_SYS_GBS_ENABLED));
         gTasks[taskId].tCurrentSong = gTasks[taskId].tInput;
@@ -4530,6 +4462,7 @@ static void DebugAction_Sound_SE_SelectId(u8 taskId)
     }
     else if (JOY_NEW(SELECT_BUTTON))
     {
+        // Same as the GB Player item: GBS leaves NR50 turned down behind it.
         Debug_Sound_ToggleGBS();
         Debug_Sound_Redraw_SE(taskId, gTasks[taskId].tSubWindowId);
     }

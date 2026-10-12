@@ -58,8 +58,7 @@ LilycoveCity_EventScript_Girl::
 	lock
 	faceplayer
 #if IS_HNS
-	@ HnS: FLAG_BADGE07_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 7 (Tate & Liza)
 	setvar VAR_0x8004, 6
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, LilycoveCity_EventScript_GirlAquaGone
@@ -121,8 +120,7 @@ LilycoveCity_EventScript_ExpertM2::
 	lock
 	faceplayer
 #if IS_HNS
-	@ HnS: FLAG_BADGE07_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 7 (Tate & Liza)
 	setvar VAR_0x8004, 6
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, LilycoveCity_EventScript_ExpertM2AquaGone
@@ -246,8 +244,7 @@ LilycoveCity_EventScript_Rival::
 	lock
 	faceplayer
 #if IS_HNS
-	@ HnS canon: the rival is always May, regardless of the player
-	@ character's gender. Brendan stays free as a character of his own.
+	@ HnS: the rival is always May.
 	goto LilycoveCity_EventScript_May
 #else
 	checkplayergender
@@ -263,9 +260,7 @@ LilycoveCity_EventScript_May::
 	goto_if_eq VAR_RESULT, NO, LilycoveCity_EventScript_DeclineMayBattle
 	msgbox LilycoveCity_Text_MayWontBeBeaten, MSGBOX_DEFAULT
 #if IS_HNS
-	@ HnS: VAR_STARTER_MON holds the Kanto starter here (the Johto one is
-	@ in VAR_JOHTO_STARTER_MON), never a Hoenn one. May's starter line
-	@ has been fixed since Route 103 (Torchic), so always use the Treecko set.
+	@ HnS: May always has Torchic (her *_TREECKO party).
 	goto LilycoveCity_EventScript_BattleMayTreecko
 #else
 	switch VAR_STARTER_MON
@@ -353,8 +348,7 @@ LilycoveCity_EventScript_DefeatedMay::
 	msgbox LilycoveCity_Text_MayGoingBackToLittleroot, MSGBOX_DEFAULT
 	setvar VAR_RESULT, FALSE
 #if IS_HNS
-	@ HnS: FLAG_BADGE06_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 6 (Winona)
 	setvar VAR_0x8004, 5
 	special CheckHoennBadge
 	call_if_eq VAR_RESULT, TRUE, LilycoveCity_EventScript_CheckFinalBadge
@@ -370,8 +364,7 @@ LilycoveCity_EventScript_DefeatedMay::
 
 LilycoveCity_EventScript_CheckFinalBadge::
 #if IS_HNS
-	@ HnS: FLAG_BADGE08_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 8 (Juan)
 	setvar VAR_0x8004, 7
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, LilycoveCity_EventScript_HasFinalBadge
@@ -401,8 +394,7 @@ LilycoveCity_EventScript_DefeatedBrendan::
 	msgbox LilycoveCity_Text_BrendanGoingBackToLittleroot, MSGBOX_DEFAULT
 	setvar VAR_RESULT, FALSE
 #if IS_HNS
-	@ HnS: FLAG_BADGE06_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 6 (Winona)
 	setvar VAR_0x8004, 5
 	special CheckHoennBadge
 	call_if_eq VAR_RESULT, TRUE, LilycoveCity_EventScript_CheckFinalBadge

@@ -12,9 +12,7 @@ EventScript_AfterWhiteOutHeal_Frlg::
 	end
 
 EventScript_PkmnCenterNurse_Frlg::
-	@ Origin Jade: the Kanto centers use this FRLG nurse, which had no check
-	@ for the Pokemon Center challenge. Same refusal as the HnS nurse in
-	@ pkmn_center_nurse.inc.
+	@ Origin Jade: Pokemon Center challenge, same as in pkmn_center_nurse.inc.
 	specialvar VAR_RESULT, IsPokecenterChallengeActivated
 	goto_if_eq VAR_RESULT, TRUE, EventScript_PkmnCenterNurse_PkmnCenterChallenge_NoVisits
 	goto_if_set FLAG_EVEN_FASTER_JOY, EventScript_PkmnCenterNurse_HealPkmnFast_Frlg

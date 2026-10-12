@@ -454,16 +454,9 @@ EventScript_ResetAllMapFlagsHnS::
 
 	additem ITEM_EXP_SHARE
 	additem ITEM_GB_PLAYER
-	@ Origin Jade: the Exp. Share is switched on from the start; the
-	@ regions' level bands are tuned for it. Anyone who does not like it
-	@ can switch it off in the bag.
 	setflag FLAG_EXP_SHARE_ENABLED
-	@ Origin Jade: the game starts in Pallet Town (the bedroom sets this
-	@ again on entry); New Bark Town is not the player's home.
 	setrespawn HEAL_LOCATION_PALLET_TOWN
-	@ Origin Jade: a new game keeps the Johto starter in its own var from
-	@ the start, so the one-time migration in LoadGameSave (src/save.c)
-	@ must never touch it.
+	@ Origin Jade: skips the Johto starter migration in LoadGameSave.
 	setflag FLAG_MIGRATED_JOHTO_STARTER_VAR
 
 	call EventScript_ResetAllBerries
@@ -472,15 +465,12 @@ EventScript_ResetAllMapFlagsHnS::
 
 #if IS_FRLG || IS_HNS
 EventScript_ResetAllMapFlagsFrlg::
-	@ Kanto merge: at the start Daisy sits in our house, not in her own.
+	@ Origin Jade: Daisy starts in the player's house.
 	setflag FLAG_HIDE_RIVALS_HOUSE_DAISY
 	setflag FLAG_HIDE_OAK_IN_HIS_LAB
 	setflag FLAG_HIDE_OAK_IN_PALLET_TOWN
 	setflag FLAG_HIDE_BILL_HUMAN_SEA_COTTAGE
 	setflag FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY
-	@ Kanto merge: in HnS the guard at the gatehouse blocks the way to Kanto
-	@ while the player comes from Johto. In our game the journey starts in
-	@ Kanto - so the guard is not there from the start.
 	setflag FLAG_INDIGOJUNCTION_HIDE_KANTO_GUARD
 	setflag FLAG_HIDE_POKEHOUSE_FUJI
 	setflag FLAG_HIDE_LIFT_KEY
@@ -530,21 +520,12 @@ EventScript_ResetAllMapFlagsFrlg::
 	setflag FLAG_HIDE_FAME_CHECKER_LT_SURGE_JOURNAL
 	setflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
 	setvar VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500
-	@ Kanto merge: the house in New Bark Town no longer belongs to the
-	@ player. The HnS game start tied to it is skipped: otherwise
-	@ VAR_NEWBARK_TOWN_STATE would be 0 and trigger the wall clock scene with
-	@ the start window upstairs, and the PokeGear and Running Shoes scene
-	@ downstairs.
+	@ Origin Jade: skips HnS's game start in the New Bark Town house.
 	setvar VAR_NEWBARK_TOWN_STATE, 5
 	setflag FLAG_MOM_VISITED
-	@ Kanto merge: Warden Baoba calls on Route 27 to report that the Safari
-	@ Zone has been expanded. In HnS the player has long known him by then;
-	@ in our game the player is only just entering Johto. The call is
-	@ retired, the expansion comes through Baoba's own quest line.
+	@ Origin Jade: no Baoba call on Route 27.
 	setvar VAR_ROUTE27_BAOBA_CALL, 1
-	@ Kanto merge: the policeman in Elm's lab belongs to the theft episode
-	@ and is only shown from Mr. Pokemon's house on. Without this flag he
-	@ stands in the lab from the start.
+	@ Origin Jade: the policeman in Elm's lab shows up later.
 	setflag FLAG_HIDE_LAB_POLICEMAN
 	end
 #endif

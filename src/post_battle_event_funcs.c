@@ -36,12 +36,7 @@ int GameClear(void)
 
     SetContinueGameWarpStatus();
 
-    // Origin Jade: after every league (Johto and Hoenn here, and after Red)
-    // the player wakes up at home in Pallet Town. Mom lives only there; the
-    // house in New Bark Town belongs to a stranger since the Johto rework and
-    // the one in Littleroot Town is not ours either. The former rule "New
-    // Bark Town once Johto was visited" predates that. See
-    // docs/origin_jade/DECISIONS.md, D-002.
+    // Origin Jade: after every league the player continues at home in Pallet Town.
     if (IS_HNS)
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_PALLET_TOWN);
     else if (gSaveBlock2Ptr->playerGender == MALE)

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Fills up Johto's trainer teams, stage by stage along the level corridors.
 
-Rules as agreed with Marc:
   - Bosses (leaders, Elite Four, champion, Rocket admins, Silver) to six.
   - Route trainers with fewer than three to three.
-  - Newcomers come from the wild pool of the map the trainer stands on
-    and share a type with the existing team.
-  - No move block: without one the engine uses the learnset moves for
-    the respective level. That is more reliable than hand-made lists.
+  - Newcomers come from the wild pool of the trainer's map and share a type
+    with the existing team.
+  - No move block: the engine uses the learnset moves for the level.
+
+Usage: fill_johto_parties.py <corridor floor of the stage>
 """
 import collections
 import glob
@@ -21,12 +21,10 @@ PARTY = os.path.join(REPO, 'src/data/trainers_hns.party')
 
 BOSS_CLASSES = {'Leader Hns', 'Leader Kanto Hns', 'Elite Four Hns', 'Champion Hns',
                 'Rocket Admin Hns', 'Rival Hns'}
-# Classes that stand by the water - for them the water pool counts.
+# Classes that use the water pool.
 WATER_CLASSES = {'Fisherman Hns', 'Swimmer M Hns', 'Swimmer F Hns', 'Sailor Hns'}
 
-# Classes with a clear type expectation. A Bug Catcher gets bugs, not a
-# Crobat, even if his Spinarak happens to be Poison too. Only the classes
-# whose expectation is unambiguous - all others just share a type with
+# Types a class's newcomers must have. Other classes only share a type with
 # the existing team.
 CLASS_TYPES = {
     'Bug Catcher Hns':   {'BUG'},
@@ -137,7 +135,7 @@ def main(stage_floor):
     tmaps = trainer_maps()
     parsed = parse_party()
 
-    # Class-wide fallback: which species do other trainers of the same class use?
+    # Fallback: species used by other trainers of the same class.
     by_class = collections.defaultdict(collections.Counter)
     for name, b in parsed:
         if not name:
@@ -159,7 +157,7 @@ def main(stage_floor):
         if not dirs:
             out.append(b)
             continue
-        # The trainer's stage: the lowest corridor floor of their maps
+        # Stages (corridor floors) of the trainer's maps.
         floors = {stages[minfo[d][0]][0] for d in dirs}
         if stage_floor not in floors:
             out.append(b)
@@ -198,10 +196,8 @@ def main(stage_floor):
             return (-shared, -pool[sp])
 
         cands = [sp for sp in pool if sp not in have]
-        # The class expectation comes before everything else. If the map's
-        # wild pool has nothing suitable, a Pokemon of the trainer is rather
-        # doubled than breaking the class - the wild pool is only a rough
-        # guide so no endgame species show up with trainers seen early on.
+        # Class types first; without a match in the wild pool, repeat one of
+        # the trainer's own species.
         if want:
             strict = [sp for sp in cands if types.get(sp, set()) & want]
             if not strict:
@@ -209,9 +205,7 @@ def main(stage_floor):
             if strict:
                 cands = strict
         cands.sort(key=rank)
-        # Rotate equally ranked candidates, otherwise every Youngster on a
-        # route gets the same Pokemon. The offset depends on the trainer's
-        # name, so it is stable and not random.
+        # Rotate equally ranked candidates by an offset from the trainer's name.
         if len(cands) > 2:
             top = [sp for sp in cands if rank(sp)[0] == rank(cands[0])[0]]
             rest = [sp for sp in cands if sp not in top]

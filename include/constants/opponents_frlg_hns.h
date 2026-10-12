@@ -1,22 +1,13 @@
 #ifndef GUARD_CONSTANTS_OPPONENTS_FRLG_HNS_H
 #define GUARD_CONSTANTS_OPPONENTS_FRLG_HNS_H
 
-// Auto-generated for the Kanto merge (test/kanto-start).
+// FRLG trainer IDs for HnS builds.
 //
-// opponents_frlg.h and opponents_hns.h are both included unconditionally
-// and hand out the same numbers: TRAINER_RIVAL_OAKS_LAB_SQUIRTLE = 226 =
-// TRAINER_NICOLE_HNS (Swimmer Nicole). The first rival battle therefore
-// ran against an unrelated trainer.
+// opponents_frlg.h and opponents_hns.h are both included; the FRLG IDs get
+// a block of their own here, behind the HnS and Hoenn trainers.
 //
-// Same pattern as for the Hoenn trainers, which opponents.h already
-// shifts by TRAINERS_COUNT_HNS: FRLG gets its own block behind them here.
+// Each ID is FRLG_TRAINER_OFFSET + its number in opponents_frlg.h.
 
-// Kanto merge: the offset also decides where the trainer flags end up
-// (TRAINER_FLAGS_START + id). With 1478 they started at 0xAC7 and thus
-// right inside SYS_FLAGS - defeated trainers set badge bits there. The
-// block now lies completely above HOENN_FLAGS_END (0xB72).
-// (0xB72 is actually HOENN_FLAGS_START; see the correction below the
-// trainer list.)
 #define FRLG_TRAINER_OFFSET 1700
 
 #undef  TRAINER_YOUNGSTER_BEN
@@ -1268,32 +1259,14 @@
 
 #define FRLG_TRAINERS_END (FRLG_TRAINER_OFFSET+623)
 
-// WARNING, trap for the future: the HnS rematch tiers start directly after
-// FRLG_TRAINERS_END (HNS_REMATCH_TIERS_START = 2324).
-// New FRLG trainers can therefore NOT simply be appended - their trainer
-// flags (0x500 + ID) would collide with the rematch flags. If trainers
-// are to be added after the release: create a separate ID range after
-// HNS_REMATCH_TIERS_END, append a fourth flag array to the end of
-// SaveBlock3 and route it in GetFlagPointer.
+// Do not append FRLG trainers: the HnS rematch tiers start right after
+// FRLG_TRAINERS_END. New trainers need an ID range after
+// HNS_REMATCH_TIERS_END, a fourth flag array at the end of SaveBlock3 and a
+// route in GetFlagPointer.
 
-// The trainer flags of these IDs (TRAINER_FLAGS_START + id) would lie in
-// the SYS_FLAGS range. GetFlagPointer redirects them into SaveBlock3.
-//
-// WARNING: 0x500 + id gives 0xBA5-0xE13 for this block - and that lies
-// right inside the Hoenn flag block (HOENN_FLAGS_START = 0xB72,
-// HOENN_FLAGS_END = 0xF53). The old comment above wrongly read 0xB72 as
-// the end instead of the start. Result: 615 Hoenn flags each shared a bit
-// with an FRLG trainer - e.g. Bug Catcher Greg on Route 3 set
-// FLAG_ENABLE_ROXANNE_FIRST_CALL and Roxanne called in Kanto.
-//
-// The trainer IDs stay unchanged; only the flag IDs get a virtual window
-// of their own above all Hoenn flags and below SPECIAL_FLAGS_START
-// (0x4000). The conversion happens in TrainerIdToFlagId().
-//
-// The remainder mod 8 has to match the old window start (0xBA5 -> 5):
-// GetFlagPointer computes the byte from (id - START) / 8 but the bit from
-// id & 7. As long as the remainder stays the same, all bits in existing
-// save files stay in place.
+// Trainer flags of these IDs live in a window of their own above the Hoenn
+// flags (TrainerIdToFlagId, GetFlagPointer -> SaveBlock3). The & 7 term
+// keeps the bit positions of existing saves.
 #define FRLG_TRAINER_FLAGS_BASE  0x3400
 #define FRLG_TRAINER_FLAGS_START (FRLG_TRAINER_FLAGS_BASE + ((0x500 + FRLG_TRAINER_OFFSET + 1) & 7))
 #define FRLG_TRAINER_FLAGS_END   (FRLG_TRAINER_FLAGS_START + (FRLG_TRAINERS_END - FRLG_TRAINER_OFFSET) - 1)

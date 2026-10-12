@@ -128,8 +128,7 @@ static const struct MenuAction MultichoiceList_Mechadoll2_Q1[] =
 {
     {COMPOUND_STRING("Trasla")},
 #if IS_HNS
-    // HnS: the catching lesson comes late in the game, so Wally uses the
-    // evolved form (LoadWallyZigzagoon in src/field_specials.c).
+    // Origin Jade: keep in sync with LoadWallyZigzagoon (field_specials.c).
     {COMPOUND_STRING("Geradaks")},
 #else
     {COMPOUND_STRING("Zigzachs")},

@@ -200,7 +200,6 @@ BlackthornGym_EventScript_Lola::
 BlackthornGym_EventScript_Clair::
 	lock
 	faceplayer
-	@ Johto title, not FLAG_IS_CHAMPION: Hoenn's Hall of Fame sets that one too.
 	goto_if_set FLAG_IS_JOHTO_CHAMPION, BlackthornGym_EventScript_ClairAfterLeague
 	goto_if_ge VAR_BLACKTHORN_CITY_STATE, 4, BlackthornGym_EventScript_Clair_Defeated
 	goto_if_eq VAR_BLACKTHORN_CITY_STATE, 2, BlackthornGym_EventScript_ClairDuringChallenge
@@ -539,8 +538,7 @@ BlackthornGym_EventScript_GymGuy::
 	end
 
 BlackthornGym_EventScript_GymGuy2::
-	@ Johto badge 8 (Clair, handed over in the Dragon's Den); Kanto sets
-	@ FLAG_BADGE08_GET too.
+	@ Johto badge 8 (Clair)
 	setvar VAR_0x8004, 7
 	special CheckJohtoBadge
 	goto_if_eq VAR_RESULT, TRUE, BlackthornGym_EventScript_GymGuy3

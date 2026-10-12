@@ -163,10 +163,7 @@ IndigoPlateau_EventScript_PsychicTeleport::
 	msgbox IndigoPlateau_Text_TeleportGuyYes, MSGBOX_DEFAULT
 	closemessage
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_SOUTH
-	@ Origin Jade: "home" is Pallet Town, not New Bark Town (the player never
-	@ lived there in OJ, see docs/origin_jade/DECISIONS.md, D-002). The texts
-	@ only say "home", so just the target and the music changed. 6,8 is the
-	@ tile in front of the player's house (HEAL_LOCATION_PALLET_TOWN).
+	@ Origin Jade: home is Pallet Town; 6,8 is in front of the player's house.
 	playbgm MUS_RG_PALLET, FALSE
 	delay 60
 	playmoncry SPECIES_ABRA, CRY_MODE_NORMAL

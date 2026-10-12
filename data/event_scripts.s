@@ -889,8 +889,7 @@ gStdScripts_End::
 	.include "data/scripts/route23.inc"
 	.include "data/text/new_game_intro_frlg.inc"
 
-@ Sevii: the maps are retired (game_version frlg_sevii_retired), the
-@ scripts stay included - trainers_frlg.inc refers to their texts.
+@ Retired Sevii maps; keep the includes, trainers_frlg.inc uses their texts.
 	.include "data/maps/BirthIsland_Exterior_Frlg/scripts.inc"
 	.include "data/maps/BirthIsland_Harbor_Frlg/scripts.inc"
 	.include "data/maps/FiveIsland_Frlg/scripts.inc"
@@ -1070,9 +1069,7 @@ gStdScripts_End::
 EventScript_WhiteOut::
 	call EverGrandeCity_HallOfFame_EventScript_ResetEliteFour
 .if IS_HNS
-	@ Origin Jade: Kanto's Elite Four (FRLG maps) start over after a lost run,
-	@ as in FRLG, whose DoWhiteOut ran EventScript_ResetEliteFourEnd. Without
-	@ this the beaten members' doors stayed open for the next run.
+	@ Origin Jade: reset Kanto's Elite Four after a whiteout.
 	call EventScript_ResetEliteFour
 	clearflag FLAG_NO_WILD_CATCHING
 	clearflag FLAG_NO_WILD_RUNNING
@@ -1207,15 +1204,8 @@ Common_EventScript_ReadyPetalburgGymForBattle::
 	clearflag FLAG_HIDE_PETALBURG_GYM_GREETER
 	setflag FLAG_PETALBURG_MART_EXPANDED_ITEMS
 #if IS_HNS
-	@ HnS: Norman calls exactly when his gym reopens - before that he has
-	@ no reason to call the player. All four callers of this script are
-	@ badge handovers, where the player is locked. The repair branch
-	@ PetalburgCity_Gym_EventScript_OpensWithBadges sets the flag itself
-	@ beforehand and therefore skips the call.
 	goto_if_set FLAG_ENABLE_NORMAN_MATCH_CALL, Common_EventScript_PetalburgGymAlreadyAnnounced
-	@ HnS: the call no longer happens here - it interrupted the gym
-	@ leader's scene. Instead it is queued and comes after 50 steps
-	@ outdoors (ShouldDoNormanCall).
+	@ Queue Norman's call: ShouldDoNormanCall starts it after 50 steps outdoors.
 	setvar VAR_HNS_NORMAN_CALL_STEPS, 0
 	setflag FLAG_HNS_NORMAN_CALL_PENDING
 Common_EventScript_PetalburgGymAlreadyAnnounced::
@@ -1223,15 +1213,12 @@ Common_EventScript_PetalburgGymAlreadyAnnounced::
 	return
 
 #if IS_HNS
-@ HnS: Norman's call, triggered via ShouldDoNormanCall after 50 steps.
+@ Norman's gym-open call, started by ShouldDoNormanCall.
 Common_EventScript_HnsNormanCall::
 	lockall
 	clearflag FLAG_HNS_NORMAN_CALL_PENDING
 	setvar VAR_HNS_NORMAN_CALL_STEPS, 0
 	goto_if_set FLAG_ENABLE_NORMAN_MATCH_CALL, Common_EventScript_HnsNormanCallDone
-	@ Origin Jade: like every other pokenavcall, the call needs its speaker;
-	@ without setspeaker the name field of the call box stays empty (same fix
-	@ as Mom's call in Common_EventScript_HnsMomCall).
 	setspeaker Common_Text_HnsNormanName
 	pokenavcall Common_Text_HnsNormanGymOpen
 	waitmessage
@@ -1246,12 +1233,11 @@ Common_EventScript_HnsNormanCallDone::
 	releaseall
 	end
 
-@ Kanto merge: Mom's call after her PokeGear handover.
+@ Mom's call after her PokeGear handover.
 Common_EventScript_HnsMomCall::
 	lockall
 	clearflag FLAG_HNS_MOM_CALL_PENDING
 	setvar VAR_HNS_MOM_CALL_STEPS, 0
-	@ Without setspeaker the name in the call box stays empty.
 	setspeaker Common_Text_HnsMomName
 	pokenavcall Common_Text_HnsMomParcelCall
 	waitmessage
@@ -1364,9 +1350,6 @@ Common_EventScript_OutOfCenterPartyHeal::
 	fadescreenswapbuffers FADE_FROM_BLACK
 	return
 
-@ Origin Jade: Koga and Sabrina can be beaten in any order. Only the gym
-@ that actually hands out the sixth badge announces the next obedience
-@ limit.
 Common_EventScript_ObedienceLevel40IfSixthBadge::
 	special GetPlayerBadgeCount
 	goto_if_ne VAR_RESULT, 6, Common_EventScript_ObedienceLevel40Done
@@ -1558,7 +1541,6 @@ Common_Text_HnsNormanName:
 	.string "NORMAN$"
 #endif
 
-@ HnS: Norman calls as soon as the renovation of his gym is finished.
 Common_Text_HnsNormanGymOpen:
 #if GERMAN
 	.string "… … … … … … … … … … … Piep!\p"

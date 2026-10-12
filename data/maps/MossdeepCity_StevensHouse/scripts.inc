@@ -36,10 +36,6 @@ MossdeepCity_StevensHouse_EventScript_StevenGivesDive::
 	waitmovement 0
 	applymovement LOCALID_STEVENS_HOUSE_STEVEN, MossdeepCity_StevensHouse_Movement_StevenApproachPlayer
 	waitmovement 0
-	@ Dive does not exist in Johto/Kanto - so the HM comes from Steven,
-	@ just like in the original. The license to use it outside of battle is
-	@ granted by Tate and Liza with the Mind Badge; Steven no longer needs
-	@ to explain that to the player at this point.
 	msgbox MossdeepCity_StevensHouse_Text_YouveEarnedHMDive, MSGBOX_DEFAULT
 	giveitem ITEM_HM_DIVE
 	setflag FLAG_RECEIVED_HM_DIVE
@@ -294,8 +290,7 @@ MossdeepCity_StevensHouse_Text_CollectionOfRareRocks:
 #endif
 
 #if IS_HNS
-@ No longer jumped to since the license depends on the Mind Badge.
-@ Kept so nothing gets deleted.
+@ Unused.
 Text_HnsDiveLicense:
 #if GERMAN
 	.string "{PLAYER} erhält die Lizenz für\n"
@@ -305,9 +300,7 @@ Text_HnsDiveLicense:
 	.string "DIVE!$"
 #endif
 
-@ No longer jumped to - the handover uses the original text
-@ MossdeepCity_StevensHouse_Text_YouveEarnedHMDive again.
-@ Kept so nothing gets deleted.
+@ Unused.
 Text_HnsStevenGiveDive:
 #if GERMAN
 	.string "Troy: {PLAYER}?\p"

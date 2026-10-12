@@ -398,8 +398,7 @@ LittlerootTown_EventScript_BirchsLabSign::
 LittlerootTown_EventScript_BrendansHouseSign::
 	lockall
 #if IS_HNS
-	@ HnS: the houses have fixed owners - on the left gym leader Norman, on
-	@ the right Prof. Birch. The boy/girl choice no longer matters.
+	@ HnS: always Norman's house.
 	msgbox LittlerootTown_Text_NormansHouse, MSGBOX_DEFAULT
 	releaseall
 	end
@@ -1170,15 +1169,8 @@ LittlerootTown_Text_BirchSomethingToShowYouAtLab:
 #endif
 
 
-@ HnS: entry into the expansion. In the original, Mom catches the player
-@ here and hands over the Running Shoes - both are dropped (Mom does not
-@ live in Hoenn, the Running Shoes are already owned). Instead Prof. Birch
-@ briefly follows the unknown champion from Johto and Kanto the first time
-@ they leave Littleroot Town. Once only, via VAR_HOENN_ARRIVAL_STATE.
-@ The town exit is two tiles wide. On the left (x=10) Birch stands right
-@ below the player. On the right (x=11) he would only be diagonally in
-@ front, so he walks one more tile to stand beside the player and turns
-@ to face them.
+@ HnS: Prof. Birch sees the player off when they first leave town.
+@ VAR_0x8008: 0 = left exit tile (x=10), 1 = right exit tile (x=11).
 LittlerootTown_EventScript_HoennSendOffRight::
 	lockall
 	setvar VAR_0x8008, 1
@@ -1246,7 +1238,6 @@ LittlerootTown_Movement_HoennSendOffApproach:
 	walk_up
 	step_end
 
-@ Right lane: one more tile to (10,1), i.e. beside the player, facing right.
 LittlerootTown_Movement_HoennSendOffApproachRight:
 	walk_up
 	walk_up

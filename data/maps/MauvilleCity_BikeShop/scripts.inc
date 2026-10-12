@@ -5,9 +5,6 @@ MauvilleCity_BikeShop_EventScript_Rydel::
 	lock
 	faceplayer
 #if IS_HNS
-	@ Goldenrod's bike shop sets FLAG_RECEIVED_BIKE for the Johto bicycle.
-	@ Checking that flag here sent every player straight to "switch bikes",
-	@ so the Mach and Acro Bike were never handed out. Rydel keeps his own.
 	goto_if_set FLAG_RECEIVED_HOENN_BIKE, MauvilleCity_BikeShop_EventScript_AskSwitchBikes
 #else
 	goto_if_set FLAG_RECEIVED_BIKE, MauvilleCity_BikeShop_EventScript_AskSwitchBikes

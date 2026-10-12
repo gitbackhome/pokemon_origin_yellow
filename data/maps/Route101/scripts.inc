@@ -204,17 +204,11 @@ Route101_Movement_Unused2:
 	step_end
 
 #if IS_HNS
-@ Shortly before the north exit to Oldale Town, Steven calls and explains
-@ Hoenn's license requirement - the player should know why they cannot
-@ simply surf off despite 16 badges. Four trigger tiles cover the whole
-@ corridor, so the exit cannot be bypassed.
+@ Steven's call about Hoenn's HM licenses, from four trigger tiles at the north exit.
 Route101_EventScript_TroyLicenseCall::
 	lockall
 	setvar VAR_HOENN_ARRIVAL_STATE, 5
 	pokenavcall Route101_Text_TroyLicenseCall
-	@ waitmessage already waits until the call has been fully torn down
-	@ (Task_HidePokenavMessageWhenDone). An extra delay would only keep the
-	@ controls locked for no reason afterwards.
 	waitmessage
 	releaseall
 	end
@@ -246,8 +240,6 @@ Route101_Text_TroyLicenseCall:
 
 Route101_EventScript_Youngster::
 #if IS_HNS
-	@ HnS: the player arrives as a stranger from Johto/Kanto - the hint
-	@ about the nearest Pokemon Center no longer suits a champion.
 	msgbox Route101_Text_HoennStrangerWarning, MSGBOX_NPC
 	end
 #endif

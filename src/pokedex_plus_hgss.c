@@ -1634,7 +1634,7 @@ static const struct WindowTemplate sStatsScreen_WindowTemplates[] =
         .tilemapLeft = 0,
         .tilemapTop = 6,
         .width = 12,
-        .height = 12,   // was 8; now uses the previously free tile rows 14-17
+        .height = 12,   // Origin Jade: 12 instead of 8 (tile rows 14-17)
         .paletteNum = 0,
         .baseBlock = 1 + 60 + 40 + 48,
     },
@@ -3365,18 +3365,8 @@ static u32 CreatePokedexMonSprite(u16 num, s16 x, s16 y)
 #define LIST_RIGHT_SIDE_TEXT_X_OFFSET 15
 #define LIST_RIGHT_SIDE_TEXT_Y_OFFSET 13
 
-// Kanto merge: row grid of the count display. A text row is 16 px high;
-// the empty row below the heading counts as one of them.
-// The five rows sit at the positions of the former two blocks:
-//   TITLE      where 'Johto' used to be
-//   OWN_LABEL  where Johto's 'Gesehen' (seen) used to be
-//   OWN_VALUE  where Johto's number row used to be
-//   SEEN_LABEL where National's 'Gesehen' (seen) used to be
-//   SEEN_VALUE where National's number row used to be
-// The labels are 64x32 sprites and are positioned by their center; the
-// heading is only 32x16. That is why 'Gefangen' (caught) and 'Gesehen'
-// (seen) need an X offset of their own to the right, otherwise they hang
-// out of the frame on the left.
+// Origin Jade: positions of the stacked dex counts on the main page.
+// DEX_COUNT_LABEL_X is the center of the 64x32 label sprites.
 #define DEX_COUNT_LABEL_X       (LIST_RIGHT_SIDE_TEXT_X + 12)
 #define DEX_COUNT_TITLE_Y       21
 #define DEX_COUNT_OWN_LABEL_Y   36
@@ -3384,10 +3374,7 @@ static u32 CreatePokedexMonSprite(u16 num, s16 x, s16 y)
 #define DEX_COUNT_SEEN_LABEL_Y  64
 #define DEX_COUNT_SEEN_VALUE_Y  75
 
-// Left edge of the numbers, relative to LIST_RIGHT_SIDE_TEXT_X.
-// Both sprite kinds are positioned by their center: the label is 64 px
-// wide, a digit 8 px. For both to be left-aligned, the first digit has to
-// sit 20 px further left.
+// Center of the first digit relative to LIST_RIGHT_SIDE_TEXT_X, left-aligned with the labels.
 #define DEX_COUNT_VALUE_X_OFFSET (-14)
 static void CreateInterfaceSprites(u8 page)
 {
@@ -3463,22 +3450,14 @@ static void CreateInterfaceSprites(u8 page)
     else if (page == PAGE_MAIN)
     {
         u16 seenOwnedCount;
-        // Kanto merge: left-aligned below the label instead of right-aligned.
-        // The hundreds digit sets the left edge, tens and ones follow.
+        // Origin Jade: numbers left-aligned below their labels.
         u8 counterXDist  = sPokedexView->seenCount > 999 ? 6 : 7;
         s16 counterX100s = LIST_RIGHT_SIDE_TEXT_X + DEX_COUNT_VALUE_X_OFFSET;
         s16 counterX10s  = counterX100s + counterXDist;
         s16 counterX1s   = counterX10s + counterXDist;
 
-        // Kanto merge: stacked instead of side by side -
-        //   Pokémon
-        //   (empty row)
-        //   Gefangen (caught)
-        //   <number>
-        //   Gesehen (seen)
-        //   <number>
-        // The heading sits at tile 160 in tileset_interface_hns.png, where
-        // 'Johto' used to be.
+        // Origin Jade: heading (tile 160 in tileset_interface_hns.png), then
+        // caught and seen, each with its number below.
         CreateSprite(&sHoennNationalTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, DEX_COUNT_TITLE_Y, 1);
         // Gefangen (caught)
         spriteId = CreateSprite(&sSeenOwnTextSpriteTemplate, DEX_COUNT_LABEL_X, DEX_COUNT_OWN_LABEL_Y, 1);
@@ -6278,7 +6257,7 @@ static void PrintStatsScreen_Left(u8 taskId)
                 StringCopy(gStringVar2, sText_Stats_eggGroup_UNKNOWN);
                 break;
             }
-            //Two groups: stacked so nothing touches the frame
+            //Two groups: one per row
             PrintStatsScreenTextSmall(WIN_STATS_LEFT, gStringVar1, base_x, base_y + base_y_offset*base_i);
             base_i++;
             PrintStatsScreenTextSmall(WIN_STATS_LEFT, gStringVar2, base_x, base_y + base_y_offset*base_i);

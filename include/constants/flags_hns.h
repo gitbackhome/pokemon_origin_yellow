@@ -860,14 +860,7 @@
 // Extended content flags (0x36A – 0x495)
 // 300 slots for new content.
 //
-// The match call registration flags used to sit right below this block
-// (from 0x310) and clashed there with 90 Hoenn content flags at the same
-// addresses. They now live in the previously free window from 0x496 (see
-// TRAINER_REGISTERED_FLAGS_START further down); between 0x36A and 0x495
-// this block is unchanged.
-//
-// Note MAX_REMATCH_ENTRIES is 100, so the saveblock reserves 10 more entries than
-// there is flag room for -- the reservation is NOT the safe limit here.
+// Match call registration flags: see TRAINER_REGISTERED_FLAGS_START below.
 #define HNS_EXTENDED_CONTENT_START                  0x36A
 #define FLAG_DECORATION_1                           (HNS_EXTENDED_CONTENT_START + 0)
 #define FLAG_DECORATION_2                           (HNS_EXTENDED_CONTENT_START + 1)
@@ -959,9 +952,7 @@
 #define FLAG_HIDE_SLOWPOKE_WELL_TAILLESS_SLOWPOKES                    (HNS_EXTENDED_CONTENT_START + 76)
 #define FLAG_ULAULA_MOVE_TUTOR_PAID                 (HNS_EXTENDED_CONTENT_START + 77) // paid the Ula'ula move tutor his 5 HEART SCALES
 #define FLAG_USED_TELEPORTER                    (HNS_EXTENDED_CONTENT_START + 78)
-// Kanto merge: the Sinjoh block used 78 and 79. Upstream 2.0.5 takes 78
-// for FLAG_USED_TELEPORTER, so both flags moved to 80 and 81.
-// See SINJOH_CONTENT_AVAILABLE in include/config/general.h.
+// 80-81: Sinjoh flags, see SINJOH_CONTENT_AVAILABLE in include/config/general.h.
 #define FLAG_UNUSED_EXTENDED_79                   (HNS_EXTENDED_CONTENT_START + 79)
 #define FLAG_HIDE_MT_SILVER_PC_MEARA               (HNS_EXTENDED_CONTENT_START + 80)
 #define FLAG_SINJOH_UNLOCK_MIGRATED                (HNS_EXTENDED_CONTENT_START + 81)
@@ -1188,25 +1179,16 @@
 #define HNS_EXTENDED_CONTENT_END                    (HNS_EXTENDED_CONTENT_START + HNS_EXTENDED_CONTENT_COUNT - 1)
 // 0x496 is followed by the match call registration block (see below), 0x4F0-0x4FF free
 
-// Free single flags in the window 0x4F0-0x4FF (see registration block below)
+// Single flags in the free window 0x4F0-0x4FF
 #define FLAG_HIDE_OLDALE_TOWN_MART_EMPLOYEE          0x4F0
 #define FLAG_ENABLE_PROF_BIRK_MATCH_CALL             0x4F1
 
 // Trainer registered (match call) flags — one per rematchable trainer
 //
-// WARNING: Do NOT move this block back to 0x310. Addresses 0x310-0x369 are
-// already fully used in this header by 90 Hoenn content flags
-// (FLAG_RECEIVED_*, FLAG_REGISTERED_STEVEN_POKENAV, the Trick House
-// switches, the Regi puzzles and all FLAG_VISITED_* fly points). Every Hoenn
-// flag set there would also have registered a PokeNav contact -- for the
-// slots that are empty in the HnS rematch table this produced calls with no
-// name and no text.
+// Keep this block out of 0x310-0x369, which holds Hoenn content flags.
 //
-// Window: 0x496 + REMATCH_TABLE_ENTRIES (90) - 1 = 0x4EF.
-// 0x4F0-0x4FF (16 flags) stay free up to TRAINER_FLAGS_START (0x500). If the
-// rematch table grows beyond 106 entries, the block has to move again.
-// Origin Jade: that has happened -- flags_hoenn_de.h redefines
-// TRAINER_REGISTERED_FLAGS_START as HNS_REMATCH_FLAGS_START (118 entries).
+// Origin Jade: flags_hoenn_de.h redefines TRAINER_REGISTERED_FLAGS_START
+// as HNS_REMATCH_FLAGS_START (118 entries).
 #define TRAINER_REGISTERED_FLAGS_START               0x496
 #define FLAG_REGISTERED_JOEY_HNS            (TRAINER_REGISTERED_FLAGS_START + REMATCH_ROSE)
 #define FLAG_REGISTERED_WADE_HNS            (TRAINER_REGISTERED_FLAGS_START + REMATCH_ANDRES)

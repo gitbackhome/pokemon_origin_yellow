@@ -196,9 +196,7 @@ static const u8 sPCIconOn_Gfx[] = INCBIN_U8("graphics/naming_screen/pc_icon_on.4
 static const u16 sKeyboard_Pal[] = INCBIN_U16("graphics/naming_screen/keyboard.gbapal");
 static const u32 sShinyStarTiles[] = INCBIN_U32("graphics/summary_screen/shiny_icon.4bpp.lz");
 static const u16 sShinyStarPal[] = INCBIN_U16("graphics/summary_screen/heart.gbapal");
-// Kanto merge: both rival graphics are included. Which one is shown is
-// decided at runtime by the region - Blue from FRLG in Kanto, Silver in
-// Johto.
+// Origin Jade: rival icons, Blue in Kanto and Silver in Johto.
 static const u16 sRivalKanto_Gfx[] = INCBIN_U16("graphics/naming_screen/rival.4bpp");
 static const u16 sRivalKanto_Pal[] = INCBIN_U16("graphics/naming_screen/rival.gbapal");
 static const u16 sRivalJohto_Gfx[] = INCBIN_U16("graphics/naming_screen/silver.4bpp");
@@ -2284,8 +2282,7 @@ void NameRival(void)
 #if IS_HNS
     u32 mapSec = gMapHeader.regionMapSectionId;
 
-    // Kanto merge: in Kanto Blue gets named, in Johto Silver. Each has its
-    // own storage so they do not overwrite each other.
+    // Origin Jade: Blue is named in Kanto, Silver in Johto.
     if (mapSec >= KANTO_MAPSEC_START && mapSec <= KANTO_MAPSEC_END)
     {
         StringCopy(gSaveBlock3Ptr->rivalNameKanto, gText_ExpandedPlaceholder_Green);
@@ -2332,10 +2329,7 @@ static const struct NamingScreenTemplate sMonNamingScreenTemplate =
     .addGenderIcon = TRUE,
     .initialPage = KBPAGE_LETTERS_UPPER,
     .unused = 35,
-    // Kanto merge: DrawMonTextEntryBox puts the species name in front and
-    // appends this title with at most 15 characters. The old text gave
-    // 'GlurakKosename f. {ST' - a suffix fits here, not a sentence of its
-    // own.
+    // Appended to the species name, at most 15 characters.
     .title = COMPOUND_STRING(" benennen?"),
 };
 

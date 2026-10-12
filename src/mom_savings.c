@@ -153,10 +153,7 @@ bool8 Mom_CheckForGiftPurchase(u32 newBalance, u32 oldBalance, bool8 isAutomatic
         if (purchasedItem == MOM_GIFT_STARTER_DOLL)
         {
 #if IS_HNS
-            // Origin Jade: the dolls are the Johto starters, so this reads the
-            // Johto choice (VAR_STARTER_MON holds the Kanto one). Before Elm's
-            // lab there is no Johto starter yet; 0xFFFF falls through to the
-            // default doll instead of handing out a Chikorita doll.
+            // Origin Jade: doll of the Johto starter; before Elm's lab the default doll.
             u16 starterChoice = FlagGet(FLAG_RECEIVED_JOHTO_STARTER) ? VarGet(VAR_JOHTO_STARTER_MON) : 0xFFFF;
 #else
             u16 starterChoice = VarGet(VAR_STARTER_MON);
@@ -395,9 +392,7 @@ static void Task_MomInput_HandleInput(u8 taskId)
     else if (JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_SELECT);
-        // Origin Jade: the D-pad helper never goes below 1, even when the
-        // maximum is 0 (Mom's account or the wallet already full). Moving 1
-        // anyway lost that 1 P; 0 makes the script treat it as cancelled.
+        // Origin Jade: clamp to the maximum; 0 makes the script treat it as cancelled.
         if (sMomInputAmount > sMomInputMaxAmount)
             sMomInputAmount = sMomInputMaxAmount;
         gSpecialVar_0x8000 = sMomInputAmount;
@@ -516,9 +511,7 @@ void Special_MomGetBalance(void)
     u32 balance = Mom_GetBalance();
     ConvertIntToDecimalStringN(gStringVar1, balance, STR_CONV_MODE_LEFT_ALIGN, 6);
     StringExpandPlaceholders(gStringVar2, gText_PokedollarVar1);
-    // VAR_RESULT is only 16 bits wide but the balance goes up to 999999, so
-    // 65536, 131072, ... used to read as an empty account. The scripts only
-    // test the result against 0.
+    // TRUE if the account is not empty; the balance does not fit in VAR_RESULT.
     gSpecialVar_Result = (balance != 0);
 }
 

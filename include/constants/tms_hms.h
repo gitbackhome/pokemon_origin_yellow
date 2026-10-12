@@ -1,9 +1,7 @@
 #ifndef GUARD_CONSTANTS_TMS_HMS_H
 #define GUARD_CONSTANTS_TMS_HMS_H
 
-// Without this include IS_HNS falls back to 0 as soon as this header is
-// included on its own - the HM list would then differ from the rest of
-// the build. Since HM09, ITEMS_COUNT depends on it too.
+// Needed for IS_HNS.
 #include "constants/global.h"
 
 #if IS_HNS
@@ -102,9 +100,7 @@
     F(FLASH_CANNON) \
     F(TRICK_ROOM)
 
-// Origin Jade: under HnS, Whirlpool takes HM08 because it is needed in
-// Johto. Dive is given out in Hoenn by Steven (Troy) and therefore gets
-// HM09. Its item ID sits at the end of enum Item.
+// Origin Jade: HM09 (Dive) has its item ID at the end of enum Item.
 #define FOREACH_HM(F) \
     F(CUT) \
     F(FLY) \

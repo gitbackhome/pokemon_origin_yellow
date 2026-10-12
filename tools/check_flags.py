@@ -1,30 +1,18 @@
 #!/usr/bin/env python3
 """Resolves every flag and var of the Origin Jade build and reports clashes.
 
-Why this exists: two names on the same number are not a compiler error. The
-build stays silent and the game misbehaves. It has bitten this project
-several times - match call registration on top of 90 Hoenn flags, FRLG
-trainer flags on top of the badge flags, Hoenn trainers on top of the daily
-and engine flags, Hoenn vars on top of HnS vars.
-
-What it checks:
-  1. Numbers that carry more than one name, where at least two of those names
-     are actually referenced by scripts, map data or C code.
-  2. Flags written indirectly: every trainer's flag (as TrainerIdToFlagId in
-     src/battle_setup.c computes it) and the match call registration window
+Checks:
+  1. Numbers with more than one name referenced by scripts, maps or C code.
+  2. Trainer flags (TrainerIdToFlagId) and the match call registration window
      must not land on a named flag.
-  3. The daily window (cleared every day) holds nothing but FLAG_DAILY_*.
-  4. Every flag and var number has storage behind it (SaveBlock1, one of the
-     redirected SaveBlock3 windows, or the special flags/vars).
+  3. The daily window holds only FLAG_DAILY_*.
+  4. Every flag and var number has storage behind it.
   5. Item-ball and hidden-item flags are unique across all maps.
-  6. A name that several region headers define, where maps of more than one
-     region use it. The last header wins for all of them, so those maps end
-     up sharing one flag (this is how Victory Road 1F's hidden Ultra Ball was
-     shared between Hoenn and Kanto).
+  6. Names defined by several region headers and used by maps of more than
+     one region.
 
-Values come from the real C preprocessor (POKEMON_HNS build), so #if
-branches, #undef and redefinitions are handled exactly like in the build.
-Needs a host C compiler (cc, or whatever $CC points to).
+Values come from the C preprocessor (POKEMON_HNS build). Needs a host C
+compiler (cc, or $CC).
 
 Usage:
     python3 tools/check_flags.py            # short report
@@ -49,17 +37,14 @@ import tempfile
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFINES = ["-DPOKEMON_HNS", "-DMODERN=1", "-DTESTING=0"]
 
-# Names that intentionally point at the same number (Emerald and FRLG
-# spelling of the same thing). They are not reported.
+# Emerald and FRLG names for the same flag. Not reported.
 KNOWN_ALIASES = {
     frozenset({"FLAG_SYS_CYCLING_ROAD", "FLAG_SYS_ON_CYCLING_ROAD"}),
     frozenset({"FLAG_SYS_MYSTERY_EVENT_ENABLE", "FLAG_SYS_MYSTERY_GIFT_ENABLE"}),
     frozenset({"FLAG_SYS_PC_BILL", "FLAG_SYS_PC_LANETTE"}),
 }
 
-# Item-ball/hidden-item flags that are knowingly shared. All of them sit on
-# HnS maps Origin Jade never reaches (the HnS Kanto Viridian Forest and the
-# contest halls) and are left as HnS ships them to keep upstream merges clean.
+# Shared item-ball/hidden-item flags on HnS maps Origin Jade never reaches. Not reported.
 KNOWN_SHARED_ITEM_FLAGS = {
     "FLAG_ITEM_VIRIDIANFOREST_ELIXIR",
     "FLAG_ITEM_VIRIDIANFOREST_MAX_POTION",
@@ -67,9 +52,8 @@ KNOWN_SHARED_ITEM_FLAGS = {
     "FLAG_HIDE_CONTEST_POKE_BALL",
 }
 
-# Prefixes of names that are aliases by construction: temp slots (map-local
-# and cleared on every map load), placeholders, the landmark numbering (not
-# a flag at all) and the named views of the match call window.
+# Name prefixes that are aliases by construction: temp slots, placeholders,
+# landmark numbers and the match call window.
 ALIAS_PREFIXES = (
     "FLAG_TEMP_",
     "VAR_TEMP_",
@@ -80,8 +64,7 @@ ALIAS_PREFIXES = (
     "FLAG_REGISTERED_",
 )
 
-# Block anchors (..._START and friends) point at the first entry of their
-# block on purpose.
+# Block anchor suffixes; an anchor shares its number with the block's first entry.
 ANCHOR_SUFFIXES = ("_START", "_END", "_COUNT", "_BASE", "_SIZE")
 
 # Header files whose definitions this tool checks; uses inside them do not
@@ -390,8 +373,7 @@ def check_region_headers(refs, report):
         if len(headers) > 1 and len(regions) > 1:
             shared.append("%s: defined in %s, used by %s maps"
                           % (name, ", ".join(sorted(headers)), "/".join(sorted(regions))))
-    # Reported for review only: many of these are meant to be shared (union
-    # room, the event islands' legendaries, the second Battle Frontier).
+    # Info only, not an error.
     print("  info names redefined across region headers and used by several regions: %d" % len(shared))
     for item in shared:
         print("         " + item)

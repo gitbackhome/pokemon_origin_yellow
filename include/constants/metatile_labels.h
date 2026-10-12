@@ -118,11 +118,6 @@
 #define METATILE_Building_TV_On   0x003
 
 // gTileset_BuildingFrlg
-// Kanto merge: TV in the FRLG building tileset. Taken from the layout of
-// PalletTown_PlayersHouse_1F_Frlg, where the TV script sits on 0x035.
-// The lit screen is 0x061 (also MB_TELEVISION). 0x036 next to it is the
-// glass cabinet (MB_CABINET): with that one the switched-on TV turned into
-// a cabinet and could neither be checked nor switched off again.
 #define METATILE_BuildingFrlg_TV_Off 0x035
 #define METATILE_BuildingFrlg_TV_On  0x061
 #define METATILE_BuildingFrlg_PCOff  0x062

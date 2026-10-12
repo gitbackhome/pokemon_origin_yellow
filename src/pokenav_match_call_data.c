@@ -193,8 +193,6 @@ static const u8 gText_MrStoneMatchCallDesc[] = _("Devon Pres");
 static const struct MatchCallStructNPC sMrStoneMatchCallHeader =
 {
     .type = MC_TYPE_NPC,
-    // HnS: Devon is based in Rustboro City. The contact used to hang on
-    // Norman's unlock flag - two entries on one flag.
     .mapSec = MAPSEC_RUSTBORO_CITY,
     .flag = FLAG_MET_MR_STONE,
     .desc = gText_MrStoneMatchCallDesc,
@@ -202,10 +200,7 @@ static const struct MatchCallStructNPC sMrStoneMatchCallHeader =
     .textData = sMrStoneTextScripts
 };
 
-// HnS: Norman calls as often as any other gym leader, not like an
-// acquaintance. Four entries, same form as sRoxanneTextScripts. The
-// vanilla texts Norman4, 5, 6, 8 and 9 stay - they are still used by the
-// Emerald branch further down in this file.
+// HnS: Norman's gym leader calls. Norman4-6, 8 and 9 are still used by the Emerald branch below.
 static const match_call_text_data_t sNormanTextScripts[] = {
     { MatchCall_Text_Norman1, 0xFFFE,                       NO_FLAG_TO_SET },
     { MatchCall_Text_Norman2, ALWAYS_AVAILABLE,             NO_FLAG_TO_SET },
@@ -223,8 +218,6 @@ static const u8 gText_NormanMatchCallDesc[] = _("Reliable One");
 static const struct MatchCallStructTrainer sNormanMatchCallHeader =
 {
     .type = MC_TYPE_LEADER,
-    // HnS: Norman is the gym leader of Petalburg City and not the player's
-    // father. Without .name the entry takes the trainer name.
     .mapSec = MAPSEC_PETALBURG_CITY,
     .flag = FLAG_ENABLE_NORMAN_MATCH_CALL,
     .rematchTableIdx = REMATCH_NORMAN,
@@ -242,9 +235,7 @@ static const struct MatchCallBirch sProfBirchMatchCallHeader =
     .name = COMPOUND_STRING("Prof. Lind")
 };
 
-// HnS: Prof. Birch is a character of his own next to Prof. Elm (Johto) and
-// Prof. Oak (Kanto). He is registered after the lab visit in Littleroot
-// Town - see FLAG_ENABLE_PROF_BIRK_MATCH_CALL.
+// HnS: Prof. Birch, registered after the lab visit in Littleroot Town.
 static const struct MatchCallBirch sProfBirkMatchCallHeader =
 {
     .type = MC_TYPE_BIRCH,
@@ -255,10 +246,7 @@ static const struct MatchCallBirch sProfBirkMatchCallHeader =
 };
 
 static const match_call_text_data_t sMomTextScripts[] = {
-    // HnS: all three rows pointed to Mom3 - so Mom had only a single call
-    // text for the whole game, and the New Bark Town text from 0108 (Mom2)
-    // was not reachable at all. The tiers now depend on Hoenn milestones,
-    // because Johto is finished by the time the player enters Hoenn.
+    // Call texts by Hoenn progress.
     { MatchCall_Text_Mom1, ALWAYS_AVAILABLE,            NO_FLAG_TO_SET },
     { MatchCall_Text_Mom2, FLAG_DEFEATED_PETALBURG_GYM, NO_FLAG_TO_SET },
     { MatchCall_Text_Mom3, FLAG_IS_HOENN_CHAMPION,      NO_FLAG_TO_SET },
@@ -268,9 +256,6 @@ static const match_call_text_data_t sMomTextScripts[] = {
 static const struct MatchCallStructNPC sMomMatchCallHeader =
 {
     .type = MC_TYPE_NPC,
-    // Kanto merge: Mom now lives in Pallet Town. She hands over the
-    // PokeGear in the intro conversation and registers herself right away
-    // (FLAG_ENABLE_MOM_MATCH_CALL in PalletTown_PlayersHouse_1F).
     .mapSec = MAPSEC_PALLET_TOWN,
     .flag = FLAG_ENABLE_MOM_MATCH_CALL,
     .desc = COMPOUND_STRING("Ruhig&Nett"),
@@ -377,7 +362,6 @@ static const struct MatchCallRival sBrendanMatchCallHeader =
     .flag = FLAG_ENABLE_RIVAL_MATCH_CALL,
     .desc = gText_MayBrendanMatchCallDesc,
 #if IS_HNS
-    // HnS canon: the rival is always May, even with a female player character.
     .name = gText_ExpandedPlaceholder_May,
 #else
     .name = gText_ExpandedPlaceholder_Brendan,
@@ -851,7 +835,6 @@ static const struct MatchCallRival sBrendanMatchCallHeader =
     .flag = FLAG_ENABLE_RIVAL_MATCH_CALL,
     .desc = gText_MayBrendanMatchCallDesc,
 #if IS_HNS
-    // HnS canon: the rival is always May, even with a female player character.
     .name = gText_ExpandedPlaceholder_May,
 #else
     .name = gText_ExpandedPlaceholder_Brendan,
@@ -1373,8 +1356,7 @@ s32 GetRematchIdxByTrainerIdx(s32 trainerIdx)
 {
     s32 rematchIdx;
 
-    // Without this check TRAINER_NONE would match the first empty table
-    // slot and return a seemingly valid index.
+    // Empty table slots hold TRAINER_NONE.
     if (trainerIdx == TRAINER_NONE)
         return -1;
 
@@ -1743,8 +1725,6 @@ static void MatchCall_GetNameAndDesc_Rival(match_call_t matchCall, const u8 **de
 {
     *desc = matchCall.rival->desc;
 #if IS_HNS
-    // HnS: the PokeNav contact is May (Birch's daughter), a character of
-    // her own - not the player-named Johto rival from the save.
     *name = gText_ExpandedPlaceholder_May;
 #else
     *name = matchCall.rival->name;
@@ -1816,9 +1796,7 @@ void SetMatchCallRegisteredFlag(void)
     }
     else
     {
-        // No table slot - registration is not possible. The confirmation
-        // text in Std_RegisteredInMatchCall is then skipped instead of
-        // claiming a registration.
+        // No table slot: Std_RegisteredInMatchCall skips its confirmation text.
         gSpecialVar_Result = FALSE;
     }
 }

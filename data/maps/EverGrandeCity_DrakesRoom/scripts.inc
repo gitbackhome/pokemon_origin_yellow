@@ -41,7 +41,7 @@ EverGrandeCity_DrakesRoom_EventScript_Drake::
 	lock
 	faceplayer
 	goto_if_set FLAG_DEFEATED_ELITE_4_DRAKE, EverGrandeCity_DrakesRoom_EventScript_PostBattleSpeech
-	@ Origin Jade: after the league has been won the Elite Four use their rematch teams.
+	@ Origin Jade: rematch team once Hoenn's league is won.
 	goto_if_set FLAG_IS_HOENN_CHAMPION, EverGrandeCity_DrakesRoom_EventScript_Rematch
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_DrakesRoom_Text_IntroSpeech, MSGBOX_DEFAULT

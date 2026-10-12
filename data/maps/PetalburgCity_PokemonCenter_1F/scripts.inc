@@ -29,8 +29,6 @@ PetalburgCity_PokemonCenter_1F_EventScript_Woman::
 	faceplayer
 	msgbox PetalburgCity_PokemonCenter_1F_Text_ManyTypesOfPokemon, MSGBOX_DEFAULT
 #if IS_HNS
-	@ The appended type lecture about the starter Pokemon is a beginner's
-	@ text and is dropped - the woman only tells her rumor.
 	release
 	end
 #endif

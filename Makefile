@@ -25,8 +25,8 @@ ifeq (hns, $(or $(BUILD), $(MAKECMDGOALS)))
 	BUILD_NAME  	:= hns
 	MAP_VERSION 	:= hns
 else
-# Origin Jade: the same code base as hns, only its own title and file name.
-# GAME_VERSION stays POKEMON_HNS so IS_HNS and all switches apply.
+# Origin Jade: hns build with its own title and file name.
+# GAME_VERSION must stay POKEMON_HNS for IS_HNS.
 ifeq (jade, $(or $(BUILD), $(MAKECMDGOALS)))
 	GAME_VERSION 	:= POKEMON_HNS
 	TITLE       	:= POKEMON JADE
@@ -44,7 +44,6 @@ REVISION    := 0
 KEEP_TEMPS  ?= 0
 
 # `File name`.gba
-# Origin Jade uses its full name, the other targets keep poke<name>
 ifeq ($(BUILD_NAME),jade)
 FILE_NAME := Pokemon_Origin_Jade
 else

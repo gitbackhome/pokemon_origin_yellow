@@ -117,8 +117,7 @@ FortreeCity_Gym_EventScript_GymGuidePostVictory::
 FortreeCity_Gym_EventScript_LeftGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE06_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 6 (Winona)
 	setvar VAR_0x8004, 5
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, FortreeCity_Gym_EventScript_GymStatueCertified
@@ -131,8 +130,7 @@ FortreeCity_Gym_EventScript_LeftGymStatue::
 FortreeCity_Gym_EventScript_RightGymStatue::
 	lockall
 #if IS_HNS
-	@ HnS: FLAG_BADGE06_GET belongs to the Johto/Kanto badges and is set
-	@ long before here - check the Hoenn badge instead.
+	@ Hoenn badge 6 (Winona)
 	setvar VAR_0x8004, 5
 	special CheckHoennBadge
 	goto_if_eq VAR_RESULT, TRUE, FortreeCity_Gym_EventScript_GymStatueCertified

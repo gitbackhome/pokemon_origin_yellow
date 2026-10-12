@@ -6,9 +6,7 @@ VermilionPortFrlg_OnFrame::
 	map_script_2 VAR_MAP_SCENE_VERMILION_CITY, 1, VermilionPortFrlg_EventScript_SSAnneDeparts
 	.2byte 0
 
-@ Phase 2: the player leaves the S.S. Anne with HM01. The ship sets sail,
-@ the port stays empty for now. The scene on SSAnne_Exterior that used to
-@ handle this is dropped; the FRLG outer deck is no longer entered.
+@ Phase 2: the S.S. Anne sets sail once the player has HM01.
 VermilionPortFrlg_EventScript_SSAnneDeparts::
 	lockall
 	delay 30
@@ -22,7 +20,7 @@ VermilionPortFrlg_EventScript_SSAnneDeparts::
 	releaseall
 	end
 
-@ Phase 1: while the S.S. Anne is in port, the sailor leads on board.
+@ Phase 1: the S.S. Anne is in port.
 VermilionPortFrlg_EventScript_BoardSSAnne::
 	msgbox VermilionPortFrlg_Text_AllAboardSSAnne, MSGBOX_DEFAULT
 	call VermilionPortFrlg_EventScript_EnterShip
@@ -31,7 +29,7 @@ VermilionPortFrlg_EventScript_BoardSSAnne::
 	release
 	end
 
-@ Phase 3: the Anne has left, the Aqua is not there yet.
+@ Phase 3: no ship in port.
 VermilionPortFrlg_EventScript_NoShipInPort::
 	msgbox VermilionPortFrlg_Text_NoShipInPort, MSGBOX_DEFAULT
 	closemessage
@@ -96,11 +94,11 @@ VermilionPortFrlg_Text_SuperNerd:
 VermilionPortFrlg_EventScript_Sailor::
 	lock
 	faceplayer
-	@ Phase 1: the S.S. Anne is in port, ticket required.
+	@ Phase 1: S.S. Anne
 	goto_if_unset FLAG_HIDE_SS_ANNE, VermilionPortFrlg_EventScript_SSAnnePresent
-	@ Phase 3: the Anne has left, the Aqua has not arrived yet.
+	@ Phase 3: no ship
 	goto_if_set FLAG_HIDE_VERMILION_SS_AQUA, VermilionPortFrlg_EventScript_NoShipInPort
-	@ Phase 4: from here on the existing S.S. Aqua logic.
+	@ Phase 4: S.S. Aqua
 	goto_if_unset FLAG_RETURNED_MACHINE_PART, VermilionPortFrlg_EventScript_SailorCantSail
 	goto_if_ge VAR_SSAQUA_STATE, 7, VermilionPortFrlg_EventScript_Sailor_AfterKanto
 	msgbox VermilionPortFrlg_Text_AskBoard, MSGBOX_YESNO
@@ -225,9 +223,7 @@ VermilionPortFrlg_EventScript_EnterShip::
 	applymovement LOCALID_VERMILIONMARINA_FRLG_SAILOR, VermilionPortFrlg_Movement_BoatLeave
 	applymovement LOCALID_VERMILIONMARINA_FRLG_BOAT, VermilionPortFrlg_Movement_BoatLeave
 	waitmovement LOCALID_VERMILIONMARINA_FRLG_BOAT
-	@ The FRLG Pokemon Center: HEAL_LOCATION_VERMILION_CITY_HNS lies on the
-	@ retired HnS map, whose map header is NULL in this build - a whiteout
-	@ on the S.S. Anne would have warped there.
+	@ Keep the FRLG heal location, HEAL_LOCATION_VERMILION_CITY_HNS is on a disabled map.
 	setrespawn HEAL_LOCATION_VERMILION_CITY
 	return
 

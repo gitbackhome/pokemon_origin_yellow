@@ -84,9 +84,7 @@ int Intl_GetListMenuWidth(const struct ListMenuTemplate *listMenu)
 
 void CopyMonCategoryText(u16 species, u8 *dest)
 {
-    // In the official German game "POKéMON" is not appended to the
-    // category (in the German Emerald decomp this suffix is ENGLISH-only).
-    // So only "Samen" is shown instead of "Samen Pokémon".
+    // Origin Jade: category without the "Pokémon" suffix.
     StringCopy(dest, GetSpeciesCategory(species));
 }
 

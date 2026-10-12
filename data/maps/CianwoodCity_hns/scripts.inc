@@ -38,7 +38,7 @@ CianwoodCity_EventScript_Flytrigger::
 	waitmovement LOCALID_CIANWOOD_CHUCKSWIFE
 	applymovement LOCALID_CIANWOOD_CHUCKSWIFE, CianwoodCity_Movement_ChucksWife
 	waitmovement 0
-	@ Origin Jade: a player coming from Kanto has had Fly for a long time.
+	@ Origin Jade: Sharp Beak instead if the player already has HM Fly.
 	checkitem ITEM_HM_FLY
 	goto_if_eq VAR_RESULT, TRUE, CianwoodCity_EventScript_FlytriggerHasFly
 	msgbox CianwoodCity_Text_ChucksWifeGiveHM, MSGBOX_DEFAULT
@@ -77,7 +77,7 @@ CianwoodCity_EventScript_ChucksWife::
 	checkitem ITEM_HM_FLY
 	goto_if_eq VAR_RESULT, TRUE, CianwoodCity_EventScript_ChucksWifeAlreadyHasFly
 	msgbox CianwoodCity_Text_ChucksWifeEasierToFly, MSGBOX_DEFAULT
-	@ Johto badge 5 (Chuck); Kanto sets FLAG_BADGE05_GET too.
+	@ Johto badge 5 (Chuck)
 	setvar VAR_0x8004, 4
 	special CheckJohtoBadge
 	goto_if_eq VAR_RESULT, TRUE, CianwoodCity_EventScript_ChucksWifeGiveFly

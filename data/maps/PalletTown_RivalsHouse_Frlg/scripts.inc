@@ -23,8 +23,7 @@ PalletTown_RivalsHouse_EventScript_Daisy::
 	faceplayer
 	famechecker FAMECHECKER_DAISY, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_RivalsHouse_EventScript_GroomMon
-	@ Kanto merge: the Town Map is dropped - Mom's PokeGear already contains
-	@ it. Instead, Daisy wishes the player good luck.
+	@ Origin Jade: Daisy gives no Town Map.
 	goto_if_eq RECEIVED_TOWN_MAP, TRUE, PalletTown_RivalsHouse_EventScript_PleaseGiveMonsRest
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, PalletTown_RivalsHouse_EventScript_PleaseGiveMonsRest
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 1, PalletTown_RivalsHouse_EventScript_DaisyGoodLuck
@@ -128,9 +127,7 @@ PalletTown_RivalsHouse_EventScript_PleaseGiveMonsRest::
 	release
 	end
 
-@ Kanto merge: replaces the Town Map handover. The map icon on the table
-@ still disappears so the room does not wait for a handover that never
-@ comes.
+@ Origin Jade: replaces the Town Map handover.
 PalletTown_RivalsHouse_EventScript_DaisyGoodLuck::
 	msgbox PalletTown_RivalsHouse_Text_DaisyGoodLuck
 	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2

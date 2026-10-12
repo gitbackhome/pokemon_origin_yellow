@@ -515,9 +515,7 @@ static bool8 ForcedMovement_None(void)
         playerObjEvent->enableAnim = TRUE;
         SetObjectEventDirection(playerObjEvent, playerObjEvent->facingDirection);
         gPlayerAvatar.flags &= ~PLAYER_AVATAR_FLAG_FORCED_MOVE;
-        // Upstream fix (expansion #10551): the follower Pokemon kept copying
-        // the spin movement after it was interrupted and could crash the
-        // game (spin tiles in the Rocket Hideout and the Viridian Gym).
+        // Upstream fix (expansion #10551).
         PlayerSetCopyableMovement(COPY_MOVE_NONE);
     }
     return FALSE;

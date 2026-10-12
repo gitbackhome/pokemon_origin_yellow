@@ -189,7 +189,7 @@ IlexForest_EventScript_Trigger::
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
 	msgbox IlexForest_Text_CharcoalMasterIntro, MSGBOX_DEFAULT
 	closemessage
-	@ Origin Jade: a player coming from Kanto has had Cut for a long time.
+	@ Origin Jade: Miracle Seed instead if the player already owns HM Cut.
 	checkitem ITEM_HM_CUT
 	goto_if_eq VAR_RESULT, TRUE, IlexForest_EventScript_HasCut
 	giveitem ITEM_HM_CUT

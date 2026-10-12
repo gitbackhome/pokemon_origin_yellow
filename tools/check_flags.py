@@ -343,6 +343,9 @@ def check_map_flags(values, report):
     for path in sorted(glob.glob(os.path.join(REPO, "data/maps/*/map.json"))):
         d = os.path.basename(os.path.dirname(path))
         data = json.load(open(path, encoding="utf-8"))
+        # Retired maps are not built.
+        if data.get("game_version") != "hns":
+            continue
         for obj in data.get("object_events") or []:
             flag = obj.get("flag", "0")
             if flag in KNOWN_SHARED_ITEM_FLAGS:

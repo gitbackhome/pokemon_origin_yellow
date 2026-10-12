@@ -150,47 +150,35 @@ dated 2026-10-10 or later were decided directly.
   2026-10-11 (Black Belt).
 
 ### D-010 The league changes after the eighth Johto badge and the legendary event
-- **Status:** Active (2026-10-10 and 2026-10-11).
-  Supersedes "Victory Road of HnS retired, the FRLG Victory Road replaces
-  it" from 4e687ebd9b.
-- **Decision:** Until the league has changed, the gatehouse north exit
-  leads to Kanto's league (Route 23, FRLG Victory Road) - training against
-  the Kanto league is fine. The league changes once the player holds all
-  eight Johto badges and has finished the legendary event at the Ecruteak
-  theater (HnS's prerequisite). From then on Kanto's league is gone for
-  good:
-  - the north exit leads to Johto's Victory Road (`VictoryRoadKanto_*_hns`,
-    active again) and on to Johto's league (`Route23_hns`,
-    `IndigoPlateau_hns`);
-  - the door on Kanto's Indigo Plateau (`IndigoPlateau_Exterior_Frlg`, the
-    Fly target) leads into Johto's league center instead of Kanto's;
-  - should a whiteout still bring the player into Kanto's league center
-    (last heal point), the guard blocks its Elite Four door with FRLG's own
-    "closed" line.
-  Both Victory Roads stay: each fits its chapter (Kanto: Moltres, Kanto
-  levels; Johto: Silver's last battle, TM Earthquake, TM Dark Pulse,
-  scaling 65-80). Kanto's Route 23 and Victory Road stay reachable from the
-  plateau's stairs, so nothing there becomes missable.
+- **Status:** Active (2026-10-10, 2026-10-11, 2026-10-12).
+- **Decision:** There is one way to the league: the gatehouse north exit,
+  Kanto's Route 23 and Victory Road (Moltres), Kanto's Indigo Plateau. The
+  league changes once the player holds all eight Johto badges and has
+  finished the legendary event at the Ecruteak theater. From then on the
+  plateau door leads into Johto's league center instead of Kanto's, also when
+  flying there. Kanto's league is gone; should a whiteout bring the player
+  into Kanto's center, the guard blocks the Elite Four door with FRLG's
+  "closed" line.
+  - HnS's Victory Road (`VictoryRoadKanto_*_hns`) is retired again;
+    `Route23_hns` is no longer reachable. Its items lie in Kanto's Victory Road
+    1F-3F (same flags), placed at random, to be moved in Porymap if needed.
+  - Silver's last battle (HnS Victory Road teams) takes place in Johto's
+    league center: until it is won he stands on the tile in front of the
+    Elite Four door (`VAR_ROUTE27_STATE` < 3).
+  - Johto's center leads out onto Kanto's plateau; `IndigoPlateau_hns` is
+    only reached by Teleport and connects south to Kanto's Route 23.
 - **Story:** the league has changed, as in Gold/Silver: Lance is champion,
   Koga has joined the Elite Four, Lorelei and Agatha are gone. The in-game
   announcement is still to be written.
 - **Rules / code:** `PokemonLeague_EventScript_CheckLeagueChanged`
-  (`data/scripts/pokemon_league.inc`) is the one condition. The north door
-  warps and the plateau door warp are `MAP_DYNAMIC`; their targets are set on
-  map load and on resume (`ReceptionGate_EventScript_SetNorthWarp`,
-  `IndigoPlateau_Exterior_EventScript_SetDoorWarp`). Johto's center leaves
-  through its own door onto `IndigoPlateau_hns` (same layout). HnS's
-  checkpoint at the south entrance (`ReceptionGate_Trigger`) is no longer
-  used: in Origin Jade that entrance is the way home from Johto to Kanto and
-  must stay open. The legendary-event check now guards the north exit for
-  players with all eight Johto badges (`ReceptionGate_EventScript_LeagueCheck`).
-  Silver's battle on Johto's Victory Road is armed the first time the
-  gatehouse is entered after the change (`VAR_ROUTE27_STATE` 1 -> 2). A
-  player who flies to the plateau and takes the door skips Johto's Victory
-  Road and Silver's last battle; both stay available on foot later.
-- **Evidence:** decisions 2026-10-10 and 2026-10-11; e900a95bad (Routes
-  26/27 are walked twice - "on the way back to Johto's league"); 9be851b978
-  (Johto trainer stage 5 "Victory Road and Indigo Plateau").
+  (`data/scripts/pokemon_league.inc`) is the one condition; the plateau door
+  warp is `MAP_DYNAMIC` (`IndigoPlateau_Exterior_EventScript_SetDoorWarp`).
+  Silver: `IndigoPlateau_EventScript_SetupSilverFinal`. HnS's checkpoint at
+  the south entrance (`ReceptionGate_Trigger`) stays unused: that entrance is
+  the way home from Johto to Kanto.
+- **Evidence:** decisions 2026-10-10, 2026-10-11 and 2026-10-12 (HnS's
+  Victory Road only if needed, Moltres stays in Kanto's; flying must not skip
+  Silver); e900a95bad; 9be851b978.
 
 ## Balancing
 
@@ -368,9 +356,7 @@ dated 2026-10-10 or later were decided directly.
 
 ## Open questions
 
-- **O-001** Resolved 2026-10-11: the league has changed (D-010). Fly to
-  "Indigo Plateau" keeps landing at Kanto's plateau; after the change its
-  door leads into Johto's league.
+- **O-001** Resolved 2026-10-11: the league has changed (D-010).
 - **O-002** Hoenn Ticket: no source in the game except the debug menu. The
   story after the ticket exists but does not fit the earlier system; it
   will be redesigned (2026-10-10). Do not implement in the meantime.
@@ -431,3 +417,4 @@ dated 2026-10-10 or later were decided directly.
 | `FLAG_IS_CHAMPION` is the Johto title | 4d33757ced | `FLAG_IS_JOHTO_CHAMPION` (f5aa45302b) |
 | Johto starts in Mom's house in New Bark Town | HnS | D-004 |
 | A second Moltres on Mt. Silver | HnS | D-022 (2026-10-11) |
+| North exit leads to HnS's Victory Road after the league change | D-010 (2026-10-10) | D-010 (2026-10-12) |

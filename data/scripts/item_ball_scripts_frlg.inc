@@ -366,6 +366,42 @@ VictoryRoad_3F_EventScript_ItemTM50::
 	finditem ITEM_TM50
 	end
 
+VictoryRoad_1F_EventScript_ItemRareCandy2::
+	finditem ITEM_RARE_CANDY
+	end
+
+VictoryRoad_1F_EventScript_ItemMaxEther::
+	finditem ITEM_MAX_ETHER
+	end
+
+VictoryRoad_1F_EventScript_ItemHPUp::
+	finditem ITEM_HP_UP
+	end
+
+VictoryRoad_2F_EventScript_ItemFullRestore::
+	finditem ITEM_FULL_RESTORE
+	end
+
+VictoryRoad_2F_EventScript_ItemTMEarthquake::
+	finditem ITEM_TM_EARTHQUAKE
+	end
+
+VictoryRoad_2F_EventScript_ItemPotion::
+	finditem ITEM_POTION
+	end
+
+VictoryRoad_2F_EventScript_ItemTMDarkPulse::
+	finditem ITEM_TM_DARK_PULSE
+	end
+
+VictoryRoad_3F_EventScript_ItemMaxRevive2::
+	finditem ITEM_MAX_REVIVE
+	end
+
+VictoryRoad_3F_EventScript_ItemMaxRevive3::
+	finditem ITEM_MAX_REVIVE
+	end
+
 CeruleanCave_1F_EventScript_ItemMaxElixir::
 	finditem ITEM_MAX_ELIXIR
 	end

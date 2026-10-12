@@ -14198,7 +14198,7 @@
       "secondary_tileset": "gTileset_Cave_Default_Hns",
       "border_filepath": "data/layouts/VictoryRoadKanto_1F_hns/border.bin",
       "blockdata_filepath": "data/layouts/VictoryRoadKanto_1F_hns/map.bin",
-      "game_version": "hns",
+      "game_version": "hns_kanto_retired",
       "layout_version": "hns"
     },
     {
@@ -14210,7 +14210,7 @@
       "secondary_tileset": "gTileset_Cave_Default_Hns",
       "border_filepath": "data/layouts/VictoryRoadKanto_B1F_hns/border.bin",
       "blockdata_filepath": "data/layouts/VictoryRoadKanto_B1F_hns/map.bin",
-      "game_version": "hns",
+      "game_version": "hns_kanto_retired",
       "layout_version": "hns"
     },
     {
@@ -14222,7 +14222,7 @@
       "secondary_tileset": "gTileset_Cave_Default_Hns",
       "border_filepath": "data/layouts/VictoryRoadKanto_B2F_hns/border.bin",
       "blockdata_filepath": "data/layouts/VictoryRoadKanto_B2F_hns/map.bin",
-      "game_version": "hns",
+      "game_version": "hns_kanto_retired",
       "layout_version": "hns"
     },
     {

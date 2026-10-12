@@ -1,13 +1,12 @@
 ReceptionGate_hns_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, ReceptionGate_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, ReceptionGate_EventScript_SetNorthWarp
 	.byte 0
 
 @ Origin Jade: the Black Belt in front of the Mt. Silver exit is gone once
 @ Johto's league is won.
 ReceptionGate_OnTransition:
 	call_if_set FLAG_IS_JOHTO_CHAMPION, ReceptionGate_EventScript_HideSilverGuard
-	goto ReceptionGate_EventScript_SetNorthWarp
+	end
 
 ReceptionGate_EventScript_HideSilverGuard:
 	setflag FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD
@@ -179,23 +178,6 @@ VictoryRoadGate_Text_RightBlackBelt:
 @ Mt. Silver VAR_TEMP_6, league VAR_TEMP_7.
 @ ============================================================================
 
-@ Origin Jade: the north exit (MAP_DYNAMIC warps) leads to Kanto's league
-@ until the league change, then to Johto's Victory Road. Keep in sync with
-@ IndigoPlateau_Exterior_Frlg.
-ReceptionGate_EventScript_SetNorthWarp::
-	call PokemonLeague_EventScript_CheckLeagueChanged
-	goto_if_eq VAR_RESULT, TRUE, ReceptionGate_EventScript_NorthToJohtoLeague
-	setdynamicwarp MAP_ROUTE23, 2
-	end
-
-ReceptionGate_EventScript_NorthToJohtoLeague::
-	setdynamicwarp MAP_VICTORY_ROAD_KANTO_B2F_HNS, 0
-	@ Arms Silver's battle on Johto's Victory Road.
-	goto_if_ne VAR_ROUTE27_STATE, 1, ReceptionGate_EventScript_NorthWarpDone
-	setvar VAR_ROUTE27_STATE, 2
-ReceptionGate_EventScript_NorthWarpDone:
-	end
-
 ReceptionGate_EventScript_BlockJohto::
 	lock
 	goto_if_set FLAG_SYS_GAME_CLEAR, ReceptionGate_EventScript_PassJohto
@@ -268,11 +250,6 @@ ReceptionGate_EventScript_LeagueCheck::
 	goto_if_unset FLAG_BADGE06_GET, ReceptionGate_EventScript_LeagueDenied
 	goto_if_unset FLAG_BADGE07_GET, ReceptionGate_EventScript_LeagueDenied
 	goto_if_unset FLAG_BADGE08_GET, ReceptionGate_EventScript_LeagueDenied
-	@ Origin Jade: with eight Johto badges the legendary event must be done first.
-	specialvar VAR_RESULT, CountJohtoBadges
-	goto_if_lt VAR_RESULT, 8, ReceptionGate_EventScript_LeaguePass
-	goto_if_lt VAR_ECRUTEAK_CITY_THEATER, 8, ReceptionGate_EventScript_Kimono
-ReceptionGate_EventScript_LeaguePass:
 	setvar VAR_TEMP_7, 1
 	release
 	end

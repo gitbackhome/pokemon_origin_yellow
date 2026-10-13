@@ -24,7 +24,6 @@ static u8 sLastPickedBerryType = BERRY_NONE;
 
 // Origin Jade: trees in save slots below HNS_BERRY_TREE_FIRST_ID (Hoenn) use the
 // Emerald farming system, all others (Johto/Kanto) the HGSS self-sustaining one.
-// Three Johto trees share slots 2, 31 and 33 with Hoenn and grow like Hoenn trees.
 #define HNS_BERRY_TREE_FIRST_ID 90
 static bool32 BerryTreeIdIsHoenn(u8 id)
 {

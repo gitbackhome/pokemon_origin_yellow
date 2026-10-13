@@ -50,15 +50,15 @@ RadioTower1F_Text_Whitney1::
 	.string "Bianka: Hallooo!\n"
 	.string "Ich heiße Bianka!\p"
 	.string "Hier läuft gerade ein Quiz, bei dem man\n"
-	.string "ein Radio-Modul abstauben kann! Ich\l"
-	.string "selbst bin auch genau deswegen hier…\p"
+	.string "einen Meisterball abstauben kann!\l"
+	.string "Ich bin auch genau deswegen hier…\p"
 	.string "Aber dieses Quiz ist echt unglaublich\n"
 	.string "schwierig!$"
 #else
 	.string "WHITNEY: Hi!\p"
 	.string "My name is WHITNEY!\p"
 	.string "I heard about the QUIZ to win a\n"
-	.string "RADIO, so I came here to get\l"
+	.string "MASTER BALL, so I came here to get\l"
 	.string "one...\p"
 	.string "But this QUIZ is so hard!$"
 #endif
@@ -82,7 +82,7 @@ RadioTower1F_EventScript_Reception::
 	lock
 	faceplayer
 	msgbox RadioTower1F_Text_ReceptionistWelcome, MSGBOX_DEFAULT
-	goto_if_unset FLAG_ENABLE_RADIO, RadioTower1F_EventScript_ReceptionOfferQuiz
+	goto_if_unset FLAG_WON_GOLDENROD_RADIO_QUIZ, RadioTower1F_EventScript_ReceptionOfferQuiz
 	msgbox RadioTower1F_Text_ReceptionistNoTours, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -130,18 +130,17 @@ RadioTower1F_EventScript_ReceptionQuiz4::
 
 RadioTower1F_EventScript_ReceptionQuiz5::
 	msgbox RadioTower1F_Text_QuizQuestion5, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, FALSE, RadioTower1F_EventScript_ReceptionGiveRadio
+	goto_if_eq VAR_RESULT, FALSE, RadioTower1F_EventScript_ReceptionGivePrize
 	msgbox RadioTower1F_Text_WrongAnswer, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
 
-RadioTower1F_EventScript_ReceptionGiveRadio::
+@ Origin Jade: the quiz prize is a Master Ball.
+RadioTower1F_EventScript_ReceptionGivePrize::
 	msgbox RadioTower1F_Text_QuizWin, MSGBOX_DEFAULT
-	closemessage
-	playfanfare MUS_RG_OBTAIN_KEY_ITEM
-	msgbox RadioTower1F_Text_PokegearRadio, MSGBOX_AUTOCLOSE
-	waitfanfare
+	giveitem ITEM_MASTER_BALL
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox RadioTower1F_Text_TuneIn, MSGBOX_DEFAULT
 	closemessage
 	playse SE_PIN
@@ -157,7 +156,7 @@ RadioTower1F_EventScript_ReceptionGiveRadio::
 	waitmovement 0
 	playse SE_EXIT
 	removeobject LOCALID_GOLDENROD_RADIOTOWER_WHITNEY
-	setflag FLAG_ENABLE_RADIO
+	setflag FLAG_WON_GOLDENROD_RADIO_QUIZ
 	setflag FLAG_HIDE_GOLDENROD_BEAUTY
 	setvar VAR_GOLDENROD_CITY_STATE, 2
 	release
@@ -201,18 +200,18 @@ RadioTower1F_Text_RadioCardWomanOfferQuiz:
 #if GERMAN
 	.string "Bei uns läuft momentan ein besonderes\n"
 	.string "Quiz.\p"
-	.string "Beantworte die fünf Fragen richtig, um\n"
-	.string "ein Radio-Modul zu gewinnen.\p"
-	.string "Stecke es in den Com, um überall und zu\n"
-	.string "jeder Zeit Radio hören zu können.\p"
+	.string "Beantworte die fünf Fragen richtig,\n"
+	.string "um einen Meisterball zu gewinnen.\p"
+	.string "Mit ihm fängst du garantiert jedes\n"
+	.string "wilde Pokémon!\p"
 	.string "Möchtest du am Quiz teilnehmen?$"
 #else
     .string "We have a special QUIZ campaign on\n"
     .string "right now.\p"
     .string "Answer five questions correctly to\n"
-    .string "win a RADIO.\p"
-    .string "You and your POKéMON can use it to\n"
-    .string "play music anytime, anywhere.\p"
+    .string "win a MASTER BALL.\p"
+    .string "It catches any wild POKéMON without\n"
+    .string "fail.\p"
     .string "Would you like to take the QUIZ?$"
 #endif
 
@@ -281,20 +280,11 @@ RadioTower1F_Text_QuizWin:
 #if GERMAN
 	.string "Bingo! Volltreffer!\n"
 	.string "Glückwunsch!\p"
-	.string "Hier dein Preis: ein Radio-Modul!$"
+	.string "Hier ist dein Preis!$"
 #else
     .string "Bingo! You got it!\n"
     .string "Congratulations!\p"
-    .string "Here's your prize, a RADIO CARD!$"
-#endif
-
-RadioTower1F_Text_PokegearRadio:
-#if GERMAN
-	.string "{PLAYER}s PokéCom kann jetzt Radio\n"
-	.string "empfangen!$"
-#else
-    .string "{PLAYER}'s POKéGEAR can now double as\n"
-    .string "a RADIO!$"
+    .string "Here's your prize!$"
 #endif
 
 RadioTower1F_Text_TuneIn:

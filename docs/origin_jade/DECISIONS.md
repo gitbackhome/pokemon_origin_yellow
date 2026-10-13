@@ -201,7 +201,10 @@ dated 2026-10-10 or later were decided directly.
   the final region). The arrival corridor has the full band. Johto's gym
   leaders have six Pokemon; route trainers at least three
   (`tools/fill_johto_parties.py`: trainer class beats the local wild pool,
-  duplicate a Pokemon rather than break the class).
+  duplicate a Pokemon rather than break the class). Rematch teams scale
+  as well (every stage is below level 77); HnS's badge gate for rematch
+  stages (`GetMaxRematchStageForBadges`) is off because the Kanto title is
+  set before Johto.
 - **Evidence:** e900a95bad, 8f0e70b65c, 1685acfbc7, e1fde77aa4,
   cf857f4e0e, f549506494, e936f02c84, c239d59e43, 20a176b3af, c16d35c5aa.
 
@@ -337,6 +340,56 @@ dated 2026-10-10 or later were decided directly.
   the change; knocking it out removes it for good, as with FRLG's birds.
 - **Evidence:** decision 2026-10-11.
 
+### D-023 Randomizer without a GEN SCOPE row
+- **Status:** Active
+- **Decision:** HnS's GEN SCOPE option (randomizer pool limited to Gen 1-3
+  families) stays in the code and the save, but has no row in the challenge
+  menu and is off (`RANDOMIZER_DEFAULT_GEN_SCOPE_1_3` FALSE in
+  `include/config/randomizer.h`). Gen 4-9 and the regional forms are off in
+  `species_enabled.h`, so both settings give the same pool.
+- **Evidence:** b0a460c224, 6a6a4fcaec, c3c361d4b4. The row came in with
+  6a6a4fcaec, the default TRUE with cc58e0c648; both reverted 2026-10-12.
+
+### D-024 Goldenrod's radio quiz gives a Master Ball
+- **Status:** Active (2026-10-12)
+- **Decision:** The radio card comes from the Viridian tutorial and stays:
+  Goldenrod's first-visit flag heap no longer clears `FLAG_ENABLE_RADIO`.
+  The radio tower quiz stays and gives a Master Ball. Whitney in the radio
+  tower and the receptionist's offer depend on
+  `FLAG_WON_GOLDENROD_RADIO_QUIZ`; the Beauty at the gym door stays on
+  `FLAG_HIDE_GOLDENROD_BEAUTY`. Johto radio stations only play the Rocket
+  broadcast during the takeover (Goldenrod state 6 until
+  `FLAG_HIDE_GOLDENROD_ROCKETS` is set again). Older saves are migrated in
+  `LoadGameSave` (`FLAG_MIGRATED_GOLDENROD_FLAG_HEAP`); saves that already
+  won the quiz keep the radio card as their prize. With the item randomizer
+  on, the prize is randomized like Elm's and Silph's Master Balls.
+- **Evidence:** decision 2026-10-12 (O-005).
+
+### D-025 Radio stations by region and progress
+- **Status:** Active (2026-10-13)
+- **Decision:** The radio card from Viridian makes the radio work in Kanto
+  right away; Johto programmes start with the radio tower quiz.
+  - Kanto (Kanto mapsecs): Oak's Pokemon Talk with Kanto routes and only
+    the Clefairy report (FRLG has no radio of its own, so there are no
+    other Kanto reports), the Pokedex show in the morning, Orte und Personen
+    (Kanto places and Kanto trainers the player has beaten, no leaders,
+    Elite Four, champion, rivals, Giovanni or Oak), Let's All Sing and the
+    Poke Flute.
+  - Johto (Johto mapsecs) from `FLAG_WON_GOLDENROD_RADIO_QUIZ`: Oak's
+    Pokemon Talk with Johto routes and reports, the Pokedex show, Pokemon
+    Music, the Lucky Channel (it announces the lottery clerk's number) and
+    Buena's Password. The Sudowoodo report runs until Sudowoodo is gone, the
+    red Gyarados report after the first visit to the Lake of Rage; the
+    Lavender radio tower report never runs (the Pokemon Tower is still a
+    tower in Origin Jade).
+  - Unown and the Mahogany signal stay tied to their places; the Rocket
+    broadcast replaces the Johto programmes during the takeover, only in
+    Johto. Kanto stations are silent in Johto and Hoenn, Johto stations in
+    Kanto and Hoenn. Hoenn Sound stays off: Hoenn is a region of its own.
+  - Code: `IsStationAvailable`, `IsOPTReportAvailable` and `PickPnPTrainer`
+    in `src/pokenav_radio.c`.
+- **Evidence:** decision 2026-10-13 (O-016).
+
 ---
 
 ## Planned, not built yet
@@ -365,8 +418,9 @@ dated 2026-10-10 or later were decided directly.
   is never cleared.
 - **O-004** Legendaries return after Johto's second Hall of Fame
   (`SetGameClearFlags` clears the hide flags that the Kanto maps use too).
-- **O-005** Goldenrod's first-visit "flag heap" resets flags Kanto already set
-  (Bill's PC, radio, Eevee).
+- **O-005** Resolved 2026-10-12: Kanto never sets Bill's PC flag, the
+  Celadon Eevee no longer sets Bill's `FLAG_GOT_EEVEE`, and the radio card
+  stays (D-024).
 - **O-006** The two Battle Frontiers (Emerald and HnS) share all progress
   flags.
 - **O-007** Mt. Moon B3F: the three item balls all contain an Antidote
@@ -374,8 +428,10 @@ dated 2026-10-10 or later were decided directly.
 - **O-008** Shiny Charm / Oval Charm currently have no source.
 - **O-009** Enabling Sinjoh also needs the Gen 4+ and regional forms in
   `species_enabled.h`.
-- **O-010** Three Johto berry trees share save slots with Hoenn trees (noted
-  by HnS as "fix after release").
+- **O-010** Resolved 2026-10-12: the Route 30 and Route 26 trees use the
+  reserve slots `BERRY_TREE_ROUTE_30_ORAN` and `BERRY_TREE_ROUTE_26_SITRUS`;
+  slot 33 is only shared with retired maps. Older saves are migrated in
+  `LoadGameSave` (`FLAG_MIGRATED_JOHTO_BERRY_SLOTS`).
 - **O-011** Kanto starter preview: the preview can roll a shiny, but Oak's lab
   hands out a regular Pokemon (the preview rolls for `VAR_STARTER_MON` 0,
   which Oak's lab only sets after the handover).
@@ -403,7 +459,12 @@ dated 2026-10-10 or later were decided directly.
   only; Johto's Oak says "Es ist lange her" after the Johto title although he
   handed over the GS Ball shortly before; the ship is "M.S. Anne" in FRLG's
   German texts but "S.S. Anne" in Vermilion's port texts
-  (`VermilionCity_PortInside_*`) and on the region map.
+  (`VermilionCity_PortInside_*`) and on the region map; Camper Todd's call
+  (`data/text/match_call_hns.inc`) says "Rosalia-Arena" for Goldenrod's gym.
+- **O-016** Resolved 2026-10-13: the radio works in Kanto (D-025).
+- **O-017** Resolved 2026-10-13: Hoenn Sound stays off (D-025); the
+  PokeCom's "Zustand" from the radio card on and Buena's hint before the
+  quiz stay as they are.
 
 ## Superseded decisions (kept for the record)
 

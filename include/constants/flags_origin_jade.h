@@ -49,6 +49,13 @@
 #define FLAG_JOHTO_ARRIVAL_DONE                      (OJ_FLAGS_JOHTO + 2)
 // VAR_JOHTO_STARTER_MON save migration done (see LoadGameSave in src/save.c).
 #define FLAG_MIGRATED_JOHTO_STARTER_VAR              (OJ_FLAGS_JOHTO + 3)
+// Radio tower quiz in Goldenrod won: hides Whitney there, no new quiz, turns on
+// the Johto radio programmes.
+#define FLAG_WON_GOLDENROD_RADIO_QUIZ                (OJ_FLAGS_JOHTO + 4)
+// Goldenrod flag heap save migration done (see LoadGameSave in src/save.c).
+#define FLAG_MIGRATED_GOLDENROD_FLAG_HEAP            (OJ_FLAGS_JOHTO + 5)
+// Johto berry slot save migration done (see LoadGameSave in src/save.c).
+#define FLAG_MIGRATED_JOHTO_BERRY_SLOTS              (OJ_FLAGS_JOHTO + 6)
 
 // ---------------------------------------------------------------------
 // Hoenn (OJ_FLAGS_HOENN + 0 to + 95)

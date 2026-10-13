@@ -3,8 +3,8 @@
 #include "johto_badges.h"
 #include "constants/vars.h"
 
-// Johto badges in VAR_JOHTO_BADGES, used for obedience limits, gym gates, the
-// trainer card and rematch scaling.
+// Johto badges in VAR_JOHTO_BADGES, used among others for the trainer card,
+// the save menu badge count, HM, story and league gates and the fossil level.
 
 #if defined(POKEMON_HNS)
 

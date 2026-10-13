@@ -34,6 +34,8 @@
 #include "constants/flags_hns.h"
 #include "constants/vars_hns.h"
 #include "constants/trainers.h"
+#include "battle_setup.h"
+#include "lottery_corner.h"
 
 #define RADIO_FRAME_BASE_TILE 150
 #define RADIO_FRAME_PALETTE 4
@@ -135,6 +137,8 @@ static u32 LoopedTask_ExitRadio(s32 state);
 static u32 LoopedTask_ScrollRadio(s32 state);
 static bool32 GetCurrentRadioLoopedTaskActive(void);
 static u8 FindStation(s32 tuningPos);
+static bool8 IsPlayerInJohto(void);
+static bool8 IsPlayerInKanto(void);
 static void PrintStationName(struct Pokenav_RadioGfx *gfx, u8 station);
 static void PrintRadioText(struct Pokenav_RadioGfx *gfx, const u8 *text);
 static void ClearRadioText(struct Pokenav_RadioGfx *gfx);
@@ -221,6 +225,33 @@ static const struct OPTRouteEntry sOPTRoutes[] =
 };
 
 #define NUM_OPT_ROUTES ARRAY_COUNT(sOPTRoutes)
+
+// Origin Jade: routes for Oak's Pokemon Talk in Kanto (FRLG maps with land encounters).
+static const struct OPTRouteEntry sOPTRoutesKanto[] =
+{
+    { MAP_GROUP(MAP_ROUTE1),  MAP_NUM(MAP_ROUTE1)  },
+    { MAP_GROUP(MAP_ROUTE2),  MAP_NUM(MAP_ROUTE2)  },
+    { MAP_GROUP(MAP_ROUTE3),  MAP_NUM(MAP_ROUTE3)  },
+    { MAP_GROUP(MAP_ROUTE4),  MAP_NUM(MAP_ROUTE4)  },
+    { MAP_GROUP(MAP_ROUTE5),  MAP_NUM(MAP_ROUTE5)  },
+    { MAP_GROUP(MAP_ROUTE6),  MAP_NUM(MAP_ROUTE6)  },
+    { MAP_GROUP(MAP_ROUTE7),  MAP_NUM(MAP_ROUTE7)  },
+    { MAP_GROUP(MAP_ROUTE8),  MAP_NUM(MAP_ROUTE8)  },
+    { MAP_GROUP(MAP_ROUTE9),  MAP_NUM(MAP_ROUTE9)  },
+    { MAP_GROUP(MAP_ROUTE10), MAP_NUM(MAP_ROUTE10) },
+    { MAP_GROUP(MAP_ROUTE11), MAP_NUM(MAP_ROUTE11) },
+    { MAP_GROUP(MAP_ROUTE12), MAP_NUM(MAP_ROUTE12) },
+    { MAP_GROUP(MAP_ROUTE13), MAP_NUM(MAP_ROUTE13) },
+    { MAP_GROUP(MAP_ROUTE14), MAP_NUM(MAP_ROUTE14) },
+    { MAP_GROUP(MAP_ROUTE15), MAP_NUM(MAP_ROUTE15) },
+    { MAP_GROUP(MAP_ROUTE16), MAP_NUM(MAP_ROUTE16) },
+    { MAP_GROUP(MAP_ROUTE17), MAP_NUM(MAP_ROUTE17) },
+    { MAP_GROUP(MAP_ROUTE18), MAP_NUM(MAP_ROUTE18) },
+    { MAP_GROUP(MAP_ROUTE22), MAP_NUM(MAP_ROUTE22) },
+    { MAP_GROUP(MAP_ROUTE23), MAP_NUM(MAP_ROUTE23) },
+    { MAP_GROUP(MAP_ROUTE24), MAP_NUM(MAP_ROUTE24) },
+    { MAP_GROUP(MAP_ROUTE25), MAP_NUM(MAP_ROUTE25) },
+};
 
 // Day-of-week name table
 static const u8 *const sDayOfWeekNames[] =
@@ -447,6 +478,46 @@ static u16 PickWildSpeciesFromRoute(u8 mapGroup, u8 mapNum)
     return SPECIES_CHIKORITA;
 }
 
+// Origin Jade: special reports by region and story progress.
+static bool32 IsOPTReportAvailable(u32 report)
+{
+    if (IsPlayerInKanto())
+        return report == OPT_REPORT_CLEFAIRY;
+
+    switch (report)
+    {
+    case OPT_REPORT_SUDOWOODO:
+        return !FlagGet(FLAG_HIDE_SUDOWOODO);
+    case OPT_REPORT_RED_GYARADOS:
+        return FlagGet(FLAG_VISITED_LAKE_OF_RAGE);
+    case OPT_REPORT_LAVENDER_TOWER:
+        return FALSE;
+    default:
+        return TRUE;
+    }
+}
+
+static u32 PickOPTReport(void)
+{
+    u32 i, pick, count = 0;
+
+    for (i = 0; i < NUM_OPT_REPORTS; i++)
+    {
+        if (IsOPTReportAvailable(i))
+            count++;
+    }
+    if (count == 0)
+        return OPT_REPORT_CLEFAIRY;
+
+    pick = Random() % count;
+    for (i = 0; i < NUM_OPT_REPORTS; i++)
+    {
+        if (IsOPTReportAvailable(i) && pick-- == 0)
+            return i;
+    }
+    return OPT_REPORT_CLEFAIRY;
+}
+
 static void GenerateOPTSegment(struct Pokenav_Radio *radio)
 {
     u32 n = 0;
@@ -463,9 +534,11 @@ static void GenerateOPTSegment(struct Pokenav_Radio *radio)
 
     case OPT_PHASE_POKEMON:
     {
-        u32 routeIdx = Random() % NUM_OPT_ROUTES;
-        u8 mg = sOPTRoutes[routeIdx].mapGroup;
-        u8 mn = sOPTRoutes[routeIdx].mapNum;
+        bool32 inKanto = IsPlayerInKanto();
+        const struct OPTRouteEntry *routes = inKanto ? sOPTRoutesKanto : sOPTRoutes;
+        u32 routeIdx = Random() % (inKanto ? ARRAY_COUNT(sOPTRoutesKanto) : NUM_OPT_ROUTES);
+        u8 mg = routes[routeIdx].mapGroup;
+        u8 mn = routes[routeIdx].mapNum;
         u16 species = PickWildSpeciesFromRoute(mg, mn);
         const u8 *speciesName = GetSpeciesName(species);
         const struct MapHeader *header = Overworld_GetMapHeaderByGroupAndId(mg, mn);
@@ -531,7 +604,7 @@ static void GenerateOPTSegment(struct Pokenav_Radio *radio)
 
     case OPT_PHASE_REPORT:
     {
-        u32 reportIdx = Random() % NUM_OPT_REPORTS;
+        u32 reportIdx = PickOPTReport();
         u32 i;
         PlayNewMapMusic(MUS_HG_RADIO_OAK);
         radio->currentMusic = MUS_HG_RADIO_OAK;
@@ -652,21 +725,6 @@ static void GeneratePokemonMusicContent(struct Pokenav_Radio *radio, u32 *n, u32
     radio->lines[(*n)++] = isEvenDay ? sRadioText_BenFern_March : sRadioText_BenFern_Lullaby;
 }
 
-static u32 GetOrGenerateLuckyNumber(void)
-{
-    if (!FlagGet(FLAG_DAILY_LUCKY_NUMBER_SET))
-    {
-        u16 lo = Random();
-        u16 hi = Random() % 2;
-        u32 num = ((u32)hi << 16) | lo;
-        num %= 100000;
-        VarSet(VAR_RADIO_LUCKY_ID, num & 0xFFFF);
-        VarSet(VAR_RADIO_LUCKY_ID_HI, num >> 16);
-        FlagSet(FLAG_DAILY_LUCKY_NUMBER_SET);
-    }
-    return ((u32)VarGet(VAR_RADIO_LUCKY_ID_HI) << 16) | VarGet(VAR_RADIO_LUCKY_ID);
-}
-
 static void GetOrGenerateBuenaPassword(u32 *outCategory, u32 *outWord)
 {
     u16 stored;
@@ -681,6 +739,54 @@ static void GetOrGenerateBuenaPassword(u32 *outCategory, u32 *outWord)
     stored = VarGet(VAR_RADIO_BUENAS_PASSWORD);
     *outCategory = (stored >> 4) & 0xF;
     *outWord = stored & 0xF;
+}
+
+// Origin Jade: Places and People names Kanto trainers the player has beaten,
+// without leaders, Elite Four, champion, rivals, Giovanni and Oak.
+static bool32 IsPnPTrainer(u16 trainerId)
+{
+    const u8 *name;
+
+    switch (GetTrainerClassFromId(trainerId))
+    {
+    case TRAINER_CLASS_RIVAL_EARLY_FRLG:
+    case TRAINER_CLASS_RIVAL_LATE_FRLG:
+    case TRAINER_CLASS_BOSS_FRLG:
+    case TRAINER_CLASS_LEADER_FRLG:
+    case TRAINER_CLASS_ELITE_FOUR_FRLG:
+    case TRAINER_CLASS_CHAMPION_FRLG:
+    case TRAINER_CLASS_PKMN_PROF_FRLG:
+    case TRAINER_CLASS_PLAYER_FRLG:
+        return FALSE;
+    default:
+        break;
+    }
+
+    name = GetTrainerNameFromId(trainerId);
+    if (name[0] == EOS || name[0] == CHAR_SPACE)
+        return FALSE;
+    return HasTrainerBeenFought(trainerId);
+}
+
+static u16 PickPnPTrainer(void)
+{
+    u32 id, pick, count = 0;
+
+    for (id = FRLG_TRAINER_OFFSET + 1; id <= FRLG_TRAINERS_END; id++)
+    {
+        if (IsPnPTrainer(id))
+            count++;
+    }
+    if (count == 0)
+        return TRAINER_NONE;
+
+    pick = Random() % count;
+    for (id = FRLG_TRAINER_OFFSET + 1; id <= FRLG_TRAINERS_END; id++)
+    {
+        if (IsPnPTrainer(id) && pick-- == 0)
+            return id;
+    }
+    return TRAINER_NONE;
 }
 
 static void GenerateStationContent(struct Pokenav_Radio *radio, u8 station)
@@ -759,7 +865,8 @@ static void GenerateStationContent(struct Pokenav_Radio *radio, u8 station)
 
     case RADIO_STATION_LUCKY_CHANNEL:
     {
-        u32 luckyNum = GetOrGenerateLuckyNumber();
+        // Origin Jade: the number the lottery clerk in the radio tower checks.
+        u32 luckyNum = (u16)GetLotteryNumber();
 
         radio->lines[n++] = sRadioText_LC1;
         radio->lines[n++] = sRadioText_LC2;
@@ -827,25 +934,10 @@ static void GenerateStationContent(struct Pokenav_Radio *radio, u8 station)
 
         while (n < MAX_RADIO_LINES - 1 && buf < NUM_RADIO_LINE_BUFS)
         {
-            if (doPeople)
-            {
-                u16 trainerId;
-                u8 trainerClass;
-                bool8 excluded;
-                do {
-                    trainerId = (Random() % (TRAINERS_COUNT - 1)) + 1;
-                    trainerClass = GetTrainerClassFromId(trainerId);
-                    excluded = (trainerClass == TRAINER_CLASS_CHAMPION_HNS
-                             || trainerClass == TRAINER_CLASS_ELITE_FOUR_HNS
-                             || trainerClass == TRAINER_CLASS_LEADER_HNS
-                             || trainerClass == TRAINER_CLASS_LEADER_KANTO_HNS
-                             || trainerClass == TRAINER_CLASS_RIVAL_HNS
-                             || trainerClass == TRAINER_CLASS_CHAMPION
-                             || trainerClass == TRAINER_CLASS_ELITE_FOUR
-                             || trainerClass == TRAINER_CLASS_LEADER
-                             || trainerClass == TRAINER_CLASS_RIVAL);
-                } while (excluded);
+            u16 trainerId = doPeople ? PickPnPTrainer() : TRAINER_NONE;
 
+            if (trainerId != TRAINER_NONE)
+            {
                 dst = radio->lineBuffers[buf];
                 StringCopy(dst, GetTrainerClassNameFromId(trainerId));
                 StringAppend(dst, sRadioText_PnP_Space);
@@ -978,18 +1070,32 @@ static bool8 IsPlayerInJohto(void)
     return (mapsec >= JOHTO_MAPSEC_START && mapsec <= JOHTO_MAPSEC_END);
 }
 
+static bool8 IsPlayerInKanto(void)
+{
+    u16 mapsec = gMapHeader.regionMapSectionId;
+    return (mapsec >= KANTO_MAPSEC_START && mapsec <= KANTO_MAPSEC_END);
+}
+
+// Origin Jade: the Johto programmes start with the radio tower quiz in Goldenrod.
+static bool8 AreJohtoStationsOn(void)
+{
+    return IsPlayerInJohto() && FlagGet(FLAG_WON_GOLDENROD_RADIO_QUIZ);
+}
+
 static bool8 IsStationAvailable(u8 station)
 {
     switch (station)
     {
+    // Origin Jade: Oak's show and the Pokedex show play in Kanto from the radio
+    // card on, in Johto from the radio tower quiz on.
     case RADIO_STATION_POKEMON_TALK:
     case RADIO_STATION_POKEDEX_SHOW:
+        return IsPlayerInKanto() || AreJohtoStationsOn();
+
     case RADIO_STATION_POKEMON_MUSIC:
     case RADIO_STATION_LUCKY_CHANNEL:
-        return IsPlayerInJohto();
-
     case RADIO_STATION_BUENAS_PASSWORD:
-        return IsPlayerInJohto();
+        return AreJohtoStationsOn();
 
     case RADIO_STATION_UNOWN:
         return gMapHeader.regionMapSectionId == MAPSEC_RUINS_OF_ALPH;
@@ -1000,12 +1106,11 @@ static bool8 IsStationAvailable(u8 station)
              || gMapHeader.regionMapSectionId == MAPSEC_ROUTE_43
              || gMapHeader.regionMapSectionId == MAPSEC_LAKE_OF_RAGE);
 
+    // Origin Jade: Kanto stations need only the radio card.
     case RADIO_STATION_PLACES_AND_PEOPLE:
     case RADIO_STATION_LETS_ALL_SING:
-        return !IsPlayerInJohto() && FlagGet(FLAG_KANTO_RADIO_GOT);
-
     case RADIO_STATION_POKE_FLUTE:
-        return !IsPlayerInJohto() && FlagGet(FLAG_KANTO_RADIO_GOT);
+        return IsPlayerInKanto();
 
     case RADIO_STATION_HOENN_SOUND:
         return !IsPlayerInJohto() && FlagGet(FLAG_KANTO_RADIO_GOT);
@@ -1036,7 +1141,11 @@ static u8 FindStation(s32 tuningPos)
 
             // Rocket takeover overrides normal Johto stations
             // but not location-locked ones (Unown, Poke Flute, Evolution)
-            if (!FlagGet(FLAG_HIDE_GOLDENROD_ROCKETS)
+            // Origin Jade: the takeover runs from Goldenrod state 6 until
+            // FLAG_HIDE_GOLDENROD_ROCKETS is set again.
+            if (VarGet(VAR_GOLDENROD_CITY_STATE) >= 6
+                && !FlagGet(FLAG_HIDE_GOLDENROD_ROCKETS)
+                && IsPlayerInJohto()
                 && station != RADIO_STATION_UNOWN
                 && station != RADIO_STATION_POKE_FLUTE
                 && station != RADIO_STATION_EVOLUTION

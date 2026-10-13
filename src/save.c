@@ -14,6 +14,9 @@
 #include "constants/game_stat.h"
 #include "constants/rematches.h"
 #include "event_data.h"
+#include "berry.h"
+#include "constants/berry.h"
+#include "constants/items.h"
 
 static u16 CalculateChecksum(void *, u16);
 static bool8 ReadFlashSector(u8, struct SaveSector *);
@@ -989,6 +992,39 @@ u8 LoadGameSave(u8 saveType)
         if (VarGet(VAR_NEWBARKTOWN_LABSTATE) >= 3)
             VarSet(VAR_JOHTO_STARTER_MON, VarGet(VAR_STARTER_MON));
         FlagSet(FLAG_MIGRATED_JOHTO_STARTER_VAR);
+    }
+    if (!FlagGet(FLAG_MIGRATED_GOLDENROD_FLAG_HEAP))
+    {
+        // Radio card received: Viridian old man state 2+ or Goldenrod state 1+.
+        if (VarGet(VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN) >= 2 || VarGet(VAR_GOLDENROD_CITY_STATE) >= 1)
+            FlagSet(FLAG_ENABLE_RADIO);
+        // Radio quiz won: Goldenrod state 2+.
+        if (VarGet(VAR_GOLDENROD_CITY_STATE) >= 2)
+            FlagSet(FLAG_WON_GOLDENROD_RADIO_QUIZ);
+        // Older saves: while Bill is hidden, a set FLAG_GOT_EEVEE came from the Celadon Eevee.
+        if (FlagGet(FLAG_HIDE_GOLDENROD_BILL))
+            FlagClear(FLAG_GOT_EEVEE);
+        FlagSet(FLAG_MIGRATED_GOLDENROD_FLAG_HEAP);
+    }
+    if (!FlagGet(FLAG_MIGRATED_JOHTO_BERRY_SLOTS))
+    {
+        // Same berries as a new game: Route 30 and Route 26 always, Hoenn's
+        // Route 102 and Route 118 only before Oldale / Mauville were visited.
+        RemoveBerryTree(BERRY_TREE_ROUTE_30_ORAN);
+        PlantBerryTree(BERRY_TREE_ROUTE_30_ORAN, ITEM_TO_BERRY(ITEM_ORAN_BERRY), BERRY_STAGE_BERRIES, FALSE);
+        RemoveBerryTree(BERRY_TREE_ROUTE_26_SITRUS);
+        PlantBerryTree(BERRY_TREE_ROUTE_26_SITRUS, ITEM_TO_BERRY(ITEM_SITRUS_BERRY), BERRY_STAGE_BERRIES, FALSE);
+        if (!FlagGet(FLAG_VISITED_OLDALE_TOWN))
+        {
+            RemoveBerryTree(BERRY_TREE_ROUTE_102_ORAN);
+            PlantBerryTree(BERRY_TREE_ROUTE_102_ORAN, ITEM_TO_BERRY(ITEM_ORAN_BERRY), BERRY_STAGE_BERRIES, FALSE);
+        }
+        if (!FlagGet(FLAG_VISITED_MAUVILLE_CITY))
+        {
+            RemoveBerryTree(BERRY_TREE_ROUTE_118_SITRUS_1);
+            PlantBerryTree(BERRY_TREE_ROUTE_118_SITRUS_1, ITEM_TO_BERRY(ITEM_SITRUS_BERRY), BERRY_STAGE_BERRIES, FALSE);
+        }
+        FlagSet(FLAG_MIGRATED_JOHTO_BERRY_SLOTS);
     }
 #endif
 

@@ -206,7 +206,7 @@
 #define VAR_SPROUT_TOWER                                 0x40C0
 #define VAR_VIRIDIAN_CITY_STATE                          0x40C1
 #define VAR_WILTON_ITEM_HNS                              0x40C3
-// Low and high halves of one 32-bit value (pokenav_radio.c). Keep adjacent.
+// Unused in Origin Jade, the Lucky Channel announces the lottery number (GetLotteryNumber).
 #define VAR_RADIO_LUCKY_ID                               0x40C7
 #define VAR_RADIO_LUCKY_ID_HI                            0x40C8
 

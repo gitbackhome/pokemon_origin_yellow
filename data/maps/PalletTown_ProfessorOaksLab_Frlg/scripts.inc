@@ -269,7 +269,7 @@ PalletTown_ProfessorOaksLab_ChooseStarterScene_Pikachu::
 	waitmovement 0
 	msgbox PalletTown_ProfessorOaksLab_Text_OakBaffledTakePikachu
 	setvar VAR_STARTER_MON, 3
-	givemon SPECIES_PIKACHU, 5, ITEM_LIGHT_BALL
+	givemon SPECIES_PIKACHU_STARTER, 5, ITEM_LIGHT_BALL
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	playfanfare MUS_RG_OBTAIN_KEY_ITEM
 	message PalletTown_ProfessorOaksLab_Text_PlayerReceivedPikachu

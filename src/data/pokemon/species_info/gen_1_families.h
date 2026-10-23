@@ -19133,6 +19133,74 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sJolteonTeachableLearnset,
     },
 
+    [SPECIES_JOLTEON_STARTER] =
+    {
+        .baseHP        = 65,
+        .baseAttack    = 75,
+        .baseDefense   = 70,
+        .baseSpeed     = 135,
+        .baseSpAttack  = 115,
+        .baseSpDefense = P_UPDATED_STATS >= GEN_2 ? 100 : 115,
+        .types = MON_TYPES(TYPE_ELECTRIC),
+        .catchRate = 45,
+        .expYield = (P_UPDATED_EXP_YIELDS >= GEN_5) ? 184 : 197,
+        .evYield_Speed = 2,
+        .genderRatio = PERCENT_FEMALE(12.5),
+        .eggCycles = 35,
+        .friendship = STANDARD_FRIENDSHIP,
+        .growthRate = GROWTH_MEDIUM_FAST,
+        .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD),
+        .abilities = { ABILITY_VOLT_ABSORB, ABILITY_VOLT_ABSORB, ABILITY_QUICK_FEET },
+        .bodyColor = BODY_COLOR_YELLOW,
+        .speciesName = _("Blitza"),
+        .cryId = CRY_JOLTEON,
+        .natDexNum = NATIONAL_DEX_JOLTEON,
+        .categoryName = _("Blitz"),
+        .height = 8,
+        .weight = 245,
+        .description = COMPOUND_STRING(
+            "Blitzas Zellen erzeugen Elektrizität,\n"
+            "die durch die Aufladung des aus\n"
+            "Nadeln bestehenden Fells verstärkt wird,\n"
+            "so dass es Blitzschläge erzeugen kann."),
+        .pokemonScale = 283,
+        .pokemonOffset = 8,
+        .trainerScale = 256,
+        .trainerOffset = 0,
+        .frontPic = gMonFrontPic_Jolteon,
+        .frontPicSize = P_GBA_STYLE_SPECIES_GFX ? MON_COORDS_SIZE(56, 48) : MON_COORDS_SIZE(48, 48),
+        .frontPicYOffset = P_GBA_STYLE_SPECIES_GFX ? 9 : 10,
+        .frontAnimFrames = ANIM_FRAMES(
+            ANIMCMD_FRAME(1, 15),
+            ANIMCMD_FRAME(0, 15),
+        ),
+        .frontAnimId = P_GBA_STYLE_SPECIES_GFX ? ANIM_V_SQUISH_AND_BOUNCE : ANIM_GROW_VIBRATE,
+        .backPic = gMonBackPic_Jolteon,
+        .backPicSize = P_GBA_STYLE_SPECIES_GFX ? MON_COORDS_SIZE(64, 56) : MON_COORDS_SIZE(56, 56),
+        .backPicYOffset = P_GBA_STYLE_SPECIES_GFX ? 6 : 7,
+        .backAnimId = BACK_ANIM_SHAKE_FLASH_YELLOW,
+        .palette = gMonPalette_Jolteon,
+        .shinyPalette = gMonShinyPalette_Jolteon,
+        .shinyPaletteModern = gMonShinyPaletteModern_Jolteon,
+        .iconSprite = gMonIcon_Jolteon,
+        .iconPalIndex = P_GBA_STYLE_SPECIES_ICONS ? 0 : 2,
+        .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
+        SHADOW(0, 2, SHADOW_SIZE_M)
+        FOOTPRINT(Jolteon)
+        OVERWORLD(
+            sPicTable_Jolteon,
+            SIZE_32x32,
+            SHADOW_SIZE_M,
+            TRACKS_FOOT,
+            sAnimTable_Following,
+            gOverworldPalette_Jolteon,
+            gShinyOverworldPalette_Jolteon,
+            gShinyModernOverworldPalette_Jolteon
+        )
+        .levelUpLearnset = sJolteonLevelUpLearnset,
+        .teachableLearnset = sJolteonTeachableLearnset,
+    },
+
     [SPECIES_FLAREON] =
     {
         .baseHP        = 65,

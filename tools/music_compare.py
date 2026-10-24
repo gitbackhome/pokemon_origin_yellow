@@ -1,19 +1,5 @@
 #!/usr/bin/env python3
-"""Render mapped Gen 1/Gen 2 music pairs for quick listening.
-
-This previews the GBS source directly. It does not build or run the game. The
-waveform is an approximation produced by tools/mid2gbs/gbs_synth.py; use it to
-compare melodies and arrangements, not to certify final GBA mixing.
-
-Requirements:
-    pip install -r tools/mid2gbs/requirements.txt
-
-Examples:
-    python3 tools/music_compare.py --list
-    python3 tools/music_compare.py --pair gbs_routes1
-    python3 tools/music_compare.py --all
-    python3 tools/music_compare.py --all --open
-"""
+"""Render mapped Gen 1/Gen 2 music pairs for quick listening."""
 
 from __future__ import annotations
 
@@ -28,10 +14,7 @@ from pathlib import Path
 try:
     import numpy as np
 except ImportError as error:
-    raise SystemExit(
-        "numpy is required; install with "
-        "pip install -r tools/mid2gbs/requirements.txt"
-    ) from error
+    raise SystemExit("numpy is required; install with pip install -r tools/mid2gbs/requirements.txt") from error
 
 TOOLS = Path(__file__).resolve().parent
 ROOT = TOOLS.parent
@@ -42,68 +25,86 @@ sys.path.insert(0, str(SYNTH_PATH))
 import gbs_synth  # noqa: E402
 
 
-NOTE_NAMES = {
-    "C_": 0,
-    "Cs": 1,
-    "D_": 2,
-    "Ds": 3,
-    "E_": 4,
-    "F_": 5,
-    "Fs": 6,
-    "G_": 7,
-    "Gs": 8,
-    "A_": 9,
-    "As": 10,
-    "B_": 11,
-}
+NOTE_NAMES = {"C_": 0, "Cs": 1, "D_": 2, "Ds": 3, "E_": 4, "F_": 5, "Fs": 6, "G_": 7, "Gs": 8, "A_": 9, "As": 10, "B_": 11}
 CHANNEL_RE = re.compile(r"^gbs_[A-Za-z0-9_]+_Ch([1-4]):")
-NOTE_RE = re.compile(r"^\s*note\s+([A-Za-z_]+),\s*(\d+)")
-REST_RE = re.compile(r"^\s*rest\s+(\d+)")
 
-
-PAIRS: tuple[tuple[str, str, str], ...] = (
-    ("Confirmed", "bikeriding", "bicycle"),
-    ("Confirmed", "celadon", "celadoncity"),
-    ("Confirmed", "defeatedgymleader", "gymleadervictory"),
-    ("Confirmed", "defeatedtrainer", "trainervictory"),
-    ("Confirmed", "defeatedwildmon", "wildpokemonvictory"),
-    ("Confirmed", "gamecorner", "gamecorner"),
-    ("Confirmed", "gymleaderbattle", "kantogymbattle"),
-    ("Confirmed", "halloffame", "halloffame"),
-    ("Confirmed", "indigoplateau", "indigoplateau"),
-    ("Confirmed", "lavender", "lavendertown"),
-    ("Confirmed", "pallettown", "pallettown"),
-    ("Confirmed", "pokecenter", "pokemoncenter"),
-    ("Confirmed", "routes1", "route1"),
-    ("Confirmed", "routes3", "route3"),
-    ("Confirmed", "surfing", "surf"),
-    ("Confirmed", "titlescreen", "titlescreen"),
-    ("Confirmed", "trainerbattle", "kantotrainerbattle"),
-    ("Confirmed", "vermilion", "vermilioncity"),
-    ("Confirmed", "wildbattle", "kantowildbattle"),
-    ("Manual", "cinnabar", "hg_cinnabar"),
-    ("Manual", "cities1", "viridiancity"),
-    ("Manual", "dungeon3", "mtmoon"),
-    ("Manual", "meetfemaletrainer", "looklass"),
-    ("Manual", "museumguy", "showmearound"),
-    ("Manual", "safarizone", "hg_safarizone"),
-    ("Manual", "ssanne", "ssaqua"),
-    ("Probably correct", "jigglypuffsong", "pokemonlullaby"),
+# Using None for entries without a Gen 2 counterpart
+PAIRS: tuple[tuple[str, str, str | None], ...] = (
+    ("Manual mappings", "dungeon3", "mtmoon"),
+    ("Manual mappings", "routes2", "hg_route24"),
+    ("Manual mappings", "routes4", "route12"),
+    ("Manual mappings", "cities1", "viridiancity"),
+    ("Manual mappings", "cities2", "hg_cerulean"),
+    
+    ("Probable", "dungeon2", "route2"),
+    ("Probable", "indigoplateau", "indigoplateau"),
+    
+    ("No match", "dungeon1", None),
+    ("No match", "dungeon3", None),
+    ("No match", "pokemontower", None),
+    ("No match", "silphco", None),
+    ("No match", "cinnabarmansion", None),
+    ("No match", "surfingpikachu", None),
+    ("No match", "jigglypuffsong", None),
+    
+    ("Unknown", "meetjessiejames", "lookrocket"),
+    ("Unknown", "safarizone", "idk"),
+    
+    ("Mapping (Strong)", "celadon", "celadoncity"),
+    ("Mapping (Strong)", "gymleaderbattle", "kantogymbattle"),
+    ("Mapping", "lavender", "lavendertown"),
+    ("Mapping", "pallettown", "pallettown"),
+    ("Mapping", "routes1", "route1"),
+    ("Mapping", "routes3", "route3"),
+    ("Mapping", "trainerbattle", "kantotrainerbattle"),
+    ("Mapping", "vermilion", "vermilioncity"),
+    ("Mapping", "wildbattle", "kantowildbattle"),
+    ("Mapping", "cinnabar", "hg_cinnabar"),
+    ("Mapping", "cities1", "viridiancity"),
+    ("Mapping", "meetfemaletrainer", "looklass"),
+    ("Mapping", "museumguy", "showmearound"),
+    
     ("Probably correct", "pkmnhealed", "healpokemon"),
     ("Probably correct", "yellowintro", "titlescreen"),
-    ("Uncertain", "meetjessiejames", "lookrocket"),
-    ("Uncertain", "meetrival", "lookrival"),
-    ("Uncertain", "silphco", "rockethideout"),
-    ("Uncertain", "surfingpikachu", "surf"),
+    
+    ("IDK", "meetrival", "lookrival"),
+    ("IDK", "silphco", "rockethideout"),
+    
+    ("Probably wrong (Strong)", "credits", "credits"),
+    ("Probably wrong", "routes2", "route2"),
+    ("Probably wrong", "meetmaletrainer", "lookyoungster"),
+    ("Probably wrong", "meeteviltrainer", "lookrocket"),
+    ("Probably wrong", "meetprofoak", "profoak"),
+    ("Probably wrong", "dungeon2", "darkcave"),
+    ("Probably wrong", "finalbattle", "championbattle"),
+    
+    ("Completely wrong", "cinnabarmansion", "mtmoon"),
+    ("Completely wrong", "cities2", "celadoncity"),
+    ("Completely wrong", "dungeon1", "mtmoon"),
+    ("Completely wrong", "pokemontower", "tintower"),
+    ("Completely wrong", "routes4", "route3"),
+    ("Completely wrong", "jigglypuffsong", "pokemonlullaby"),
+    
+    ("Mapping Johto (Strong)", "bikeriding", "bicycle"),
+    ("Mapping Johto (Strong)", "gamecorner", "gamecorner"),
+    ("Mapping Johto (Strong)", "defeatedwildmon", "wildpokemonvictory"),
+    ("Mapping Johto (Strong)", "defeatedtrainer", "trainervictory"),
+    ("Mapping Johto (Strong)", "defeatedgymleader", "gymleadervictory"),
+    ("Mapping Johto (Strong)", "halloffame", "halloffame"),
+    ("Mapping Johto", "pokecenter", "pokemoncenter"),
+    ("Mapping Johto", "surfing", "surf"),
+    ("Mapping Johto", "titlescreen", "titlescreen"),
+    ("Mapping Johto", "ssanne", "ssaqua"),
+    ("Mapping Johto", "safarizone", "hg_safarizone"),
+    ("Mapping Johto", "indigoplateau", "indigoplateau"),
 )
 
 
-def load_pairs() -> list[tuple[str, str, str]]:
+def load_pairs() -> list[tuple[str, str, str | None]]:
     return list(PAIRS)
 
 
 def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[float, float, int, float]]]:
-    """Interpret the audible note stream and GBS call/loop control flow."""
     source_lines = path.read_text(encoding="utf-8").splitlines()
     channels: dict[str, list[str]] = {}
     channel = None
@@ -122,115 +123,99 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
 
     result: dict[str, list[tuple[float, float, int, float]]] = {}
     for name, lines in channels.items():
-        labels = {
-            line.strip()[:-1]: index
-            for index, line in enumerate(lines)
-            if line.strip().endswith(":")
-        }
-        octave = 4
-        tempo = song_tempo
-        unit = 12
-        volume = 12
-        fade = 0
-        duty = 2
-        vibrato = 0
-        transpose = 0
+        labels = {line.strip()[:-1]: index for index, line in enumerate(lines) if line.strip().endswith(":")}
+        octave, tempo, unit, volume, fade, duty, vibrato, transpose = 4, song_tempo, 12, 12, 0, 2, 0, 0
         events: list[tuple[float, float, int, float]] = []
         cursor = 0.0
         max_steps = 100000
 
         def note_seconds(length: int) -> float:
-            # CalculateNoteLength() stores (unit * length * tempo) as a
-            # 16-bit fixed-point frame count. The high byte is consumed at
-            # the 60 Hz music update rate, so 256 * 60 converts it to seconds.
             return tempo * unit * length / (256.0 * 60.0)
 
-        def execute(start: int, stop: int | None = None) -> None:
-            nonlocal cursor, octave, tempo, unit, volume, fade, duty, vibrato, transpose
-            index = start
-            steps = 0
-            end = len(lines) if stop is None else min(stop, len(lines))
-            while index < end and cursor < duration_limit and steps < max_steps:
-                steps += 1
-                stripped = lines[index].split("@", 1)[0].strip()
-                if stripped.endswith(":"):
-                    index += 1
+        # (return_index, stop_index, remaining_loops, loop_start_index)
+        call_stack: list[tuple[int, int | None, int, int]] = []
+        index = 0
+        stop = None
+        steps = 0
+
+        while cursor < duration_limit and steps < max_steps:
+            if stop is not None and index >= stop or index >= len(lines):
+                if call_stack:
+                    ret_idx, ret_stop, remaining, start_idx = call_stack.pop()
+                    if remaining > 1:
+                        call_stack.append((ret_idx, ret_stop, remaining - 1, start_idx))
+                        index = start_idx
+                    else:
+                        index, stop = ret_idx, ret_stop
                     continue
-                fields = stripped.replace(",", " ").split()
-                if not fields:
-                    index += 1
-                    continue
-                command = fields[0]
-                try:
-                    if command == "tempo":
-                        tempo = float(fields[1])
-                    elif command in {"note_type", "drum_speed"}:
-                        unit = int(fields[1])
-                        if len(fields) >= 3:
-                            volume = int(fields[2])
-                        if len(fields) >= 4:
-                            fade = int(fields[3])
-                    elif command == "octave":
-                        octave = int(fields[1])
-                    elif command == "volume":
-                        volume = max(int(fields[1]), int(fields[2]))
-                    elif command == "duty_cycle":
-                        duty = int(fields[1])
-                    elif command == "vibrato":
-                        vibrato = int(fields[2])
-                    elif command == "pitch_offset":
-                        # This is a raw frequency-table adjustment in the GBS
-                        # engine, not a semitone transposition.
-                        pass
-                    elif command == "transpose":
-                        transpose = 12 * int(fields[1]) + int(fields[2])
-                    elif command == "volume_envelope":
-                        volume = int(fields[1])
-                        fade = int(fields[2])
-                    elif command in {"sound_call", "sound_jump", "sound_loop"}:
-                        target = fields[-1]
-                        if target in labels:
-                            count = 1 if command != "sound_loop" else int(fields[1])
-                            if count == 0:
-                                index = labels[target] + 1
-                                continue
-                            else:
-                                for _ in range(count):
-                                    execute(labels[target] + 1)
-                            if command == "sound_jump":
-                                break
-                    elif command == "sound_ret":
-                        break
-                    elif command == "note" and len(fields) >= 3:
-                        pitch = NOTE_NAMES[fields[1]] + 12 * (octave + 1) + transpose
-                        seconds = note_seconds(int(fields[2]))
-                        events.append((cursor, seconds, pitch, volume))
-                        cursor += seconds
-                    elif command == "drum_note" and len(fields) >= 3:
-                        seconds = note_seconds(int(fields[2]))
-                        events.append((cursor, seconds, 36, volume))
-                        cursor += seconds
-                    elif command == "rest":
-                        cursor += note_seconds(int(fields[1]))
-                except (KeyError, ValueError, IndexError):
-                    pass
+                else:
+                    break
+
+            steps += 1
+            stripped = lines[index].split("@", 1)[0].strip()
+            if stripped.endswith(":") or not stripped:
                 index += 1
-        mainloop = next(
-            (index for index, line in enumerate(lines) if line.strip().endswith(".mainloop:")),
-            None,
-        )
-        if mainloop is None:
-            execute(0)
-        else:
-            execute(0, mainloop)
-            execute(mainloop + 1)
+                continue
+
+            fields = stripped.replace(",", " ").split()
+            if not fields:
+                index += 1
+                continue
+
+            command = fields[0]
+            try:
+                if command == "tempo":
+                    tempo = float(fields[1])
+                elif command in {"note_type", "drum_speed"}:
+                    unit = int(fields[1])
+                    if len(fields) >= 3:
+                        volume = int(fields[2])
+                elif command == "octave":
+                    octave = int(fields[1])
+                elif command == "transpose":
+                    transpose = 12 * int(fields[1]) + int(fields[2])
+                elif command in {"sound_call", "sound_jump", "sound_loop"}:
+                    target = fields[-1]
+                    if target in labels:
+                        if command == "sound_jump":
+                            index = labels[target] + 1
+                            continue
+                        count = int(fields[1]) if command == "sound_loop" else 1
+                        if count > 0:
+                            start_idx = labels[target] + 1
+                            call_stack.append((index + 1, stop, count, start_idx))
+                            index = start_idx
+                            stop = None
+                            continue
+                elif command == "sound_ret":
+                    if call_stack:
+                        ret_idx, ret_stop, remaining, start_idx = call_stack.pop()
+                        if remaining > 1:
+                            call_stack.append((ret_idx, ret_stop, remaining - 1, start_idx))
+                            index = start_idx
+                        else:
+                            index, stop = ret_idx, ret_stop
+                        continue
+                    else:
+                        break
+                elif command == "note" and len(fields) >= 3:
+                    pitch = NOTE_NAMES[fields[1]] + 12 * (octave + 1) + transpose
+                    seconds = note_seconds(int(fields[2]))
+                    events.append((cursor, seconds, pitch, volume))
+                    cursor += seconds
+                elif command == "rest":
+                    cursor += note_seconds(int(fields[1]))
+            except (KeyError, ValueError, IndexError):
+                pass
+
+            index += 1
+
         result[name] = [(s, d, p, v) for s, d, p, v in events if s < duration_limit]
     return result
 
 
 def render(path: Path, duration: float) -> np.ndarray:
-    events = source_events(path, duration)
-    return gbs_synth.render(events, master_scale=0.7)
+    return gbs_synth.render(source_events(path, duration), master_scale=0.7)
 
 
 def write_wav(path: Path, samples: np.ndarray) -> None:
@@ -244,71 +229,95 @@ def write_wav(path: Path, samples: np.ndarray) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--all", action="store_true", help="render every mapped pair")
-    parser.add_argument("--pair", action="append", help="Gen 1 basename, e.g. gbs_routes1")
-    parser.add_argument("--list", action="store_true", help="list available pairs")
-    parser.add_argument(
-        "--category",
-        action="append",
-        help="only render a category heading (repeatable)",
-    )
+    parser.add_argument("--all", action="store_true")
+    parser.add_argument("--pair", action="append")
+    parser.add_argument("--list", action="store_true")
+    parser.add_argument("--category", action="append")
     parser.add_argument("--duration", type=float, default=60.0)
     parser.add_argument("--output", type=Path, default=ROOT / "build/music_compare")
-    parser.add_argument("--open", action="store_true", help="open the generated HTML playlist")
+    parser.add_argument("--open", action="store_true")
     args = parser.parse_args()
 
     pairs = load_pairs()
     if args.category:
-        wanted_categories = set(args.category)
-        pairs = [pair for pair in pairs if pair[0] in wanted_categories]
+        pairs = [p for p in pairs if p[0] in set(args.category)]
     if args.list:
-        for category, gen1, gen2 in pairs:
-            print(f"{category:8} {gen1:28} -> {gen2}")
-        mapped = {gen1 for _, gen1, _ in pairs}
-        print("\nUnmapped Gen 1 tracks:")
-        for path in sorted(CONVERTED.glob("gbs_*.s")):
-            gen1 = path.stem.removeprefix("gbs_")
-            if gen1 not in mapped:
-                print(gen1)
+        for cat, g1, g2 in pairs:
+            print(f"{cat:25} {g1:28} -> {g2}")
         return 0
+
     selected = pairs if args.all or not args.pair else [
-        pair for pair in pairs if pair[1] in {name.removeprefix("gbs_") for name in args.pair}
+        p for p in pairs if p[1] in {n.removeprefix("gbs_") for n in args.pair}
     ]
-    if not selected:
-        parser.error("no pairs selected; use --list, --all, or --pair NAME")
 
-    args.output.mkdir(parents=True, exist_ok=True)
+    gen1_dir = args.output / "gen1"
+    gen2_dir = args.output / "gen2"
+    gen1_dir.mkdir(parents=True, exist_ok=True)
+    gen2_dir.mkdir(parents=True, exist_ok=True)
+
     rows: list[str] = []
-    for category, gen1, gen2 in selected:
-        gen1_path = CONVERTED / f"gbs_{gen1}.s"
-        gen2_path = MUSIC / f"gbs_{gen2}.s"
-        if not gen1_path.exists() or not gen2_path.exists():
-            print(f"skip missing source: {gen1_path} or {gen2_path}", file=sys.stderr)
-            continue
-        gen1_filename = f"{gen1}_gen1.wav"
-        gen2_filename = f"{gen2}_gen2.wav"
-        write_wav(args.output / gen1_filename, render(gen1_path, args.duration))
-        write_wav(args.output / gen2_filename, render(gen2_path, args.duration))
-        rows.append(
-            f"<h2>{html.escape(category)}: {html.escape(gen1)} vs {html.escape(gen2)}</h2>"
-            f"<p>Gen 1 converted: <audio controls preload='none' src='{html.escape(gen1_filename)}'></audio></p>"
-            f"<p>Gen 2: <audio controls preload='none' src='{html.escape(gen2_filename)}'></audio></p>"
-        )
-        print(args.output / gen1_filename)
-        print(args.output / gen2_filename)
+    handled_gen1 = set()
 
-    playlist = args.output / "index.html"
-    playlist.write_text(
+    for category, gen1, gen2 in selected:
+        handled_gen1.add(gen1)
+        gen1_path = CONVERTED / f"gbs_{gen1}.s"
+        
+        if not gen1_path.exists():
+            print(f"skip missing Gen 1: {gen1_path}", file=sys.stderr)
+            continue
+            
+        gen1_filename = f"{gen1}_gen1.wav"
+        write_wav(gen1_dir / gen1_filename, render(gen1_path, args.duration))
+
+        if gen2 is not None and gen2 != "idk":
+            gen2_path = MUSIC / f"gbs_{gen2}.s"
+            if not gen2_path.exists():
+                print(f"skip missing Gen 2: {gen2_path}", file=sys.stderr)
+                rows.append(f"<h2>{html.escape(category)}: {html.escape(gen1)} (Gen 2 '{gen2}' missing)</h2>"
+                            f"<p>Gen 1: <audio controls preload='none' src='gen1/{html.escape(gen1_filename)}'></audio></p>")
+                continue
+                
+            gen2_filename = f"{gen2}_gen2.wav"
+            write_wav(gen2_dir / gen2_filename, render(gen2_path, args.duration))
+            rows.append(
+                f"<h2>{html.escape(category)}: {html.escape(gen1)} vs {html.escape(gen2)}</h2>"
+                f"<p>Gen 1: <audio controls preload='none' src='gen1/{html.escape(gen1_filename)}'></audio></p>"
+                f"<p>Gen 2: <audio controls preload='none' src='gen2/{html.escape(gen2_filename)}'></audio></p>"
+            )
+        else:
+            rows.append(
+                f"<h2>{html.escape(category)}: {html.escape(gen1)} (No Gen 2 match)</h2>"
+                f"<p>Gen 1: <audio controls preload='none' src='gen1/{html.escape(gen1_filename)}'></audio></p>"
+            )
+
+    # Find unmapped Gen 1 files
+    unmapped_rows = []
+    for path in sorted(CONVERTED.glob("gbs_*.s")):
+        gen1 = path.stem.removeprefix("gbs_")
+        if gen1 not in handled_gen1:
+            gen1_filename = f"{gen1}_unmapped.wav"
+            write_wav(gen1_dir / gen1_filename, render(path, args.duration))
+            unmapped_rows.append(
+                f"<h3>{html.escape(gen1)}</h3>"
+                f"<p><audio controls preload='none' src='gen1/{html.escape(gen1_filename)}'></audio></p>"
+            )
+
+    html_content = (
         "<!doctype html><meta charset='utf-8'><title>Kanto music comparison</title>"
         "<p>Each clip is a separate Gen 1 converted or Gen 2 WAV file.</p>"
-        + "\n".join(rows),
-        encoding="utf-8",
+        + "\n".join(rows)
     )
+
+    if unmapped_rows:
+        html_content += "<h2>No known mapping (Unhandled Gen 1 files)</h2>" + "\n".join(unmapped_rows)
+
+    playlist = args.output / "index.html"
+    playlist.write_text(html_content, encoding="utf-8")
+    
     print(playlist)
     if args.open:
         subprocess.Popen(["xdg-open", str(playlist)])
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

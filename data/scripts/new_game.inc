@@ -453,7 +453,8 @@ EventScript_ResetAllMapFlagsHnS::
 	setvar VAR_ROUTE27_BAOBA_CALL, 0
 
 	additem ITEM_EXP_SHARE
-	additem ITEM_GB_PLAYER
+	additem ITEM_GEN2_PLAYER
+	additem ITEM_GEN1_PLAYER
 	setflag FLAG_EXP_SHARE_ENABLED
 	setrespawn HEAL_LOCATION_PALLET_TOWN
 	@ Origin Jade: skips the save migrations in LoadGameSave.

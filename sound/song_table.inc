@@ -1203,3 +1203,74 @@ gGBSSongTable:: @ "gbs_hg_" tracks are new tracks that were transcribed from HGS
     .4byte 0xFFFFFFFF
     @ Auto-generierte RG Fallbacks
 	.4byte 0xFFFFFFFF
+
+	.align 2
+gGBSGen1SongTable:: @ Gen 1 Player mappings
+	song_gbs MUS_RG_CELADON, gbs_celadon_Header, 0, 0
+	song_gbs MUS_HG_CELADON, gbs_celadon_Header, 0, 0
+	song_gbs MUS_RG_CINNABAR, gbs_cinnabar_Header, 0, 0
+	song_gbs MUS_HG_CINNABAR, gbs_cinnabar_Header, 0, 0
+	song_gbs MUS_RG_FUCHSIA, gbs_cities2_Header, 0, 0
+	song_gbs MUS_HG_CERULEAN, gbs_cities2_Header, 0, 0
+	song_gbs MUS_RG_PEWTER, gbs_cities1_Header, 0, 0
+	song_gbs MUS_HG_PEWTER, gbs_cities1_Header, 0, 0
+	song_gbs MUS_RG_LAVENDER, gbs_lavender_Header, 0, 0
+	song_gbs MUS_HG_LAVENDER, gbs_lavender_Header, 0, 0
+	song_gbs MUS_RG_PALLET, gbs_pallettown_Header, 0, 0
+	song_gbs MUS_HG_PALLET, gbs_pallettown_Header, 0, 0
+	song_gbs MUS_RG_VERMILLION, gbs_vermilion_Header, 0, 0
+	song_gbs MUS_HG_VERMILION, gbs_vermilion_Header, 0, 0
+	song_gbs MUS_RG_ROUTE1, gbs_routes1_Header, 0, 0
+	song_gbs MUS_HG_ROUTE1, gbs_routes1_Header, 0, 0
+	song_gbs MUS_RG_ROUTE3, gbs_routes3_Header, 0, 0
+	song_gbs MUS_HG_ROUTE3, gbs_routes3_Header, 0, 0
+	song_gbs MUS_RG_ROUTE24, gbs_routes2_Header, 0, 0
+	song_gbs MUS_HG_ROUTE24, gbs_routes2_Header, 0, 0
+	song_gbs MUS_RG_ROUTE11, gbs_routes4_Header, 0, 0
+	song_gbs MUS_HG_ROUTE11, gbs_routes4_Header, 0, 0
+	song_gbs MUS_RG_VS_WILD, gbs_wildbattle_Header, 0, 0
+	song_gbs MUS_HG_VS_WILD_KANTO, gbs_wildbattle_Header, 0, 0
+	song_gbs MUS_RG_VS_TRAINER, gbs_trainerbattle_Header, 0, 0
+	song_gbs MUS_HG_VS_TRAINER_KANTO, gbs_trainerbattle_Header, 0, 0
+	song_gbs MUS_RG_VS_GYM_LEADER, gbs_gymleaderbattle_Header, 0, 0
+	song_gbs MUS_HG_VS_GYM_LEADER_KANTO, gbs_gymleaderbattle_Header, 0, 0
+	song_gbs MUS_RG_VICTORY_TRAINER, gbs_defeatedtrainer_Header, 0, 0
+	song_gbs MUS_RG_VICTORY_WILD, gbs_defeatedwildmon_Header, 0, 0
+	song_gbs MUS_RG_VICTORY_GYM_LEADER, gbs_defeatedgymleader_Header, 0, 0
+	song_gbs MUS_RG_GYM, gbs_gym_Header, 0, 0
+	song_gbs MUS_HG_GYM, gbs_gym_Header, 0, 0
+	song_gbs MUS_RG_POKE_CENTER, gbs_pokecenter_Header, 0, 0
+	song_gbs MUS_HG_POKE_CENTER, gbs_pokecenter_Header, 0, 0
+	song_gbs MUS_RG_CYCLING, gbs_bikeriding_Header, 0, 0
+	song_gbs MUS_HG_CYCLING, gbs_bikeriding_Header, 0, 0
+	song_gbs MUS_RG_SURF, gbs_surfing_Header, 0, 0
+	song_gbs MUS_HG_SURF, gbs_surfing_Header, 0, 0
+	song_gbs MUS_RG_GAME_CORNER, gbs_gamecorner_Header, 0, 0
+	song_gbs MUS_HG_GAME_CORNER, gbs_gamecorner_Header, 0, 0
+	song_gbs MUS_RG_SS_ANNE, gbs_ssanne_Header, 0, 0
+	song_gbs MUS_HG_SS_AQUA, gbs_ssanne_Header, 0, 0
+	song_gbs MUS_RG_HALL_OF_FAME, gbs_halloffame_Header, 0, 0
+	song_gbs MUS_HG_HALL_OF_FAME, gbs_halloffame_Header, 0, 0
+	song_gbs MUS_RG_CREDITS, gbs_credits_Header, 0, 0
+	song_gbs MUS_HG_CREDITS, gbs_credits_Header, 0, 0
+	song_gbs MUS_RG_TITLE, gbs_titlescreen_Header, 0, 0
+	song_gbs MUS_HG_TITLE, gbs_titlescreen_Header, 0, 0
+	song_gbs MUS_RG_INTRO_FIGHT, gbs_introbattle_Header, 0, 0
+	song_gbs MUS_RG_VS_CHAMPION, gbs_finalbattle_Header, 0, 0
+	song_gbs MUS_HG_VS_CHAMPION, gbs_finalbattle_Header, 0, 0
+	song_gbs MUS_HG_ROCK_TUNNEL, gbs_dungeon3_Header, 0, 0
+	song_gbs MUS_RG_POKE_TOWER, gbs_pokemontower_Header, 0, 0
+	song_gbs MUS_HG_TEAM_ROCKET_HQ, gbs_silphco_Header, 0, 0
+	song_gbs MUS_RG_MT_MOON, gbs_dungeon3_Header, 0, 0
+	song_gbs MUS_HG_MT_MOON_SQUARE, gbs_dungeon3_Header, 0, 0
+	song_gbs MUS_RG_POKE_MANSION, gbs_cinnabarmansion_Header, 0, 0
+	song_gbs MUS_RG_SILPH, gbs_silphco_Header, 0, 0
+	song_gbs MUS_RG_POKE_FLUTE, gbs_jigglypuffsong_Header, 0, 0
+	song_gbs MUS_RG_ENCOUNTER_GIRL, gbs_meetfemaletrainer_Header, 0, 0
+	song_gbs MUS_RG_ENCOUNTER_BOY, gbs_meetmaletrainer_Header, 0, 0
+	song_gbs MUS_RG_ENCOUNTER_ROCKET, gbs_meeteviltrainer_Header, 0, 0
+	song_gbs MUS_RG_ENCOUNTER_RIVAL, gbs_meetrival_Header, 0, 0
+	song_gbs MUS_RG_OAK_LAB, gbs_oakslab_Header, 0, 0
+	song_gbs MUS_RG_OAK, gbs_meetprofoak_Header, 0, 0
+	song_gbs MUS_HG_OAK, gbs_meetprofoak_Header, 0, 0
+	.4byte 0xFFFFFFFF

@@ -1047,7 +1047,9 @@ enum __attribute__((packed)) Item
     ITEM_TATSUGIRINITE = 872,
     ITEM_GLIMMORANITE = 873,
 
-    ITEM_GB_PLAYER    = 874,
+    ITEM_GEN2_PLAYER  = 874,
+    ITEM_GB_PLAYER    = ITEM_GEN2_PLAYER, // Legacy name
+    ITEM_GEN1_PLAYER,
 
     // HnS Items
     ITEM_GS_BALL,

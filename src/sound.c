@@ -626,7 +626,7 @@ static void RestoreBGMVolumeAfterPokemonCry(void)
 // level two steps below full. m4a sets NR50 = 0x77 exactly once, during sound init,
 // and never again - so when GBS stops driving it the register simply keeps whatever
 // GBS left there, and every CGB-voiced sound stays quiet until the game is rebooted.
-// Worse, stopping mid-fade can strand it at 0x00. Call this whenever the GB Player is
+// Worse, stopping mid-fade can strand it at 0x00. Call this whenever a retro player is
 // switched off. Switching it on needs nothing: GBSMain overwrites NR50 next frame.
 void RestorePSGMasterVolume(void)
 {

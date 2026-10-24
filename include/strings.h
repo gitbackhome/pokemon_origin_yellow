@@ -2436,8 +2436,10 @@ extern const u8 gText_Boy[];
 extern const u8 gText_Girl[];
 
 
-extern const u8 gText_GBPlayerOn[];
-extern const u8 gText_GBPlayerOff[];
+extern const u8 gText_Gen2PlayerOn[];
+extern const u8 gText_Gen2PlayerOff[];
+extern const u8 gText_Gen1PlayerOn[];
+extern const u8 gText_Gen1PlayerOff[];
 extern const u8 gText_Sunday[];
 extern const u8 gText_Monday[];
 extern const u8 gText_Tuesday[];

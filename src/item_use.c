@@ -1669,23 +1669,31 @@ void ItemUseOutOfBattle_CannotUse(u8 taskId)
     DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
 }
 
-static void Task_UseGBPlayer(u8 taskId)
+static void Task_UseMusicPlayer(u8 taskId, bool32 gen1)
 {
     const u8 *text = NULL;
 
     if (!IsSEPlaying())
     {
-        if (FlagGet(FLAG_SYS_GBS_ENABLED))
+        bool32 playerEnabled = FlagGet(FLAG_SYS_GBS_ENABLED);
+        bool32 samePlayerEnabled = gen1 ? FlagGet(FLAG_SYS_GBS_GEN1) : playerEnabled && !FlagGet(FLAG_SYS_GBS_GEN1);
+
+        if (samePlayerEnabled)
         {
             FlagClear(FLAG_SYS_GBS_ENABLED);
-            // GBS leaves NR50 turned down; nothing else ever puts it back.
+            if (gen1)
+                FlagClear(FLAG_SYS_GBS_GEN1);
             RestorePSGMasterVolume();
-            text = gText_GBPlayerOff;
+            text = gen1 ? gText_Gen1PlayerOff : gText_Gen2PlayerOff;
         }
         else
         {
             FlagSet(FLAG_SYS_GBS_ENABLED);
-            text = gText_GBPlayerOn;
+            if (gen1)
+                FlagSet(FLAG_SYS_GBS_GEN1);
+            else
+                FlagClear(FLAG_SYS_GBS_GEN1);
+            text = gen1 ? gText_Gen1PlayerOn : gText_Gen2PlayerOn;
         }
 
         PlayNewMapMusic(MUS_DUMMY);
@@ -1702,9 +1710,24 @@ static void Task_UseGBPlayer(u8 taskId)
     }
 }
 
-void ItemUseOutOfBattle_GBPlayer(u8 taskId)
+static void Task_UseGen2Player(u8 taskId)
 {
-    gTasks[taskId].func = Task_UseGBPlayer;
+    Task_UseMusicPlayer(taskId, FALSE);
+}
+
+static void Task_UseGen1Player(u8 taskId)
+{
+    Task_UseMusicPlayer(taskId, TRUE);
+}
+
+void ItemUseOutOfBattle_Gen2Player(u8 taskId)
+{
+    gTasks[taskId].func = Task_UseGen2Player;
+}
+
+void ItemUseOutOfBattle_Gen1Player(u8 taskId)
+{
+    gTasks[taskId].func = Task_UseGen1Player;
 }
 
 static bool32 IsValidLocationForVsSeeker(void)

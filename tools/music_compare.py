@@ -12,6 +12,7 @@ Examples:
     python3 tools/music_compare.py --list
     python3 tools/music_compare.py --pair gbs_routes1
     python3 tools/music_compare.py --all
+    python3 tools/music_compare.py --all --include-rejected
     python3 tools/music_compare.py --all --open
 """
 
@@ -64,7 +65,10 @@ NOTE_RE = re.compile(r"^\s*note\s+([A-Za-z_]+),\s*(\d+)")
 REST_RE = re.compile(r"^\s*rest\s+(\d+)")
 
 
-def load_pairs() -> list[tuple[str, str, str]]:
+REJECTED_CATEGORIES = {"Probably wrong, retained only for review", "Completely wrong, retained only for review"}
+
+
+def load_pairs(include_rejected: bool = False) -> list[tuple[str, str, str]]:
     mapping = ROOT / "docs/gen1_gen2_kanto_music_mapping.md"
     pairs: list[tuple[str, str, str]] = []
     category = "Uncategorized"
@@ -72,7 +76,7 @@ def load_pairs() -> list[tuple[str, str, str]]:
         if line.startswith("## "):
             category = line[3:].strip()
         match = PAIR_RE.search(line)
-        if match:
+        if match and (include_rejected or category not in REJECTED_CATEGORIES):
             pairs.append((category, match.group(1), match.group(2)))
     return pairs
 
@@ -209,12 +213,25 @@ def main() -> int:
     parser.add_argument("--all", action="store_true", help="render every mapped pair")
     parser.add_argument("--pair", action="append", help="Gen 1 basename, e.g. gbs_routes1")
     parser.add_argument("--list", action="store_true", help="list available pairs")
+    parser.add_argument(
+        "--include-rejected",
+        action="store_true",
+        help="include mappings marked probably or completely wrong",
+    )
+    parser.add_argument(
+        "--category",
+        action="append",
+        help="only render a category heading (repeatable)",
+    )
     parser.add_argument("--duration", type=float, default=60.0)
     parser.add_argument("--output", type=Path, default=ROOT / "build/music_compare")
     parser.add_argument("--open", action="store_true", help="open the generated HTML playlist")
     args = parser.parse_args()
 
-    pairs = load_pairs()
+    pairs = load_pairs(args.include_rejected)
+    if args.category:
+        wanted_categories = set(args.category)
+        pairs = [pair for pair in pairs if pair[0] in wanted_categories]
     if args.list:
         for category, gen1, gen2 in pairs:
             print(f"{category:8} {gen1:28} -> {gen2}")
@@ -248,7 +265,7 @@ def main() -> int:
     playlist = args.output / "index.html"
     playlist.write_text(
         "<!doctype html><meta charset='utf-8'><title>Kanto music comparison</title>"
-        "<p>Each clip is Gen 1 converted, one second silence, then Gen 2.</p>"
+        "<p>Each clip is a separate Gen 1 converted or Gen 2 WAV file.</p>"
         + "\n".join(rows),
         encoding="utf-8",
     )

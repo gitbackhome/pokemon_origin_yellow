@@ -849,7 +849,7 @@
 #define FLAG_PEWTER_GYM_NPC_TRADE_COMPLETED          0x301
 #define FLAG_OLIVINE_GYM_NPC_TRADE_COMPLETED         0x302
 #define FLAG_ENABLE_CONDITION                       0x303
-#define FLAG_UNUSED_36                              0x304
+#define FLAG_SYS_GBS_GEN1                           0x304 // Gen 1 Player mode; part of the reserved free flag window
 #define FLAG_UNUSED_37                              0x305
 #define FLAG_UNUSED_38                              0x306
 #define FLAG_UNUSED_39                              0x307

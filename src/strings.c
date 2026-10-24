@@ -5540,12 +5540,12 @@ const u8 gText_OakThisIsListOfPokemon[] = _("This is a list of your POKéMON,\n{
 #endif
 
 #if GERMAN
-const u8 gText_GBPlayerOn[] = _("Der GB geht an.\nNostalgie füllt die Luft.{PAUSE_UNTIL_PRESS}");
+const u8 gText_Gen2PlayerOn[] = _("Der Gen2-Player geht an.\nNostalgie füllt die Luft.{PAUSE_UNTIL_PRESS}");
 #else
-const u8 gText_GBPlayerOn[] = _("The GB Player was turned on.\nSounds from the past fill the air.{PAUSE_UNTIL_PRESS}");
+const u8 gText_Gen2PlayerOn[] = _("The Gen2 Player was turned on.\nSounds from the past fill the air.{PAUSE_UNTIL_PRESS}");
 #endif
 #if GERMAN
-const u8 gText_GBPlayerOff[] = _("GB ausgeschaltet.{PAUSE_UNTIL_PRESS}");
+const u8 gText_Gen2PlayerOff[] = _("Gen2-Player ausgeschaltet.{PAUSE_UNTIL_PRESS}");
 #else
 const u8 gText_Gen2PlayerOff[] = _("The Gen2 Player was turned off.\nSounds of nostalgia fade away.{PAUSE_UNTIL_PRESS}");
 #endif

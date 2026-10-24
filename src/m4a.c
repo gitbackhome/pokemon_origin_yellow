@@ -1,6 +1,7 @@
 #include "global.h"
 #include "gba/m4a_internal.h"
 #include "global.h"
+#include "event_data.h"
 
 extern const u8 gCgb3Vol[];
 
@@ -113,6 +114,14 @@ const struct Song *GetSong(int songID, bool32 gbsEnabled)
     if (gbsEnabled)
     {
         int i;
+        if (FlagGet(FLAG_SYS_GBS_GEN1))
+        {
+            for (i = 0; gGBSGen1SongTable[i].songID != 0xFFFFFFFF; i++)
+            {
+                if (gGBSGen1SongTable[i].songID == songID)
+                    return &gGBSGen1SongTable[i].song;
+            }
+        }
         for (i = 0; gGBSSongTable[i].songID != 0xFFFFFFFF; i++)
         {
             if (gGBSSongTable[i].songID == songID)

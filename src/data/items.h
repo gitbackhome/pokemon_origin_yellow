@@ -7631,10 +7631,10 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_Glimmoranite,
     },
 
-// GB Player
-    [ITEM_GB_PLAYER] =
+// Gen 2 Player
+    [ITEM_GEN2_PLAYER] =
     {
-        .name = ITEM_NAME("GB-Player"),
+        .name = ITEM_NAME("Gen2-Player"),
         .price = 0,
         .description = COMPOUND_STRING(
             "Gerät, das alte\n"
@@ -7642,7 +7642,23 @@ const struct ItemInfo gItemsInfo[] =
             "abspielt."),
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_GBPlayer,
+        .fieldUseFunc = ItemUseOutOfBattle_Gen2Player,
+        .importance = 1,
+        .iconPic = gItemIcon_GBPlayer,
+        .iconPalette = gItemIconPalette_GBPlayer,
+    },
+
+    [ITEM_GEN1_PLAYER] =
+    {
+        .name = ITEM_NAME("Gen1-Player"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Gerät, das Musik\n"
+            "aus Pokémon Rot\n"
+            "und Blau abspielt."),
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Gen1Player,
         .importance = 1,
         .iconPic = gItemIcon_GBPlayer,
         .iconPalette = gItemIconPalette_GBPlayer,

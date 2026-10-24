@@ -4377,8 +4377,8 @@ static void Debug_Sound_Redraw_MUS(u8 taskId, u8 windowId)
     AddTextPrinterParameterized(windowId, DEBUG_MENU_FONT, gStringVar4, 0, 0, 0, NULL);
 }
 
-// SELECT toggles the GB Player from inside the sound test so tracks can be A/B'd.
-// Mirrors Task_UseGBPlayer in src/item_use.c: wait for any SE to finish, flip the
+// SELECT toggles the active retro player from inside the sound test so tracks can be A/B'd.
+// Mirrors the music-player item in src/item_use.c: wait for any SE to finish, flip the
 // flag, then reset the BGM player through the map-music state machine. The item
 // follows that with Overworld_PlaySpecialMapMusic() to restore the map's track;
 // here we stop instead, since the sound test deliberately silences map music so

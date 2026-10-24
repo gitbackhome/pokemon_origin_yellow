@@ -5547,7 +5547,17 @@ const u8 gText_GBPlayerOn[] = _("The GB Player was turned on.\nSounds from the p
 #if GERMAN
 const u8 gText_GBPlayerOff[] = _("GB ausgeschaltet.{PAUSE_UNTIL_PRESS}");
 #else
-const u8 gText_GBPlayerOff[] = _("The GB Player was turned off.\nSounds of nostalgia fade away.{PAUSE_UNTIL_PRESS}");
+const u8 gText_Gen2PlayerOff[] = _("The Gen2 Player was turned off.\nSounds of nostalgia fade away.{PAUSE_UNTIL_PRESS}");
+#endif
+#if GERMAN
+const u8 gText_Gen1PlayerOn[] = _("Der Gen1-Player geht an.\nPokémon-Musik aus Rot und Blau erfüllt die Luft.{PAUSE_UNTIL_PRESS}");
+#else
+const u8 gText_Gen1PlayerOn[] = _("The Gen1 Player was turned on.\nSounds from Red and Blue fill the air.{PAUSE_UNTIL_PRESS}");
+#endif
+#if GERMAN
+const u8 gText_Gen1PlayerOff[] = _("Gen1-Player ausgeschaltet.{PAUSE_UNTIL_PRESS}");
+#else
+const u8 gText_Gen1PlayerOff[] = _("The Gen1 Player was turned off.\nSounds of nostalgia fade away.{PAUSE_UNTIL_PRESS}");
 #endif
 
 #if GERMAN

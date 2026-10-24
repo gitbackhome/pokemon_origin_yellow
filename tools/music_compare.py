@@ -104,9 +104,15 @@ def load_pairs() -> list[tuple[str, str, str]]:
 
 def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[float, float, int, float]]]:
     """Interpret the audible note stream and GBS call/loop control flow."""
+    source_lines = path.read_text(encoding="utf-8").splitlines()
     channels: dict[str, list[str]] = {}
     channel = None
-    for line in path.read_text(encoding="utf-8").splitlines():
+    song_tempo = next(
+        (float(match.group(1)) for line in source_lines
+         if (match := re.match(r"^\s*tempo\s+(\d+(?:\.\d+)?)", line))),
+        120.0,
+    )
+    for line in source_lines:
         match = CHANNEL_RE.match(line.strip())
         if match:
             channel = f"Ch{match.group(1)}"
@@ -122,13 +128,12 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
             if line.strip().endswith(":")
         }
         octave = 4
-        tempo = 120.0
+        tempo = song_tempo
         unit = 12
         volume = 12
         fade = 0
         duty = 2
         vibrato = 0
-        offset = 0
         transpose = 0
         events: list[tuple[float, float, int, float]] = []
         cursor = 0.0
@@ -140,11 +145,12 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
             # the 60 Hz music update rate, so 256 * 60 converts it to seconds.
             return tempo * unit * length / (256.0 * 60.0)
 
-        def execute(start: int) -> None:
-            nonlocal cursor, octave, tempo, unit, volume, fade, duty, vibrato, offset, transpose
+        def execute(start: int, stop: int | None = None) -> None:
+            nonlocal cursor, octave, tempo, unit, volume, fade, duty, vibrato, transpose
             index = start
             steps = 0
-            while index < len(lines) and cursor < duration_limit and steps < max_steps:
+            end = len(lines) if stop is None else min(stop, len(lines))
+            while index < end and cursor < duration_limit and steps < max_steps:
                 steps += 1
                 stripped = lines[index].split("@", 1)[0].strip()
                 if stripped.endswith(":"):
@@ -173,7 +179,9 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
                     elif command == "vibrato":
                         vibrato = int(fields[2])
                     elif command == "pitch_offset":
-                        offset = int(fields[1])
+                        # This is a raw frequency-table adjustment in the GBS
+                        # engine, not a semitone transposition.
+                        pass
                     elif command == "transpose":
                         transpose = 12 * int(fields[1]) + int(fields[2])
                     elif command == "volume_envelope":
@@ -194,7 +202,7 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
                     elif command == "sound_ret":
                         break
                     elif command == "note" and len(fields) >= 3:
-                        pitch = NOTE_NAMES[fields[1]] + 12 * (octave + 1) + offset + transpose
+                        pitch = NOTE_NAMES[fields[1]] + 12 * (octave + 1) + transpose
                         seconds = note_seconds(int(fields[2]))
                         events.append((cursor, seconds, pitch, volume))
                         cursor += seconds
@@ -207,7 +215,15 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
                 except (KeyError, ValueError, IndexError):
                     pass
                 index += 1
-        execute(0)
+        mainloop = next(
+            (index for index, line in enumerate(lines) if line.strip().endswith(".mainloop:")),
+            None,
+        )
+        if mainloop is None:
+            execute(0)
+        else:
+            execute(0, mainloop)
+            execute(mainloop + 1)
         result[name] = [(s, d, p, v) for s, d, p, v in events if s < duration_limit]
     return result
 

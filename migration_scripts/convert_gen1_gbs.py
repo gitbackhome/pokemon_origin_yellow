@@ -4,8 +4,8 @@
 The converter intentionally handles the small command vocabulary used by the
 Gen 1 music sources rather than applying an unrestricted text replacement.
 The Gen 1 perfect-pitch toggle is converted to this project's equivalent
-``pitch_offset 1`` command. Unsupported commands are reported and omitted
-only when --allow-unsupported is supplied.
+``pitch_offset 1`` command. ``execute_music`` is a Gen 1 noise/SFX parsing
+mode switch and is a no-op for these regular music tracks.
 """
 
 from __future__ import annotations
@@ -17,6 +17,7 @@ from pathlib import Path
 
 
 CHANNEL_LABEL = re.compile(r"^Music_[A-Za-z0-9_]+_Ch([1-4])::$")
+QUALIFIED_LABEL = re.compile(r"^Music_[A-Za-z0-9_]+_Ch([1-4])_(\w+)::$")
 LOCAL_LABEL = re.compile(r"^\.(\w+):$")
 NOTE_NAMES = {
     "C#": "Cs",
@@ -26,12 +27,19 @@ NOTE_NAMES = {
     "A#": "As",
 }
 SUPPORTED_COMMANDS = {
+    "drum_note",
+    "drum_speed",
     "duty_cycle",
+    "duty_cycle_pattern",
+    "execute_music",
     "note",
     "note_type",
     "octave",
+    "pitch_slide",
     "rest",
+    "sound_call",
     "sound_loop",
+    "sound_ret",
     "tempo",
     "vibrato",
     "volume",
@@ -76,6 +84,15 @@ def convert(source: str, song_name: str, allow_unsupported: bool) -> tuple[str, 
             output.append(f"\tgbs_switch {current_channel - 1}")
             continue
 
+        qualified_label_match = QUALIFIED_LABEL.match(stripped)
+        if qualified_label_match:
+            channel = int(qualified_label_match.group(1))
+            prefix = f"gbs_{song_name}_Ch{channel}"
+            channels.setdefault(channel, prefix)
+            current_channel = channel
+            output.append(f"{prefix}.{qualified_label_match.group(2)}:")
+            continue
+
         local_match = LOCAL_LABEL.match(stripped)
         if local_match:
             if current_channel is None:
@@ -89,17 +106,14 @@ def convert(source: str, song_name: str, allow_unsupported: bool) -> tuple[str, 
             command, arguments = command_match.groups()
             if command == "toggle_perfect_pitch":
                 if perfect_pitch_enabled.get(current_channel, False):
-                    message = (
-                        f"line {line_number}: a second toggle_perfect_pitch would "
-                        "disable the offset, which this project format cannot represent"
-                    )
-                    if not allow_unsupported:
-                        raise ValueError(message + "; convert this channel manually")
-                    warnings.append(message)
-                    output.append(f"\t@ {message}")
+                    perfect_pitch_enabled[current_channel] = False
+                    output.append("\tpitch_offset 0\t@ Gen 1 perfect pitch off")
                     continue
                 perfect_pitch_enabled[current_channel] = True
                 output.append("\tpitch_offset 1\t@ Gen 1 perfect pitch")
+                continue
+            if command == "execute_music":
+                output.append("\t@ Gen 1 execute_music: no-op for regular GBS music")
                 continue
             if command not in SUPPORTED_COMMANDS:
                 raise ValueError(f"line {line_number}: unsupported command {command!r}")
@@ -142,8 +156,7 @@ def main() -> int:
     parser.add_argument("output", type=Path, help="project-format output (.s)")
     parser.add_argument(
         "--song-name",
-        default="trainerbattle",
-        help="name used for gbs_<name> labels (default: trainerbattle)",
+        help="name used for gbs_<name> labels (default: output filename stem)",
     )
     parser.add_argument(
         "--allow-unsupported",
@@ -152,10 +165,17 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    output_stem = args.output.stem
+    if output_stem.startswith("gbs_"):
+        output_stem = output_stem[4:]
+    song_name = args.song_name or output_stem
+    if not re.fullmatch(r"[A-Za-z0-9_]+", song_name):
+        parser.error("song name must contain only letters, digits, and underscores")
+
     try:
         converted, warnings = convert(
             args.input.read_text(encoding="utf-8"),
-            args.song_name,
+            song_name,
             args.allow_unsupported,
         )
     except (OSError, ValueError) as error:

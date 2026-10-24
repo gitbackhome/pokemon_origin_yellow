@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_museumguy_Ch1:
+gbs_gen1_museumguy_Ch1:
 	gbs_switch 0
 	tempo 128
 	volume 7, 7
@@ -27,38 +27,38 @@ gbs_museumguy_Ch1:
 	note E_, 1
 	note Gs, 1
 	note B_, 10
-	sound_call gbs_museumguy_Ch1.sub1
-	sound_call gbs_museumguy_Ch1.sub2
-	sound_call gbs_museumguy_Ch1.sub1
+	sound_call gbs_gen1_museumguy_Ch1.sub1
+	sound_call gbs_gen1_museumguy_Ch1.sub2
+	sound_call gbs_gen1_museumguy_Ch1.sub1
 	note E_, 4
 	note E_, 4
 	note E_, 2
 	note E_, 6
-gbs_museumguy_Ch1.mainloop:
-	sound_call gbs_museumguy_Ch1.sub1
-	sound_call gbs_museumguy_Ch1.sub2
-	sound_call gbs_museumguy_Ch1.sub1
+gbs_gen1_museumguy_Ch1.mainloop:
+	sound_call gbs_gen1_museumguy_Ch1.sub1
+	sound_call gbs_gen1_museumguy_Ch1.sub2
+	sound_call gbs_gen1_museumguy_Ch1.sub1
 	note E_, 4
 	note E_, 4
 	note E_, 2
 	note E_, 6
-	sound_loop 0, gbs_museumguy_Ch1.mainloop
+	sound_loop 0, gbs_gen1_museumguy_Ch1.mainloop
 
-gbs_museumguy_Ch1.sub1:
+gbs_gen1_museumguy_Ch1.sub1:
 	note E_, 2
 	note E_, 6
 	note Fs, 2
 	note Fs, 6
 	sound_ret
 
-gbs_museumguy_Ch1.sub2:
+gbs_gen1_museumguy_Ch1.sub2:
 	note E_, 2
 	note E_, 6
 	note D_, 2
 	note D_, 6
 	sound_ret
 
-gbs_museumguy_Ch2:
+gbs_gen1_museumguy_Ch2:
 	gbs_switch 1
 	duty_cycle 2
 	note_type 12, 12, 1
@@ -111,7 +111,7 @@ gbs_museumguy_Ch2:
 	note A_, 2
 	note A_, 2
 	note A_, 4
-gbs_museumguy_Ch2.mainloop:
+gbs_gen1_museumguy_Ch2.mainloop:
 	octave 3
 	note A_, 2
 	octave 4
@@ -166,9 +166,9 @@ gbs_museumguy_Ch2.mainloop:
 	note A_, 2
 	note A_, 2
 	note A_, 4
-	sound_loop 0, gbs_museumguy_Ch2.mainloop
+	sound_loop 0, gbs_gen1_museumguy_Ch2.mainloop
 
-gbs_museumguy_Ch3:
+gbs_gen1_museumguy_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
 	rest 16
@@ -179,7 +179,7 @@ gbs_museumguy_Ch3:
 	rest 3
 	note E_, 1
 	rest 9
-	sound_call gbs_museumguy_Ch3.sub1
+	sound_call gbs_gen1_museumguy_Ch3.sub1
 	note A_, 1
 	rest 1
 	note A_, 1
@@ -188,7 +188,7 @@ gbs_museumguy_Ch3:
 	rest 1
 	note Gs, 1
 	rest 5
-	sound_call gbs_museumguy_Ch3.sub1
+	sound_call gbs_gen1_museumguy_Ch3.sub1
 	note B_, 1
 	rest 3
 	note Gs, 1
@@ -197,8 +197,8 @@ gbs_museumguy_Ch3:
 	rest 1
 	note A_, 1
 	rest 3
-gbs_museumguy_Ch3.mainloop:
-	sound_call gbs_museumguy_Ch3.sub2
+gbs_gen1_museumguy_Ch3.mainloop:
+	sound_call gbs_gen1_museumguy_Ch3.sub2
 	rest 3
 	octave 6
 	note E_, 1
@@ -214,7 +214,7 @@ gbs_museumguy_Ch3.mainloop:
 	rest 1
 	note Gs, 1
 	rest 3
-	sound_call gbs_museumguy_Ch3.sub2
+	sound_call gbs_gen1_museumguy_Ch3.sub2
 	rest 1
 	octave 6
 	note E_, 1
@@ -232,9 +232,9 @@ gbs_museumguy_Ch3.mainloop:
 	rest 1
 	note A_, 1
 	rest 3
-	sound_loop 0, gbs_museumguy_Ch3.mainloop
+	sound_loop 0, gbs_gen1_museumguy_Ch3.mainloop
 
-gbs_museumguy_Ch3.sub1:
+gbs_gen1_museumguy_Ch3.sub1:
 	note A_, 1
 	rest 1
 	note A_, 1
@@ -245,7 +245,7 @@ gbs_museumguy_Ch3.sub1:
 	rest 5
 	sound_ret
 
-gbs_museumguy_Ch3.sub2:
+gbs_gen1_museumguy_Ch3.sub2:
 	octave 6
 	note Cs, 1
 	rest 1
@@ -263,7 +263,7 @@ gbs_museumguy_Ch3.sub2:
 	note A_, 1
 	sound_ret
 
-gbs_museumguy_Ch4:
+gbs_gen1_museumguy_Ch4:
 	gbs_switch 3
 	drum_speed 12
 	rest 16
@@ -277,7 +277,7 @@ gbs_museumguy_Ch4:
 	drum_note 19, 1
 	drum_note 18, 1
 	drum_note 18, 1
-gbs_museumguy_Ch4.mainloop:
+gbs_gen1_museumguy_Ch4.mainloop:
 	drum_note 17, 4
 	drum_note 17, 6
 	drum_note 17, 2
@@ -336,11 +336,11 @@ gbs_museumguy_Ch4.mainloop:
 	drum_note 19, 1
 	drum_note 18, 1
 	drum_note 18, 1
-	sound_loop 0, gbs_museumguy_Ch4.mainloop
+	sound_loop 0, gbs_gen1_museumguy_Ch4.mainloop
 
 	.align 4
-	.global gbs_museumguy_Header
-gbs_museumguy_Header:
+	.global gbs_gen1_museumguy_Header
+gbs_gen1_museumguy_Header:
 	.byte 4	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -348,7 +348,7 @@ gbs_museumguy_Header:
 
 	.int voicegroup000
 
-	.int gbs_museumguy_Ch1
-	.int gbs_museumguy_Ch2
-	.int gbs_museumguy_Ch3
-	.int gbs_museumguy_Ch4
+	.int gbs_gen1_museumguy_Ch1
+	.int gbs_gen1_museumguy_Ch2
+	.int gbs_gen1_museumguy_Ch3
+	.int gbs_gen1_museumguy_Ch4

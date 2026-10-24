@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_credits_Ch1:
+gbs_gen1_credits_Ch1:
 	gbs_switch 0
 	tempo 140
 	volume 7, 7
@@ -289,7 +289,7 @@ gbs_credits_Ch1:
 	note A_, 8
 	sound_ret
 
-gbs_credits_Ch2:
+gbs_gen1_credits_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 10, 2, 5
@@ -579,7 +579,7 @@ gbs_credits_Ch2:
 	note A_, 8
 	sound_ret
 
-gbs_credits_Ch3:
+gbs_gen1_credits_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
 	octave 5
@@ -603,9 +603,9 @@ gbs_credits_Ch3:
 	note A_, 1
 	rest 15
 	rest 16
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub2
-	sound_call gbs_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub2
+	sound_call gbs_gen1_credits_Ch3.sub1
 	octave 4
 	note E_, 2
 	note A_, 2
@@ -615,13 +615,13 @@ gbs_credits_Ch3:
 	note Fs, 2
 	note G_, 2
 	note A_, 2
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub2
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub3
-	sound_call gbs_credits_Ch3.sub3
-	sound_call gbs_credits_Ch3.sub4
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub2
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub3
+	sound_call gbs_gen1_credits_Ch3.sub3
+	sound_call gbs_gen1_credits_Ch3.sub4
 	octave 4
 	note A_, 2
 	octave 5
@@ -637,34 +637,34 @@ gbs_credits_Ch3:
 	octave 4
 	note B_, 2
 	note A_, 2
-	sound_call gbs_credits_Ch3.sub3
-	sound_call gbs_credits_Ch3.sub3
-	sound_call gbs_credits_Ch3.sub4
-	sound_call gbs_credits_Ch3.sub4
+	sound_call gbs_gen1_credits_Ch3.sub3
+	sound_call gbs_gen1_credits_Ch3.sub3
+	sound_call gbs_gen1_credits_Ch3.sub4
+	sound_call gbs_gen1_credits_Ch3.sub4
 	octave 4
 	note G_, 4
 	note A_, 4
 	note B_, 4
 	octave 5
 	note D_, 4
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub2
-	sound_call gbs_credits_Ch3.sub2
-	sound_call gbs_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub2
+	sound_call gbs_gen1_credits_Ch3.sub2
+	sound_call gbs_gen1_credits_Ch3.sub1
 	note E_, 4
 	note A_, 2
 	note E_, 4
 	note A_, 2
 	note E_, 2
 	note A_, 2
-	sound_call gbs_credits_Ch3.sub2
-	sound_call gbs_credits_Ch3.sub2
-	sound_call gbs_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub2
+	sound_call gbs_gen1_credits_Ch3.sub2
+	sound_call gbs_gen1_credits_Ch3.sub1
 	note E_, 2
 	note A_, 2
 	note E_, 2
@@ -673,10 +673,10 @@ gbs_credits_Ch3:
 	note A_, 2
 	note Gs, 2
 	note A_, 2
-	sound_call gbs_credits_Ch3.sub5
-	sound_call gbs_credits_Ch3.sub5
-	sound_call gbs_credits_Ch3.sub6
-	sound_call gbs_credits_Ch3.sub6
+	sound_call gbs_gen1_credits_Ch3.sub5
+	sound_call gbs_gen1_credits_Ch3.sub5
+	sound_call gbs_gen1_credits_Ch3.sub6
+	sound_call gbs_gen1_credits_Ch3.sub6
 	note F_, 2
 	note A_, 2
 	note F_, 2
@@ -693,8 +693,8 @@ gbs_credits_Ch3:
 	note D_, 2
 	note E_, 2
 	note F_, 2
-	sound_call gbs_credits_Ch3.sub3
-	sound_call gbs_credits_Ch3.sub3
+	sound_call gbs_gen1_credits_Ch3.sub3
+	sound_call gbs_gen1_credits_Ch3.sub3
 	note E_, 4
 	note A_, 4
 	note E_, 4
@@ -703,16 +703,16 @@ gbs_credits_Ch3:
 	note A_, 4
 	note E_, 4
 	note A_, 4
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub7
-	sound_call gbs_credits_Ch3.sub7
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub1
-	sound_call gbs_credits_Ch3.sub3
-	sound_call gbs_credits_Ch3.sub3
-	sound_call gbs_credits_Ch3.sub8
-	sound_call gbs_credits_Ch3.sub8
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub7
+	sound_call gbs_gen1_credits_Ch3.sub7
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub1
+	sound_call gbs_gen1_credits_Ch3.sub3
+	sound_call gbs_gen1_credits_Ch3.sub3
+	sound_call gbs_gen1_credits_Ch3.sub8
+	sound_call gbs_gen1_credits_Ch3.sub8
 	note A_, 1
 	rest 1
 	note A_, 1
@@ -723,7 +723,7 @@ gbs_credits_Ch3:
 	rest 7
 	sound_ret
 
-gbs_credits_Ch3.sub1:
+gbs_gen1_credits_Ch3.sub1:
 	octave 4
 	note E_, 2
 	note A_, 2
@@ -735,7 +735,7 @@ gbs_credits_Ch3.sub1:
 	note A_, 2
 	sound_ret
 
-gbs_credits_Ch3.sub2:
+gbs_gen1_credits_Ch3.sub2:
 	octave 4
 	note D_, 2
 	note G_, 2
@@ -747,7 +747,7 @@ gbs_credits_Ch3.sub2:
 	note G_, 2
 	sound_ret
 
-gbs_credits_Ch3.sub3:
+gbs_gen1_credits_Ch3.sub3:
 	note G_, 2
 	note B_, 2
 	note G_, 2
@@ -758,11 +758,7 @@ gbs_credits_Ch3.sub3:
 	note B_, 2
 	sound_ret
 
-gbs_credits_Ch3.sub4:
-	octave 4
-	note A_, 2
-	octave 5
-	note Cs, 2
+gbs_gen1_credits_Ch3.sub4:
 	octave 4
 	note A_, 2
 	octave 5
@@ -775,9 +771,13 @@ gbs_credits_Ch3.sub4:
 	note A_, 2
 	octave 5
 	note Cs, 2
+	octave 4
+	note A_, 2
+	octave 5
+	note Cs, 2
 	sound_ret
 
-gbs_credits_Ch3.sub5:
+gbs_gen1_credits_Ch3.sub5:
 	note D_, 2
 	note A_, 2
 	note D_, 2
@@ -788,7 +788,7 @@ gbs_credits_Ch3.sub5:
 	note A_, 2
 	sound_ret
 
-gbs_credits_Ch3.sub6:
+gbs_gen1_credits_Ch3.sub6:
 	note E_, 2
 	note Gs, 2
 	note E_, 2
@@ -799,7 +799,7 @@ gbs_credits_Ch3.sub6:
 	note Gs, 2
 	sound_ret
 
-gbs_credits_Ch3.sub7:
+gbs_gen1_credits_Ch3.sub7:
 	note E_, 2
 	note B_, 2
 	note E_, 2
@@ -810,7 +810,7 @@ gbs_credits_Ch3.sub7:
 	note B_, 2
 	sound_ret
 
-gbs_credits_Ch3.sub8:
+gbs_gen1_credits_Ch3.sub8:
 	note A_, 1
 	rest 1
 	note A_, 1
@@ -826,8 +826,8 @@ gbs_credits_Ch3.sub8:
 	sound_ret
 
 	.align 4
-	.global gbs_credits_Header
-gbs_credits_Header:
+	.global gbs_gen1_credits_Header
+gbs_gen1_credits_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -835,6 +835,6 @@ gbs_credits_Header:
 
 	.int voicegroup000
 
-	.int gbs_credits_Ch1
-	.int gbs_credits_Ch2
-	.int gbs_credits_Ch3
+	.int gbs_gen1_credits_Ch1
+	.int gbs_gen1_credits_Ch2
+	.int gbs_gen1_credits_Ch3

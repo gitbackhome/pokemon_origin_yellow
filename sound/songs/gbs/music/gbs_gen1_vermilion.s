@@ -3,14 +3,14 @@
 	.section .rodata
 	.align 1
 
-gbs_vermilion_Ch1:
+gbs_gen1_vermilion_Ch1:
 	gbs_switch 0
 	tempo 156
 	volume 7, 7
 	duty_cycle 3
 	vibrato 12, 3, 4
 	pitch_offset 1	@ Gen 1 perfect pitch
-gbs_vermilion_Ch1.mainloop:
+gbs_gen1_vermilion_Ch1.mainloop:
 	note_type 12, 11, 5
 	octave 3
 	note E_, 4
@@ -113,13 +113,13 @@ gbs_vermilion_Ch1.mainloop:
 	note Fs, 2
 	note Gs, 2
 	note B_, 2
-	sound_loop 0, gbs_vermilion_Ch1.mainloop
+	sound_loop 0, gbs_gen1_vermilion_Ch1.mainloop
 
-gbs_vermilion_Ch2:
+gbs_gen1_vermilion_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 10, 2, 3
-gbs_vermilion_Ch2.mainloop:
+gbs_gen1_vermilion_Ch2.mainloop:
 	note_type 12, 12, 7
 	octave 3
 	note A_, 8
@@ -179,12 +179,12 @@ gbs_vermilion_Ch2.mainloop:
 	note E_, 4
 	note Fs, 8
 	note E_, 8
-	sound_loop 0, gbs_vermilion_Ch2.mainloop
+	sound_loop 0, gbs_gen1_vermilion_Ch2.mainloop
 
-gbs_vermilion_Ch3:
+gbs_gen1_vermilion_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
-gbs_vermilion_Ch3.mainloop:
+gbs_gen1_vermilion_Ch3.mainloop:
 	octave 4
 	note A_, 2
 	note E_, 2
@@ -282,14 +282,14 @@ gbs_vermilion_Ch3.mainloop:
 	note E_, 2
 	note Gs, 2
 	note E_, 2
-	sound_loop 0, gbs_vermilion_Ch3.mainloop
+	sound_loop 0, gbs_gen1_vermilion_Ch3.mainloop
 
-gbs_vermilion_Ch4:
+gbs_gen1_vermilion_Ch4:
 	gbs_switch 3
 	drum_speed 12
-gbs_vermilion_Ch4.mainloop:
-gbs_vermilion_Ch4.loop1:
-	sound_call gbs_vermilion_Ch4.sub1
+gbs_gen1_vermilion_Ch4.mainloop:
+gbs_gen1_vermilion_Ch4.loop1:
+	sound_call gbs_gen1_vermilion_Ch4.sub1
 	drum_note 6, 2
 	drum_note 6, 1
 	drum_note 6, 1
@@ -303,14 +303,14 @@ gbs_vermilion_Ch4.loop1:
 	drum_note 6, 1
 	drum_note 6, 1
 	drum_note 6, 1
-	sound_loop 4, gbs_vermilion_Ch4.loop1
-	sound_call gbs_vermilion_Ch4.sub1
-	sound_call gbs_vermilion_Ch4.sub1
-	sound_call gbs_vermilion_Ch4.sub1
-	sound_call gbs_vermilion_Ch4.sub1
-	sound_loop 0, gbs_vermilion_Ch4.mainloop
+	sound_loop 4, gbs_gen1_vermilion_Ch4.loop1
+	sound_call gbs_gen1_vermilion_Ch4.sub1
+	sound_call gbs_gen1_vermilion_Ch4.sub1
+	sound_call gbs_gen1_vermilion_Ch4.sub1
+	sound_call gbs_gen1_vermilion_Ch4.sub1
+	sound_loop 0, gbs_gen1_vermilion_Ch4.mainloop
 
-gbs_vermilion_Ch4.sub1:
+gbs_gen1_vermilion_Ch4.sub1:
 	drum_note 6, 2
 	drum_note 6, 1
 	drum_note 6, 1
@@ -326,8 +326,8 @@ gbs_vermilion_Ch4.sub1:
 	sound_ret
 
 	.align 4
-	.global gbs_vermilion_Header
-gbs_vermilion_Header:
+	.global gbs_gen1_vermilion_Header
+gbs_gen1_vermilion_Header:
 	.byte 4	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -335,7 +335,7 @@ gbs_vermilion_Header:
 
 	.int voicegroup000
 
-	.int gbs_vermilion_Ch1
-	.int gbs_vermilion_Ch2
-	.int gbs_vermilion_Ch3
-	.int gbs_vermilion_Ch4
+	.int gbs_gen1_vermilion_Ch1
+	.int gbs_gen1_vermilion_Ch2
+	.int gbs_gen1_vermilion_Ch3
+	.int gbs_gen1_vermilion_Ch4

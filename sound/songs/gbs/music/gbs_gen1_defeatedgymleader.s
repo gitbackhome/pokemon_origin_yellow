@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_defeatedgymleader_Ch1:
+gbs_gen1_defeatedgymleader_Ch1:
 	gbs_switch 0
 	tempo 112
 	volume 7, 7
@@ -25,7 +25,7 @@ gbs_defeatedgymleader_Ch1:
 	note A_, 8
 	note_type 12, 10, 7
 	note A_, 8
-gbs_defeatedgymleader_Ch1.mainloop:
+gbs_gen1_defeatedgymleader_Ch1.mainloop:
 	note_type 12, 11, 2
 	octave 3
 	note A_, 2
@@ -164,9 +164,9 @@ gbs_defeatedgymleader_Ch1.mainloop:
 	note_type 12, 10, 7
 	note G_, 8
 	note E_, 8
-	sound_loop 0, gbs_defeatedgymleader_Ch1.mainloop
+	sound_loop 0, gbs_gen1_defeatedgymleader_Ch1.mainloop
 
-gbs_defeatedgymleader_Ch2:
+gbs_gen1_defeatedgymleader_Ch2:
 	gbs_switch 1
 	duty_cycle 2
 	vibrato 24, 2, 4
@@ -185,7 +185,7 @@ gbs_defeatedgymleader_Ch2:
 	note Fs, 8
 	note_type 12, 11, 7
 	note Fs, 8
-gbs_defeatedgymleader_Ch2.mainloop:
+gbs_gen1_defeatedgymleader_Ch2.mainloop:
 	note_type 12, 12, 2
 	octave 4
 	note D_, 2
@@ -353,9 +353,9 @@ gbs_defeatedgymleader_Ch2.mainloop:
 	note B_, 1
 	octave 4
 	note Cs, 1
-	sound_loop 0, gbs_defeatedgymleader_Ch2.mainloop
+	sound_loop 0, gbs_gen1_defeatedgymleader_Ch2.mainloop
 
-gbs_defeatedgymleader_Ch3:
+gbs_gen1_defeatedgymleader_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
 	vibrato 16, 1, 2
@@ -373,7 +373,7 @@ gbs_defeatedgymleader_Ch3:
 	octave 5
 	note D_, 1
 	note Fs, 8
-gbs_defeatedgymleader_Ch3.mainloop:
+gbs_gen1_defeatedgymleader_Ch3.mainloop:
 	octave 4
 	note Fs, 1
 	rest 1
@@ -607,11 +607,11 @@ gbs_defeatedgymleader_Ch3.mainloop:
 	note A_, 2
 	note G_, 2
 	note E_, 2
-	sound_loop 0, gbs_defeatedgymleader_Ch3.mainloop
+	sound_loop 0, gbs_gen1_defeatedgymleader_Ch3.mainloop
 
 	.align 4
-	.global gbs_defeatedgymleader_Header
-gbs_defeatedgymleader_Header:
+	.global gbs_gen1_defeatedgymleader_Header
+gbs_gen1_defeatedgymleader_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -619,6 +619,6 @@ gbs_defeatedgymleader_Header:
 
 	.int voicegroup000
 
-	.int gbs_defeatedgymleader_Ch1
-	.int gbs_defeatedgymleader_Ch2
-	.int gbs_defeatedgymleader_Ch3
+	.int gbs_gen1_defeatedgymleader_Ch1
+	.int gbs_gen1_defeatedgymleader_Ch2
+	.int gbs_gen1_defeatedgymleader_Ch3

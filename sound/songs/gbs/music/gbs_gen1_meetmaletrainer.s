@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_meetmaletrainer_Ch1:
+gbs_gen1_meetmaletrainer_Ch1:
 	gbs_switch 0
 	tempo 112
 	volume 7, 7
@@ -18,7 +18,7 @@ gbs_meetmaletrainer_Ch1:
 	note E_, 1
 	note F_, 12
 	rest 16
-gbs_meetmaletrainer_Ch1.mainloop:
+gbs_gen1_meetmaletrainer_Ch1.mainloop:
 	octave 3
 	note B_, 4
 	note A_, 4
@@ -34,9 +34,9 @@ gbs_meetmaletrainer_Ch1.mainloop:
 	octave 4
 	note D_, 8
 	note E_, 16
-	sound_loop 0, gbs_meetmaletrainer_Ch1.mainloop
+	sound_loop 0, gbs_gen1_meetmaletrainer_Ch1.mainloop
 
-gbs_meetmaletrainer_Ch2:
+gbs_gen1_meetmaletrainer_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 24, 2, 2
@@ -53,7 +53,7 @@ gbs_meetmaletrainer_Ch2:
 	rest 3
 	note E_, 1
 	rest 9
-gbs_meetmaletrainer_Ch2.mainloop:
+gbs_gen1_meetmaletrainer_Ch2.mainloop:
 	note_type 12, 12, 4
 	octave 4
 	note E_, 6
@@ -76,9 +76,9 @@ gbs_meetmaletrainer_Ch2.mainloop:
 	note Fs, 8
 	octave 4
 	note Cs, 8
-	sound_loop 0, gbs_meetmaletrainer_Ch2.mainloop
+	sound_loop 0, gbs_gen1_meetmaletrainer_Ch2.mainloop
 
-gbs_meetmaletrainer_Ch3:
+gbs_gen1_meetmaletrainer_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
 	rest 6
@@ -103,7 +103,7 @@ gbs_meetmaletrainer_Ch3:
 	rest 1
 	note Fs, 1
 	rest 1
-gbs_meetmaletrainer_Ch3.mainloop:
+gbs_gen1_meetmaletrainer_Ch3.mainloop:
 	note E_, 1
 	rest 1
 	note B_, 1
@@ -190,11 +190,11 @@ gbs_meetmaletrainer_Ch3.mainloop:
 	rest 1
 	note Ds, 1
 	rest 1
-	sound_loop 0, gbs_meetmaletrainer_Ch3.mainloop
+	sound_loop 0, gbs_gen1_meetmaletrainer_Ch3.mainloop
 
 	.align 4
-	.global gbs_meetmaletrainer_Header
-gbs_meetmaletrainer_Header:
+	.global gbs_gen1_meetmaletrainer_Header
+gbs_gen1_meetmaletrainer_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -202,6 +202,6 @@ gbs_meetmaletrainer_Header:
 
 	.int voicegroup000
 
-	.int gbs_meetmaletrainer_Ch1
-	.int gbs_meetmaletrainer_Ch2
-	.int gbs_meetmaletrainer_Ch3
+	.int gbs_gen1_meetmaletrainer_Ch1
+	.int gbs_gen1_meetmaletrainer_Ch2
+	.int gbs_gen1_meetmaletrainer_Ch3

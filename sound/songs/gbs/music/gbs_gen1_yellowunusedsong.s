@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_yellowunusedsong_Ch1:
+gbs_gen1_yellowunusedsong_Ch1:
 	gbs_switch 0
 	tempo 140
 	volume 7, 7
@@ -30,7 +30,7 @@ gbs_yellowunusedsong_Ch1:
 	note A_, 6
 	note G_, 6
 	note A_, 12
-gbs_yellowunusedsong_Ch1.mainloop:
+gbs_gen1_yellowunusedsong_Ch1.mainloop:
 	note A_, 6
 	note A_, 2
 	note A_, 2
@@ -77,9 +77,9 @@ gbs_yellowunusedsong_Ch1.mainloop:
 	note A_, 6
 	note G_, 6
 	note A_, 12
-	sound_loop 0, gbs_yellowunusedsong_Ch1.mainloop
+	sound_loop 0, gbs_gen1_yellowunusedsong_Ch1.mainloop
 
-gbs_yellowunusedsong_Ch2:
+gbs_gen1_yellowunusedsong_Ch2:
 	gbs_switch 1
 	duty_cycle 2
 	note_type 8, 12, 2
@@ -105,7 +105,7 @@ gbs_yellowunusedsong_Ch2:
 	note D_, 6
 	note As, 6
 	note A_, 12
-gbs_yellowunusedsong_Ch2.mainloop:
+gbs_gen1_yellowunusedsong_Ch2.mainloop:
 	note D_, 6
 	note D_, 2
 	note D_, 2
@@ -162,9 +162,9 @@ gbs_yellowunusedsong_Ch2.mainloop:
 	note D_, 6
 	note As, 6
 	note A_, 12
-	sound_loop 0, gbs_yellowunusedsong_Ch2.mainloop
+	sound_loop 0, gbs_gen1_yellowunusedsong_Ch2.mainloop
 
-gbs_yellowunusedsong_Ch3:
+gbs_gen1_yellowunusedsong_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
 	vibrato 2, 1, 5
@@ -176,7 +176,7 @@ gbs_yellowunusedsong_Ch3:
 	note Ds, 8
 	note G_, 8
 	note As, 8
-gbs_yellowunusedsong_Ch3.mainloop:
+gbs_gen1_yellowunusedsong_Ch3.mainloop:
 	note A_, 8
 	note As, 8
 	note G_, 8
@@ -202,9 +202,9 @@ gbs_yellowunusedsong_Ch3.mainloop:
 	note Ds, 8
 	note G_, 8
 	note As, 8
-	sound_loop 0, gbs_yellowunusedsong_Ch3.mainloop
+	sound_loop 0, gbs_gen1_yellowunusedsong_Ch3.mainloop
 
-gbs_yellowunusedsong_Ch4:
+gbs_gen1_yellowunusedsong_Ch4:
 	gbs_switch 3
 	drum_speed 12
 	drum_note 3, 4
@@ -233,7 +233,7 @@ gbs_yellowunusedsong_Ch4:
 	drum_note 3, 2
 	drum_note 3, 4
 	drum_note 3, 4
-gbs_yellowunusedsong_Ch4.mainloop:
+gbs_gen1_yellowunusedsong_Ch4.mainloop:
 	drum_note 3, 4
 	drum_speed 8
 	drum_note 3, 2
@@ -325,11 +325,11 @@ gbs_yellowunusedsong_Ch4.mainloop:
 	drum_note 3, 2
 	drum_note 3, 4
 	drum_note 3, 4
-	sound_loop 0, gbs_yellowunusedsong_Ch4.mainloop
+	sound_loop 0, gbs_gen1_yellowunusedsong_Ch4.mainloop
 
 	.align 4
-	.global gbs_yellowunusedsong_Header
-gbs_yellowunusedsong_Header:
+	.global gbs_gen1_yellowunusedsong_Header
+gbs_gen1_yellowunusedsong_Header:
 	.byte 4	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -337,7 +337,7 @@ gbs_yellowunusedsong_Header:
 
 	.int voicegroup000
 
-	.int gbs_yellowunusedsong_Ch1
-	.int gbs_yellowunusedsong_Ch2
-	.int gbs_yellowunusedsong_Ch3
-	.int gbs_yellowunusedsong_Ch4
+	.int gbs_gen1_yellowunusedsong_Ch1
+	.int gbs_gen1_yellowunusedsong_Ch2
+	.int gbs_gen1_yellowunusedsong_Ch3
+	.int gbs_gen1_yellowunusedsong_Ch4

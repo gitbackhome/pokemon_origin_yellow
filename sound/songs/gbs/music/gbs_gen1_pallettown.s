@@ -151,7 +151,7 @@ gbs_pallettown_Ch1.mainloop:
 	note D_, 2
 	sound_loop 0, gbs_pallettown_Ch1.mainloop
 
-	sound_ret ; unused
+	sound_ret
 
 gbs_pallettown_Ch2:
 	gbs_switch 1
@@ -265,7 +265,7 @@ gbs_pallettown_Ch2.mainloop:
 	note A_, 8
 	sound_loop 0, gbs_pallettown_Ch2.mainloop
 
-	sound_ret ; unused
+	sound_ret
 
 gbs_pallettown_Ch3:
 	gbs_switch 2
@@ -317,11 +317,11 @@ gbs_pallettown_Ch3.mainloop:
 	note Fs, 8
 	sound_loop 0, gbs_pallettown_Ch3.mainloop
 
-	sound_ret ; unused
+	sound_ret
 
 	.align 4
-	.global gbs_pallettown_Header
-gbs_pallettown_Header:
+	.global gbs_gen1_pallettown_Header
+gbs_gen1_pallettown_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority

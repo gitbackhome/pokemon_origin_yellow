@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_gamecorner_Ch1:
+gbs_gen1_gamecorner_Ch1:
 	gbs_switch 0
 	tempo 120
 	volume 7, 7
@@ -20,7 +20,7 @@ gbs_gamecorner_Ch1:
 	note Ds, 2
 	note Cs, 2
 	note Ds, 16
-gbs_gamecorner_Ch1.mainloop:
+gbs_gen1_gamecorner_Ch1.mainloop:
 	note_type 12, 11, 5
 	octave 3
 	note Cs, 4
@@ -185,9 +185,9 @@ gbs_gamecorner_Ch1.mainloop:
 	note Gs, 1
 	note G_, 1
 	note Gs, 8
-	sound_loop 0, gbs_gamecorner_Ch1.mainloop
+	sound_loop 0, gbs_gen1_gamecorner_Ch1.mainloop
 
-gbs_gamecorner_Ch2:
+gbs_gen1_gamecorner_Ch2:
 	gbs_switch 1
 	duty_cycle 2
 	vibrato 10, 2, 3
@@ -210,7 +210,7 @@ gbs_gamecorner_Ch2:
 	note B_, 1
 	note As, 1
 	note B_, 8
-gbs_gamecorner_Ch2.mainloop:
+gbs_gen1_gamecorner_Ch2.mainloop:
 	duty_cycle 2
 	note_type 12, 12, 7
 	octave 3
@@ -344,9 +344,9 @@ gbs_gamecorner_Ch2.mainloop:
 	note A_, 4
 	note Fs, 4
 	note B_, 16
-	sound_loop 0, gbs_gamecorner_Ch2.mainloop
+	sound_loop 0, gbs_gen1_gamecorner_Ch2.mainloop
 
-gbs_gamecorner_Ch3:
+gbs_gen1_gamecorner_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 3
 	octave 5
@@ -373,14 +373,14 @@ gbs_gamecorner_Ch3:
 	rest 1
 	note Ds, 1
 	rest 1
-gbs_gamecorner_Ch3.mainloop:
-	sound_call gbs_gamecorner_Ch3.sub1
-	sound_call gbs_gamecorner_Ch3.sub2
-	sound_call gbs_gamecorner_Ch3.sub3
-	sound_call gbs_gamecorner_Ch3.sub4
-	sound_call gbs_gamecorner_Ch3.sub5
-	sound_call gbs_gamecorner_Ch3.sub6
-	sound_call gbs_gamecorner_Ch3.sub7
+gbs_gen1_gamecorner_Ch3.mainloop:
+	sound_call gbs_gen1_gamecorner_Ch3.sub1
+	sound_call gbs_gen1_gamecorner_Ch3.sub2
+	sound_call gbs_gen1_gamecorner_Ch3.sub3
+	sound_call gbs_gen1_gamecorner_Ch3.sub4
+	sound_call gbs_gen1_gamecorner_Ch3.sub5
+	sound_call gbs_gen1_gamecorner_Ch3.sub6
+	sound_call gbs_gen1_gamecorner_Ch3.sub7
 	note Ds, 1
 	rest 1
 	note A_, 1
@@ -399,13 +399,13 @@ gbs_gamecorner_Ch3.mainloop:
 	rest 1
 	note Fs, 1
 	rest 1
-	sound_call gbs_gamecorner_Ch3.sub1
-	sound_call gbs_gamecorner_Ch3.sub2
-	sound_call gbs_gamecorner_Ch3.sub3
-	sound_call gbs_gamecorner_Ch3.sub4
-	sound_call gbs_gamecorner_Ch3.sub5
-	sound_call gbs_gamecorner_Ch3.sub6
-	sound_call gbs_gamecorner_Ch3.sub7
+	sound_call gbs_gen1_gamecorner_Ch3.sub1
+	sound_call gbs_gen1_gamecorner_Ch3.sub2
+	sound_call gbs_gen1_gamecorner_Ch3.sub3
+	sound_call gbs_gen1_gamecorner_Ch3.sub4
+	sound_call gbs_gen1_gamecorner_Ch3.sub5
+	sound_call gbs_gen1_gamecorner_Ch3.sub6
+	sound_call gbs_gen1_gamecorner_Ch3.sub7
 	note E_, 1
 	rest 3
 	octave 3
@@ -418,9 +418,9 @@ gbs_gamecorner_Ch3.mainloop:
 	rest 3
 	note B_, 1
 	rest 1
-	sound_call gbs_gamecorner_Ch3.sub5
-	sound_call gbs_gamecorner_Ch3.sub1
-	sound_call gbs_gamecorner_Ch3.sub8
+	sound_call gbs_gen1_gamecorner_Ch3.sub5
+	sound_call gbs_gen1_gamecorner_Ch3.sub1
+	sound_call gbs_gen1_gamecorner_Ch3.sub8
 	note E_, 1
 	rest 1
 	note Gs, 1
@@ -439,13 +439,13 @@ gbs_gamecorner_Ch3.mainloop:
 	rest 1
 	note E_, 1
 	rest 1
-	sound_call gbs_gamecorner_Ch3.sub5
-	sound_call gbs_gamecorner_Ch3.sub1
-	sound_call gbs_gamecorner_Ch3.sub8
-	sound_call gbs_gamecorner_Ch3.sub2
-	sound_loop 0, gbs_gamecorner_Ch3.mainloop
+	sound_call gbs_gen1_gamecorner_Ch3.sub5
+	sound_call gbs_gen1_gamecorner_Ch3.sub1
+	sound_call gbs_gen1_gamecorner_Ch3.sub8
+	sound_call gbs_gen1_gamecorner_Ch3.sub2
+	sound_loop 0, gbs_gen1_gamecorner_Ch3.mainloop
 
-gbs_gamecorner_Ch3.sub1:
+gbs_gen1_gamecorner_Ch3.sub1:
 	note E_, 1
 	rest 1
 	note Gs, 1
@@ -468,7 +468,7 @@ gbs_gamecorner_Ch3.sub1:
 	rest 1
 	sound_ret
 
-gbs_gamecorner_Ch3.sub2:
+gbs_gen1_gamecorner_Ch3.sub2:
 	note E_, 1
 	rest 1
 	note Gs, 1
@@ -491,7 +491,7 @@ gbs_gamecorner_Ch3.sub2:
 	rest 1
 	sound_ret
 
-gbs_gamecorner_Ch3.sub3:
+gbs_gen1_gamecorner_Ch3.sub3:
 	note E_, 1
 	rest 1
 	note B_, 1
@@ -514,7 +514,7 @@ gbs_gamecorner_Ch3.sub3:
 	rest 1
 	sound_ret
 
-gbs_gamecorner_Ch3.sub4:
+gbs_gen1_gamecorner_Ch3.sub4:
 	note Ds, 1
 	rest 1
 	note A_, 1
@@ -537,7 +537,7 @@ gbs_gamecorner_Ch3.sub4:
 	rest 1
 	sound_ret
 
-gbs_gamecorner_Ch3.sub5:
+gbs_gen1_gamecorner_Ch3.sub5:
 	note Ds, 1
 	rest 1
 	note Fs, 1
@@ -560,7 +560,7 @@ gbs_gamecorner_Ch3.sub5:
 	rest 1
 	sound_ret
 
-gbs_gamecorner_Ch3.sub6:
+gbs_gen1_gamecorner_Ch3.sub6:
 	note Ds, 1
 	rest 1
 	note Fs, 1
@@ -583,7 +583,7 @@ gbs_gamecorner_Ch3.sub6:
 	rest 1
 	sound_ret
 
-gbs_gamecorner_Ch3.sub7:
+gbs_gen1_gamecorner_Ch3.sub7:
 	note Fs, 1
 	rest 1
 	note B_, 1
@@ -606,7 +606,7 @@ gbs_gamecorner_Ch3.sub7:
 	rest 1
 	sound_ret
 
-gbs_gamecorner_Ch3.sub8:
+gbs_gen1_gamecorner_Ch3.sub8:
 	note Fs, 1
 	rest 1
 	note A_, 1
@@ -630,8 +630,8 @@ gbs_gamecorner_Ch3.sub8:
 	sound_ret
 
 	.align 4
-	.global gbs_gamecorner_Header
-gbs_gamecorner_Header:
+	.global gbs_gen1_gamecorner_Header
+gbs_gen1_gamecorner_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -639,6 +639,6 @@ gbs_gamecorner_Header:
 
 	.int voicegroup000
 
-	.int gbs_gamecorner_Ch1
-	.int gbs_gamecorner_Ch2
-	.int gbs_gamecorner_Ch3
+	.int gbs_gen1_gamecorner_Ch1
+	.int gbs_gen1_gamecorner_Ch2
+	.int gbs_gen1_gamecorner_Ch3

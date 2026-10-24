@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_silphco_Ch1:
+gbs_gen1_silphco_Ch1:
 	gbs_switch 0
 	tempo 160
 	volume 7, 7
@@ -38,7 +38,7 @@ gbs_silphco_Ch1:
 	rest 6
 	note B_, 2
 	rest 2
-gbs_silphco_Ch1.mainloop:
+gbs_gen1_silphco_Ch1.mainloop:
 	note G_, 2
 	rest 2
 	note B_, 2
@@ -190,9 +190,9 @@ gbs_silphco_Ch1.mainloop:
 	note As, 2
 	note B_, 2
 	note As, 2
-	sound_call gbs_silphco_Ch1.sub1
-	sound_call gbs_silphco_Ch1.sub1
-	sound_call gbs_silphco_Ch1.sub1
+	sound_call gbs_gen1_silphco_Ch1.sub1
+	sound_call gbs_gen1_silphco_Ch1.sub1
+	sound_call gbs_gen1_silphco_Ch1.sub1
 	rest 4
 	note C_, 2
 	rest 6
@@ -370,9 +370,9 @@ gbs_silphco_Ch1.mainloop:
 	rest 6
 	note B_, 2
 	rest 2
-	sound_loop 0, gbs_silphco_Ch1.mainloop
+	sound_loop 0, gbs_gen1_silphco_Ch1.mainloop
 
-gbs_silphco_Ch1.sub1:
+gbs_gen1_silphco_Ch1.sub1:
 	octave 2
 	note B_, 2
 	note As, 2
@@ -399,7 +399,7 @@ gbs_silphco_Ch1.sub1:
 	note C_, 2
 	sound_ret
 
-gbs_silphco_Ch2:
+gbs_gen1_silphco_Ch2:
 	gbs_switch 1
 	vibrato 10, 3, 2
 	duty_cycle 3
@@ -432,7 +432,7 @@ gbs_silphco_Ch2:
 	rest 6
 	note Gs, 2
 	rest 2
-gbs_silphco_Ch2.mainloop:
+gbs_gen1_silphco_Ch2.mainloop:
 	note E_, 2
 	rest 2
 	note G_, 2
@@ -781,9 +781,9 @@ gbs_silphco_Ch2.mainloop:
 	rest 6
 	note Gs, 2
 	rest 2
-	sound_loop 0, gbs_silphco_Ch2.mainloop
+	sound_loop 0, gbs_gen1_silphco_Ch2.mainloop
 
-gbs_silphco_Ch3:
+gbs_gen1_silphco_Ch3:
 	gbs_switch 2
 	vibrato 8, 1, 1
 	note_type 12, 1, 1
@@ -793,7 +793,7 @@ gbs_silphco_Ch3:
 	note Ds, 4
 	note E_, 4
 	note F_, 4
-gbs_silphco_Ch3.mainloop:
+gbs_gen1_silphco_Ch3.mainloop:
 	note E_, 4
 	note Ds, 4
 	note D_, 4
@@ -1000,11 +1000,11 @@ gbs_silphco_Ch3.mainloop:
 	note Ds, 4
 	note E_, 4
 	note F_, 4
-	sound_loop 0, gbs_silphco_Ch3.mainloop
+	sound_loop 0, gbs_gen1_silphco_Ch3.mainloop
 
 	.align 4
-	.global gbs_silphco_Header
-gbs_silphco_Header:
+	.global gbs_gen1_silphco_Header
+gbs_gen1_silphco_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -1012,6 +1012,6 @@ gbs_silphco_Header:
 
 	.int voicegroup000
 
-	.int gbs_silphco_Ch1
-	.int gbs_silphco_Ch2
-	.int gbs_silphco_Ch3
+	.int gbs_gen1_silphco_Ch1
+	.int gbs_gen1_silphco_Ch2
+	.int gbs_gen1_silphco_Ch3

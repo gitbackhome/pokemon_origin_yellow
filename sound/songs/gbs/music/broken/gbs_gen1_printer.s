@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_printer_Ch3:
+gbs_gen1_printer_Ch3:
 	gbs_switch 2
 	tempo 256
 	note_type 12, 1, 0
@@ -36,7 +36,7 @@ gbs_printer_Ch3:
 	rest 1
 	note Fs, 1
 	rest 1
-	gbs_printer_Ch3.loop
+	gbs_gen1_printer_Ch3.loop
 	note E_, 1
 	rest 1
 	note B_, 1
@@ -319,11 +319,11 @@ gbs_printer_Ch3:
 	rest 1
 	note Ds, 1
 	rest 1
-	sound_loop 0, gbs_printer_Ch3.loop
+	sound_loop 0, gbs_gen1_printer_Ch3.loop
 
 	.align 4
-	.global gbs_printer_Header
-gbs_printer_Header:
+	.global gbs_gen1_printer_Header
+gbs_gen1_printer_Header:
 	.byte 1	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -331,4 +331,4 @@ gbs_printer_Header:
 
 	.int voicegroup000
 
-	.int gbs_printer_Ch3
+	.int gbs_gen1_printer_Ch3

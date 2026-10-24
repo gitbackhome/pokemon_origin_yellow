@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_oakslab_Ch1:
+gbs_gen1_oakslab_Ch1:
 	gbs_switch 0
 	tempo 140
 	volume 7, 7
@@ -21,7 +21,7 @@ gbs_oakslab_Ch1:
 	note Gs, 1
 	note A_, 1
 	note B_, 1
-gbs_oakslab_Ch1.mainloop:
+gbs_gen1_oakslab_Ch1.mainloop:
 	octave 4
 	note Cs, 4
 	octave 3
@@ -71,9 +71,9 @@ gbs_oakslab_Ch1.mainloop:
 	note E_, 4
 	note Fs, 4
 	note Gs, 4
-	sound_loop 0, gbs_oakslab_Ch1.mainloop
+	sound_loop 0, gbs_gen1_oakslab_Ch1.mainloop
 
-gbs_oakslab_Ch2:
+gbs_gen1_oakslab_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 10, 2, 5
@@ -88,7 +88,7 @@ gbs_oakslab_Ch2:
 	note E_, 1
 	note Fs, 1
 	note Gs, 1
-gbs_oakslab_Ch2.mainloop:
+gbs_gen1_oakslab_Ch2.mainloop:
 	note A_, 6
 	note Gs, 1
 	note Fs, 1
@@ -145,9 +145,9 @@ gbs_oakslab_Ch2.mainloop:
 	rest 1
 	note Fs, 1
 	rest 1
-	sound_loop 0, gbs_oakslab_Ch2.mainloop
+	sound_loop 0, gbs_gen1_oakslab_Ch2.mainloop
 
-gbs_oakslab_Ch3:
+gbs_gen1_oakslab_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 1
 	rest 2
@@ -158,7 +158,7 @@ gbs_oakslab_Ch3:
 	rest 1
 	note E_, 1
 	rest 1
-gbs_oakslab_Ch3.mainloop:
+gbs_gen1_oakslab_Ch3.mainloop:
 	note Cs, 1
 	rest 1
 	note A_, 1
@@ -393,11 +393,11 @@ gbs_oakslab_Ch3.mainloop:
 	rest 3
 	note E_, 1
 	rest 3
-	sound_loop 0, gbs_oakslab_Ch3.mainloop
+	sound_loop 0, gbs_gen1_oakslab_Ch3.mainloop
 
 	.align 4
-	.global gbs_oakslab_Header
-gbs_oakslab_Header:
+	.global gbs_gen1_oakslab_Header
+gbs_gen1_oakslab_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -405,6 +405,6 @@ gbs_oakslab_Header:
 
 	.int voicegroup000
 
-	.int gbs_oakslab_Ch1
-	.int gbs_oakslab_Ch2
-	.int gbs_oakslab_Ch3
+	.int gbs_gen1_oakslab_Ch1
+	.int gbs_gen1_oakslab_Ch2
+	.int gbs_gen1_oakslab_Ch3

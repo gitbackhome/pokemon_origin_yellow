@@ -3,12 +3,12 @@
 	.section .rodata
 	.align 1
 
-gbs_unusedsong_Ch1:
+gbs_gen1_unusedsong_Ch1:
 	gbs_switch 0
 	tempo 144
 	volume 7, 7
 	vibrato 5, 1, 6
-gbs_unusedsong_Ch1.mainloop:
+gbs_gen1_unusedsong_Ch1.mainloop:
 	note_type 12, 1, 0
 	octave 6
 	note E_, 1
@@ -183,17 +183,17 @@ gbs_unusedsong_Ch1.mainloop:
 	rest 6
 	note B_, 2
 	rest 6
-	sound_loop 0, gbs_unusedsong_Ch1.mainloop
+	sound_loop 0, gbs_gen1_unusedsong_Ch1.mainloop
 
-	sound_ret ; unused
+	sound_ret 
 
-gbs_unusedsong_Ch2:
+gbs_gen1_unusedsong_Ch2:
 	gbs_switch 1
 	tempo 144
 	volume 7, 7
 	pitch_offset 1	@ Gen 1 perfect pitch
 	vibrato 6, 1, 5
-gbs_unusedsong_Ch2.mainloop:
+gbs_gen1_unusedsong_Ch2.mainloop:
 	note_type 12, 1, 0
 	octave 6
 	note E_, 1
@@ -339,13 +339,13 @@ gbs_unusedsong_Ch2.mainloop:
 	rest 6
 	note Ds, 2
 	rest 6
-	sound_loop 0, gbs_unusedsong_Ch2.mainloop
+	sound_loop 0, gbs_gen1_unusedsong_Ch2.mainloop
 
-	sound_ret ; unused
+	sound_ret 
 
 	.align 4
-	.global gbs_unusedsong_Header
-gbs_unusedsong_Header:
+	.global gbs_gen1_unusedsong_Header
+gbs_gen1_unusedsong_Header:
 	.byte 2	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -353,5 +353,5 @@ gbs_unusedsong_Header:
 
 	.int voicegroup000
 
-	.int gbs_unusedsong_Ch1
-	.int gbs_unusedsong_Ch2
+	.int gbs_gen1_unusedsong_Ch1
+	.int gbs_gen1_unusedsong_Ch2

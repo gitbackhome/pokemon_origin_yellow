@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_defeatedtrainer_Ch1:
+gbs_gen1_defeatedtrainer_Ch1:
 	gbs_switch 0
 	tempo 224
 	volume 7, 7
@@ -26,7 +26,7 @@ gbs_defeatedtrainer_Ch1:
 	note Fs, 12
 	duty_cycle 1
 	tempo 224
-gbs_defeatedtrainer_Ch1.mainloop:
+gbs_gen1_defeatedtrainer_Ch1.mainloop:
 	note_type 4, 6, 3
 	octave 3
 	note A_, 6
@@ -97,9 +97,9 @@ gbs_defeatedtrainer_Ch1.mainloop:
 	note G_, 3
 	note A_, 3
 	note B_, 3
-	sound_loop 0, gbs_defeatedtrainer_Ch1.mainloop
+	sound_loop 0, gbs_gen1_defeatedtrainer_Ch1.mainloop
 
-gbs_defeatedtrainer_Ch2:
+gbs_gen1_defeatedtrainer_Ch2:
 	gbs_switch 1
 	duty_cycle 2
 	note_type 4, 12, 3
@@ -114,7 +114,7 @@ gbs_defeatedtrainer_Ch2:
 	note Cs, 2
 	note_type 4, 12, 4
 	note D_, 12
-gbs_defeatedtrainer_Ch2.mainloop:
+gbs_gen1_defeatedtrainer_Ch2.mainloop:
 	note_type 4, 8, 5
 	octave 4
 	note D_, 6
@@ -173,9 +173,9 @@ gbs_defeatedtrainer_Ch2.mainloop:
 	note E_, 12
 	note_type 4, 6, 7
 	note E_, 12
-	sound_loop 0, gbs_defeatedtrainer_Ch2.mainloop
+	sound_loop 0, gbs_gen1_defeatedtrainer_Ch2.mainloop
 
-gbs_defeatedtrainer_Ch3:
+gbs_gen1_defeatedtrainer_Ch3:
 	gbs_switch 2
 	note_type 4, 1, 0
 	octave 5
@@ -189,7 +189,7 @@ gbs_defeatedtrainer_Ch3:
 	note G_, 2
 	note A_, 12
 	note_type 4, 2, 1
-gbs_defeatedtrainer_Ch3.mainloop:
+gbs_gen1_defeatedtrainer_Ch3.mainloop:
 	note Fs, 3
 	rest 3
 	note Fs, 3
@@ -266,11 +266,11 @@ gbs_defeatedtrainer_Ch3.mainloop:
 	note Cs, 3
 	octave 4
 	note A_, 3
-	sound_loop 0, gbs_defeatedtrainer_Ch3.mainloop
+	sound_loop 0, gbs_gen1_defeatedtrainer_Ch3.mainloop
 
 	.align 4
-	.global gbs_defeatedtrainer_Header
-gbs_defeatedtrainer_Header:
+	.global gbs_gen1_defeatedtrainer_Header
+gbs_gen1_defeatedtrainer_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -278,6 +278,6 @@ gbs_defeatedtrainer_Header:
 
 	.int voicegroup000
 
-	.int gbs_defeatedtrainer_Ch1
-	.int gbs_defeatedtrainer_Ch2
-	.int gbs_defeatedtrainer_Ch3
+	.int gbs_gen1_defeatedtrainer_Ch1
+	.int gbs_gen1_defeatedtrainer_Ch2
+	.int gbs_gen1_defeatedtrainer_Ch3

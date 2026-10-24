@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_meetprofoak_Ch1:
+gbs_gen1_meetprofoak_Ch1:
 	gbs_switch 0
 	tempo 112
 	volume 7, 7
@@ -43,7 +43,7 @@ gbs_meetprofoak_Ch1:
 	note Ds, 4
 	note Fs, 2
 	note Fs, 4
-gbs_meetprofoak_Ch1.mainloop:
+gbs_gen1_meetprofoak_Ch1.mainloop:
 	note Fs, 6
 	note E_, 4
 	note A_, 2
@@ -76,9 +76,9 @@ gbs_meetprofoak_Ch1.mainloop:
 	note E_, 4
 	note Gs, 2
 	note Gs, 4
-	sound_loop 0, gbs_meetprofoak_Ch1.mainloop
+	sound_loop 0, gbs_gen1_meetprofoak_Ch1.mainloop
 
-gbs_meetprofoak_Ch2:
+gbs_gen1_meetprofoak_Ch2:
 	gbs_switch 1
 	vibrato 8, 1, 1
 	duty_cycle 2
@@ -159,7 +159,7 @@ gbs_meetprofoak_Ch2:
 	note B_, 2
 	note B_, 4
 	note_type 12, 11, 5
-gbs_meetprofoak_Ch2.mainloop:
+gbs_gen1_meetprofoak_Ch2.mainloop:
 	octave 4
 	note Cs, 6
 	octave 3
@@ -209,9 +209,9 @@ gbs_meetprofoak_Ch2.mainloop:
 	note E_, 1
 	note_type 12, 11, 7
 	note Gs, 16
-	sound_loop 0, gbs_meetprofoak_Ch2.mainloop
+	sound_loop 0, gbs_gen1_meetprofoak_Ch2.mainloop
 
-gbs_meetprofoak_Ch3:
+gbs_gen1_meetprofoak_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 2
 	rest 10
@@ -339,8 +339,8 @@ gbs_meetprofoak_Ch3:
 	rest 1
 	note Gs, 1
 	rest 1
-gbs_meetprofoak_Ch3.mainloop:
-gbs_meetprofoak_Ch3.loop1:
+gbs_gen1_meetprofoak_Ch3.mainloop:
+gbs_gen1_meetprofoak_Ch3.loop1:
 	octave 4
 	note A_, 1
 	rest 1
@@ -365,8 +365,8 @@ gbs_meetprofoak_Ch3.loop1:
 	octave 5
 	note Cs, 1
 	rest 1
-	sound_loop 2, gbs_meetprofoak_Ch3.loop1
-gbs_meetprofoak_Ch3.loop2:
+	sound_loop 2, gbs_gen1_meetprofoak_Ch3.loop1
+gbs_gen1_meetprofoak_Ch3.loop2:
 	octave 4
 	note Gs, 1
 	rest 1
@@ -384,8 +384,8 @@ gbs_meetprofoak_Ch3.loop2:
 	rest 1
 	note B_, 1
 	rest 1
-	sound_loop 2, gbs_meetprofoak_Ch3.loop2
-gbs_meetprofoak_Ch3.loop3:
+	sound_loop 2, gbs_gen1_meetprofoak_Ch3.loop2
+gbs_gen1_meetprofoak_Ch3.loop3:
 	note Fs, 1
 	rest 1
 	note A_, 1
@@ -402,8 +402,8 @@ gbs_meetprofoak_Ch3.loop3:
 	rest 1
 	note A_, 1
 	rest 1
-	sound_loop 2, gbs_meetprofoak_Ch3.loop3
-gbs_meetprofoak_Ch3.loop4:
+	sound_loop 2, gbs_gen1_meetprofoak_Ch3.loop3
+gbs_gen1_meetprofoak_Ch3.loop4:
 	note Gs, 1
 	rest 1
 	note B_, 1
@@ -420,12 +420,12 @@ gbs_meetprofoak_Ch3.loop4:
 	rest 1
 	note B_, 1
 	rest 1
-	sound_loop 2, gbs_meetprofoak_Ch3.loop4
-	sound_loop 0, gbs_meetprofoak_Ch3.mainloop
+	sound_loop 2, gbs_gen1_meetprofoak_Ch3.loop4
+	sound_loop 0, gbs_gen1_meetprofoak_Ch3.mainloop
 
 	.align 4
-	.global gbs_meetprofoak_Header
-gbs_meetprofoak_Header:
+	.global gbs_gen1_meetprofoak_Header
+gbs_gen1_meetprofoak_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -433,6 +433,6 @@ gbs_meetprofoak_Header:
 
 	.int voicegroup000
 
-	.int gbs_meetprofoak_Ch1
-	.int gbs_meetprofoak_Ch2
-	.int gbs_meetprofoak_Ch3
+	.int gbs_gen1_meetprofoak_Ch1
+	.int gbs_gen1_meetprofoak_Ch2
+	.int gbs_gen1_meetprofoak_Ch3

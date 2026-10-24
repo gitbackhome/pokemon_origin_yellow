@@ -3,14 +3,14 @@
 	.section .rodata
 	.align 1
 
-gbs_ssanne_Ch1:
+gbs_gen1_ssanne_Ch1:
 	gbs_switch 0
 	tempo 128
 	volume 7, 7
 	duty_cycle 1
 	vibrato 8, 3, 4
 	pitch_offset 1	@ Gen 1 perfect pitch
-gbs_ssanne_Ch1.mainloop:
+gbs_gen1_ssanne_Ch1.mainloop:
 	note_type 12, 10, 4
 	rest 12
 	octave 3
@@ -109,13 +109,13 @@ gbs_ssanne_Ch1.mainloop:
 	rest 4
 	octave 3
 	note D_, 8
-	sound_loop 0, gbs_ssanne_Ch1.mainloop
+	sound_loop 0, gbs_gen1_ssanne_Ch1.mainloop
 
-gbs_ssanne_Ch2:
+gbs_gen1_ssanne_Ch2:
 	gbs_switch 1
 	duty_cycle 0
 	vibrato 12, 2, 4
-gbs_ssanne_Ch2.mainloop:
+gbs_gen1_ssanne_Ch2.mainloop:
 	note_type 12, 12, 5
 	octave 3
 	note A_, 2
@@ -283,11 +283,11 @@ gbs_ssanne_Ch2.mainloop:
 	note Cs, 3
 	octave 3
 	note B_, 3
-	sound_loop 0, gbs_ssanne_Ch2.mainloop
+	sound_loop 0, gbs_gen1_ssanne_Ch2.mainloop
 
-gbs_ssanne_Ch3:
+gbs_gen1_ssanne_Ch3:
 	gbs_switch 2
-gbs_ssanne_Ch3.mainloop:
+gbs_gen1_ssanne_Ch3.mainloop:
 	note_type 12, 1, 3
 	rest 16
 	rest 12
@@ -340,11 +340,11 @@ gbs_ssanne_Ch3.mainloop:
 	note Fs, 8
 	note Gs, 8
 	note B_, 8
-	sound_loop 0, gbs_ssanne_Ch3.mainloop
+	sound_loop 0, gbs_gen1_ssanne_Ch3.mainloop
 
 	.align 4
-	.global gbs_ssanne_Header
-gbs_ssanne_Header:
+	.global gbs_gen1_ssanne_Header
+gbs_gen1_ssanne_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -352,6 +352,6 @@ gbs_ssanne_Header:
 
 	.int voicegroup000
 
-	.int gbs_ssanne_Ch1
-	.int gbs_ssanne_Ch2
-	.int gbs_ssanne_Ch3
+	.int gbs_gen1_ssanne_Ch1
+	.int gbs_gen1_ssanne_Ch2
+	.int gbs_gen1_ssanne_Ch3

@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_pokemontower_Ch1:
+gbs_gen1_pokemontower_Ch1:
 	gbs_switch 0
 	tempo 152
 	volume 7, 7
@@ -14,7 +14,7 @@ gbs_pokemontower_Ch1:
 	rest 4
 	octave 4
 	note B_, 12
-gbs_pokemontower_Ch1.mainloop:
+gbs_gen1_pokemontower_Ch1.mainloop:
 	note_type 12, 11, 4
 	octave 4
 	note G_, 1
@@ -142,9 +142,9 @@ gbs_pokemontower_Ch1.mainloop:
 	octave 5
 	note C_, 16
 	note C_, 16
-	sound_loop 0, gbs_pokemontower_Ch1.mainloop
+	sound_loop 0, gbs_gen1_pokemontower_Ch1.mainloop
 
-gbs_pokemontower_Ch2:
+gbs_gen1_pokemontower_Ch2:
 	gbs_switch 1
 	vibrato 20, 3, 4
 	duty_cycle 3
@@ -153,7 +153,7 @@ gbs_pokemontower_Ch2:
 	note C_, 12
 	octave 4
 	note E_, 4
-gbs_pokemontower_Ch2.mainloop:
+gbs_gen1_pokemontower_Ch2.mainloop:
 	note_type 12, 12, 1
 	octave 5
 	note C_, 8
@@ -293,16 +293,16 @@ gbs_pokemontower_Ch2.mainloop:
 	vibrato 0, 3, 4
 	note_type 12, 10, 7
 	note C_, 16
-	sound_loop 0, gbs_pokemontower_Ch2.mainloop
+	sound_loop 0, gbs_gen1_pokemontower_Ch2.mainloop
 
-gbs_pokemontower_Ch3:
+gbs_gen1_pokemontower_Ch3:
 	gbs_switch 2
 	vibrato 4, 1, 1
 	note_type 12, 1, 3
 	rest 8
 	octave 5
 	note G_, 8
-gbs_pokemontower_Ch3.mainloop:
+gbs_gen1_pokemontower_Ch3.mainloop:
 	note E_, 1
 	rest 7
 	note E_, 1
@@ -458,11 +458,11 @@ gbs_pokemontower_Ch3.mainloop:
 	rest 1
 	note Ds, 1
 	rest 1
-	sound_loop 0, gbs_pokemontower_Ch3.mainloop
+	sound_loop 0, gbs_gen1_pokemontower_Ch3.mainloop
 
 	.align 4
-	.global gbs_pokemontower_Header
-gbs_pokemontower_Header:
+	.global gbs_gen1_pokemontower_Header
+gbs_gen1_pokemontower_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -470,6 +470,6 @@ gbs_pokemontower_Header:
 
 	.int voicegroup000
 
-	.int gbs_pokemontower_Ch1
-	.int gbs_pokemontower_Ch2
-	.int gbs_pokemontower_Ch3
+	.int gbs_gen1_pokemontower_Ch1
+	.int gbs_gen1_pokemontower_Ch2
+	.int gbs_gen1_pokemontower_Ch3

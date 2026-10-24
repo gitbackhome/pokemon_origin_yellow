@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_celadon_Ch1:
+gbs_gen1_celadon_Ch1:
 	gbs_switch 0
 	tempo 144
 	volume 7, 7
@@ -13,7 +13,7 @@ gbs_celadon_Ch1:
 	rest 8
 	octave 3
 	note D_, 8
-gbs_celadon_Ch1.mainloop:
+gbs_gen1_celadon_Ch1.mainloop:
 	duty_cycle 2
 	note_type 12, 11, 2
 	note G_, 4
@@ -109,9 +109,9 @@ gbs_celadon_Ch1.mainloop:
 	note G_, 4
 	note Fs, 4
 	note A_, 4
-	sound_loop 0, gbs_celadon_Ch1.mainloop
+	sound_loop 0, gbs_gen1_celadon_Ch1.mainloop
 
-gbs_celadon_Ch2:
+gbs_gen1_celadon_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	note_type 12, 12, 2
@@ -126,7 +126,7 @@ gbs_celadon_Ch2:
 	note G_, 1
 	note_type 12, 10, 0
 	note A_, 8
-gbs_celadon_Ch2.mainloop:
+gbs_gen1_celadon_Ch2.mainloop:
 	duty_cycle 2
 	note_type 12, 12, 2
 	octave 4
@@ -227,9 +227,9 @@ gbs_celadon_Ch2.mainloop:
 	note D_, 2
 	note E_, 2
 	note D_, 8
-	sound_loop 0, gbs_celadon_Ch2.mainloop
+	sound_loop 0, gbs_gen1_celadon_Ch2.mainloop
 
-gbs_celadon_Ch3:
+gbs_gen1_celadon_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 3
 	rest 8
@@ -242,7 +242,7 @@ gbs_celadon_Ch3:
 	note E_, 1
 	note Fs, 1
 	note G_, 1
-gbs_celadon_Ch3.mainloop:
+gbs_gen1_celadon_Ch3.mainloop:
 	octave 4
 	note D_, 2
 	note B_, 2
@@ -411,11 +411,11 @@ gbs_celadon_Ch3.mainloop:
 	note G_, 2
 	note Fs, 2
 	note E_, 2
-	sound_loop 0, gbs_celadon_Ch3.mainloop
+	sound_loop 0, gbs_gen1_celadon_Ch3.mainloop
 
 	.align 4
-	.global gbs_celadon_Header
-gbs_celadon_Header:
+	.global gbs_gen1_celadon_Header
+gbs_gen1_celadon_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -423,6 +423,6 @@ gbs_celadon_Header:
 
 	.int voicegroup000
 
-	.int gbs_celadon_Ch1
-	.int gbs_celadon_Ch2
-	.int gbs_celadon_Ch3
+	.int gbs_gen1_celadon_Ch1
+	.int gbs_gen1_celadon_Ch2
+	.int gbs_gen1_celadon_Ch3

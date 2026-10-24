@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_yellowintro_Ch1:
+gbs_gen1_yellowintro_Ch1:
 	gbs_switch 0
 	tempo 116
 	volume 7, 7
@@ -105,7 +105,7 @@ gbs_yellowintro_Ch1:
 	note B_, 16
 	sound_ret
 
-gbs_yellowintro_Ch2:
+gbs_gen1_yellowintro_Ch2:
 	gbs_switch 1
 	duty_cycle 2
 	vibrato 6, 1, 5
@@ -208,7 +208,7 @@ gbs_yellowintro_Ch2:
 	note E_, 16
 	sound_ret
 
-gbs_yellowintro_Ch3:
+gbs_gen1_yellowintro_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
 	octave 4
@@ -490,8 +490,8 @@ gbs_yellowintro_Ch3:
 	sound_ret
 
 	.align 4
-	.global gbs_yellowintro_Header
-gbs_yellowintro_Header:
+	.global gbs_gen1_yellowintro_Header
+gbs_gen1_yellowintro_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -499,6 +499,6 @@ gbs_yellowintro_Header:
 
 	.int voicegroup000
 
-	.int gbs_yellowintro_Ch1
-	.int gbs_yellowintro_Ch2
-	.int gbs_yellowintro_Ch3
+	.int gbs_gen1_yellowintro_Ch1
+	.int gbs_gen1_yellowintro_Ch2
+	.int gbs_gen1_yellowintro_Ch3

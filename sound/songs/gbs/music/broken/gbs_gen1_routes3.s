@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_routes3_Ch1:
+gbs_gen1_routes3_Ch1:
 	gbs_switch 0
 	tempo 148
 	volume 7, 7
@@ -20,7 +20,7 @@ gbs_routes3_Ch1:
 	note E_, 1
 	rest 16
 	rest 15
-gbs_routes3_Ch1.mainloop:
+gbs_gen1_routes3_Ch1.mainloop:
 	note_type 12, 11, 5
 	note E_, 6
 	note D_, 1
@@ -79,9 +79,9 @@ gbs_routes3_Ch1.mainloop:
 	note_type 8, 9, 0
 	note F_, 12
 	note G_, 12
-	sound_loop 0, gbs_routes3_Ch1.mainloop
+	sound_loop 0, gbs_gen1_routes3_Ch1.mainloop
 
-gbs_routes3_Ch2:
+gbs_gen1_routes3_Ch2:
 	gbs_switch 1
 	vibrato 8, 2, 3
 	duty_cycle 2
@@ -96,7 +96,7 @@ gbs_routes3_Ch2:
 	note C_, 1
 	rest 15
 	rest 16
-gbs_routes3_Ch2.mainloop:
+gbs_gen1_routes3_Ch2.mainloop:
 	note_type 12, 12, 7
 	duty_cycle 2
 	octave 4
@@ -179,9 +179,9 @@ gbs_routes3_Ch2.mainloop:
 	octave 3
 	note A_, 8
 	note B_, 8
-	sound_loop 0, gbs_routes3_Ch2.mainloop
+	sound_loop 0, gbs_gen1_routes3_Ch2.mainloop
 
-gbs_routes3_Ch3:
+gbs_gen1_routes3_Ch3:
 	gbs_switch 2
 	vibrato 4, 1, 0
 	note_type 6, 1, 2
@@ -216,7 +216,7 @@ gbs_routes3_Ch3:
 	note G_, 2
 	rest 2
 	note G_, 8
-gbs_routes3_Ch3.mainloop:
+gbs_gen1_routes3_Ch3.mainloop:
 	note_type 12, 1, 2
 	note E_, 1
 	rest 1
@@ -354,9 +354,9 @@ gbs_routes3_Ch3.mainloop:
 	note F_, 1
 	rest 1
 	note A_, 4
-	sound_loop 0, gbs_routes3_Ch3.mainloop
+	sound_loop 0, gbs_gen1_routes3_Ch3.mainloop
 
-gbs_routes3_Ch4:
+gbs_gen1_routes3_Ch4:
 	gbs_switch 3
 	drum_speed 6
 	drum_note 19, 1
@@ -395,7 +395,7 @@ gbs_routes3_Ch4:
 	drum_note 19, 1
 	drum_note 18, 1
 	drum_note 18, 1
-gbs_routes3_Ch4.mainloop:
+gbs_gen1_routes3_Ch4.mainloop:
 	drum_note 17, 12
 	drum_note 17, 2
 	drum_note 18, 2
@@ -514,11 +514,11 @@ gbs_routes3_Ch4.mainloop:
 	drum_note 18, 1
 	drum_note 18, 1
 	drum_note 18, 1
-	sound_loop 0, gbs_routes3_Ch4.mainloop
+	sound_loop 0, gbs_gen1_routes3_Ch4.mainloop
 
 	.align 4
-	.global gbs_routes3_Header
-gbs_routes3_Header:
+	.global gbs_gen1_routes3_Header
+gbs_gen1_routes3_Header:
 	.byte 4	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -526,7 +526,7 @@ gbs_routes3_Header:
 
 	.int voicegroup000
 
-	.int gbs_routes3_Ch1
-	.int gbs_routes3_Ch2
-	.int gbs_routes3_Ch3
-	.int gbs_routes3_Ch4
+	.int gbs_gen1_routes3_Ch1
+	.int gbs_gen1_routes3_Ch2
+	.int gbs_gen1_routes3_Ch3
+	.int gbs_gen1_routes3_Ch4

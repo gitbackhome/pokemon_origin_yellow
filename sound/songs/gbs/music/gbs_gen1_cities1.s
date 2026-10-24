@@ -3,18 +3,18 @@
 	.section .rodata
 	.align 1
 
-gbs_cities1_Ch1.AlternateTempo:
+gbs_gen1_cities1_Ch1.AlternateTempo:
 	tempo 232
 	sound_loop 0, Music_Cities1_Ch1.body
 
-gbs_cities1_Ch1:
+gbs_gen1_cities1_Ch1:
 	gbs_switch 0
 	tempo 144
-gbs_cities1_Ch1.body:
+gbs_gen1_cities1_Ch1.body:
 	volume 7, 7
 	vibrato 8, 2, 4
 	duty_cycle 3
-gbs_cities1_Ch1.mainloop:
+gbs_gen1_cities1_Ch1.mainloop:
 	note_type 12, 12, 5
 	octave 3
 	note Gs, 4
@@ -43,7 +43,7 @@ gbs_cities1_Ch1.mainloop:
 	octave 2
 	note B_, 4
 	note_type 12, 12, 5
-	sound_call gbs_cities1_Ch1.sub1
+	sound_call gbs_gen1_cities1_Ch1.sub1
 	octave 3
 	note Ds, 6
 	note E_, 2
@@ -94,7 +94,7 @@ gbs_cities1_Ch1.mainloop:
 	note B_, 2
 	note B_, 4
 	note_type 12, 12, 5
-	sound_call gbs_cities1_Ch1.sub1
+	sound_call gbs_gen1_cities1_Ch1.sub1
 	octave 3
 	note Ds, 4
 	note Ds, 2
@@ -118,7 +118,7 @@ gbs_cities1_Ch1.mainloop:
 	note Cs, 2
 	note E_, 4
 	note_type 12, 11, 3
-	sound_call gbs_cities1_Ch1.sub2
+	sound_call gbs_gen1_cities1_Ch1.sub2
 	note A_, 2
 	note B_, 2
 	note A_, 2
@@ -146,7 +146,7 @@ gbs_cities1_Ch1.mainloop:
 	octave 2
 	note B_, 2
 	octave 3
-gbs_cities1_Ch1.loop1:
+gbs_gen1_cities1_Ch1.loop1:
 	note Cs, 2
 	note Ds, 2
 	note Cs, 2
@@ -156,7 +156,7 @@ gbs_cities1_Ch1.loop1:
 	octave 3
 	note Cs, 2
 	note Ds, 2
-	sound_loop 2, gbs_cities1_Ch1.loop1
+	sound_loop 2, gbs_gen1_cities1_Ch1.loop1
 	note E_, 2
 	octave 2
 	note B_, 4
@@ -183,7 +183,7 @@ gbs_cities1_Ch1.loop1:
 	octave 2
 	note B_, 2
 	octave 3
-	sound_call gbs_cities1_Ch1.sub2
+	sound_call gbs_gen1_cities1_Ch1.sub2
 	note A_, 2
 	note E_, 2
 	note A_, 2
@@ -243,9 +243,9 @@ gbs_cities1_Ch1.loop1:
 	octave 3
 	note E_, 2
 	note Fs, 2
-	sound_loop 0, gbs_cities1_Ch1.mainloop
+	sound_loop 0, gbs_gen1_cities1_Ch1.mainloop
 
-gbs_cities1_Ch1.sub1:
+gbs_gen1_cities1_Ch1.sub1:
 	octave 3
 	note Fs, 2
 	note Ds, 4
@@ -260,7 +260,7 @@ gbs_cities1_Ch1.sub1:
 	note Cs, 2
 	sound_ret
 
-gbs_cities1_Ch1.sub2:
+gbs_gen1_cities1_Ch1.sub2:
 	note A_, 2
 	note E_, 2
 	note Cs, 2
@@ -270,11 +270,11 @@ gbs_cities1_Ch1.sub2:
 	note E_, 2
 	sound_ret
 
-gbs_cities1_Ch2:
+gbs_gen1_cities1_Ch2:
 	gbs_switch 1
-gbs_cities1_Ch2.mainloop:
+gbs_gen1_cities1_Ch2.mainloop:
 	vibrato 5, 1, 5
-	sound_call gbs_cities1_Ch2.sub1
+	sound_call gbs_gen1_cities1_Ch2.sub1
 	octave 4
 	note Gs, 2
 	note_type 12, 12, 4
@@ -287,7 +287,7 @@ gbs_cities1_Ch2.mainloop:
 	note E_, 6
 	note Fs, 6
 	note Gs, 4
-	sound_call gbs_cities1_Ch2.sub1
+	sound_call gbs_gen1_cities1_Ch2.sub1
 	octave 4
 	note Gs, 2
 	note_type 12, 12, 4
@@ -361,9 +361,9 @@ gbs_cities1_Ch2.mainloop:
 	note Gs, 1
 	note_type 12, 10, 4
 	note A_, 1
-	sound_loop 0, gbs_cities1_Ch2.mainloop
+	sound_loop 0, gbs_gen1_cities1_Ch2.mainloop
 
-gbs_cities1_Ch2.sub1:
+gbs_gen1_cities1_Ch2.sub1:
 	duty_cycle 2
 	note_type 12, 12, 3
 	octave 4
@@ -404,16 +404,16 @@ gbs_cities1_Ch2.sub1:
 	note Fs, 2
 	sound_ret
 
-gbs_cities1_Ch3:
+gbs_gen1_cities1_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 1
 	pitch_offset 1	@ Gen 1 perfect pitch
-gbs_cities1_Ch3.mainloop:
+gbs_gen1_cities1_Ch3.mainloop:
 	vibrato 0, 0, 0
 	octave 4
-	sound_call gbs_cities1_Ch3.sub1
-	sound_call gbs_cities1_Ch3.sub1
-	sound_call gbs_cities1_Ch3.sub2
+	sound_call gbs_gen1_cities1_Ch3.sub1
+	sound_call gbs_gen1_cities1_Ch3.sub1
+	sound_call gbs_gen1_cities1_Ch3.sub2
 	note Gs, 2
 	note E_, 2
 	note Fs, 2
@@ -422,7 +422,7 @@ gbs_cities1_Ch3.mainloop:
 	note E_, 2
 	note Fs, 2
 	note Gs, 2
-	sound_call gbs_cities1_Ch3.sub1
+	sound_call gbs_gen1_cities1_Ch3.sub1
 	note B_, 2
 	note E_, 2
 	note Fs, 2
@@ -431,8 +431,8 @@ gbs_cities1_Ch3.mainloop:
 	note E_, 2
 	note Fs, 2
 	note Gs, 2
-	sound_call gbs_cities1_Ch3.sub1
-	sound_call gbs_cities1_Ch3.sub2
+	sound_call gbs_gen1_cities1_Ch3.sub1
+	sound_call gbs_gen1_cities1_Ch3.sub2
 	note Gs, 2
 	note E_, 2
 	note Fs, 2
@@ -533,9 +533,9 @@ gbs_cities1_Ch3.mainloop:
 	note A_, 2
 	note Gs, 2
 	note Fs, 2
-	sound_loop 0, gbs_cities1_Ch3.mainloop
+	sound_loop 0, gbs_gen1_cities1_Ch3.mainloop
 
-gbs_cities1_Ch3.sub1:
+gbs_gen1_cities1_Ch3.sub1:
 	rest 2
 	note E_, 2
 	note Fs, 2
@@ -546,7 +546,7 @@ gbs_cities1_Ch3.sub1:
 	note Gs, 2
 	sound_ret
 
-gbs_cities1_Ch3.sub2:
+gbs_gen1_cities1_Ch3.sub2:
 	note A_, 2
 	note Fs, 2
 	note Gs, 2
@@ -581,27 +581,27 @@ gbs_cities1_Ch3.sub2:
 	note Fs, 2
 	sound_ret
 
-gbs_cities1_Ch4:
+gbs_gen1_cities1_Ch4:
 	gbs_switch 3
-gbs_cities1_Ch4.mainloop:
+gbs_gen1_cities1_Ch4.mainloop:
 	drum_speed 12
-	sound_call gbs_cities1_Ch4.sub1
-gbs_cities1_Ch4.loop1:
-	sound_call gbs_cities1_Ch4.sub1
-	sound_call gbs_cities1_Ch4.sub2
-	sound_call gbs_cities1_Ch4.sub2
-	sound_loop 2, gbs_cities1_Ch4.loop1
-	sound_call gbs_cities1_Ch4.sub1
-	sound_call gbs_cities1_Ch4.sub4
-	sound_call gbs_cities1_Ch4.sub3
+	sound_call gbs_gen1_cities1_Ch4.sub1
+gbs_gen1_cities1_Ch4.loop1:
+	sound_call gbs_gen1_cities1_Ch4.sub1
+	sound_call gbs_gen1_cities1_Ch4.sub2
+	sound_call gbs_gen1_cities1_Ch4.sub2
+	sound_loop 2, gbs_gen1_cities1_Ch4.loop1
+	sound_call gbs_gen1_cities1_Ch4.sub1
+	sound_call gbs_gen1_cities1_Ch4.sub4
+	sound_call gbs_gen1_cities1_Ch4.sub3
 	drum_note 6, 6
 	drum_note 6, 6
 	drum_note 7, 4
-	sound_call gbs_cities1_Ch4.sub5
-	sound_call gbs_cities1_Ch4.sub4
-	sound_call gbs_cities1_Ch4.sub3
-	sound_call gbs_cities1_Ch4.sub5
-	sound_call gbs_cities1_Ch4.sub3
+	sound_call gbs_gen1_cities1_Ch4.sub5
+	sound_call gbs_gen1_cities1_Ch4.sub4
+	sound_call gbs_gen1_cities1_Ch4.sub3
+	sound_call gbs_gen1_cities1_Ch4.sub5
+	sound_call gbs_gen1_cities1_Ch4.sub3
 	drum_note 6, 6
 	drum_note 6, 6
 	drum_note 7, 2
@@ -612,9 +612,9 @@ gbs_cities1_Ch4.loop1:
 	drum_note 6, 6
 	drum_note 8, 6
 	drum_note 8, 4
-	sound_loop 0, gbs_cities1_Ch4.mainloop
+	sound_loop 0, gbs_gen1_cities1_Ch4.mainloop
 
-gbs_cities1_Ch4.sub1:
+gbs_gen1_cities1_Ch4.sub1:
 	drum_note 8, 6
 	drum_note 8, 6
 	drum_note 8, 4
@@ -624,7 +624,7 @@ gbs_cities1_Ch4.sub1:
 	drum_note 8, 2
 	sound_ret
 
-gbs_cities1_Ch4.sub2:
+gbs_gen1_cities1_Ch4.sub2:
 	drum_note 8, 6
 	drum_note 8, 6
 	drum_note 8, 4
@@ -633,7 +633,7 @@ gbs_cities1_Ch4.sub2:
 	drum_note 8, 4
 	sound_ret
 
-gbs_cities1_Ch4.sub3:
+gbs_gen1_cities1_Ch4.sub3:
 	drum_note 6, 6
 	drum_note 6, 6
 	drum_note 7, 4
@@ -642,7 +642,7 @@ gbs_cities1_Ch4.sub3:
 	drum_note 7, 4
 	sound_ret
 
-gbs_cities1_Ch4.sub4:
+gbs_gen1_cities1_Ch4.sub4:
 	drum_note 6, 6
 	drum_note 6, 6
 	drum_note 7, 4
@@ -652,7 +652,7 @@ gbs_cities1_Ch4.sub4:
 	drum_note 6, 2
 	sound_ret
 
-gbs_cities1_Ch4.sub5:
+gbs_gen1_cities1_Ch4.sub5:
 	drum_note 6, 6
 	drum_note 6, 6
 	drum_note 7, 2
@@ -660,8 +660,8 @@ gbs_cities1_Ch4.sub5:
 	sound_ret
 
 	.align 4
-	.global gbs_cities1_Header
-gbs_cities1_Header:
+	.global gbs_gen1_cities1_Header
+gbs_gen1_cities1_Header:
 	.byte 4	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -669,7 +669,7 @@ gbs_cities1_Header:
 
 	.int voicegroup000
 
-	.int gbs_cities1_Ch1
-	.int gbs_cities1_Ch2
-	.int gbs_cities1_Ch3
-	.int gbs_cities1_Ch4
+	.int gbs_gen1_cities1_Ch1
+	.int gbs_gen1_cities1_Ch2
+	.int gbs_gen1_cities1_Ch3
+	.int gbs_gen1_cities1_Ch4

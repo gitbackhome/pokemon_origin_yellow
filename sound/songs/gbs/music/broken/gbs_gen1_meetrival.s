@@ -3,14 +3,14 @@
 	.section .rodata
 	.align 1
 
-gbs_meetrival_Ch1.AlternateTempo:
+gbs_gen1_meetrival_Ch1.AlternateTempo:
 	tempo 100
 	sound_loop 0, Music_MeetRival_Ch1.body
 
-gbs_meetrival_Ch1:
+gbs_gen1_meetrival_Ch1:
 	gbs_switch 0
 	tempo 112
-gbs_meetrival_Ch1.body:
+gbs_gen1_meetrival_Ch1.body:
 	volume 7, 7
 	duty_cycle 3
 	vibrato 6, 3, 4
@@ -35,7 +35,7 @@ gbs_meetrival_Ch1.body:
 	note A_, 2
 	note G_, 2
 	note A_, 2
-gbs_meetrival_Ch1.mainloop:
+gbs_gen1_meetrival_Ch1.mainloop:
 	note B_, 4
 	note As, 2
 	note A_, 4
@@ -121,15 +121,15 @@ gbs_meetrival_Ch1.mainloop:
 	note A_, 2
 	note G_, 2
 	note A_, 2
-	sound_loop 0, gbs_meetrival_Ch1.mainloop
+	sound_loop 0, gbs_gen1_meetrival_Ch1.mainloop
 
-gbs_meetrival_Ch1.AlternateStartAndTempo:
+gbs_gen1_meetrival_Ch1.AlternateStartAndTempo:
 	tempo 100
 	sound_loop 0, Music_MeetRival_Ch1_AlternateStart.body
 
-gbs_meetrival_Ch1.AlternateStart:
+gbs_gen1_meetrival_Ch1.AlternateStart:
 	tempo 112
-gbs_meetrival_Ch1.body:
+gbs_gen1_meetrival_Ch1.body:
 	volume 7, 7
 	duty_cycle 3
 	vibrato 6, 3, 4
@@ -145,7 +145,7 @@ gbs_meetrival_Ch1.body:
 	note A_, 2
 	sound_loop 0, Music_MeetRival_Ch1.mainloop
 
-gbs_meetrival_Ch2:
+gbs_gen1_meetrival_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 10, 2, 6
@@ -172,7 +172,7 @@ gbs_meetrival_Ch2:
 	note D_, 2
 	note F_, 2
 	note Fs, 2
-gbs_meetrival_Ch2.mainloop:
+gbs_gen1_meetrival_Ch2.mainloop:
 	note_type 12, 12, 7
 	note G_, 4
 	note D_, 2
@@ -230,9 +230,9 @@ gbs_meetrival_Ch2.mainloop:
 	note D_, 2
 	note F_, 2
 	note Fs, 2
-	sound_loop 0, gbs_meetrival_Ch2.mainloop
+	sound_loop 0, gbs_gen1_meetrival_Ch2.mainloop
 
-gbs_meetrival_Ch2.AlternateStart:
+gbs_gen1_meetrival_Ch2.AlternateStart:
 	duty_cycle 3
 	vibrato 10, 2, 6
 	note_type 12, 12, 7
@@ -249,7 +249,7 @@ gbs_meetrival_Ch2.AlternateStart:
 	note Fs, 2
 	sound_loop 0, Music_MeetRival_Ch2.mainloop
 
-gbs_meetrival_Ch3:
+gbs_gen1_meetrival_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 4
 	octave 5
@@ -274,7 +274,7 @@ gbs_meetrival_Ch3:
 	rest 1
 	note G_, 1
 	rest 1
-gbs_meetrival_Ch3.mainloop:
+gbs_gen1_meetrival_Ch3.mainloop:
 	note G_, 2
 	octave 5
 	note D_, 2
@@ -377,9 +377,9 @@ gbs_meetrival_Ch3.mainloop:
 	rest 2
 	octave 5
 	note D_, 2
-	sound_loop 0, gbs_meetrival_Ch3.mainloop
+	sound_loop 0, gbs_gen1_meetrival_Ch3.mainloop
 
-gbs_meetrival_Ch3.AlternateStart:
+gbs_gen1_meetrival_Ch3.AlternateStart:
 	note_type 12, 1, 4
 	octave 4
 	note G_, 1
@@ -397,8 +397,8 @@ gbs_meetrival_Ch3.AlternateStart:
 	sound_loop 0, Music_MeetRival_Ch3.mainloop
 
 	.align 4
-	.global gbs_meetrival_Header
-gbs_meetrival_Header:
+	.global gbs_gen1_meetrival_Header
+gbs_gen1_meetrival_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -406,6 +406,6 @@ gbs_meetrival_Header:
 
 	.int voicegroup000
 
-	.int gbs_meetrival_Ch1
-	.int gbs_meetrival_Ch2
-	.int gbs_meetrival_Ch3
+	.int gbs_gen1_meetrival_Ch1
+	.int gbs_gen1_meetrival_Ch2
+	.int gbs_gen1_meetrival_Ch3

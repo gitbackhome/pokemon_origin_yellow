@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_introbattle_Ch1:
+gbs_gen1_introbattle_Ch1:
 	gbs_switch 0
 	tempo 98
 	volume 7, 7
@@ -95,7 +95,7 @@ gbs_introbattle_Ch1:
 	note D_, 16
 	sound_ret
 
-gbs_introbattle_Ch2:
+gbs_gen1_introbattle_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 8, 2, 5
@@ -170,7 +170,7 @@ gbs_introbattle_Ch2:
 	note D_, 16
 	sound_ret
 
-gbs_introbattle_Ch3:
+gbs_gen1_introbattle_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
 	rest 8
@@ -234,7 +234,7 @@ gbs_introbattle_Ch3:
 	rest 15
 	sound_ret
 
-gbs_introbattle_Ch4:
+gbs_gen1_introbattle_Ch4:
 	gbs_switch 3
 	drum_speed 6
 	drum_note 19, 1
@@ -335,8 +335,8 @@ gbs_introbattle_Ch4:
 	sound_ret
 
 	.align 4
-	.global gbs_introbattle_Header
-gbs_introbattle_Header:
+	.global gbs_gen1_introbattle_Header
+gbs_gen1_introbattle_Header:
 	.byte 4	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -344,7 +344,7 @@ gbs_introbattle_Header:
 
 	.int voicegroup000
 
-	.int gbs_introbattle_Ch1
-	.int gbs_introbattle_Ch2
-	.int gbs_introbattle_Ch3
-	.int gbs_introbattle_Ch4
+	.int gbs_gen1_introbattle_Ch1
+	.int gbs_gen1_introbattle_Ch2
+	.int gbs_gen1_introbattle_Ch3
+	.int gbs_gen1_introbattle_Ch4

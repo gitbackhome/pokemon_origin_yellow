@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_jigglypuffsong_Ch1:
+gbs_gen1_jigglypuffsong_Ch1:
 	gbs_switch 0
 	tempo 144
 	volume 7, 7
@@ -26,7 +26,7 @@ gbs_jigglypuffsong_Ch1:
 	note E_, 10
 	sound_ret
 
-gbs_jigglypuffsong_Ch2:
+gbs_gen1_jigglypuffsong_Ch2:
 	gbs_switch 1
 	vibrato 5, 1, 5
 	duty_cycle 2
@@ -46,8 +46,8 @@ gbs_jigglypuffsong_Ch2:
 	sound_ret
 
 	.align 4
-	.global gbs_jigglypuffsong_Header
-gbs_jigglypuffsong_Header:
+	.global gbs_gen1_jigglypuffsong_Header
+gbs_gen1_jigglypuffsong_Header:
 	.byte 2	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -55,5 +55,5 @@ gbs_jigglypuffsong_Header:
 
 	.int voicegroup000
 
-	.int gbs_jigglypuffsong_Ch1
-	.int gbs_jigglypuffsong_Ch2
+	.int gbs_gen1_jigglypuffsong_Ch1
+	.int gbs_gen1_jigglypuffsong_Ch2

@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_meetjessiejames_Ch1:
+gbs_gen1_meetjessiejames_Ch1:
 	gbs_switch 0
 	tempo 144
 	volume 7, 7
@@ -23,7 +23,7 @@ gbs_meetjessiejames_Ch1:
 	note_type 12, 11, 6
 	note Ds, 12
 	note C_, 4
-gbs_meetjessiejames_Ch1.mainloop:
+gbs_gen1_meetjessiejames_Ch1.mainloop:
 	note_type 12, 11, 2
 	octave 4
 	note D_, 16
@@ -79,9 +79,9 @@ gbs_meetjessiejames_Ch1.mainloop:
 	note B_, 2
 	note_type 12, 11, 4
 	note As, 4
-	sound_loop 0, gbs_meetjessiejames_Ch1.mainloop
+	sound_loop 0, gbs_gen1_meetjessiejames_Ch1.mainloop
 
-gbs_meetjessiejames_Ch2:
+gbs_gen1_meetjessiejames_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 6, 1, 5
@@ -101,7 +101,7 @@ gbs_meetjessiejames_Ch2:
 	note A_, 12
 	octave 4
 	note Cs, 4
-gbs_meetjessiejames_Ch2.mainloop:
+gbs_gen1_meetjessiejames_Ch2.mainloop:
 	note_type 12, 12, 2
 	octave 3
 	note Cs, 1
@@ -165,9 +165,9 @@ gbs_meetjessiejames_Ch2.mainloop:
 	note F_, 4
 	note_type 12, 12, 5
 	note Ds, 8
-	sound_loop 0, gbs_meetjessiejames_Ch2.mainloop
+	sound_loop 0, gbs_gen1_meetjessiejames_Ch2.mainloop
 
-gbs_meetjessiejames_Ch3:
+gbs_gen1_meetjessiejames_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
 	rest 16
@@ -179,7 +179,7 @@ gbs_meetjessiejames_Ch3:
 	octave 4
 	note C_, 2
 	note Ds, 2
-gbs_meetjessiejames_Ch3.mainloop:
+gbs_gen1_meetjessiejames_Ch3.mainloop:
 	note D_, 1
 	rest 1
 	note A_, 1
@@ -308,11 +308,11 @@ gbs_meetjessiejames_Ch3.mainloop:
 	rest 1
 	note E_, 1
 	rest 1
-	sound_loop 0, gbs_meetjessiejames_Ch3.mainloop
+	sound_loop 0, gbs_gen1_meetjessiejames_Ch3.mainloop
 
 	.align 4
-	.global gbs_meetjessiejames_Header
-gbs_meetjessiejames_Header:
+	.global gbs_gen1_meetjessiejames_Header
+gbs_gen1_meetjessiejames_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -320,6 +320,6 @@ gbs_meetjessiejames_Header:
 
 	.int voicegroup000
 
-	.int gbs_meetjessiejames_Ch1
-	.int gbs_meetjessiejames_Ch2
-	.int gbs_meetjessiejames_Ch3
+	.int gbs_gen1_meetjessiejames_Ch1
+	.int gbs_gen1_meetjessiejames_Ch2
+	.int gbs_gen1_meetjessiejames_Ch3

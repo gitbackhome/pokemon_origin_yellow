@@ -12,7 +12,6 @@ Examples:
     python3 tools/music_compare.py --list
     python3 tools/music_compare.py --pair gbs_routes1
     python3 tools/music_compare.py --all
-    python3 tools/music_compare.py --all --include-rejected
     python3 tools/music_compare.py --all --open
 """
 
@@ -43,9 +42,6 @@ sys.path.insert(0, str(SYNTH_PATH))
 import gbs_synth  # noqa: E402
 
 
-PAIR_RE = re.compile(
-    r"\|\s*`gen1_converted/gbs_([^`]+)\.s`\s*\|\s*`gbs_([^`]+)\.s`\s*\|"
-)
 NOTE_NAMES = {
     "C_": 0,
     "Cs": 1,
@@ -65,20 +61,45 @@ NOTE_RE = re.compile(r"^\s*note\s+([A-Za-z_]+),\s*(\d+)")
 REST_RE = re.compile(r"^\s*rest\s+(\d+)")
 
 
-REJECTED_CATEGORIES = {"Probably wrong, retained only for review", "Completely wrong, retained only for review"}
+PAIRS: tuple[tuple[str, str, str], ...] = (
+    ("Confirmed", "bikeriding", "bicycle"),
+    ("Confirmed", "celadon", "celadoncity"),
+    ("Confirmed", "defeatedgymleader", "gymleadervictory"),
+    ("Confirmed", "defeatedtrainer", "trainervictory"),
+    ("Confirmed", "defeatedwildmon", "wildpokemonvictory"),
+    ("Confirmed", "gamecorner", "gamecorner"),
+    ("Confirmed", "gymleaderbattle", "kantogymbattle"),
+    ("Confirmed", "halloffame", "halloffame"),
+    ("Confirmed", "indigoplateau", "indigoplateau"),
+    ("Confirmed", "lavender", "lavendertown"),
+    ("Confirmed", "pallettown", "pallettown"),
+    ("Confirmed", "pokecenter", "pokemoncenter"),
+    ("Confirmed", "routes1", "route1"),
+    ("Confirmed", "routes3", "route3"),
+    ("Confirmed", "surfing", "surf"),
+    ("Confirmed", "titlescreen", "titlescreen"),
+    ("Confirmed", "trainerbattle", "kantotrainerbattle"),
+    ("Confirmed", "vermilion", "vermilioncity"),
+    ("Confirmed", "wildbattle", "kantowildbattle"),
+    ("Manual", "cinnabar", "hg_cinnabar"),
+    ("Manual", "cities1", "viridiancity"),
+    ("Manual", "dungeon3", "mtmoon"),
+    ("Manual", "meetfemaletrainer", "looklass"),
+    ("Manual", "museumguy", "showmearound"),
+    ("Manual", "safarizone", "hg_safarizone"),
+    ("Manual", "ssanne", "ssaqua"),
+    ("Probably correct", "jigglypuffsong", "pokemonlullaby"),
+    ("Probably correct", "pkmnhealed", "healpokemon"),
+    ("Probably correct", "yellowintro", "titlescreen"),
+    ("Uncertain", "meetjessiejames", "lookrocket"),
+    ("Uncertain", "meetrival", "lookrival"),
+    ("Uncertain", "silphco", "rockethideout"),
+    ("Uncertain", "surfingpikachu", "surf"),
+)
 
 
-def load_pairs(include_rejected: bool = False) -> list[tuple[str, str, str]]:
-    mapping = ROOT / "docs/gen1_gen2_kanto_music_mapping.md"
-    pairs: list[tuple[str, str, str]] = []
-    category = "Uncategorized"
-    for line in mapping.read_text(encoding="utf-8").splitlines():
-        if line.startswith("## "):
-            category = line[3:].strip()
-        match = PAIR_RE.search(line)
-        if match and (include_rejected or category not in REJECTED_CATEGORIES):
-            pairs.append((category, match.group(1), match.group(2)))
-    return pairs
+def load_pairs() -> list[tuple[str, str, str]]:
+    return list(PAIRS)
 
 
 def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[float, float, int, float]]]:
@@ -100,13 +121,6 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
             for index, line in enumerate(lines)
             if line.strip().endswith(":")
         }
-        entry = next(
-            (label for label in labels if label.endswith(".mainloop")),
-            next(iter(labels), None),
-        )
-        if entry is None:
-            result[name] = []
-            continue
         octave = 4
         tempo = 120.0
         unit = 12
@@ -115,6 +129,7 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
         duty = 2
         vibrato = 0
         offset = 0
+        transpose = 0
         events: list[tuple[float, float, int, float]] = []
         cursor = 0.0
         max_steps = 100000
@@ -125,11 +140,9 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
             # the 60 Hz music update rate, so 256 * 60 converts it to seconds.
             return tempo * unit * length / (256.0 * 60.0)
 
-        def execute(label: str) -> None:
-            nonlocal cursor, octave, tempo, unit, volume, fade, duty, vibrato, offset
-            if cursor >= duration_limit:
-                return
-            index = labels[label] + 1
+        def execute(start: int) -> None:
+            nonlocal cursor, octave, tempo, unit, volume, fade, duty, vibrato, offset, transpose
+            index = start
             steps = 0
             while index < len(lines) and cursor < duration_limit and steps < max_steps:
                 steps += 1
@@ -161,22 +174,27 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
                         vibrato = int(fields[2])
                     elif command == "pitch_offset":
                         offset = int(fields[1])
+                    elif command == "transpose":
+                        transpose = 12 * int(fields[1]) + int(fields[2])
+                    elif command == "volume_envelope":
+                        volume = int(fields[1])
+                        fade = int(fields[2])
                     elif command in {"sound_call", "sound_jump", "sound_loop"}:
                         target = fields[-1]
                         if target in labels:
                             count = 1 if command != "sound_loop" else int(fields[1])
                             if count == 0:
-                                while cursor < duration_limit:
-                                    execute(target)
+                                index = labels[target] + 1
+                                continue
                             else:
                                 for _ in range(count):
-                                    execute(target)
+                                    execute(labels[target] + 1)
                             if command == "sound_jump":
                                 break
                     elif command == "sound_ret":
                         break
                     elif command == "note" and len(fields) >= 3:
-                        pitch = NOTE_NAMES[fields[1]] + 12 * (octave + 1) + offset
+                        pitch = NOTE_NAMES[fields[1]] + 12 * (octave + 1) + offset + transpose
                         seconds = note_seconds(int(fields[2]))
                         events.append((cursor, seconds, pitch, volume))
                         cursor += seconds
@@ -189,7 +207,7 @@ def source_events(path: Path, duration_limit: float) -> dict[str, list[tuple[flo
                 except (KeyError, ValueError, IndexError):
                     pass
                 index += 1
-        execute(entry)
+        execute(0)
         result[name] = [(s, d, p, v) for s, d, p, v in events if s < duration_limit]
     return result
 
@@ -214,11 +232,6 @@ def main() -> int:
     parser.add_argument("--pair", action="append", help="Gen 1 basename, e.g. gbs_routes1")
     parser.add_argument("--list", action="store_true", help="list available pairs")
     parser.add_argument(
-        "--include-rejected",
-        action="store_true",
-        help="include mappings marked probably or completely wrong",
-    )
-    parser.add_argument(
         "--category",
         action="append",
         help="only render a category heading (repeatable)",
@@ -228,13 +241,19 @@ def main() -> int:
     parser.add_argument("--open", action="store_true", help="open the generated HTML playlist")
     args = parser.parse_args()
 
-    pairs = load_pairs(args.include_rejected)
+    pairs = load_pairs()
     if args.category:
         wanted_categories = set(args.category)
         pairs = [pair for pair in pairs if pair[0] in wanted_categories]
     if args.list:
         for category, gen1, gen2 in pairs:
             print(f"{category:8} {gen1:28} -> {gen2}")
+        mapped = {gen1 for _, gen1, _ in pairs}
+        print("\nUnmapped Gen 1 tracks:")
+        for path in sorted(CONVERTED.glob("gbs_*.s")):
+            gen1 = path.stem.removeprefix("gbs_")
+            if gen1 not in mapped:
+                print(gen1)
         return 0
     selected = pairs if args.all or not args.pair else [
         pair for pair in pairs if pair[1] in {name.removeprefix("gbs_") for name in args.pair}

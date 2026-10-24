@@ -39,7 +39,7 @@
 - All 92 HGSS TMs
 - New postgame content
 - Kurt's Berry Balls boost catch rate by custom-defined type affinity if more impactful than the vanilla boost
-- GB Player Key Item to toggle Gen 2 music and sounds
+- Gen2 Player and Gen1 Player Key Items to toggle Gen 2 or Gen 1 music and sounds
 - Ice Path boulder puzzle
 - Mom's Savings System
 - Voltorb Flip

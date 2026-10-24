@@ -45,7 +45,8 @@
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 #define FLAG_SYS_GBS_ENABLED    0x20 // GBS Flag
-#define FLAG_ITEM_PLAYER_ROOM_GB_PLAYER 0x21 //GBS Flag 2
+#define FLAG_ITEM_PLAYER_ROOM_GB_PLAYER 0x21 // GB Player room flag
+#define FLAG_SYS_GBS_GEN1        0x4FE // Gen 1 Player mode; part of the reserved free flag window
 
 #if IS_FRLG
 

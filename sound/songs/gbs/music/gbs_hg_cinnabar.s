@@ -3,14 +3,14 @@
 	.section .rodata
 	.align 1
 
-gbs_gen1_cinnabar_Ch1:
+gbs_hg_cinnabar_Ch1:
 	gbs_switch 0
 	tempo 144
 	volume 7, 7
 	duty_cycle 3
 	vibrato 12, 3, 4
 	pitch_offset 1	@ Gen 1 perfect pitch
-gbs_gen1_cinnabar_Ch1.mainloop:
+gbs_hg_cinnabar_Ch1.mainloop:
 	note_type 12, 11, 5
 	rest 4
 	octave 3
@@ -87,13 +87,13 @@ gbs_gen1_cinnabar_Ch1.mainloop:
 	note G_, 8
 	note Fs, 4
 	note E_, 4
-	sound_loop 0, gbs_gen1_cinnabar_Ch1.mainloop
+	sound_loop 0, gbs_hg_cinnabar_Ch1.mainloop
 
-gbs_gen1_cinnabar_Ch2:
+gbs_hg_cinnabar_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 10, 2, 3
-gbs_gen1_cinnabar_Ch2.mainloop:
+gbs_hg_cinnabar_Ch2.mainloop:
 	note_type 12, 12, 7
 	octave 3
 	note G_, 6
@@ -180,12 +180,12 @@ gbs_gen1_cinnabar_Ch2.mainloop:
 	octave 3
 	note B_, 2
 	note A_, 6
-	sound_loop 0, gbs_gen1_cinnabar_Ch2.mainloop
+	sound_loop 0, gbs_hg_cinnabar_Ch2.mainloop
 
-gbs_gen1_cinnabar_Ch3:
+gbs_hg_cinnabar_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 0
-gbs_gen1_cinnabar_Ch3.mainloop:
+gbs_hg_cinnabar_Ch3.mainloop:
 	octave 4
 	note G_, 1
 	rest 3
@@ -354,11 +354,11 @@ gbs_gen1_cinnabar_Ch3.mainloop:
 	octave 5
 	note C_, 1
 	rest 1
-	sound_loop 0, gbs_gen1_cinnabar_Ch3.mainloop
+	sound_loop 0, gbs_hg_cinnabar_Ch3.mainloop
 
 	.align 4
-	.global gbs_gen1_cinnabar_Header
-gbs_gen1_cinnabar_Header:
+	.global gbs_hg_cinnabar_Header
+gbs_hg_cinnabar_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -366,6 +366,6 @@ gbs_gen1_cinnabar_Header:
 
 	.int voicegroup000
 
-	.int gbs_gen1_cinnabar_Ch1
-	.int gbs_gen1_cinnabar_Ch2
-	.int gbs_gen1_cinnabar_Ch3
+	.int gbs_hg_cinnabar_Ch1
+	.int gbs_hg_cinnabar_Ch2
+	.int gbs_hg_cinnabar_Ch3

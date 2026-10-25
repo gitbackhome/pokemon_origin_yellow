@@ -3,13 +3,13 @@
 	.section .rodata
 	.align 1
 
-gbs_gen1_routes2_Ch1:
+gbs_hg_route24_Ch1:
 	gbs_switch 0
 	tempo 152
 	volume 7, 7
 	vibrato 9, 2, 5
 	duty_cycle 1
-gbs_gen1_routes2_Ch1.mainloop:
+gbs_hg_route24_Ch1.mainloop:
 	note_type 12, 11, 2
 	octave 2
 	note B_, 4
@@ -143,15 +143,15 @@ gbs_gen1_routes2_Ch1.mainloop:
 	note B_, 2
 	octave 4
 	note E_, 2
-	sound_loop 0, gbs_gen1_routes2_Ch1.mainloop
+	sound_loop 0, gbs_hg_route24_Ch1.mainloop
 
 	sound_ret 
 
-gbs_gen1_routes2_Ch2:
+gbs_hg_route24_Ch2:
 	gbs_switch 1
 	vibrato 8, 2, 6
 	duty_cycle 3
-gbs_gen1_routes2_Ch2.mainloop:
+gbs_hg_route24_Ch2.mainloop:
 	note_type 12, 13, 4
 	octave 4
 	note E_, 6
@@ -217,14 +217,14 @@ gbs_gen1_routes2_Ch2.mainloop:
 	note A_, 1
 	note Gs, 8
 	rest 4
-	sound_loop 0, gbs_gen1_routes2_Ch2.mainloop
+	sound_loop 0, gbs_hg_route24_Ch2.mainloop
 
 	sound_ret 
 
-gbs_gen1_routes2_Ch3:
+gbs_hg_route24_Ch3:
 	gbs_switch 2
 	vibrato 9, 2, 8
-gbs_gen1_routes2_Ch3.mainloop:
+gbs_hg_route24_Ch3.mainloop:
 	note_type 12, 1, 1
 	octave 3
 	note E_, 2
@@ -325,13 +325,13 @@ gbs_gen1_routes2_Ch3.mainloop:
 	rest 2
 	note E_, 2
 	rest 2
-	sound_loop 0, gbs_gen1_routes2_Ch3.mainloop
+	sound_loop 0, gbs_hg_route24_Ch3.mainloop
 
 	sound_ret 
 
-gbs_gen1_routes2_Ch4:
+gbs_hg_route24_Ch4:
 	gbs_switch 3
-gbs_gen1_routes2_Ch4.mainloop:
+gbs_hg_route24_Ch4.mainloop:
 	drum_speed 12
 	drum_note 3, 2
 	rest 2
@@ -428,13 +428,13 @@ gbs_gen1_routes2_Ch4.mainloop:
 	rest 3
 	drum_note 3, 3
 	rest 3
-	sound_loop 0, gbs_gen1_routes2_Ch4.mainloop
+	sound_loop 0, gbs_hg_route24_Ch4.mainloop
 
 	sound_ret 
 
 	.align 4
-	.global gbs_gen1_routes2_Header
-gbs_gen1_routes2_Header:
+	.global gbs_hg_route24_Header
+gbs_hg_route24_Header:
 	.byte 4	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -442,7 +442,7 @@ gbs_gen1_routes2_Header:
 
 	.int voicegroup000
 
-	.int gbs_gen1_routes2_Ch1
-	.int gbs_gen1_routes2_Ch2
-	.int gbs_gen1_routes2_Ch3
-	.int gbs_gen1_routes2_Ch4
+	.int gbs_hg_route24_Ch1
+	.int gbs_hg_route24_Ch2
+	.int gbs_hg_route24_Ch3
+	.int gbs_hg_route24_Ch4

@@ -320,8 +320,8 @@ gbs_pallettown_Ch3.mainloop:
 	sound_ret
 
 	.align 4
-	.global gbs_gen1_pallettown_Header
-gbs_gen1_pallettown_Header:
+	.global gbs_pallettown_Header
+gbs_pallettown_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority

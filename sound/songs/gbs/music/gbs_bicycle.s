@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_gen1_bikeriding_Ch1:
+gbs_bicycle_Ch1:
 	gbs_switch 0
 	tempo 144
 	volume 7, 7
@@ -12,7 +12,7 @@ gbs_gen1_bikeriding_Ch1:
 	note_type 12, 11, 5
 	octave 3
 	note G_, 2
-gbs_gen1_bikeriding_Ch1.mainloop:
+gbs_bicycle_Ch1.mainloop:
 	octave 4
 	note C_, 4
 	note D_, 4
@@ -155,16 +155,16 @@ gbs_gen1_bikeriding_Ch1.mainloop:
 	note G_, 12
 	note_type 12, 11, 5
 	vibrato 8, 1, 4
-	sound_loop 0, gbs_gen1_bikeriding_Ch1.mainloop
+	sound_loop 0, gbs_bicycle_Ch1.mainloop
 
-gbs_gen1_bikeriding_Ch2:
+gbs_bicycle_Ch2:
 	gbs_switch 1
 	duty_cycle 2
 	vibrato 6, 1, 5
 	note_type 12, 12, 3
 	octave 4
 	note C_, 2
-gbs_gen1_bikeriding_Ch2.mainloop:
+gbs_bicycle_Ch2.mainloop:
 	note E_, 4
 	note F_, 4
 	note G_, 4
@@ -303,13 +303,13 @@ gbs_gen1_bikeriding_Ch2.mainloop:
 	note_type 12, 12, 7
 	note B_, 12
 	note_type 12, 12, 3
-	sound_loop 0, gbs_gen1_bikeriding_Ch2.mainloop
+	sound_loop 0, gbs_bicycle_Ch2.mainloop
 
-gbs_gen1_bikeriding_Ch3:
+gbs_bicycle_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 3
 	rest 2
-gbs_gen1_bikeriding_Ch3.mainloop:
+gbs_bicycle_Ch3.mainloop:
 	octave 4
 	note C_, 1
 	rest 1
@@ -643,35 +643,35 @@ gbs_gen1_bikeriding_Ch3.mainloop:
 	octave 4
 	note F_, 1
 	rest 1
-	sound_loop 0, gbs_gen1_bikeriding_Ch3.mainloop
+	sound_loop 0, gbs_bicycle_Ch3.mainloop
 
-gbs_gen1_bikeriding_Ch4:
+gbs_bicycle_Ch4:
 	gbs_switch 3
 	drum_speed 12
 	rest 2
-gbs_gen1_bikeriding_Ch4.mainloop:
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub2
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub3
-	sound_call gbs_gen1_bikeriding_Ch4.sub2
-	sound_call gbs_gen1_bikeriding_Ch4.sub2
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub2
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub3
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub2
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_call gbs_gen1_bikeriding_Ch4.sub1
-	sound_loop 0, gbs_gen1_bikeriding_Ch4.mainloop
+gbs_bicycle_Ch4.mainloop:
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub2
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub3
+	sound_call gbs_bicycle_Ch4.sub2
+	sound_call gbs_bicycle_Ch4.sub2
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub2
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub3
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub2
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_call gbs_bicycle_Ch4.sub1
+	sound_loop 0, gbs_bicycle_Ch4.mainloop
 
-gbs_gen1_bikeriding_Ch4.sub1:
+gbs_bicycle_Ch4.sub1:
 	rest 2
 	drum_note 16, 2
 	rest 2
@@ -682,7 +682,7 @@ gbs_gen1_bikeriding_Ch4.sub1:
 	drum_note 16, 2
 	sound_ret
 
-gbs_gen1_bikeriding_Ch4.sub2:
+gbs_bicycle_Ch4.sub2:
 	rest 2
 	drum_note 16, 2
 	rest 2
@@ -693,7 +693,7 @@ gbs_gen1_bikeriding_Ch4.sub2:
 	drum_note 16, 2
 	sound_ret
 
-gbs_gen1_bikeriding_Ch4.sub3:
+gbs_bicycle_Ch4.sub3:
 	rest 2
 	drum_note 16, 2
 	rest 2
@@ -706,8 +706,8 @@ gbs_gen1_bikeriding_Ch4.sub3:
 	sound_ret
 
 	.align 4
-	.global gbs_gen1_bikeriding_Header
-gbs_gen1_bikeriding_Header:
+	.global gbs_bicycle_Header
+gbs_bicycle_Header:
 	.byte 4	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -715,7 +715,7 @@ gbs_gen1_bikeriding_Header:
 
 	.int voicegroup000
 
-	.int gbs_gen1_bikeriding_Ch1
-	.int gbs_gen1_bikeriding_Ch2
-	.int gbs_gen1_bikeriding_Ch3
-	.int gbs_gen1_bikeriding_Ch4
+	.int gbs_bicycle_Ch1
+	.int gbs_bicycle_Ch2
+	.int gbs_bicycle_Ch3
+	.int gbs_bicycle_Ch4

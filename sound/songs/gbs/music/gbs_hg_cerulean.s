@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_gen1_cities2_Ch1:
+gbs_hg_cerulean_Ch1:
 	gbs_switch 0
 	tempo 148
 	volume 7, 7
@@ -20,7 +20,7 @@ gbs_gen1_cities2_Ch1:
 	octave 2
 	note B_, 2
 	rest 14
-gbs_gen1_cities2_Ch1.mainloop:
+gbs_hg_cerulean_Ch1.mainloop:
 	octave 3
 	note B_, 4
 	octave 4
@@ -96,9 +96,9 @@ gbs_gen1_cities2_Ch1.mainloop:
 	note Fs, 4
 	note E_, 2
 	rest 14
-	sound_loop 0, gbs_gen1_cities2_Ch1.mainloop
+	sound_loop 0, gbs_hg_cerulean_Ch1.mainloop
 
-gbs_gen1_cities2_Ch2:
+gbs_hg_cerulean_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 8, 2, 3
@@ -128,7 +128,7 @@ gbs_gen1_cities2_Ch2:
 	note Fs, 1
 	note Gs, 1
 	note A_, 1
-gbs_gen1_cities2_Ch2.mainloop:
+gbs_hg_cerulean_Ch2.mainloop:
 	note_type 12, 10, 6
 	note Gs, 6
 	note_type 12, 12, 2
@@ -281,9 +281,9 @@ gbs_gen1_cities2_Ch2.mainloop:
 	note Fs, 1
 	note Gs, 1
 	note A_, 1
-	sound_loop 0, gbs_gen1_cities2_Ch2.mainloop
+	sound_loop 0, gbs_hg_cerulean_Ch2.mainloop
 
-gbs_gen1_cities2_Ch3:
+gbs_hg_cerulean_Ch3:
 	gbs_switch 2
 	note_type 12, 1, 1
 	rest 16
@@ -296,7 +296,7 @@ gbs_gen1_cities2_Ch3:
 	note Gs, 2
 	note E_, 2
 	note Gs, 2
-gbs_gen1_cities2_Ch3.mainloop:
+gbs_hg_cerulean_Ch3.mainloop:
 	note Fs, 2
 	note A_, 2
 	note Fs, 2
@@ -416,11 +416,11 @@ gbs_gen1_cities2_Ch3.mainloop:
 	note Gs, 2
 	note E_, 2
 	note Gs, 2
-	sound_loop 0, gbs_gen1_cities2_Ch3.mainloop
+	sound_loop 0, gbs_hg_cerulean_Ch3.mainloop
 
 	.align 4
-	.global gbs_gen1_cities2_Header
-gbs_gen1_cities2_Header:
+	.global gbs_hg_cerulean_Header
+gbs_hg_cerulean_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -428,6 +428,6 @@ gbs_gen1_cities2_Header:
 
 	.int voicegroup000
 
-	.int gbs_gen1_cities2_Ch1
-	.int gbs_gen1_cities2_Ch2
-	.int gbs_gen1_cities2_Ch3
+	.int gbs_hg_cerulean_Ch1
+	.int gbs_hg_cerulean_Ch2
+	.int gbs_hg_cerulean_Ch3

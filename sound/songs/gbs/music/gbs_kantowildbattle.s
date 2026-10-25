@@ -3,7 +3,7 @@
 	.section .rodata
 	.align 1
 
-gbs_gen1_wildbattle_Ch1:
+gbs_kantowildbattle_Ch1:
 	gbs_switch 0
 	tempo 104
 	volume 7, 7
@@ -66,7 +66,7 @@ gbs_gen1_wildbattle_Ch1:
 	note E_, 6
 	note Ds, 10
 	note Cs, 10
-gbs_gen1_wildbattle_Ch1.mainloop:
+gbs_kantowildbattle_Ch1.mainloop:
 	note_type 12, 11, 3
 	note Cs, 1
 	note D_, 1
@@ -302,9 +302,9 @@ gbs_gen1_wildbattle_Ch1.mainloop:
 	note Ds, 6
 	note_type 12, 10, 7
 	note Cs, 8
-	sound_loop 0, gbs_gen1_wildbattle_Ch1.mainloop
+	sound_loop 0, gbs_kantowildbattle_Ch1.mainloop
 
-gbs_gen1_wildbattle_Ch2:
+gbs_kantowildbattle_Ch2:
 	gbs_switch 1
 	duty_cycle 3
 	vibrato 8, 2, 5
@@ -376,7 +376,7 @@ gbs_gen1_wildbattle_Ch2:
 	note G_, 6
 	note G_, 10
 	note G_, 10
-gbs_gen1_wildbattle_Ch2.mainloop:
+gbs_kantowildbattle_Ch2.mainloop:
 	note_type 12, 12, 5
 	note G_, 6
 	note Fs, 6
@@ -463,9 +463,9 @@ gbs_gen1_wildbattle_Ch2.mainloop:
 	note G_, 6
 	note_type 12, 12, 7
 	note F_, 8
-	sound_loop 0, gbs_gen1_wildbattle_Ch2.mainloop
+	sound_loop 0, gbs_kantowildbattle_Ch2.mainloop
 
-gbs_gen1_wildbattle_Ch3:
+gbs_kantowildbattle_Ch3:
 	gbs_switch 2
 	vibrato 0, 2, 0
 	note_type 12, 1, 1
@@ -501,7 +501,7 @@ gbs_gen1_wildbattle_Ch3:
 	octave 3
 	note As, 2
 	note B_, 2
-gbs_gen1_wildbattle_Ch3.introloop:
+gbs_kantowildbattle_Ch3.introloop:
 	octave 4
 	note C_, 2
 	note G_, 2
@@ -533,8 +533,8 @@ gbs_gen1_wildbattle_Ch3.introloop:
 	note As, 2
 	note Gs, 2
 	note F_, 2
-	sound_loop 2, gbs_gen1_wildbattle_Ch3.introloop
-gbs_gen1_wildbattle_Ch3.mainloop:
+	sound_loop 2, gbs_kantowildbattle_Ch3.introloop
+gbs_kantowildbattle_Ch3.mainloop:
 	note C_, 2
 	note G_, 2
 	note C_, 2
@@ -737,11 +737,11 @@ gbs_gen1_wildbattle_Ch3.mainloop:
 	note Gs, 2
 	note Cs, 2
 	note Gs, 2
-	sound_loop 0, gbs_gen1_wildbattle_Ch3.mainloop
+	sound_loop 0, gbs_kantowildbattle_Ch3.mainloop
 
 	.align 4
-	.global gbs_gen1_wildbattle_Header
-gbs_gen1_wildbattle_Header:
+	.global gbs_kantowildbattle_Header
+gbs_kantowildbattle_Header:
 	.byte 3	@ NumTrks
 	.byte 0	@ NumBlks
 	.byte 0	@ Priority
@@ -749,6 +749,6 @@ gbs_gen1_wildbattle_Header:
 
 	.int voicegroup000
 
-	.int gbs_gen1_wildbattle_Ch1
-	.int gbs_gen1_wildbattle_Ch2
-	.int gbs_gen1_wildbattle_Ch3
+	.int gbs_kantowildbattle_Ch1
+	.int gbs_kantowildbattle_Ch2
+	.int gbs_kantowildbattle_Ch3
